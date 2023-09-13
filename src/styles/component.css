@@ -1,3 +1,12 @@
+.dtm-title-head {
+    /* text-transform: uppercase; */
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.7em;
+    letter-spacing: 0.1px;
+}
+
 .box {
     border-top: 10px solid var(--secondary-shade);
     border-bottom: 10px solid var(--secondary-shade);

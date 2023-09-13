@@ -54,7 +54,7 @@ const menuItem = [
     icon: <BiSolidReport />,
   },
   {
-    path: "/settings",
+    path: "/settings/program-data",
     name: "Settings",
     icon: <SettingOutlined />,
   },

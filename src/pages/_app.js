@@ -3,6 +3,7 @@ import "../styles/globals.css";
 import "@/styles/sidebar.css";
 import "@/styles/component.css";
 import "@/styles/antd5Custom.css";
+import "@/styles/settings.css";
 import { Provider } from "react-redux";
 import store from "@/Redux/store";
 

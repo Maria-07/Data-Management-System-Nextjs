@@ -1,4 +1,5 @@
 import RootLayout from "@/component/Layouts/RootLayout";
+import SettingLayout from "@/component/Layouts/SettingLayout";
 import React from "react";
 
 const settingPage = () => {
@@ -12,5 +13,9 @@ const settingPage = () => {
 export default settingPage;
 
 settingPage.getLayout = function getLayout(page) {
-  return <RootLayout>{page}</RootLayout>;
+  return (
+    <RootLayout>
+      <SettingLayout>{page}</SettingLayout>
+    </RootLayout>
+  );
 };

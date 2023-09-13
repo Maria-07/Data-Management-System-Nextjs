@@ -2,7 +2,7 @@
 import LibraryLayout from "@/component/Layouts/LibraryLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
 import { AlignCenterOutlined } from "@ant-design/icons";
-import { Select } from "antd";
+import { Input, Select } from "antd";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -12,6 +12,8 @@ import {
   BiSolidWatch,
   BiWindowClose,
 } from "react-icons/bi";
+
+const { TextArea } = Input;
 
 const treatmentPage = () => {
   const [value, setValue] = useState("");
@@ -29,22 +31,26 @@ const treatmentPage = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {};
+  const onSubmit = async (data) => {
+    console.log(data);
+  };
 
   return (
     <div className="m-5 min-h-[80vh]">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex gap-5">
           <div className="bg-white p-10 w-[80%] border rounded-lg shadow-md min-h-[100vh]">
-            <div className="grid 2xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8">
+            <div className="grid grid-cols-1 gap-8">
               <div>
-                <h1 className="text-sm text-secondary mb-2 font-medium">
+                <h1 className="text-sm text-secondary mb-2 font-semibold">
                   Treatment Area
                 </h1>
+
                 <Select
                   showSearch
                   style={{
                     width: "100%",
+                    // height: "40px",
                   }}
                   size="medium"
                   bordered={true}
@@ -56,43 +62,55 @@ const treatmentPage = () => {
                 />
               </div>
               <div>
-                <h1 className="text-sm text-secondary mb-2 font-medium">
+                <h1 className="text-sm text-secondary mb-2 font-semibold">
                   Baseline
                 </h1>
-                <input
-                  // placeholder="Rename Program Name"
-                  type="text"
-                  className="input-border w-[100%]"
+                <TextArea
+                  className="input-border"
+                  placeholder=""
+                  autoSize={{
+                    minRows: 2,
+                    maxRows: 6,
+                  }}
                 />
               </div>
               <div>
-                <h1 className="text-sm text-secondary mb-2 font-medium">
+                <h1 className="text-sm text-secondary mb-2 font-semibold">
                   Current Performance
                 </h1>
-                <input
-                  // placeholder="Rename Program Name"
-                  type="text"
-                  className="input-border w-[100%]"
+                <TextArea
+                  className="input-border"
+                  placeholder=""
+                  autoSize={{
+                    minRows: 2,
+                    maxRows: 6,
+                  }}
                 />
               </div>
               <div>
-                <h1 className="text-sm text-secondary mb-2 font-medium">
+                <h1 className="text-sm text-secondary mb-2 font-semibold">
                   Previous Performance
                 </h1>
-                <input
-                  // placeholder="Rename Program Name"
-                  type="text"
-                  className="input-border w-[100%]"
+                <TextArea
+                  className="input-border"
+                  placeholder=""
+                  autoSize={{
+                    minRows: 2,
+                    maxRows: 6,
+                  }}
                 />
               </div>
-              <div className="sm:col-span-2">
-                <h1 className="text-sm text-secondary mb-2 font-medium">
+              <div className="">
+                <h1 className="text-sm text-secondary mb-2 font-semibold">
                   Objective
                 </h1>
-                <input
-                  // placeholder="Rename Program Name"
-                  type="text"
-                  className="input-border w-[100%]"
+                <TextArea
+                  className="input-border"
+                  placeholder=""
+                  autoSize={{
+                    minRows: 2,
+                    maxRows: 6,
+                  }}
                 />
               </div>
             </div>
@@ -100,11 +118,11 @@ const treatmentPage = () => {
               <div className="flex gap-3 items-end justify-start mb-2 mt-4">
                 <button
                   type="submit"
-                  className="font-medium text-sm  bg-primary text-white hover:bg-secondary transition-all px-2 py-1 border border-primary rounded-md"
+                  className="font-semibold text-sm  bg-primary text-white hover:bg-secondary transition-all px-2 py-1 border border-primary rounded-md"
                 >
                   Save
                 </button>
-                <button className="font-medium text-sm text-rose-600 hover:bg-rose-50 transition-all px-2 py-1 border border-rose-500 rounded-md">
+                <button className="font-semibold text-sm text-rose-600 hover:bg-rose-50 transition-all px-2 py-1 border border-rose-500 rounded-md">
                   Cancel
                 </button>
               </div>
@@ -120,8 +138,8 @@ const treatmentPage = () => {
                   onClick={() => setStatus("waiting")}
                   className={
                     status === "waiting"
-                      ? "mx-auto border-2 shadow-sm rounded-md p-3 border-secondary  text-secondary transition-all h-[90px] w-[120px]"
-                      : "mx-auto border-2 shadow-sm rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
+                      ? "mx-auto  rounded-md p-3 border-secondary  text-primary transition-all h-[90px] w-[120px]"
+                      : "mx-auto  rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
                   }
                 >
                   <BiSolidWatch className="text-2xl mx-auto" />
@@ -134,8 +152,8 @@ const treatmentPage = () => {
                   onClick={() => setStatus("BaseLine")}
                   className={
                     status === "BaseLine"
-                      ? "mx-auto border-2 shadow-sm rounded-md p-3 border-secondary  text-secondary transition-all h-[90px] w-[120px]"
-                      : "mx-auto border-2 shadow-sm rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
+                      ? "mx-auto  rounded-md p-3 border-secondary  text-primary transition-all h-[90px] w-[120px]"
+                      : "mx-auto  rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
                   }
                 >
                   <AlignCenterOutlined className="text-2xl mx-auto" />
@@ -148,8 +166,8 @@ const treatmentPage = () => {
                   onClick={() => setStatus("active")}
                   className={
                     status === "active"
-                      ? "mx-auto border-2 shadow-sm rounded-md p-3 border-secondary  text-secondary transition-all h-[90px] w-[120px]"
-                      : "mx-auto border-2 shadow-sm rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
+                      ? "mx-auto  rounded-md p-3 border-secondary  text-primary transition-all h-[90px] w-[120px]"
+                      : "mx-auto  rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
                   }
                 >
                   <BiRun className="text-2xl mx-auto" />
@@ -162,8 +180,8 @@ const treatmentPage = () => {
                   onClick={() => setStatus("hold")}
                   className={
                     status === "hold"
-                      ? "mx-auto border-2 shadow-sm rounded-md p-3 border-secondary  text-secondary transition-all h-[90px] w-[120px]"
-                      : "mx-auto border-2 shadow-sm rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
+                      ? "mx-auto  rounded-md p-3 border-secondary  text-primary transition-all h-[90px] w-[120px]"
+                      : "mx-auto  rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
                   }
                 >
                   <BiSolidHand className="text-2xl mx-auto" />
@@ -176,8 +194,8 @@ const treatmentPage = () => {
                   onClick={() => setStatus("close")}
                   className={
                     status === "close"
-                      ? "mx-auto border-2 shadow-sm rounded-md p-3 border-secondary  text-secondary transition-all h-[90px] w-[120px]"
-                      : "mx-auto border-2 shadow-sm rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
+                      ? "mx-auto  rounded-md p-3 border-secondary  text-primary transition-all h-[90px] w-[120px]"
+                      : "mx-auto  rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
                   }
                 >
                   <BiWindowClose className="text-2xl mx-auto" />
@@ -190,8 +208,8 @@ const treatmentPage = () => {
                   onClick={() => setStatus("disconnect")}
                   className={
                     status === "disconnect"
-                      ? "mx-auto border-2 shadow-sm rounded-md p-3 border-secondary  text-secondary transition-all h-[90px] w-[120px]"
-                      : "mx-auto border-2 shadow-sm rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
+                      ? "mx-auto  rounded-md p-3 border-secondary  text-primary transition-all h-[90px] w-[120px]"
+                      : "mx-auto  rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
                   }
                 >
                   <BiCut className="text-2xl mx-auto" />

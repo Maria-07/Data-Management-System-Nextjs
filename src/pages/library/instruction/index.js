@@ -30,9 +30,17 @@ const instructionPage = () => {
     <div className="m-5">
       <div className="bg-white min-h-[80vh] p-10 w-full border rounded-lg shadow-md ">
         {" "}
-        <div className="flex justify-between">
-          <div className="min-w-[40%]">
-            <h1 className="text-base text-secondary mb-2 font-medium">Tags</h1>
+        <div className="">
+          <div className="flex items-center justify-end flex-wrap gap-3">
+            <button className="bg-primary text-sm  w-[265px] transition-all hover:bg-secondary flex items-center gap-2 text-white px-3 py-1 rounded-md shadow-md">
+              <BiVideo className="text-xl" /> UPLOAD INSTRUCTION VIDEO
+            </button>
+            <button className="bg-gray-500 text-sm transition-all hover:bg-dark flex items-center gap-2 text-white px-3 py-1 rounded-md shadow-md">
+              <BiVideo className="text-xl" /> UPLOAD LEARNING MATERIALS
+            </button>
+          </div>
+          <div className="min-w-[40%] mb-5">
+            <h1 className="text-sm text-secondary mb-2 font-semibold">Tags</h1>
             <Select
               mode="multiple"
               // size={medium}
@@ -42,16 +50,6 @@ const instructionPage = () => {
               style={{ width: "100%" }}
               options={options}
             />
-          </div>
-          <div className="mb-10 flex items-center justify-end gap-3">
-            <div className="">
-              <button className="bg-primary text-sm mb-3 w-[265px] transition-all hover:bg-secondary flex items-center gap-2 text-white px-3 py-1 rounded-md shadow-md">
-                <BiVideo className="text-xl" /> UPLOAD INSTRUCTION VIDEO
-              </button>
-              <button className="bg-gray-500 text-sm transition-all hover:bg-dark flex items-center gap-2 text-white px-3 py-1 rounded-md shadow-md">
-                <BiVideo className="text-xl" /> UPLOAD LEARNING MATERIALS
-              </button>
-            </div>
           </div>
         </div>
         <Editor

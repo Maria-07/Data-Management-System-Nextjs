@@ -25,10 +25,10 @@ const dataRecordingPage = () => {
     <div className="m-5 ">
       <div className="bg-white min-h-[80vh] p-10 w-full border rounded-lg shadow-md ">
         {" "}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-5">
           {" "}
           <div>
-            <h1 className="text-sm text-secondary mb-2 font-medium">
+            <h1 className="text-sm text-secondary mb-2 font-semibold">
               Mastering Workflow
             </h1>
             <>
@@ -49,7 +49,7 @@ const dataRecordingPage = () => {
             </>
           </div>
           <div>
-            <h1 className="text-sm text-secondary mb-2 font-medium">
+            <h1 className="text-sm text-secondary mb-2 font-semibold">
               Prompt level template
             </h1>
             <>
@@ -74,11 +74,11 @@ const dataRecordingPage = () => {
           <div className="flex gap-3 items-end justify-start mb-2 mt-4">
             <button
               type="submit"
-              className="font-medium text-sm  bg-primary text-white hover:bg-secondary transition-all px-2 py-1 border border-primary rounded-md"
+              className="font-semibold text-sm  bg-primary text-white hover:bg-secondary transition-all px-2 py-1 border border-primary rounded-md"
             >
               Save
             </button>
-            <button className="font-medium text-sm text-rose-600 hover:bg-rose-50 transition-all px-2 py-1 border border-rose-500 rounded-md">
+            <button className="font-semibold text-sm text-rose-600 hover:bg-rose-50 transition-all px-2 py-1 border border-rose-500 rounded-md">
               Cancel
             </button>
           </div>

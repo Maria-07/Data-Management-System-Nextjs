@@ -1,0 +1,134 @@
+/* ---------------------------------- Sidebar ------------------------ */
+
+/* .Side_container {
+} */
+
+.link {
+  /* display: flex; */
+  color: #fff;
+  padding: 10px 16px;
+  gap: 15px;
+  transition: all 0.5s;
+  /* justify-items: center; */
+  align-items: center;
+  text-decoration: none;
+}
+
+.link_text {
+  font-weight: 500;
+}
+
+/* .icon {
+  font-size: 25px;
+  padding: 2px;
+} */
+
+.link:hover {
+  background: var(--primary-color);
+  color: #fff;
+  transition: all 0.1s;
+  /* margin: 5px;
+  border-radius: 10px; */
+
+}
+
+.link-active {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+
+.sidebar-button {
+  box-shadow: 1px 1px 6px 1px #0f0f0f;
+  line-height: 1.5em;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-shadow {
+  box-shadow: 5px 1px 2px -3px rgba(0, 0, 0, 0.87);
+}
+
+.top-section {
+  display: flex;
+  height: 80px;
+  align-items: center;
+  padding: 20px 15px;
+}
+
+.sidebar-box-fixed {
+  color: #fff;
+  height: 100vh;
+  position: fixed;
+  overflow: hidden;
+  bottom: 0;
+  box-shadow: 6px -4px 5px -4px rgba(0, 0, 0, 0.87);
+  -webkit-box-shadow: 6px -4px 5px -4px rgba(0, 0, 0, 0.87);
+  -moz-box-shadow: 6px -4px 5px -4px rgba(0, 0, 0, 0.87);
+}
+
+/* .sidebar-scrolling {
+  height: 560px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+} */
+
+.sidebar-box {
+  color: #fff;
+  /* transition: all ease-in-out 0.9s; */
+  box-shadow: 6px -4px 5px -4px rgba(0, 0, 0, 0.87);
+  -webkit-box-shadow: 6px -4px 5px -4px rgba(0, 0, 0, 0.87);
+  -moz-box-shadow: 6px -4px 5px -4px rgba(0, 0, 0, 0.87);
+}
+
+.sidebar-transition {
+  transition: width 0.4s ease 0s;
+}
+
+.sidebar-menu {
+  transition: 1s ease-in;
+  transition: 0.3s ease-in-out 0.5s;
+}
+
+.sidebar-menu-go {
+  transition: 1s ease-out;
+  transform: translateX(18px);
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+  .Side_container {
+    display: none;
+  }
+
+  .isFixed {
+    display: none;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  .Side_container {
+    display: none;
+  }
+
+  .isFixed {
+    display: none;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .Side_container {
+    display: none;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) next-hub-max*/
+@media only screen and (min-width: 1025px) and (max-width: 1300px) {}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1301px) {
+  .isFixed {
+    display: none;
+  }
+}

@@ -40,7 +40,7 @@ const SortableItem = ({ id, item }) => {
       <div onClick={handleEditFolder} className="hover:bg-gray-100">
         <div
           ref={setNodeRef}
-          className="grid grid-cols-3  lg:grid-cols-6 cursor-grab border-b-[1px] py-1 px-2"
+          className="grid grid-cols-3  lg:grid-cols-6 cursor-grab border-t-[1px] py-1 px-2"
           style={style}
           {...attributes}
         >

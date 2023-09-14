@@ -104,7 +104,10 @@ const ProgramData = () => {
         </button>
       </div>
 
-      <div className="border">
+      <div className="border-x-[1px] border-t-[1px] width-[100%] px-16 py-2 text-[15px] font-bold">
+        Field
+      </div>
+      <div className="border-x-[1px] border-b-[1px]">
         <DndContext
           modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
           onDragEnd={onDragEnd}

@@ -11,9 +11,9 @@ export const settingsSidebar = [
     link_name: "Domain",
     link: "/settings/domain",
   },
-  {
-    icon: <BiData />,
-    link_name: "Program Data v2",
-    link: "/settings/program-data/pd-v2",
-  },
+  // {
+  //   icon: <BiData />,
+  //   link_name: "Program Data v2",
+  //   link: "/settings/program-data/pd-v2",
+  // },
 ];

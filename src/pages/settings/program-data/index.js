@@ -1,5 +1,6 @@
 import RootLayout from "@/component/Layouts/RootLayout";
 import SettingLayout from "@/component/Layouts/SettingLayout";
+import AddProgramDataModal from "@/component/UI/Settings/ProgramData/AddProgramDataModal";
 import SortableItem from "@/component/UI/Settings/ProgramData/SortableItem";
 import { DndContext } from "@dnd-kit/core";
 import {
@@ -8,9 +9,15 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useState } from "react";
+import { BiFolderPlus, BiPlus } from "react-icons/bi";
 
 const ProgramData = () => {
   const [items, setItems] = useState(["1", "2", "3", "4", "5", "6", "7", "8"]);
+
+  const [addFolder, setAddFolder] = useState(false);
+  const handleAddFolder = () => {
+    setAddFolder(!addFolder);
+  };
 
   const handleDragEnd = (e) => {
     console.log(e);
@@ -34,6 +41,15 @@ const ProgramData = () => {
         data into session note templates and progress reports.
       </p>
 
+      <div className="flex items-center justify-start gap-3 my-10">
+        <button
+          onClick={handleAddFolder}
+          className="dtm-button flex items-center gap-2"
+        >
+          <BiPlus className="text-xl" /> ADD DATA FIELD
+        </button>
+      </div>
+
       <div>
         <DndContext onDragEnd={handleDragEnd}>
           <SortableContext items={items} strategy={verticalListSortingStrategy}>
@@ -45,6 +61,12 @@ const ProgramData = () => {
           </SortableContext>
         </DndContext>
       </div>
+      {addFolder && (
+        <AddProgramDataModal
+          handleClose={handleAddFolder}
+          clicked={addFolder}
+        ></AddProgramDataModal>
+      )}
     </div>
   );
 };

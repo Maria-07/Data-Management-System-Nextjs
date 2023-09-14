@@ -2,7 +2,11 @@ import RootLayout from "@/component/Layouts/RootLayout";
 import SettingLayout from "@/component/Layouts/SettingLayout";
 import AddProgramDataModal from "@/component/UI/Settings/ProgramData/AddProgramDataModal";
 import SortableItem from "@/component/UI/Settings/ProgramData/SortableItem";
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, useSortable } from "@dnd-kit/core";
+import {
+  restrictToVerticalAxis,
+  restrictToWindowEdges,
+} from "@dnd-kit/modifiers";
 import {
   SortableContext,
   arrayMove,
@@ -12,22 +16,72 @@ import { useState } from "react";
 import { BiFolderPlus, BiPlus } from "react-icons/bi";
 
 const ProgramData = () => {
-  const [items, setItems] = useState(["1", "2", "3", "4", "5", "6", "7", "8"]);
+  const [items, setItems] = useState([
+    {
+      id: 1,
+      title: "Text",
+      field: {
+        type: "Text",
+      },
+    },
+    {
+      id: 2,
+      title: "Date",
+      field: {
+        type: "Date",
+      },
+    },
+    {
+      id: 3,
+      title: "Selection",
+      field: {
+        type: "Selection",
+      },
+    },
+    {
+      id: 4,
+      title: "Date testing",
+      field: {
+        type: "Date",
+      },
+    },
+    {
+      id: 5,
+      title: "Selection auto",
+      field: {
+        type: "Selection",
+      },
+    },
+    {
+      id: 6,
+      title: "Text 2",
+      field: {
+        type: "Text",
+      },
+    },
+    {
+      id: 7,
+      title: "test",
+      field: {
+        type: "Text",
+      },
+    },
+  ]);
 
   const [addFolder, setAddFolder] = useState(false);
   const handleAddFolder = () => {
     setAddFolder(!addFolder);
   };
 
-  const handleDragEnd = (e) => {
-    console.log(e);
-    const { active, over } = e;
+  const onDragEnd = (event) => {
+    const { active, over } = event;
     if (active.id !== over.id) {
-      setItems((items) => {
-        const oldIndex = items.indexOf(active.id);
-        const newIndex = items.indexOf(over.id);
-
-        return arrayMove(items, oldIndex, newIndex);
+      setItems((previousItems) => {
+        const oldIndex = previousItems.findIndex(
+          (item) => item.id === active.id
+        );
+        const newIndex = previousItems.findIndex((item) => item.id === over.id);
+        return arrayMove(previousItems, oldIndex, newIndex);
       });
     }
   };
@@ -50,12 +104,18 @@ const ProgramData = () => {
         </button>
       </div>
 
-      <div>
-        <DndContext onDragEnd={handleDragEnd}>
-          <SortableContext items={items} strategy={verticalListSortingStrategy}>
+      <div className="border">
+        <DndContext
+          modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
+          onDragEnd={onDragEnd}
+        >
+          <SortableContext
+            items={items.map((item) => item.id)}
+            strategy={verticalListSortingStrategy}
+          >
             <div>
-              {items.map((id) => (
-                <SortableItem key={id} id={id} />
+              {items.map((item) => (
+                <SortableItem key={item.id} id={item.id} item={item} />
               ))}
             </div>
           </SortableContext>

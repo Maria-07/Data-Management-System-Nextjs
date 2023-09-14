@@ -1,6 +1,6 @@
 .dtm-title-head {
     /* text-transform: uppercase; */
-    color: var(--primary-color);
+    color: var(--secondary-shade);
     font-weight: 600;
     font-size: 18px;
     line-height: 1.7em;

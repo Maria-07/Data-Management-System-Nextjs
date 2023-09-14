@@ -1,10 +1,8 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Input, Tag, Tooltip, theme } from "antd";
+import { Input, Tag, Tooltip } from "antd";
 import { useEffect, useRef, useState } from "react";
-import { BiPlus } from "react-icons/bi";
 
 const AddOptions = ({ tags, setTags }) => {
-  const { token } = theme.useToken();
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [editInputIndex, setEditInputIndex] = useState(-1);

@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import LibraryLayout from "@/component/Layouts/LibraryLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
+import CustomSelectAntd from "@/shared/CustomSelectAntd";
 import { AlignCenterOutlined } from "@ant-design/icons";
-import { Input, Select } from "antd";
+import { Input } from "antd";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -18,12 +19,24 @@ const { TextArea } = Input;
 const treatmentPage = () => {
   const [value, setValue] = useState("");
   const [status, setStatus] = useState("active");
+  const [treatment, setTreatment] = useState("");
+  const [treatmentArray, setTreatmentArray] = useState([
+    "JavaScript",
+    "Python",
+    "Java",
+    "C++",
+    "Ruby",
+    "JavaScript",
+    "Python",
+  ]);
+
+  console.log("New treatment", treatment);
 
   const onChange = (value) => {
     console.log(`selected ${value}`);
     setValue(value);
   };
-  const items2 = ["JavaScript", "Python", "Java", "C++", "Ruby"];
+  const items2 = ["JavaScript", "Python", "Java", "C++"];
 
   const {
     register,
@@ -46,21 +59,12 @@ const treatmentPage = () => {
                   Treatment Area
                 </h1>
 
-                <Select
-                  showSearch
-                  style={{
-                    width: "100%",
-                    // height: "40px",
-                  }}
-                  size="medium"
-                  bordered={true}
-                  onChange={onChange}
-                  options={items2.map((item) => ({
-                    label: item,
-                    value: item,
-                  }))}
-                />
+                <CustomSelectAntd
+                  item={treatmentArray}
+                  setOption={setTreatment}
+                ></CustomSelectAntd>
               </div>
+
               <div>
                 <h1 className="text-sm text-secondary mb-2 font-semibold">
                   Baseline

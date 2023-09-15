@@ -53,6 +53,8 @@ const instructionPage = () => {
           </div>
         </div>
         <Editor
+          apiKey="rnsfc4uabmazxlfrlftk1jjdxng6bfquy9aa31d71b2r1mmw"
+          // key={"rnsfc4uabmazxlfrlftk1jjdxng6bfquy9aa31d71b2r1mmw"}
           initialValue={""}
           init={{
             branding: false,
@@ -69,9 +71,9 @@ const instructionPage = () => {
         />
         {/* //!!!! very important code */}
         {/* <div
-        dangerouslySetInnerHTML={{ __html: content }}
-        className="prose max-w-full prose-h2:my-0 prose-h2:mb-2 prose-p:my-0 prose-h1:text-2xl prose-p:text-md md:prose-li:text-md md:prose-ol:text-md"
-      ></div> */}
+          dangerouslySetInnerHTML={{ __html: content }}
+          className="prose max-w-full prose-h2:my-0 prose-h2:mb-2 prose-p:my-0 prose-h1:text-2xl prose-p:text-md md:prose-li:text-md md:prose-ol:text-md"
+        ></div> */}
         <div className="my-10">
           <div className="flex gap-3 items-end justify-start mb-2 mt-4">
             <button

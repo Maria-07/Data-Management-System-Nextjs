@@ -7,6 +7,7 @@ const CustomSelectAntd = ({ item, setOption }) => {
   const [items, setItems] = useState([]);
   const [name, setName] = useState("");
   const inputRef = useRef(null);
+  const [addShow, setAddShow] = useState(false);
 
   useEffect(() => {
     const uniqueArray = [...new Set(item)];
@@ -30,6 +31,7 @@ const CustomSelectAntd = ({ item, setOption }) => {
         inputRef.current?.focus();
       }, 0);
     }
+    setAddShow(false);
   };
 
   const onSearch = (value) => {
@@ -59,31 +61,46 @@ const CustomSelectAntd = ({ item, setOption }) => {
         notFoundContent={null}
         dropdownRender={(menu) => (
           <>
-            <div className="flex items-center gap-2 px-2 py-2 mb-2 shadow-md">
-              <div className="w-[100%]">
-                <Input
-                  placeholder="Please enter New Treatment"
-                  ref={inputRef}
-                  value={name}
-                  onChange={onNameChange}
-                  onPressEnter={addItem}
-                />
-              </div>
-              <div className="w-[100%]">
-                <button
-                  onClick={addItem}
-                  className="dtm-button flex items-center gap-1 "
-                >
-                  <BiPlus className="text-xl" /> ADD TREATMENT
-                </button>
-              </div>
+            {menu}
+            <div className="flex items-center gap-2 px-2 py-2 my-2 border-t-[1px]">
+              {!addShow && (
+                <div className="]">
+                  <button
+                    onClick={() => setAddShow(!addShow)}
+                    className="dtm-button flex items-center gap-1 "
+                  >
+                    <BiPlus className="text-xl" /> ADD TREATMENT
+                  </button>
+                </div>
+              )}
+              {addShow && (
+                <div className="flex items-center gap-2 ">
+                  {" "}
+                  <div className="w-[500px]">
+                    <Input
+                      placeholder="Please enter New Treatment"
+                      ref={inputRef}
+                      value={name}
+                      onChange={onNameChange}
+                      onPressEnter={addItem}
+                    />
+                  </div>
+                  <div className="">
+                    <button
+                      onClick={addItem}
+                      className="dtm-button flex items-center gap-1 "
+                    >
+                      <BiPlus className="text-xl" /> SAVE
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
             {/* <Divider
               style={{
                 margin: "1px 0",
               }}
             /> */}
-            {menu}
           </>
         )}
         options={items.map((item) => ({

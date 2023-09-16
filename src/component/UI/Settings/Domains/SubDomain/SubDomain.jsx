@@ -105,7 +105,7 @@ const SubDomain = ({ domain }) => {
               onClick={handleAddSubDomain}
               className="dtm-button flex items-center gap-2"
             >
-              <BiPlus className="text-xl" /> ADD DOMAIN
+              <BiPlus className="text-xl" /> ADD SUB DOMAIN
             </button>
           </div>
         </div>

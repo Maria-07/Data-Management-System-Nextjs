@@ -10,6 +10,7 @@ import {
   BiDuplicate,
   BiFile,
   BiImport,
+  BiPlus,
 } from "react-icons/bi";
 import {
   DeleteOutlined,
@@ -42,12 +43,12 @@ const targetPage = () => {
   };
 
   const items = [
-    "waiting",
-    "working-on",
-    "mastered",
-    "closed",
-    "hold",
-    "disconnected",
+    "Waiting",
+    "Working-on",
+    "Mastered",
+    "Closed",
+    "Hold",
+    "Disconnected",
   ];
 
   const [value, setValue] = useState("waiting");
@@ -242,12 +243,15 @@ const targetPage = () => {
       render: (_, record) => {
         return (
           <>
-            <Select
+            {/* <Select
               style={{
                 width: "100%",
                 textAlign: "center",
+                // fontWeight: 600,
+                // fontSize: "20px",
               }}
               size="large"
+              className="uppercase"
               defaultValue={value}
               bordered={true}
               onChange={onChange}
@@ -255,7 +259,17 @@ const targetPage = () => {
                 label: item,
                 value: item,
               }))}
-            />
+            /> */}
+            <select className="border w-full text-center py-2 text-base font-semibold rounded-md bg-slate-100">
+              <option className="bg-slate-500" value="1">
+                WAITING
+              </option>
+              <option value="2">WORKING-ON</option>
+              <option value="3">MASTERED</option>
+              <option value="4">CLOSE</option>
+              <option value="5">HOLD</option>
+              <option value="6">DISCONNECTED</option>
+            </select>
           </>
         );
       },
@@ -287,23 +301,23 @@ const targetPage = () => {
                     Change Target Type
                     {open && (
                       <div className="absolute bg-white border top-[30%] w-full left-0 ">
-                        <button className=" text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full  font-semibold ">
+                        <button className="capitalize text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full  font-semibold ">
                           Waiting
                         </button>
-                        <button className=" text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full  font-semibold ">
-                          working-on
+                        <button className="capitalize text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full  font-semibold ">
+                          Working-on
                         </button>
-                        <button className=" text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full  font-semibold ">
-                          mastered
+                        <button className="capitalize text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full  font-semibold ">
+                          Mastered
                         </button>
-                        <button className=" text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full  font-semibold ">
-                          closed
+                        <button className="capitalize text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full  font-semibold ">
+                          Closed
                         </button>
-                        <button className=" text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full  font-semibold ">
-                          hold
+                        <button className="capitalize text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full  font-semibold ">
+                          Hold
                         </button>
                         <button className=" text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full font-semibold ">
-                          disconnected
+                          Disconnected
                         </button>
                       </div>
                     )}
@@ -351,7 +365,7 @@ const targetPage = () => {
             onClick={handleAddTarget}
             className="dtm-button flex items-center gap-2"
           >
-            <BiFile className="text-xl" /> ADD TARGET{" "}
+            <BiPlus className="text-xl" /> ADD TARGET{" "}
           </button>
           <div className="flex items-center gap-2 mr-2">
             <Tooltip
@@ -476,11 +490,11 @@ const targetPage = () => {
           <div className="flex gap-3 items-end justify-start mb-2 mt-4">
             <button
               type="submit"
-              className="font-medium text-sm  bg-primary text-white hover:bg-secondary transition-all px-2 py-1 border border-primary rounded-md"
+              className="shadow-md font-semibold text-base bg-primary  text-white hover:bg-secondary transition-all px-2 py-1 border border-primary rounded-md"
             >
               Save
             </button>
-            <button className="font-medium text-sm text-rose-600 hover:bg-rose-50 transition-all px-2 py-1 border border-rose-500 rounded-md">
+            <button className="shadow-md font-semibold text-base bg-gray-100  text-black hover:bg-gray-200 transition-all px-2 py-1 border border-gray-300 rounded-md">
               Cancel
             </button>
           </div>

@@ -53,18 +53,18 @@ const EditSubDomainModal = ({ handleClose, clicked }) => {
                 <button
                   type="button"
                   onClick={handleDeleteData}
-                  className="text-sm font-semibold text-white  transition-all px-2 py-1 border bg-red-700 border-red-700 rounded-md"
+                  className="text-base font-semibold text-white  transition-all px-2 py-1 border bg-red-700 border-red-700 rounded-md"
                 >
                   Delete
                 </button>
               </div>
               <div className="flex gap-3 items-end justify-end mb-2 mt-4">
-                <button className="text-sm font-semibold text-primary hover:bg-sky-50 transition-all px-2 py-1 border border-primary rounded-md">
+                <button type="submit" className="dcm-modal-submit-button">
                   Ok
                 </button>
                 <button
                   onClick={handleClose}
-                  className="text-sm font-semibold text-rose-600 hover:bg-rose-50 transition-all px-2 py-1 border border-rose-500 rounded-md"
+                  className="dcm-modal-close-button"
                 >
                   Cancel
                 </button>

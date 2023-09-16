@@ -122,7 +122,7 @@
     background-color: #b91c1c;
     background-clip: border-box;
     color: rgb(255, 255, 255);
-    border-radius: 3px;
+    border-radius: 5px;
     /* box-shadow: 2px 2px 2px 0px #626d6e; */
     display: inline-block;
     transition: ease-in-out 0.3s;
@@ -225,6 +225,37 @@
     color: #fff;
     background-color: var(--primary-color);
 
+}
+
+
+.dcm-modal-submit-button {
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #8294bb;
+    padding: 4px 10px;
+    border: 1px solid #8294bb;
+    transition: all ease-in-out 0.3s;
+}
+
+.dcm-modal-submit-button:hover {
+    background-color: #233867;
+}
+
+.dcm-modal-close-button {
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 5px;
+    color: #000;
+    background-color: #e8e8e8;
+    padding: 4px 10px;
+    border: 1px solid #c1c1c1;
+    transition: all ease-in-out 0.3s;
+}
+
+.dcm-modal-close-button:hover {
+    background-color: #d9d9d9;
 }
 
 

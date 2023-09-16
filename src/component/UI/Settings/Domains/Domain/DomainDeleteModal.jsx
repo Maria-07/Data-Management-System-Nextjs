@@ -32,13 +32,10 @@ const DomainDeleteModal = ({ handleClose, clicked }) => {
               </div>
             </div>
             <div className="flex gap-3 items-end justify-end mb-2 mt-4">
-              <button className="font-medium text-sm text-primary hover:bg-sky-50 transition-all px-2 py-1 border border-primary rounded-md">
+              <button type="submit" className="dcm-modal-submit-button">
                 Ok
               </button>
-              <button
-                onClick={handleClose}
-                className="font-medium text-sm text-rose-600 hover:bg-rose-50 transition-all px-2 py-1 border border-rose-500 rounded-md"
-              >
+              <button onClick={handleClose} className="dcm-modal-close-button">
                 Cancel
               </button>
             </div>

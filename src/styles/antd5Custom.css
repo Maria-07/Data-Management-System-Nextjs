@@ -139,12 +139,16 @@
 }
 
 .ant-table-wrapper .ant-table-cell-ellipsis .ant-table-column-title {
+
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: keep-all;
-  font-size: 14px;
+  font-size: 16px;
   font-family: "Roboto", sans-serif;
   letter-spacing: 1px;
+  padding: 4px;
+  text-align: center;
+
 }
 
 .ant-table-wrapper .ant-table.ant-table-bordered>.ant-table-container>.ant-table-content>table>thead>tr>th,
@@ -152,9 +156,10 @@
 .ant-table-body>table>thead>tr>th,
 .ant-table-summary>table>thead>tr>th {
   /* border-inline-end: 1px solid #f0f0f0; */
-  font-size: 12px;
+  font-size: 16px;
   font-family: "Roboto", sans-serif;
   letter-spacing: 1px;
+  text-align: center;
 }
 
 .anticon-plus {

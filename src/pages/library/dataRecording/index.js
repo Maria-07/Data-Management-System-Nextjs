@@ -74,11 +74,11 @@ const dataRecordingPage = () => {
           <div className="flex gap-3 items-end justify-start mb-2 mt-4">
             <button
               type="submit"
-              className="font-semibold text-sm  bg-primary text-white hover:bg-secondary transition-all px-2 py-1 border border-primary rounded-md"
+              className="shadow-md font-semibold text-base bg-primary  text-white hover:bg-secondary transition-all px-2 py-1 border border-primary rounded-md"
             >
               Save
             </button>
-            <button className="font-semibold text-sm text-rose-600 hover:bg-rose-50 transition-all px-2 py-1 border border-rose-500 rounded-md">
+            <button className="shadow-md font-semibold text-base bg-gray-100  text-black hover:bg-gray-200 transition-all px-2 py-1 border border-gray-300 rounded-md">
               Cancel
             </button>
           </div>

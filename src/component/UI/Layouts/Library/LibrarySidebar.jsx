@@ -11,7 +11,7 @@ const LibrarySidebar = () => {
           <div
             className={
               currentRoute === "/library/treatment"
-                ? "px-5 py-10 border border-l-primary text-primary bg-gray-50 border-l-4 border-r-0"
+                ? "px-5 py-10 border border-l-primary text-white bg-secondary border-l-4 border-r-0"
                 : "px-5 py-10 border text-dark hover:text-primary transition-all"
             }
           >
@@ -25,7 +25,7 @@ const LibrarySidebar = () => {
           <div
             className={
               currentRoute === "/library/instruction"
-                ? "px-5 py-10 border border-l-primary text-primary bg-gray-50 border-l-4 border-r-0"
+                ? "px-5 py-10 border border-l-primary text-white bg-secondary border-l-4 border-r-0"
                 : "px-5 py-10 border text-dark hover:text-primary transition-all"
             }
           >
@@ -39,7 +39,7 @@ const LibrarySidebar = () => {
           <div
             className={
               currentRoute === "/library/target"
-                ? "px-5 py-10 border border-l-primary text-primary bg-gray-50 border-l-4 border-r-0"
+                ? "px-5 py-10 border border-l-primary text-white bg-secondary border-l-4 border-r-0"
                 : "px-5 py-10 border text-dark hover:text-primary transition-all"
             }
           >
@@ -54,7 +54,7 @@ const LibrarySidebar = () => {
           <div
             className={
               currentRoute === "/library/dataRecording"
-                ? "px-5 py-10 border border-l-primary text-primary bg-gray-50 border-l-4 border-r-0"
+                ? "px-5 py-10 border border-l-primary text-white bg-secondary border-l-4 border-r-0"
                 : "px-5 py-10 border text-dark hover:text-primary transition-all"
             }
           >

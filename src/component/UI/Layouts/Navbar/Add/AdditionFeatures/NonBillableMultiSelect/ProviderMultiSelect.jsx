@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
-// import "../../../CustomComponents/AppointmentMultiselection.css";
-// import "../../../../CustomComponents/AppointmentMultiselection.css"
 import "../../../../CustomComponents/AppointmentMultiselection.css";
 
 const ProviderMultiSelect = ({
@@ -43,7 +41,7 @@ const ProviderMultiSelect = ({
       const providersArray = selected?.map((each) => each?.value);
       setSelectedProvider(providersArray);
     }
-  }, [selected]);
+  }, [selected, setSelectedProvider]);
 
   return (
     <>

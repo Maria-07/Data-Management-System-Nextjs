@@ -52,7 +52,7 @@ const treatmentPage = () => {
     <div className="m-5 min-h-[80vh]">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex gap-5">
-          <div className="bg-white p-10 w-[80%] border rounded-lg shadow-md min-h-[100vh]">
+          <div className="bg-white lg:p-5 p-2 w-[80%] border rounded-lg shadow-md min-h-[100vh]">
             <div className="grid grid-cols-1 gap-8">
               <div>
                 <h1 className="text-sm text-secondary mb-2 font-semibold">
@@ -62,6 +62,7 @@ const treatmentPage = () => {
                 <CustomSelectAntd
                   item={treatmentArray}
                   setOption={setTreatment}
+                  sName={"TREATMENT"}
                 ></CustomSelectAntd>
               </div>
 

@@ -11,6 +11,8 @@ import {
   BiFile,
   BiImport,
   BiPlus,
+  BiSortAZ,
+  BiSortZA,
 } from "react-icons/bi";
 import {
   DeleteOutlined,
@@ -20,11 +22,21 @@ import {
 import TargetAddModal from "@/component/UI/Library/Program/Target/TargetModal/TargetAddModal";
 import TargetDeleteModal from "@/component/UI/Library/Program/Target/TargetModal/TargetDeleteModal";
 import ImportTargetModal from "@/component/UI/Library/Program/Target/TargetModal/ImportTargetModal";
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { DndContext } from "@dnd-kit/core";
+import TargetSortableItems from "@/component/UI/Library/Program/Target/TargetSortableItems";
+import {
+  restrictToVerticalAxis,
+  restrictToWindowEdges,
+} from "@dnd-kit/modifiers";
 
 const targetPage = () => {
   const [type, setType] = useState(false);
   const [targetSetting, setTargetSetting] = useState(false);
-  const [open, setOpen] = useState(false);
   const [setSD, setSetSD] = useState(false);
 
   const [addTarget, setAddTarget] = useState(false);
@@ -32,17 +44,12 @@ const targetPage = () => {
     setAddTarget(!addTarget);
   };
 
-  const [deleteTarget, setDeleteTarget] = useState(false);
-  const handleDeleteTarget = () => {
-    setDeleteTarget(!deleteTarget);
-  };
-
   const [importTarget, setImportTarget] = useState(false);
   const handleImportTarget = () => {
     setImportTarget(!importTarget);
   };
 
-  const items = [
+  const item = [
     "Waiting",
     "Working-on",
     "Mastered",
@@ -58,25 +65,7 @@ const targetPage = () => {
     setValue(value);
   };
 
-  //! Table data ----------------------------------------------------------
-  const [filteredInfo, setFilteredInfo] = useState({});
-  const [sortedInfo, setSortedInfo] = useState({});
-
-  //get rows to be deleted
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      //   console.log(selectedRows);
-    },
-  };
-
-  const handleChange = (pagination, filters, sorter) => {
-    //console.log("Various parameters", pagination, filters, sorter);
-    setFilteredInfo(filters);
-    setSortedInfo(sorter);
-  };
-  //   console.log(filteredInfo);
-
-  const demoData = [
+  const [items, setItems] = useState([
     {
       id: 1,
       target_title: "Aggression",
@@ -112,262 +101,58 @@ const targetPage = () => {
       author: "kristina",
       type: "Target",
     },
-  ];
+  ]);
 
-  const columns = [
-    {
-      title: "Targets",
-      dataIndex: "target_title",
-      key: "target_title",
-      width: 250,
-      render: (_, record) => {
-        return (
-          <>
-            {targetSetting ? (
-              <Collapse
-                ghost
-                items={[
-                  {
-                    key: 1,
-                    label: (
-                      <h1 className="font-medium">{record.target_title}</h1>
-                    ),
-                    children: (
-                      <p>
-                        <h1 className="text-sm font-medium mb-5">
-                          TARGET-SPECIFIC SETTINGS
-                        </h1>
-                        <>
-                          <Select
-                            style={{
-                              width: "100%",
-                            }}
-                            placeholder="Mastering Workflow"
-                            size="large"
-                            // defaultValue={value}
-                            bordered={true}
-                            onChange={onChange}
-                            options={items.map((item) => ({
-                              label: item,
-                              value: item,
-                            }))}
-                          />
-                        </>
-                        <br />
-                        <>
-                          <Select
-                            style={{
-                              width: "100%",
-                              marginTop: "15px",
-                            }}
-                            placeholder="Prompt level template"
-                            size="large"
-                            // defaultValue={value}
-                            bordered={true}
-                            onChange={onChange}
-                            options={items.map((item) => ({
-                              label: item,
-                              value: item,
-                            }))}
-                          />
-                        </>
-                      </p>
-                    ),
-                  },
-                ]}
-              />
-            ) : (
-              <>
-                {setSD && (
-                  <div className="flex items-center gap-3 mb-3">
-                    <button className="text-[8px] px-1 bg-primary  text-white rounded-lg">
-                      SD
-                    </button>{" "}
-                    <Select
-                      style={{
-                        width: "50%",
-                      }}
-                      size="large"
-                      bordered={true}
-                      onChange={onChange}
-                      options={items.map((item) => ({
-                        label: item,
-                        value: item,
-                      }))}
-                    />
-                  </div>
-                )}
-                <div className="flex items-center justify-between">
-                  {" "}
-                  <h1 className="font-medium text-base">
-                    {record.target_title}
-                  </h1>
-                  <Tooltip
-                    placement="bottom"
-                    color={"#0C356A"}
-                    title="Target Setting"
-                  >
-                    {" "}
-                    <button
-                      onClick={() => setTargetSetting(!targetSetting)}
-                      className=" text-dark hover:text-primary flex items-center gap-3 text-base mx-4 font-semibold my-3"
-                    >
-                      <SettingOutlined className="text-xl" />
-                    </button>
-                  </Tooltip>
-                </div>
-              </>
-            )}
-          </>
-        );
-      },
-      onFilter: (value, record) => record.target_title.includes(value),
-      sorter: (a, b) => {
-        return a.target_title > b.target_title ? -1 : 1;
-      },
-      sortOrder:
-        sortedInfo.columnKey === "target_title" ? sortedInfo.order : null,
-      ellipsis: true,
-    },
-    {
-      title: "Status",
-      dataIndex: "tags",
-      key: "tags",
-      width: 100,
-      filters: [
-        {
-          text: `snapsot`,
-          value: "snapsot",
-        },
-      ],
-      render: (_, record) => {
-        return (
-          <>
-            {/* <Select
-              style={{
-                width: "100%",
-                textAlign: "center",
-                // fontWeight: 600,
-                // fontSize: "20px",
-              }}
-              size="large"
-              className="uppercase"
-              defaultValue={value}
-              bordered={true}
-              onChange={onChange}
-              options={items.map((item) => ({
-                label: item,
-                value: item,
-              }))}
-            /> */}
-            <select className="border w-full text-center py-2 text-base font-semibold rounded-md bg-slate-100">
-              <option className="bg-slate-500" value="1">
-                WAITING
-              </option>
-              <option value="2">WORKING-ON</option>
-              <option value="3">MASTERED</option>
-              <option value="4">CLOSE</option>
-              <option value="5">HOLD</option>
-              <option value="6">DISCONNECTED</option>
-            </select>
-          </>
-        );
-      },
-      filteredValue: filteredInfo.tags || null,
-      onFilter: (value, record) => record.tags.includes(value),
-      sorter: (a, b) => {
-        return a.tags > b.tags ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "tags" ? sortedInfo.order : null,
-      ellipsis: true,
-    },
+  const [sortOrder, setSortOrder] = useState(""); // 'asc' for ascending, 'desc' for descending
 
-    {
-      title: "Action",
-      dataIndex: "action",
-      key: "action",
-      width: 50,
-      render: (_, record) => {
-        return (
-          <div className=" flex items-center justify-center gap-2 ">
-            <Dropdown
-              dropdownRender={() => (
-                <div className="bg-white  w-[240px] border shadow-md rounded-sm p-2">
-                  <button
-                    onClick={() => setOpen(!open)}
-                    className=" text-dark hover:text-primary flex items-center gap-3 text-base mx-4 font-semibold my-3"
-                  >
-                    <BiDoughnutChart className="text-2xl" />
-                    Change Target Type
-                    {open && (
-                      <div className="absolute bg-white border top-[30%] w-full left-0 ">
-                        <button className="capitalize text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full  font-semibold ">
-                          Waiting
-                        </button>
-                        <button className="capitalize text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full  font-semibold ">
-                          Working-on
-                        </button>
-                        <button className="capitalize text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full  font-semibold ">
-                          Mastered
-                        </button>
-                        <button className="capitalize text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full  font-semibold ">
-                          Closed
-                        </button>
-                        <button className="capitalize text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full  font-semibold ">
-                          Hold
-                        </button>
-                        <button className=" text-dark hover:text-primary flex items-center gap-3 text-base p-3 hover:bg-gray-100 w-full font-semibold ">
-                          Disconnected
-                        </button>
-                      </div>
-                    )}
-                  </button>
-                  <button
-                    onClick={() => setTargetSetting(!targetSetting)}
-                    className=" text-dark hover:text-primary flex items-center gap-3 text-base mx-4 font-semibold my-3"
-                  >
-                    <SettingOutlined className="text-xl" /> Target Setting
-                  </button>
-                  <hr />
-                  <button
-                    // onClick={handleDuplicateTarget}
-                    className=" text-dark hover:text-primary flex items-center gap-3 text-base mx-4 font-semibold my-3"
-                  >
-                    <BiDuplicate className="text-xl" /> Duplicate
-                  </button>
-                  <button
-                    onClick={handleDeleteTarget}
-                    className=" text-dark hover:text-primary flex items-center gap-3 text-base mx-4 font-semibold my-3"
-                  >
-                    <DeleteOutlined className="text-xl" /> Delete
-                  </button>
-                </div>
-              )}
-              placement="bottomRight"
-              arrow
-            >
-              <Tooltip placement="top" color={"#0C356A"} title="more">
-                <BiDotsHorizontal className="text-xl text-dark hover:text-primary" />
-              </Tooltip>
-            </Dropdown>
-          </div>
+  // Function to sort the items array
+  const sortItems = () => {
+    const sortedItems = [...items];
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    if (sortOrder === "asc") {
+      sortedItems.sort((a, b) => a.target_title.localeCompare(b.target_title));
+    } else {
+      sortedItems.sort((a, b) => b.target_title.localeCompare(a.target_title));
+    }
+    setItems(sortedItems);
+  };
+
+  const onDragEnd = (event) => {
+    const { active, over } = event;
+    if (active.id !== over.id) {
+      setItems((previousItems) => {
+        const oldIndex = previousItems.findIndex(
+          (item) => item.id === active.id
         );
-      },
-      ellipsis: true,
-    },
-  ];
+        const newIndex = previousItems.findIndex((item) => item.id === over.id);
+        return arrayMove(previousItems, oldIndex, newIndex);
+      });
+    }
+  };
+
   return (
-    <div className="m-5 ">
-      <div className="bg-white min-h-[80vh] p-10 w-full border rounded-lg shadow-md ">
-        {" "}
-        <div className="flex items-center justify-between flex-wrap">
+    <div className="lg:m-5 m-2">
+      <div className="bg-white min-h-[80vh] lg:p-5 p-2 w-full border rounded-lg shadow-md ">
+        <div className="flex items-center justify-between flex-wrap gap-3">
           <button
             onClick={handleAddTarget}
             className="dtm-button flex items-center gap-2"
           >
             <BiPlus className="text-xl" /> ADD TARGET{" "}
           </button>
-          <div className="flex items-center gap-2 mr-2">
+
+          <div className="flex items-center gap-3">
+            <button
+              className="text-xs uppercase flex items-center gap-2 shadow-md bg-secondary text-white px-3 py-1 rounded-md"
+              onClick={sortItems}
+            >
+              {sortOrder === "desc" ? (
+                <BiSortAZ className="text-lg" />
+              ) : (
+                <BiSortZA className="text-lg" />
+              )}
+              Sort by
+            </button>
             <Tooltip
               placement="bottom"
               color={"#0C356A"}
@@ -377,7 +162,7 @@ const targetPage = () => {
                 onClick={() => setSetSD(!setSD)}
                 className="text-xs flex items-center gap-2 shadow-md bg-secondary text-white px-3 py-1 rounded-md"
               >
-                <MessageOutlined /> ADD SD
+                <MessageOutlined className="text-base p-[1px]" /> ADD SD
               </button>
             </Tooltip>
 
@@ -385,109 +170,131 @@ const targetPage = () => {
               onClick={handleImportTarget}
               className="text-xs flex items-center gap-2 shadow-md bg-secondary text-white px-3 py-1 rounded-md"
             >
-              <BiImport /> IMPORTS
+              <BiImport className="text-lg" /> IMPORTS
             </button>
 
-            <Dropdown
-              dropdownRender={() => (
-                <div className="bg-white  w-[250px] border shadow-md rounded-sm">
-                  <div>
-                    <button
-                      // onClick={handleImportProgram}
-                      className="p-3 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-semibold "
-                    >
-                      Export Targets to clipboard
-                    </button>
-                    <button
-                      onClick={() => setType(!type)}
-                      className="p-3 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-semibold "
-                    >
-                      Default Target Type
-                    </button>
-                  </div>
-                  {type && (
-                    <div className="transition-all">
+            <div className="">
+              <Dropdown
+                dropdownRender={() => (
+                  <div className="bg-white  w-[250px] border shadow-md rounded-sm">
+                    <div>
                       <button
-                        onClick={() => setType(!type)}
-                        className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
+                        // onClick={handleImportProgram}
+                        className="p-3 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-semibold "
                       >
-                        Discrete Trails
+                        Export Targets to clipboard
                       </button>
                       <button
                         onClick={() => setType(!type)}
-                        className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
+                        className="p-3 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-semibold "
                       >
-                        Discrete Trails
-                      </button>
-                      <button
-                        onClick={() => setType(!type)}
-                        className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
-                      >
-                        Discrete Trails
-                      </button>
-                      <button
-                        onClick={() => setType(!type)}
-                        className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
-                      >
-                        Discrete Trails
-                      </button>
-                      <button
-                        onClick={() => setType(!type)}
-                        className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
-                      >
-                        Discrete Trails
-                      </button>
-                      <button
-                        onClick={() => setType(!type)}
-                        className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
-                      >
-                        Discrete Trails
-                      </button>
-                      <button
-                        onClick={() => setType(!type)}
-                        className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
-                      >
-                        Discrete Trails
-                      </button>
-                      <button
-                        onClick={() => setType(!type)}
-                        className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
-                      >
-                        Discrete Trails
+                        Default Target Type
                       </button>
                     </div>
-                  )}
-                </div>
-              )}
-              placement="bottomRight"
-              arrow
-            >
-              <BiDotsVertical className="text-xl" />
-            </Dropdown>
+                    {type && (
+                      <div className="transition-all">
+                        <button
+                          onClick={() => setType(!type)}
+                          className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
+                        >
+                          Discrete Trails
+                        </button>
+                        <button
+                          onClick={() => setType(!type)}
+                          className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
+                        >
+                          Discrete Trails
+                        </button>
+                        <button
+                          onClick={() => setType(!type)}
+                          className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
+                        >
+                          Discrete Trails
+                        </button>
+                        <button
+                          onClick={() => setType(!type)}
+                          className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
+                        >
+                          Discrete Trails
+                        </button>
+                        <button
+                          onClick={() => setType(!type)}
+                          className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
+                        >
+                          Discrete Trails
+                        </button>
+                        <button
+                          onClick={() => setType(!type)}
+                          className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
+                        >
+                          Discrete Trails
+                        </button>
+                        <button
+                          onClick={() => setType(!type)}
+                          className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
+                        >
+                          Discrete Trails
+                        </button>
+                        <button
+                          onClick={() => setType(!type)}
+                          className="py-3 px-8 text-dark hover:text-primary w-full hover:bg-gray-100 flex items-center gap-2 text-base font-medium "
+                        >
+                          Discrete Trails
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+                placement="bottomRight"
+                arrow
+              >
+                <BiDotsVertical className="text-xl" />
+              </Dropdown>
+            </div>
           </div>
         </div>
-        <div className="my-5">
-          <div className=" overflow-scroll">
-            <Table
-              pagination={false}
-              rowKey={(record) => record.id}
-              size="small"
-              bordered
-              className="table-striped-rows text-xs font-normal"
-              columns={columns}
-              dataSource={demoData}
-              rowSelection={{
-                ...rowSelection,
-              }}
-              // scroll={{
-              //   y: 650,
-              // }}
-              onChange={handleChange}
-            />
+        <div className="overflow-scroll">
+          {" "}
+          <div className="my-5">
+            <div className="grid grid-cols-6 bg-primary text-white">
+              <div className="border-l-[1px] border-t-[1px] text-center width-[100%]  py-2 text-[15px] font-bold sm:col-span-4">
+                Targets
+              </div>
+              <div className=" border-t-[1px] w-full border-x-[1px] text-center width-[100%]  py-2 text-[15px] font-bold ">
+                Targets
+              </div>
+              <div className="border-r-[1px] border-t-[1px] text-center width-[100%]  py-2 text-[15px] font-bold ">
+                Action
+              </div>
+            </div>
+
+            <div className="border-x-[1px] border-b-[1px]">
+              <DndContext
+                modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
+                onDragEnd={onDragEnd}
+              >
+                <SortableContext
+                  items={items.map((item) => item.id)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  <div>
+                    {items.map((item) => (
+                      <TargetSortableItems
+                        key={item.id}
+                        id={item.id}
+                        item={item}
+                        setSD={setSD}
+                      />
+                    ))}
+                  </div>
+                </SortableContext>
+              </DndContext>
+            </div>
           </div>
         </div>
-        <div className="my-10">
-          <div className="flex gap-3 items-end justify-start mb-2 mt-4">
+
+        <div className="">
+          <div className="flex gap-3 items-end justify-start mb-2 mt-2">
             <button
               type="submit"
               className="shadow-md font-semibold text-base bg-primary  text-white hover:bg-secondary transition-all px-2 py-1 border border-primary rounded-md"
@@ -507,12 +314,7 @@ const targetPage = () => {
           clicked={addTarget}
         ></TargetAddModal>
       )}
-      {deleteTarget && (
-        <TargetDeleteModal
-          handleClose={handleDeleteTarget}
-          clicked={deleteTarget}
-        ></TargetDeleteModal>
-      )}
+
       {importTarget && (
         <ImportTargetModal
           handleClose={handleImportTarget}

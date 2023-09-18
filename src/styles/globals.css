@@ -18,6 +18,12 @@
   }
 }
 
+/*
+.dark-mode {
+  @apply dark: text-primary dark:bg-secondary;
+  Add more dark theme styles as needed 
+}*/
+
 /* 
 color {
   #75C2F6

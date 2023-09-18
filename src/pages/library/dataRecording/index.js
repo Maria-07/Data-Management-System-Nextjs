@@ -23,7 +23,7 @@ const dataRecordingPage = () => {
 
   return (
     <div className="m-5 ">
-      <div className="bg-white min-h-[80vh] p-10 w-full border rounded-lg shadow-md ">
+      <div className="bg-white min-h-[80vh] lg:p-5 p-2 w-full border rounded-lg shadow-md ">
         {" "}
         <div className="grid grid-cols-1 gap-5">
           {" "}

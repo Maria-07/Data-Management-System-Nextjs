@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { BiPlus } from "react-icons/bi";
 
-const CustomSelectAntd = ({ item, setOption }) => {
+const CustomSelectAntd = ({ item, setOption, sName }) => {
   const [items, setItems] = useState([]);
   const [name, setName] = useState("");
   const inputRef = useRef(null);
@@ -62,14 +62,14 @@ const CustomSelectAntd = ({ item, setOption }) => {
         dropdownRender={(menu) => (
           <>
             {menu}
-            <div className="flex items-center gap-2 px-2 py-2 my-2 border-t-[1px]">
+            <div className="flex items-center gap-2 px-2 py-2 mt-2 border-t-[1px]">
               {!addShow && (
                 <div className="]">
                   <button
                     onClick={() => setAddShow(!addShow)}
-                    className="dtm-button flex items-center gap-1 "
+                    className="dtm-button flex items-center gap-1 uppercase"
                   >
-                    <BiPlus className="text-xl" /> ADD TREATMENT
+                    <BiPlus className="text-xl" /> ADD {sName}
                   </button>
                 </div>
               )}
@@ -78,7 +78,7 @@ const CustomSelectAntd = ({ item, setOption }) => {
                   {" "}
                   <div className="w-[500px]">
                     <Input
-                      placeholder="Please enter New Treatment"
+                      placeholder="Please enter New Option"
                       ref={inputRef}
                       value={name}
                       onChange={onNameChange}

@@ -62,7 +62,7 @@ const treatmentPage = () => {
                 <CustomSelectAntd
                   item={treatmentArray}
                   setOption={setTreatment}
-                  sName={"TREATMENT"}
+                  sName={"TREATMENT"}     
                 ></CustomSelectAntd>
               </div>
 

@@ -78,14 +78,14 @@ const TargetSortableItems = ({ id, item, setSD }) => {
             style={style}
             {...attributes}
           >
-            <div className="flex gap-5 hover:text-dark   px-3 sm:col-span-4">
+            <div className="flex gap-3 hover:text-dark   px-3 sm:col-span-4">
               <div
                 className="my-auto p-2 text-gray-400 hover:text-dark  "
                 {...listeners}
               >
                 <AiOutlineMenu className=" text-xl" />
               </div>
-              <div className="w-full">
+              <div className="w-full my-auto">
                 <Collapse ghost accordion>
                   <Panel
                     header={

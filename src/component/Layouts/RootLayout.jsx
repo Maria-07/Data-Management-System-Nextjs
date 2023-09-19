@@ -93,11 +93,11 @@ const RootLayout = ({ children }) => {
     setIsHovering(false);
   };
 
-  // const [sideBar, setSideBar] = useState(false);
-  // const handleSidebar = () => {
-  //   setSideBar(!sideBar);
-  //   // console.log("sidebar", sideBar);
-  // };
+  const [sideBar, setSideBar] = useState(true);
+  const handleSidebar = () => {
+    setSideBar(!sideBar);
+    // console.log("sidebar", sideBar);
+  };
 
   const handleFixed = () => {
     dispatch(handleSidebarFixed());
@@ -123,7 +123,11 @@ const RootLayout = ({ children }) => {
               <div
                 onMouseOver={handleMouseOver}
                 onMouseOut={handleMouseOut}
-                className=" fixed bg-secondary left-0 top-0 z-30 "
+                className={
+                  sideBar && width < 1024
+                    ? "Side_container fixed bg-secondary left-0 top-0 z-30 "
+                    : "fixed bg-secondary left-0 top-0 z-30 "
+                }
               >
                 <div
                   className={
@@ -215,7 +219,7 @@ const RootLayout = ({ children }) => {
               className="slide"
             >
               <div className="lg:ml-[98px] lg:mr-[22px] mx-2">
-                <Navbar handle={handle}></Navbar>
+                <Navbar handle={handle} handleSidebar={handleSidebar}></Navbar>
               </div>
 
               <main className=" p-4 font-medium min-h-screen main bg-[#fff] border shadow-md rounded-2xl w-auto mt-4 mx-2 lg:ml-[98px] lg:mr-[22px]">

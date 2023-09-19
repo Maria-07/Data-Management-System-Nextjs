@@ -40,7 +40,7 @@ const SortableItem = ({ id, item }) => {
       <div onClick={handleEditFolder} className="hover:bg-gray-100">
         <div
           ref={setNodeRef}
-          className="grid grid-cols-3  lg:grid-cols-6 cursor-grab border-t-[1px] py-1 px-2"
+          className="grid grid-cols-3  md:grid-cols-6 cursor-grab border-t-[1px] py-1 px-2"
           style={style}
           {...attributes}
         >
@@ -60,9 +60,7 @@ const SortableItem = ({ id, item }) => {
               <>
                 <div className="flex items-center gap-2">
                   <AiOutlineFileText className="text-lg text-purple-500 " />
-                  <div className="text-sm text-dark font-semibold">
-                    {item?.title}
-                  </div>
+                  <div className="text-sm text-dark font-semibold">Text</div>
                 </div>
               </>
             )}
@@ -71,7 +69,7 @@ const SortableItem = ({ id, item }) => {
                 <div className="flex items-center gap-2">
                   <IoIosOptions className="text-lg text-purple-500 " />
                   <div className="text-sm text-dark font-semibold">
-                    {item?.title}
+                    Selection
                   </div>
                 </div>
               </>
@@ -80,9 +78,7 @@ const SortableItem = ({ id, item }) => {
               <>
                 <div className="flex items-center gap-2">
                   <AiOutlineCalendar className="text-lg text-purple-500 " />
-                  <div className="text-sm text-dark font-semibold">
-                    {item?.title}
-                  </div>
+                  <div className="text-sm text-dark font-semibold">Date</div>
                 </div>
               </>
             )}

@@ -4,12 +4,12 @@ import SettingSidebar from "../UI/Layouts/Sidebar/SettingSidebar";
 const SettingLayout = ({ children }) => {
   return (
     <div>
-      <div className="flex lg:flex-nowrap md:flex-wrap flex-wrap gap-2 justify-between">
+      <div className="grid grid-cols-12 md:grid-cols-">
         <motion.div
           initial={{ opacity: 0, x: -25 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.6 }}
-          className=" p-2 my-2 setting-nav border rounded-md min-h-screen"
+          className=" p-2 my-2 border-[1px] lg:col-span-2 shadow-md rounded-md min-h-screen"
         >
           {settingsSidebar.map((s, i) => (
             <SettingSidebar key={i} data={s}></SettingSidebar>
@@ -19,7 +19,7 @@ const SettingLayout = ({ children }) => {
           initial={{ opacity: 0, x: 25 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.6 }}
-          className=" sm:m-2 sm:p-4  setting-body shadow-md rounded-lg min-h-screen"
+          className=" sm:m-2 sm:p-4 lg:col-span-10 md:col-span-11 border-[1px] shadow-md rounded-lg min-h-screen"
         >
           {children}
         </motion.div>

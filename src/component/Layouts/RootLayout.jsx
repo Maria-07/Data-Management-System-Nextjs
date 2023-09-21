@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BiCalendarWeek,
   BiLibrary,
@@ -21,6 +21,7 @@ import { SettingOutlined } from "@ant-design/icons";
 import Head from "next/head";
 import Footer from "../UI/Layouts/Footer";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import { useTheme } from "next-themes";
 
 const menuItem = [
   {
@@ -84,7 +85,6 @@ const RootLayout = ({ children }) => {
   };
 
   // const { open, setOpen } = StateUse();
-
   const handleMouseOver = () => {
     setIsHovering(true);
   };
@@ -105,6 +105,15 @@ const RootLayout = ({ children }) => {
 
   const handle = useFullScreenHandle();
 
+  //! Theme system
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) return null;
+
+  //! Theme system done
   return (
     <>
       <Head>
@@ -117,16 +126,35 @@ const RootLayout = ({ children }) => {
       </Head>
       <>
         <FullScreen handle={handle}>
-          <div className="relative bg-neutral pt-3 pb-2 bg-[#f3f8ff]">
+          <div
+            // className={"relative bg-neutral pt-3 pb-2"`bg-${
+            //   theme === "dark" ? "black" : "white"
+            // }`}
+
+            className={
+              theme === "dark"
+                ? "relative bg-dark-background pt-3 pb-2"
+                : "relative bg-neutral-50 pt-3 pb-2"
+            }
+          >
             <>
               {/* If fixed part no available  */}
               <div
                 onMouseOver={handleMouseOver}
                 onMouseOut={handleMouseOut}
+                // className={
+                //   theme === "dark"
+                //     ? "relative bg-dark-background pt-3 pb-2"
+                //     : "relative bg-neutral-50 pt-3 pb-2"
+                // }
                 className={
                   sideBar && width < 1024
-                    ? "Side_container fixed bg-secondary left-0 top-0 z-30 "
-                    : "fixed bg-secondary left-0 top-0 z-30 "
+                    ? `Side_container fixed bg-${
+                        theme === "dark" ? "dark-secondary" : "secondary"
+                      } left-0 top-0 z-30`
+                    : `fixed ${
+                        theme === "dark" ? "bg-dark-primary" : "bg-secondary"
+                      } left-0 top-0 z-30`
                 }
               >
                 <div
@@ -222,7 +250,14 @@ const RootLayout = ({ children }) => {
                 <Navbar handle={handle} handleSidebar={handleSidebar}></Navbar>
               </div>
 
-              <main className=" p-4 font-medium min-h-screen main bg-[#fff] border shadow-md rounded-2xl w-auto mt-4 mx-2 lg:ml-[98px] lg:mr-[22px]">
+              <main
+                className={
+                  theme === "dark"
+                    ? "p-4 font-medium min-h-screen main bg-dark-primary border-dark-primary shadow-md rounded-2xl w-auto mt-4 mx-2 lg:ml-[98px] lg:mr-[22px]"
+                    : "p-4 font-medium min-h-screen main bg-[#fff] border shadow-md rounded-2xl w-auto mt-4 mx-2 lg:ml-[98px] lg:mr-[22px]"
+                }
+                // className=" p-4 font-medium min-h-screen main bg-[#fff] border shadow-md rounded-2xl w-auto mt-4 mx-2 lg:ml-[98px] lg:mr-[22px]"
+              >
                 {children}
               </main>
 

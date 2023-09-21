@@ -4,25 +4,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-/*
-.dark-mode {
-  @apply dark: text-primary dark:bg-secondary;
-  Add more dark theme styles as needed 
-}*/
 
 /* 
 color {
@@ -32,15 +13,17 @@ color {
   #0C356A
   #19A7CE
   #8294bb
+  #2c333e
 } 
 */
 
 :root {
   --primary-font: 14px;
-  --primary-color: #7686a9;
+  --primary-color: #7986a1;
   --secondary-shade: #233867;
   --lighter-shade: #e0f3ff;
-  --background-color: #f3f8ff
+  --background-color: #f3f8ff;
+  --dark-bg: #2c333e
 }
 
 
@@ -48,6 +31,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   background-color: var(--background-color);
   letter-spacing: 0.2px;
+  /* color: #454b55; */
 }
 
 /* scrolling  */

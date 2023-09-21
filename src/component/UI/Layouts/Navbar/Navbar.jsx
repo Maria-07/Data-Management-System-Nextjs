@@ -17,15 +17,34 @@ import {
 import ScheduleExport from "./ScheduleExport/ScheduleExport";
 import Add from "./Add/Add";
 import NavbarSmallDevice from "./NavbarSmallDevice";
+import ThemeSwitcher from "../ThemeSwitcher";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 const Navbar = ({ handle, handleSidebar }) => {
+  //! Theme system
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) return null;
+
+  //! Theme system done
   return (
-    <div className="bg-white rounded-[30px] py-1  shadow-md border px-2">
+    <div
+      className={
+        theme === "dark"
+          ? "bg-dark-primary rounded-[30px] py-1  shadow-md border-dark-primary  px-2"
+          : "bg-white rounded-[30px] py-1  shadow-md border px-2"
+      }
+      // className="bg-white rounded-[30px] py-1  shadow-md border px-2"
+    >
       <div className="hidden lg:block sticky top-0">
         <div className="flex items-center justify-between pr-4">
           <div
-            className="flex  items-center gap-2 md:gap-4  font-medium cursor-pointer font-[Poppins] 
-      text-gray-800 ml-2"
+            className="flex  items-center gap-2 md:gap-4 font-medium cursor-pointer font-[Poppins] 
+       ml-2"
           >
             <div className="w-9 mt-1">
               <Image
@@ -39,7 +58,7 @@ const Navbar = ({ handle, handleSidebar }) => {
               />
             </div>
             <div>
-              <p className="md:text-base font-semibold text-[12px] text-gray-800  bg-transparent ">
+              <p className="md:text-base font-semibold text-[12px] ">
                 ABC Data Therapy Centers
               </p>
             </div>
@@ -130,6 +149,9 @@ const Navbar = ({ handle, handleSidebar }) => {
               </Dropdown>
             </div>
             <div>
+              <ThemeSwitcher />
+            </div>
+            <div>
               <Dropdown
                 dropdownRender={() => (
                   <div className="w-full">
@@ -218,7 +240,11 @@ const Navbar = ({ handle, handleSidebar }) => {
                   </div>
                   <div>
                     <h4 className="font-medium text-lg">Admin</h4>
-                    <h5 className="text-secondary font-medium text-xs">
+                    <h5
+                      className={`${
+                        theme === "dark" ? "" : "text-secondary"
+                      }  font-medium text-xs`}
+                    >
                       admin@admin.com
                     </h5>
                   </div>
@@ -228,6 +254,8 @@ const Navbar = ({ handle, handleSidebar }) => {
           </div>
         </div>
       </div>
+
+      {/* For small Devices  */}
 
       <div className="lg:hidden block">
         <div className="flex items-center justify-between pr-4">

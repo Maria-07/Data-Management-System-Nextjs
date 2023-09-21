@@ -2,6 +2,7 @@ import { BiEditAlt } from "react-icons/bi";
 import LibrarySidebar from "../UI/Layouts/Library/LibrarySidebar";
 import { Select } from "antd";
 import { useState } from "react";
+import { useTheme } from "next-themes";
 
 const LibraryLayout = ({ children }) => {
   const items = ["lion", "elephant", "tiger", "giraffe", "zebra"];
@@ -11,6 +12,8 @@ const LibraryLayout = ({ children }) => {
     console.log(`selected ${value}`);
     setValue(value);
   };
+  //! Theme system
+  const { theme } = useTheme();
   return (
     <div>
       <div className=" flex items-center justify-between flex-wrap">
@@ -33,7 +36,7 @@ const LibraryLayout = ({ children }) => {
                 />
                 <button
                   onClick={() => setIsEdit(!isEdit)}
-                  className="text-sm ml-[-10px] bg-white font-semibold text-primary hover:bg-sky-50 transition-all px-2 py-1 border border-primary rounded-r-md"
+                  className={`text-sm ml-[-10px] bg-white font-semibold text-primary hover:bg-sky-50 transition-all px-2 py-1 border border-primary rounded-r-md`}
                 >
                   done
                 </button>
@@ -55,10 +58,18 @@ const LibraryLayout = ({ children }) => {
           }))}
         />
       </div>
-      <hr className="mt-5" />
+      <hr
+        className={`mt-5 ${theme === "dark" ? "border-dark-secondary" : ""} `}
+      />
       <div className="flex">
         <LibrarySidebar></LibrarySidebar>
-        <div className=" mt-[1px] w-full min-h-[80vh]">{children}</div>
+        <div
+          className={` mt-[1px] w-full min-h-[80vh] ${
+            theme === "dark" ? "bg-dark-background" : ""
+          }`}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

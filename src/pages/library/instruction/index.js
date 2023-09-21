@@ -3,10 +3,14 @@ import LibraryLayout from "@/component/Layouts/LibraryLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
 import { Editor } from "@tinymce/tinymce-react";
 import { Select } from "antd";
+import { useTheme } from "next-themes";
 import { useState } from "react";
 import { BiVideo } from "react-icons/bi";
 
 const instructionPage = () => {
+  //! Theme system
+  const { theme } = useTheme();
+
   //! Input editor
   const [content, setContent] = useState(""); // State to hold the content
   const handleEditorChange = (content, editor) => {
@@ -28,7 +32,11 @@ const instructionPage = () => {
 
   return (
     <div className="m-5">
-      <div className="bg-white min-h-[80vh] lg:p-5 p-2 w-full border rounded-lg shadow-md ">
+      <div
+        className={`${
+          theme === "dark" ? "bg-dark-primary border-none" : "bg-white"
+        }  min-h-[80vh] lg:p-5 p-2 w-full border rounded-lg shadow-md`}
+      >
         {" "}
         <div className="">
           <div className="flex items-center justify-end flex-wrap gap-3">
@@ -39,11 +47,18 @@ const instructionPage = () => {
               <BiVideo className="text-xl" /> UPLOAD LEARNING MATERIALS
             </button>
           </div>
-          <div className="min-w-[40%] mb-5">
-            <h1 className="text-sm text-secondary mb-2 font-semibold">Tags</h1>
+          <div className="min-w-[40%] my-5">
+            <h1
+              className={`${
+                theme === "dark" ? "text-dark-secondary" : "text-secondary"
+              }text-sm mb-2 font-semibold`}
+            >
+              Tags
+            </h1>
             <Select
               mode="multiple"
               // size={medium}
+
               placeholder="Please select"
               defaultValue={["a10", "c12"]}
               onChange={handleChange}

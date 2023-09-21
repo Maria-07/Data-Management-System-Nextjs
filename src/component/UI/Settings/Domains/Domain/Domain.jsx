@@ -3,6 +3,7 @@ import SubDomain from "../SubDomain/SubDomain";
 import { AiFillEdit } from "react-icons/ai";
 import DomainEditModal from "./DomainEditModal";
 import { useState } from "react";
+import { useTheme } from "next-themes";
 
 const { Panel } = Collapse;
 
@@ -49,10 +50,16 @@ const Domain = () => {
       },
     },
   ];
+  //! Theme system
+  const { theme } = useTheme();
 
   return (
     <div>
-      <div className="my-10">
+      <div
+        className={`${
+          theme === "dark" ? "bg-gray-50 my-5 rounded-md" : " my-5"
+        }`}
+      >
         <Collapse accordion>
           {domains.map((domain) => (
             <Panel
@@ -62,7 +69,7 @@ const Domain = () => {
                   <div className="my-auto flex items-end justify-end mr-3">
                     <AiFillEdit
                       onClick={handleEditFolder}
-                      className="text-xl text-dark"
+                      className="text-xl"
                     />
                   </div>
                 </div>

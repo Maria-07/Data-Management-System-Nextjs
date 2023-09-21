@@ -5,7 +5,6 @@ import React, { useState } from "react";
 const LibraryDetails = () => {
   return (
     <>
-      {" "}
       <div className="">
         {/* <Tabs tabPosition="left" items={tabItems} /> */}
         this is

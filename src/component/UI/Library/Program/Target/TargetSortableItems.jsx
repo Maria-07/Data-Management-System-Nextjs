@@ -172,7 +172,7 @@ const TargetSortableItems = ({ id, item, setSD }) => {
             </div>
 
             <div className="w-full my-auto px-1 py-2 mx-auto  border-x-[1px] ">
-              <select className="border w-full  text-center py-2 text-base font-semibold rounded-md bg-slate-100">
+              <select className="border w-full text-secondary text-center py-2 text-base font-semibold rounded-md bg-slate-100">
                 <option className="bg-slate-500" value="1">
                   WAITING
                 </option>
@@ -242,7 +242,7 @@ const TargetSortableItems = ({ id, item, setSD }) => {
                 arrow
               >
                 <Tooltip placement="top" color={"#0C356A"} title="more">
-                  <BiDotsHorizontal className="text-xl text-dark hover:text-primary" />
+                  <BiDotsHorizontal className="text-xl text-secondary hover:text-primary" />
                 </Tooltip>
               </Dropdown>
             </div>

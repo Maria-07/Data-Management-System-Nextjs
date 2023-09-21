@@ -12,6 +12,7 @@ import {
   arrayMove,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { useTheme } from "next-themes";
 import { useState } from "react";
 import { BiFolderPlus, BiPlus } from "react-icons/bi";
 
@@ -72,6 +73,8 @@ const ProgramData = () => {
   const handleAddFolder = () => {
     setAddFolder(!addFolder);
   };
+  //! Theme system
+  const { theme } = useTheme();
 
   const onDragEnd = (event) => {
     const { active, over } = event;
@@ -88,7 +91,15 @@ const ProgramData = () => {
 
   return (
     <div>
-      <p className="dtm-title-head">Program Data Fields</p>
+      <p
+        className={`${
+          theme === "dark"
+            ? "text-dark-secondary font-semibold"
+            : "dtm-title-head"
+        }`}
+      >
+        Program Data Fields
+      </p>
       <p className="text-sm font-medium text-dark text-justify my-2">
         Manage custom data fields associated with programs. The custom data
         fields are added to the Treatment section of a program. You can pull the

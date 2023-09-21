@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import LibraryLayout from "@/component/Layouts/LibraryLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
+import ProgramStatus from "@/component/UI/Library/Program/Treatment/ProgramStatus";
 import CustomSelectAntd from "@/shared/CustomSelectAntd";
 import { AlignCenterOutlined } from "@ant-design/icons";
 import { Input } from "antd";
+import { useTheme } from "next-themes";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -48,29 +50,51 @@ const treatmentPage = () => {
     console.log(data);
   };
 
+  //! Theme system
+  const { theme } = useTheme();
   return (
     <div className="m-5 min-h-[80vh]">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex gap-5">
-          <div className="bg-white lg:p-5 p-2 w-[80%] border rounded-lg shadow-md min-h-[100vh]">
+          <div
+            className={`${
+              theme === "dark" ? "bg-dark-primary border-none" : "bg-white"
+            } lg:p-5 p-2 w-[80%] border rounded-lg shadow-md min-h-[100vh]`}
+          >
             <div className="grid grid-cols-1 gap-8">
               <div>
-                <h1 className="text-sm text-secondary mb-2 font-semibold">
+                <h1
+                  className={`${
+                    theme === "dark" ? "text-dark-secondary" : "text-secondary"
+                  }text-sm  mb-2 font-semibold`}
+                >
                   Treatment Area
                 </h1>
 
                 <CustomSelectAntd
                   item={treatmentArray}
                   setOption={setTreatment}
-                  sName={"TREATMENT"}     
+                  sName={"TREATMENT"}
                 ></CustomSelectAntd>
               </div>
 
               <div>
-                <h1 className="text-sm text-secondary mb-2 font-semibold">
+                <h1
+                  className={`${
+                    theme === "dark" ? "text-dark-secondary" : "text-secondary"
+                  }text-sm  mb-2 font-semibold`}
+                >
                   Baseline
                 </h1>
+
                 <TextArea
+                  style={
+                    theme === "dark" && {
+                      backgroundColor: "#454b55",
+                      color: "#fff",
+                      border: "1px solid #2c333e",
+                    }
+                  }
                   className="input-border"
                   placeholder=""
                   autoSize={{
@@ -80,10 +104,21 @@ const treatmentPage = () => {
                 />
               </div>
               <div>
-                <h1 className="text-sm text-secondary mb-2 font-semibold">
+                <h1
+                  className={`${
+                    theme === "dark" ? "text-dark-secondary" : "text-secondary"
+                  }text-sm  mb-2 font-semibold`}
+                >
                   Current Performance
                 </h1>
                 <TextArea
+                  style={
+                    theme === "dark" && {
+                      backgroundColor: "#454b55",
+                      color: "#fff",
+                      border: "1px solid #2c333e",
+                    }
+                  }
                   className="input-border"
                   placeholder=""
                   autoSize={{
@@ -93,10 +128,21 @@ const treatmentPage = () => {
                 />
               </div>
               <div>
-                <h1 className="text-sm text-secondary mb-2 font-semibold">
+                <h1
+                  className={`${
+                    theme === "dark" ? "text-dark-secondary" : "text-secondary"
+                  }text-sm  mb-2 font-semibold`}
+                >
                   Previous Performance
                 </h1>
                 <TextArea
+                  style={
+                    theme === "dark" && {
+                      backgroundColor: "#454b55",
+                      color: "#fff",
+                      border: "1px solid #2c333e",
+                    }
+                  }
                   className="input-border"
                   placeholder=""
                   autoSize={{
@@ -106,10 +152,21 @@ const treatmentPage = () => {
                 />
               </div>
               <div className="">
-                <h1 className="text-sm text-secondary mb-2 font-semibold">
+                <h1
+                  className={`${
+                    theme === "dark" ? "text-dark-secondary" : "text-secondary"
+                  }text-sm  mb-2 font-semibold`}
+                >
                   Objective
                 </h1>
                 <TextArea
+                  style={
+                    theme === "dark" && {
+                      backgroundColor: "#454b55",
+                      color: "#fff",
+                      border: "1px solid #2c333e",
+                    }
+                  }
                   className="input-border"
                   placeholder=""
                   autoSize={{
@@ -133,18 +190,28 @@ const treatmentPage = () => {
               </div>
             </div>
           </div>
-          <div className="w-[20%] bg-white px-5 py-5 border rounded-lg shadow-md">
+          <div
+            className={`${
+              theme === "dark" ? "bg-dark-primary border-none" : ""
+            }  w-[20%] px-5 py-5 border rounded-lg shadow-md`}
+          >
             <h1 className="text-base font-semibold text-primary text-center text-gray mb-5">
               Program Status
             </h1>
             <div className="">
+              {/* <ProgramStatus theme={theme}></ProgramStatus> */}
+
               <div className="flex items-center justify-center my-2">
                 <button
                   onClick={() => setStatus("waiting")}
                   className={
                     status === "waiting"
-                      ? "mx-auto  rounded-md p-3 border-secondary  text-primary transition-all h-[90px] w-[120px]"
-                      : "mx-auto  rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
+                      ? `mx-auto  rounded-md p-3 border-primary border  text-primary transition-all h-[90px] w-[120px]`
+                      : `mx-auto  rounded-md p-3 ${
+                          theme === "dark"
+                            ? " hover:text-dark-secondary"
+                            : "hover:border-secondary hover:text-secondary"
+                        }  transition-all h-[90px] w-[120px]`
                   }
                 >
                   <BiSolidWatch className="text-2xl mx-auto" />
@@ -152,13 +219,16 @@ const treatmentPage = () => {
                 </button>
               </div>
               <div className="flex items-center justify-center my-2">
-                {" "}
                 <button
                   onClick={() => setStatus("BaseLine")}
                   className={
                     status === "BaseLine"
-                      ? "mx-auto  rounded-md p-3 border-secondary  text-primary transition-all h-[90px] w-[120px]"
-                      : "mx-auto  rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
+                      ? `mx-auto  rounded-md p-3 border-primary border  text-primary transition-all h-[90px] w-[120px]`
+                      : `mx-auto  rounded-md p-3 ${
+                          theme === "dark"
+                            ? " hover:text-dark-secondary"
+                            : "hover:border-secondary hover:text-secondary"
+                        }  transition-all h-[90px] w-[120px]`
                   }
                 >
                   <AlignCenterOutlined className="text-2xl mx-auto" />
@@ -171,8 +241,12 @@ const treatmentPage = () => {
                   onClick={() => setStatus("active")}
                   className={
                     status === "active"
-                      ? "mx-auto  rounded-md p-3 border-secondary  text-primary transition-all h-[90px] w-[120px]"
-                      : "mx-auto  rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
+                      ? `mx-auto  rounded-md p-3 border-primary border  text-primary transition-all h-[90px] w-[120px]`
+                      : `mx-auto  rounded-md p-3 ${
+                          theme === "dark"
+                            ? " hover:text-dark-secondary"
+                            : "hover:border-secondary hover:text-secondary"
+                        }  transition-all h-[90px] w-[120px]`
                   }
                 >
                   <BiRun className="text-2xl mx-auto" />
@@ -185,8 +259,12 @@ const treatmentPage = () => {
                   onClick={() => setStatus("hold")}
                   className={
                     status === "hold"
-                      ? "mx-auto  rounded-md p-3 border-secondary  text-primary transition-all h-[90px] w-[120px]"
-                      : "mx-auto  rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
+                      ? `mx-auto  rounded-md p-3 border-primary border  text-primary transition-all h-[90px] w-[120px]`
+                      : `mx-auto  rounded-md p-3 ${
+                          theme === "dark"
+                            ? " hover:text-dark-secondary"
+                            : "hover:border-secondary hover:text-secondary"
+                        }  transition-all h-[90px] w-[120px]`
                   }
                 >
                   <BiSolidHand className="text-2xl mx-auto" />
@@ -199,8 +277,12 @@ const treatmentPage = () => {
                   onClick={() => setStatus("close")}
                   className={
                     status === "close"
-                      ? "mx-auto  rounded-md p-3 border-secondary  text-primary transition-all h-[90px] w-[120px]"
-                      : "mx-auto  rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
+                      ? `mx-auto  rounded-md p-3 border-primary border  text-primary transition-all h-[90px] w-[120px]`
+                      : `mx-auto  rounded-md p-3 ${
+                          theme === "dark"
+                            ? " hover:text-dark-secondary"
+                            : "hover:border-secondary hover:text-secondary"
+                        }  transition-all h-[90px] w-[120px]`
                   }
                 >
                   <BiWindowClose className="text-2xl mx-auto" />
@@ -213,8 +295,12 @@ const treatmentPage = () => {
                   onClick={() => setStatus("disconnect")}
                   className={
                     status === "disconnect"
-                      ? "mx-auto  rounded-md p-3 border-secondary  text-primary transition-all h-[90px] w-[120px]"
-                      : "mx-auto  rounded-md p-3 hover:border-secondary hover:text-secondary transition-all h-[90px] w-[120px]"
+                      ? `mx-auto  rounded-md p-3 border-primary border  text-primary transition-all h-[90px] w-[120px]`
+                      : `mx-auto  rounded-md p-3 ${
+                          theme === "dark"
+                            ? " hover:text-dark-secondary"
+                            : "hover:border-secondary hover:text-secondary"
+                        }  transition-all h-[90px] w-[120px]`
                   }
                 >
                   <BiCut className="text-2xl mx-auto" />

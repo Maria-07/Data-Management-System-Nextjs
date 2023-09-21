@@ -1,0 +1,5 @@
+//! Theme system
+const { theme } = useTheme();
+
+className={`${theme === "dark" ? "" : ""
+            }`}

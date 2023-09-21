@@ -37,21 +37,21 @@ const SortableItem = ({ id, item }) => {
   };
   return (
     <div>
-      <div onClick={handleEditFolder} className="hover:bg-gray-100">
+      <div
+        onClick={handleEditFolder}
+        className="hover:bg-gray-100 hover:text-dark-primary"
+      >
         <div
           ref={setNodeRef}
           className="grid grid-cols-3  md:grid-cols-6 cursor-grab border-t-[1px] py-1 px-2"
           style={style}
           {...attributes}
         >
-          <div className="flex gap-5 hover:text-dark sm:col-span-4">
-            <div
-              className="my-auto p-2 text-gray-400 hover:text-dark  "
-              {...listeners}
-            >
+          <div className="flex gap-5  sm:col-span-4">
+            <div className="my-auto p-2 " {...listeners}>
               <AiOutlineMenu className=" text-xl" />
             </div>
-            <div className="my-auto text-[13.5px] font-semibold text-dark">
+            <div className="my-auto text-[13.5px] font-semibold ">
               {item.title}
             </div>
           </div>
@@ -60,7 +60,7 @@ const SortableItem = ({ id, item }) => {
               <>
                 <div className="flex items-center gap-2">
                   <AiOutlineFileText className="text-lg text-purple-500 " />
-                  <div className="text-sm text-dark font-semibold">Text</div>
+                  <div className="text-sm  font-semibold">Text</div>
                 </div>
               </>
             )}
@@ -68,9 +68,7 @@ const SortableItem = ({ id, item }) => {
               <>
                 <div className="flex items-center gap-2">
                   <IoIosOptions className="text-lg text-purple-500 " />
-                  <div className="text-sm text-dark font-semibold">
-                    Selection
-                  </div>
+                  <div className="text-sm  font-semibold">Selection</div>
                 </div>
               </>
             )}
@@ -78,13 +76,13 @@ const SortableItem = ({ id, item }) => {
               <>
                 <div className="flex items-center gap-2">
                   <AiOutlineCalendar className="text-lg text-purple-500 " />
-                  <div className="text-sm text-dark font-semibold">Date</div>
+                  <div className="text-sm  font-semibold">Date</div>
                 </div>
               </>
             )}
           </div>
           <div className="my-auto flex items-end justify-end mr-3">
-            <AiFillEdit className="text-xl text-dark" />
+            <AiFillEdit className="text-xl " />
           </div>
         </div>
       </div>

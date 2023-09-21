@@ -1,26 +1,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import LibraryLayout from "@/component/Layouts/LibraryLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
-import { Collapse, Dropdown, Select, Table, Tooltip } from "antd";
+import { Dropdown, Tooltip } from "antd";
 import { useState } from "react";
 import {
-  BiDotsHorizontal,
   BiDotsVertical,
-  BiDoughnutChart,
-  BiDuplicate,
-  BiFile,
   BiImport,
   BiPlus,
   BiSortAZ,
   BiSortZA,
 } from "react-icons/bi";
-import {
-  DeleteOutlined,
-  MessageOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
+import { MessageOutlined } from "@ant-design/icons";
 import TargetAddModal from "@/component/UI/Library/Program/Target/TargetModal/TargetAddModal";
-import TargetDeleteModal from "@/component/UI/Library/Program/Target/TargetModal/TargetDeleteModal";
 import ImportTargetModal from "@/component/UI/Library/Program/Target/TargetModal/ImportTargetModal";
 import {
   SortableContext,
@@ -33,10 +24,10 @@ import {
   restrictToVerticalAxis,
   restrictToWindowEdges,
 } from "@dnd-kit/modifiers";
+import { useTheme } from "next-themes";
 
 const targetPage = () => {
   const [type, setType] = useState(false);
-  const [targetSetting, setTargetSetting] = useState(false);
   const [setSD, setSetSD] = useState(false);
 
   const [addTarget, setAddTarget] = useState(false);
@@ -130,9 +121,16 @@ const targetPage = () => {
     }
   };
 
+  //! Theme system
+  const { theme } = useTheme();
+
   return (
     <div className="lg:m-5 m-2">
-      <div className="bg-white min-h-[80vh] lg:p-5 p-2 w-full border rounded-lg shadow-md ">
+      <div
+        className={`${
+          theme === "dark" ? "bg-dark-primary border-none" : "bg-white"
+        } min-h-[80vh] lg:p-5 p-2 w-full border rounded-lg shadow-md `}
+      >
         <div className="flex items-center justify-between flex-wrap gap-3">
           <button
             onClick={handleAddTarget}
@@ -256,7 +254,7 @@ const targetPage = () => {
         <div className="overflow-scroll">
           {" "}
           <div className="my-5">
-            <div className="grid grid-cols-6 bg-primary text-white">
+            <div className="grid grid-cols-6 bg-primary text-white border-primary">
               <div className="border-l-[1px] border-t-[1px] text-center width-[100%]  py-2 text-[15px] font-bold sm:col-span-4">
                 Targets
               </div>
@@ -268,7 +266,7 @@ const targetPage = () => {
               </div>
             </div>
 
-            <div className="border-x-[1px] border-b-[1px]">
+            <div className="border-x-[1px] border-b-[1px] bg-gray-50">
               <DndContext
                 modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
                 onDragEnd={onDragEnd}

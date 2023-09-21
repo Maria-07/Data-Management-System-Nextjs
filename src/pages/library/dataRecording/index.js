@@ -3,6 +3,7 @@ import LibraryLayout from "@/component/Layouts/LibraryLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
 
 import { Select } from "antd";
+import { useTheme } from "next-themes";
 import React, { useState } from "react";
 
 const dataRecordingPage = () => {
@@ -20,15 +21,27 @@ const dataRecordingPage = () => {
     console.log(`selected ${value}`);
     setValue(value);
   };
+  //! Theme change
+  const { theme } = useTheme();
 
   return (
     <div className="m-5 ">
-      <div className="bg-white min-h-[80vh] lg:p-5 p-2 w-full border rounded-lg shadow-md ">
+      <div
+        className={`${
+          theme === "dark"
+            ? "bg-dark-primary border-dark-background"
+            : "secondary"
+        } min-h-[80vh] lg:p-5 p-2 w-full border rounded-lg shadow-md `}
+      >
         {" "}
         <div className="grid grid-cols-1 gap-5">
           {" "}
           <div>
-            <h1 className="text-sm text-secondary mb-2 font-semibold">
+            <h1
+              className={`${
+                theme === "dark" ? "text-dark-secondary" : "text-secondary"
+              }text-sm  mb-2 font-semibold`}
+            >
               Mastering Workflow
             </h1>
             <>
@@ -49,7 +62,11 @@ const dataRecordingPage = () => {
             </>
           </div>
           <div>
-            <h1 className="text-sm text-secondary mb-2 font-semibold">
+            <h1
+              className={`${
+                theme === "dark" ? "text-dark-secondary" : "text-secondary"
+              }text-sm  mb-2 font-semibold`}
+            >
               Prompt level template
             </h1>
             <>

@@ -1,3 +1,4 @@
+import { AiFillBank } from "react-icons/ai";
 import { BiData, BiDockTop } from "react-icons/bi";
 
 export const settingsSidebar = [
@@ -11,9 +12,9 @@ export const settingsSidebar = [
     link_name: "Domain",
     link: "/settings/domain",
   },
-  // {
-  //   icon: <BiData />,
-  //   link_name: "Program Data v2",
-  //   link: "/settings/program-data/pd-v2",
-  // },
+  {
+    icon: <AiFillBank />,
+    link_name: "Organization",
+    link: "/settings/organization",
+  },
 ];

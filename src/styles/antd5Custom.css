@@ -143,10 +143,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: keep-all;
-  font-size: 16px;
+  font-size: 15px;
   font-family: "Roboto", sans-serif;
   letter-spacing: 1px;
-  padding: 4px;
+  padding: 2px;
   text-align: center;
 
 }
@@ -156,7 +156,7 @@
 .ant-table-body>table>thead>tr>th,
 .ant-table-summary>table>thead>tr>th {
   /* border-inline-end: 1px solid #f0f0f0; */
-  font-size: 16px;
+  font-size: 15px;
   font-family: "Roboto", sans-serif;
   letter-spacing: 1px;
   text-align: center;
@@ -323,3 +323,24 @@ a:hover {
   height: 92px;
   padding: 0 11px;
 } */
+
+/* tabs  */
+.ant-tabs-card>.ant-tabs-nav .ant-tabs-tab-active,
+:where(.css-dev-only-do-not-override-nnuwmp).ant-tabs-card>div>.ant-tabs-nav .ant-tabs-tab-active {
+  color: var(--secondary-shade);
+  background: #ffffff;
+}
+
+
+.ant-tabs-card>.ant-tabs-nav .ant-tabs-tab,
+:where(.css-dev-only-do-not-override-nnuwmp).ant-tabs-card>div>.ant-tabs-nav .ant-tabs-tab {
+  margin: 0;
+  padding: 8px 16px;
+  border: 1px solid #e3e3e3;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.ant-tabs-card.ant-tabs-top>.ant-tabs-nav .ant-tabs-tab-active,
+:where(.css-dev-only-do-not-override-nnuwmp).ant-tabs-card.ant-tabs-top>div>.ant-tabs-nav .ant-tabs-tab-active {
+  border-bottom-color: #ffffff;
+}

@@ -14,7 +14,7 @@ const SettingLayout = ({ children }) => {
   //! Theme system done
   return (
     <div>
-      <div className="grid grid-cols-12 md:grid-cols-">
+      <div className="grid sm:grid-cols-12 grid-cols-1">
         <motion.div
           initial={{ opacity: 0, x: -25 }}
           animate={{ opacity: 1, x: 0 }}

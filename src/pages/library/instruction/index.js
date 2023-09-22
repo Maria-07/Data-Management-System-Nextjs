@@ -80,15 +80,15 @@ const instructionPage = () => {
             toolbar:
               "formatselect | bold italic underline strikethrough | forecolor backcolor blockquote | link image media | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | removeformat",
             image_advtab: true,
-            content_style: "@/styles/component.css",
+            content_style: "@/styles/textEditor.css",
           }}
           onEditorChange={handleEditorChange} // Use onEditorChange to capture content changes
         />
         {/* //!!!! very important code */}
-        {/* <div
+        <div
           dangerouslySetInnerHTML={{ __html: content }}
           className="prose max-w-full prose-h2:my-0 prose-h2:mb-2 prose-p:my-0 prose-h1:text-2xl prose-p:text-md md:prose-li:text-md md:prose-ol:text-md"
-        ></div> */}
+        ></div>
         <div className="my-10">
           <div className="flex gap-3 items-end justify-start mb-2 mt-4">
             <button

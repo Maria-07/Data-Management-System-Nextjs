@@ -8,7 +8,7 @@ const Manager = () => {
       patient_name: "Emily Wilson",
       email: "emily.wilson@example.com",
       Ic_status: "Connected",
-      role: "Parent",
+      role: "manager",
     },
     {
       patient_name: "Daniel Anderson",
@@ -143,7 +143,7 @@ const Manager = () => {
 
   const columns = [
     {
-      title: "Patient",
+      title: "Manager",
       dataIndex: "patient_name",
       key: "patient_name",
       width: 150,
@@ -175,7 +175,7 @@ const Manager = () => {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      width: 130,
+      width: 150,
       filters: generateFilterValues(items, "email"),
       filterSearch: true,
       //render contains what we want to reflect as our data
@@ -234,39 +234,17 @@ const Manager = () => {
       sortOrder: sortedInfo.columnKey === "Ic_status" ? sortedInfo.order : null,
       ellipsis: true,
     },
-    {
-      title: "Role",
-      dataIndex: "role",
-      key: "role",
-      width: 100,
-      filters: generateFilterValues(items, "role"),
-      filterSearch: true,
-      filteredValue: filteredInfo.role || null,
-      onFilter: (value, record) => record.role.includes(value),
-      //   sorter is for sorting asc or dsc purpose
-      sorter: (a, b) => {
-        return a.role > b.role ? -1 : 1; //sorting problem solved using this logic
-      },
-      sortOrder: sortedInfo.columnKey === "role" ? sortedInfo.order : null,
-      render: (_, { role }) => {
-        return (
-          <div>
-            <h1 className="text-center">Manager</h1>
-          </div>
-        );
-      },
-      ellipsis: true,
-    },
+
     {
       title: "Action",
       key: "is_active_client",
       dataIndex: "is_active_client",
       width: 100,
-      render: (_, {}) => {
+      render: (_, record) => {
         //console.log("Status : ", Status);
         return (
           <div className="flex justify-center">
-            <OrganizationAction role="Manager"></OrganizationAction>
+            <OrganizationAction record={record}></OrganizationAction>
           </div>
         );
       },

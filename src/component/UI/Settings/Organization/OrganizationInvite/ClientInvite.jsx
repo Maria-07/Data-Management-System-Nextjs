@@ -1,10 +1,10 @@
-import { Checkbox, Col, Collapse, Row } from "antd";
-import React, { useState } from "react";
+import { Checkbox, Collapse } from "antd";
+import { useState } from "react";
 import { BiSortAZ, BiSortZA } from "react-icons/bi";
 
 const { Panel } = Collapse;
 
-const ClientOrganization = ({ handleClose }) => {
+const ClientInvite = ({ handleClose }) => {
   const [items, setItems] = useState([
     {
       id: 1,
@@ -140,7 +140,7 @@ const ClientOrganization = ({ handleClose }) => {
         <div className="bg-gray-200 pt-[1px] mt-3"></div>
         <div className="flex gap-3 items-end justify-end mb-2 mt-4">
           <button type="submit" className="dcm-modal-submit-button">
-            Ok
+            SEND INVITATION
           </button>
           <button onClick={handleClose} className="dcm-modal-close-button">
             Cancel
@@ -151,4 +151,4 @@ const ClientOrganization = ({ handleClose }) => {
   );
 };
 
-export default ClientOrganization;
+export default ClientInvite;

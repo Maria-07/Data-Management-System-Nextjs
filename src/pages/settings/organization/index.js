@@ -2,8 +2,11 @@
 import RootLayout from "@/component/Layouts/RootLayout";
 import SettingLayout from "@/component/Layouts/SettingLayout";
 import Manager from "@/component/UI/Settings/Organization/Manager/Manager";
+import BulkInviteStaff from "@/component/UI/Settings/Organization/OrganizationInvite/BulkInviteStaff";
+import InviteOrganization from "@/component/UI/Settings/Organization/OrganizationInvite/InviteOrganization";
 import { Tabs } from "antd";
 import { useTheme } from "next-themes";
+import { useState } from "react";
 import { BiPlus } from "react-icons/bi";
 
 const organizationPage = () => {
@@ -100,6 +103,16 @@ const organizationPage = () => {
       children: <>{/* <SimilarBooks></SimilarBooks> */}</>,
     },
   ];
+
+  const [inviteOrganization, setInviteOrganization] = useState(false);
+  const handleInviteOrganization = () => {
+    setInviteOrganization(!inviteOrganization);
+  };
+
+  const [bulkInviteOrganization, setBulkInviteOrganization] = useState(false);
+  const handleBulkInviteOrganization = () => {
+    setBulkInviteOrganization(!bulkInviteOrganization);
+  };
   return (
     <div>
       <div className="flex items-center justify-between flex-wrap gap-2">
@@ -114,13 +127,13 @@ const organizationPage = () => {
         </p>
         <div className="flex items-center justify-start gap-3 ">
           <button
-            // onClick={handleAddDomain}
+            onClick={handleInviteOrganization}
             className="dtm-button flex items-center gap-2 uppercase"
           >
             <BiPlus className="text-xl " /> Invite Staffs
           </button>
           <button
-            // onClick={handleAddDomain}
+            onClick={handleBulkInviteOrganization}
             className="dtm-button flex items-center gap-2 uppercase"
           >
             <BiPlus className="text-xl" /> Bulk Invite Staffs
@@ -130,6 +143,18 @@ const organizationPage = () => {
       <div className="my-10">
         <Tabs tabBarGutter={6} type="card" items={tabItems} />
       </div>
+      {inviteOrganization && (
+        <InviteOrganization
+          handleClose={handleInviteOrganization}
+          clicked={inviteOrganization}
+        ></InviteOrganization>
+      )}
+      {bulkInviteOrganization && (
+        <BulkInviteStaff
+          handleClose={handleBulkInviteOrganization}
+          clicked={bulkInviteOrganization}
+        ></BulkInviteStaff>
+      )}
     </div>
   );
 };

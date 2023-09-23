@@ -1,10 +1,12 @@
 import { Modal, Tabs } from "antd";
 import { useTheme } from "next-themes";
 import { IoMdCloseCircleOutline } from "react-icons/io";
-import InfoOrganization from "./InfoOrganization";
-import ClientOrganization from "./ClientOrganization";
+import InfoInviteStaff from "./InfoInviteStaff";
+import ClientInvite from "./ClientInvite";
+// import InfoOrganization from "./InfoOrganization";
+// import ClientOrganization from "./ClientOrganization";
 
-const EditOrganization = ({ handleClose, clicked, role }) => {
+const InviteOrganization = ({ handleClose, clicked }) => {
   //! Theme system
   const { theme } = useTheme();
   const tabItems = [
@@ -25,7 +27,7 @@ const EditOrganization = ({ handleClose, clicked, role }) => {
         <div
           className={`${theme === "dark" ? "text-dark-primary" : "text-fontC"}`}
         >
-          <InfoOrganization handleClose={handleClose}></InfoOrganization>
+          <InfoInviteStaff handleClose={handleClose}></InfoInviteStaff>
         </div>
       ),
     },
@@ -44,7 +46,7 @@ const EditOrganization = ({ handleClose, clicked, role }) => {
       key: 2,
       children: (
         <>
-          <ClientOrganization handleClose={handleClose}></ClientOrganization>
+          <ClientInvite handleClose={handleClose}></ClientInvite>
         </>
       ),
     },
@@ -63,7 +65,7 @@ const EditOrganization = ({ handleClose, clicked, role }) => {
         <div className="">
           <div className="flex items-center justify-between">
             <h1 className="text-xl  font-semibold tracking-tight">
-              Edit <span className="text-primary">{role}</span>
+              Invite Staff
             </h1>
 
             <IoMdCloseCircleOutline
@@ -83,4 +85,4 @@ const EditOrganization = ({ handleClose, clicked, role }) => {
   );
 };
 
-export default EditOrganization;
+export default InviteOrganization;

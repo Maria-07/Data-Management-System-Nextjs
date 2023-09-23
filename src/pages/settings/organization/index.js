@@ -1,13 +1,18 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import RootLayout from "@/component/Layouts/RootLayout";
 import SettingLayout from "@/component/Layouts/SettingLayout";
+import BehaviorAnalyst from "@/component/UI/Settings/Organization/BehaviorAnalyst/BehaviorAnalyst";
+import BehaviorTechnician from "@/component/UI/Settings/Organization/BehaviorTechnician/BehaviorTechnician";
 import Manager from "@/component/UI/Settings/Organization/Manager/Manager";
 import BulkInviteStaff from "@/component/UI/Settings/Organization/OrganizationInvite/BulkInviteStaff";
 import InviteOrganization from "@/component/UI/Settings/Organization/OrganizationInvite/InviteOrganization";
+import Parent from "@/component/UI/Settings/Organization/Parent/Parent";
+import Supervisor from "@/component/UI/Settings/Organization/Supervisor/Supervisor";
 import { Tabs } from "antd";
 import { useTheme } from "next-themes";
 import { useState } from "react";
-import { BiPlus } from "react-icons/bi";
+import { AiOutlineMail } from "react-icons/ai";
+import { BiMailSend, BiPlus } from "react-icons/bi";
 
 const organizationPage = () => {
   //! Theme system
@@ -49,11 +54,7 @@ const organizationPage = () => {
         </h1>
       ),
       key: 2,
-      children: (
-        <>
-          <p className="px-2 text-base text-accent"> </p>
-        </>
-      ),
+      children: <Supervisor></Supervisor>,
     },
     {
       label: (
@@ -68,9 +69,7 @@ const organizationPage = () => {
         </h1>
       ),
       key: 3,
-      children: (
-        <>{/* <Reviews reviews={book?.reviews} id={book?.id}></Reviews> */}</>
-      ),
+      children: <BehaviorAnalyst></BehaviorAnalyst>,
     },
     {
       label: (
@@ -85,7 +84,7 @@ const organizationPage = () => {
         </h1>
       ),
       key: 4,
-      children: <>{/* <SimilarBooks></SimilarBooks> */}</>,
+      children: <BehaviorTechnician></BehaviorTechnician>,
     },
     {
       label: (
@@ -100,7 +99,7 @@ const organizationPage = () => {
         </h1>
       ),
       key: 5,
-      children: <>{/* <SimilarBooks></SimilarBooks> */}</>,
+      children: <Parent></Parent>,
     },
   ];
 
@@ -130,13 +129,13 @@ const organizationPage = () => {
             onClick={handleInviteOrganization}
             className="dtm-button flex items-center gap-2 uppercase"
           >
-            <BiPlus className="text-xl " /> Invite Staffs
+            <AiOutlineMail className="text-xl " /> Invite Staffs
           </button>
           <button
             onClick={handleBulkInviteOrganization}
             className="dtm-button flex items-center gap-2 uppercase"
           >
-            <BiPlus className="text-xl" /> Bulk Invite Staffs
+            <BiMailSend className="text-xl" /> Bulk Invite Staffs
           </button>
         </div>
       </div>

@@ -2,6 +2,7 @@ import RootLayout from "@/component/Layouts/RootLayout";
 import PatientAuthorizationsTableModal from "@/component/UI/Patients/PatientAuthorizationsTableModal";
 import PatientStatusAction from "@/component/UI/Patients/PatientStatusAction";
 import { Table } from "antd";
+import Link from "next/link";
 import { useState } from "react";
 import { BiCreditCard } from "react-icons/bi";
 
@@ -387,14 +388,11 @@ const PatientPage = () => {
       render: (_, { client_full_name, id, key }) => {
         //console.log("tags : ", client_full_name, id, key);
         return (
-          <div className="">
-            <button
-              onClick={() => patientDetails(id)}
-              className="text-secondary font-medium"
-            >
+          <Link href={`/patients/patient-info/${id}`} className="">
+            <button className="text-secondary font-medium">
               {client_full_name}
             </button>
-          </div>
+          </Link>
         );
       },
       // ellipsis: true,

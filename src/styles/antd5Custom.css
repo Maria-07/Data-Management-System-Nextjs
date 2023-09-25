@@ -338,9 +338,19 @@ a:hover {
   padding: 8px 16px;
   border: 1px solid #e3e3e3;
   transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  /* background: #f5f5f5; */
 }
 
 .ant-tabs-card.ant-tabs-top>.ant-tabs-nav .ant-tabs-tab-active,
 :where(.css-dev-only-do-not-override-nnuwmp).ant-tabs-card.ant-tabs-top>div>.ant-tabs-nav .ant-tabs-tab-active {
   border-bottom-color: #ffffff;
+  border-top: 1px solid var(--secondary-shade);
+  /* border-left: 1px solid var(--secondary-shade);
+  border-right: 1px solid var(--secondary-shade); */
+  background: #ffffff;
+}
+
+.ant-tabs-card.ant-tabs-top>.ant-tabs-nav .ant-tabs-tab,
+:where(.css-dev-only-do-not-override-nnuwmp).ant-tabs-card.ant-tabs-top>div>.ant-tabs-nav .ant-tabs-tab {
+  border-radius: 3px 3px 0 0;
 }

@@ -140,7 +140,7 @@ const organizationPage = () => {
         </div>
       </div>
       <div className="my-10">
-        <Tabs tabBarGutter={6} type="card" items={tabItems} />
+        <Tabs type="card" items={tabItems} />
       </div>
       {inviteOrganization && (
         <InviteOrganization

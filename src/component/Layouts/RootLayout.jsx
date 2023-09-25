@@ -66,14 +66,14 @@ const initialDropState = {};
 const RootLayout = ({ children }) => {
   const currentRoute = usePathname();
   const isToggled = useSelector((state) => state.sideBarInfo);
-  console.log("isToggled", isToggled);
+  // console.log("isToggled", isToggled);
   const dispatch = useDispatch();
   const [isHovering, setIsHovering] = useState(false);
   const [dropState, setDropState] = useState(initialDropState);
 
   const { height, width } = useWindowDimensions();
-  console.log("height", height);
-  console.log("width", width);
+  // console.log("height", height);
+  // console.log("width", width);
 
   const handleDropState = (dropName) => {
     if (dropName === "other") setDropState(initialDropState);

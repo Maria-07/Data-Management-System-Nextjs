@@ -10,36 +10,36 @@ const DocumentsAction = ({ id, fileName }) => {
     setOpenEditModal(true);
   };
 
-  const { token } = useToken();
+  // const { token } = useToken();
   const handleClose = () => {
     setOpenEditModal(false);
   };
 
-  const [documentDelete, { data, isSuccess, isError }] =
-    useDocumentDeleteMutation();
-  console.log("----", data);
-  const handleDelete = (id) => {
-    const payload = {
-      document_id: id,
-    };
-    documentDelete({ token, payload });
-  };
+  // const [documentDelete, { data, isSuccess, isError }] =
+  //   useDocumentDeleteMutation();
+  // console.log("----", data);
+  // const handleDelete = (id) => {
+  //   const payload = {
+  //     document_id: id,
+  //   };
+  //   documentDelete({ token, payload });
+  // };
 
-  useEffect(() => {
-    if (isSuccess) {
-      toast.success(data?.message, {
-        position: "top-center",
-        autoClose: 5000,
-        theme: "dark",
-      });
-    } else if (isError) {
-      toast.error("Some Error Occured", {
-        position: "top-center",
-        autoClose: 5000,
-        theme: "dark",
-      });
-    }
-  }, [data?.message, isError, isSuccess]);
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     toast.success(data?.message, {
+  //       position: "top-center",
+  //       autoClose: 5000,
+  //       theme: "dark",
+  //     });
+  //   } else if (isError) {
+  //     toast.error("Some Error Occured", {
+  //       position: "top-center",
+  //       autoClose: 5000,
+  //       theme: "dark",
+  //     });
+  //   }
+  // }, [data?.message, isError, isSuccess]);
 
   return (
     <div>
@@ -53,7 +53,7 @@ const DocumentsAction = ({ id, fileName }) => {
           <AiOutlineEdit />
         </button>
         <button
-          onClick={() => handleDelete(id)}
+          // onClick={() => handleDelete(id)}
           className="text-sm mx-1 text-rose-600"
         >
           <AiOutlineDelete />

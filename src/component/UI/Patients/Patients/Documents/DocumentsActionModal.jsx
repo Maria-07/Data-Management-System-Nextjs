@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 const DocumentsActionModal = ({ handleClose, open, row, id }) => {
   const { register, handleSubmit, reset } = useForm();
   // const { id } = useParams();
-  const { token } = useToken();
+  // const { token } = useToken();
   // post edit data show
   // const [updateDocument, { data: updateData, isSuccess, isError }] =
   //   useUpdateDocumentMutation();
@@ -44,26 +44,26 @@ const DocumentsActionModal = ({ handleClose, open, row, id }) => {
     // updateDocument({ token, payload });
     reset();
   };
-  console.log(row);
-  // get edit data show
-  const { data, isLoading: singleitemLoading } = useGetdocumentsinfoQuery({
-    token,
-    id,
-  });
+  // console.log(row);
+  // // get edit data show
+  // const { data, isLoading: singleitemLoading } = useGetdocumentsinfoQuery({
+  //   token,
+  //   id,
+  // });
 
-  console.log("data api edit", data);
-  useEffect(() => {
-    setTimeout(() => {
-      reset({
-        description: `${data.document.description}`,
-        expiry_Date: `${data.document.exp_date}`,
-      });
-    }, 500);
-  }, [reset, row, data]);
+  // console.log("data api edit", data);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     reset({
+  //       description: `${data.document.description}`,
+  //       expiry_Date: `${data.document.exp_date}`,
+  //     });
+  //   }, 500);
+  // }, [reset, row, data]);
 
-  if (singleitemLoading) {
-    return <></>;
-  }
+  // if (singleitemLoading) {
+  //   return <></>;
+  // }
   return (
     <div>
       <Modal
@@ -86,10 +86,10 @@ const DocumentsActionModal = ({ handleClose, open, row, id }) => {
               className="text-gray-600 font-semibold  text-2xl hover:text-primary"
             />
           </div>
-          {singleitemLoading && <div>SHow loading</div>}
+          {/* {singleitemLoading && <div>SHow loading</div>} */}
           <div className="bg-gray-200 py-[1px] mt-3"></div>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 my-3 mr-2 gap-x-2 gap-y-1">
+            <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 my-3 mr-2 gap-x-2 gap-y-1">
               <div>
                 <label className="label">
                   <span className="modal-label-name">Description</span>
@@ -128,7 +128,7 @@ const DocumentsActionModal = ({ handleClose, open, row, id }) => {
             <div className="bg-gray-200 py-[1px] mt-3"></div>
             <div className=" flex items-end justify-end mt-2">
               <button
-                disabled={singleitemLoading}
+                // disabled={singleitemLoading}
                 className=" pms-button mr-2"
                 type="submit"
               >

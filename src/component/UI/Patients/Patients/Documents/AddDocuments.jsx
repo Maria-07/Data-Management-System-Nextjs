@@ -64,7 +64,7 @@ const AddDocuments = ({ handleClose, open }) => {
 
           <div className="bg-gray-200 py-[1px] mt-3"></div>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 my-3 mr-2 gap-x-2 gap-y-1">
+            <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 my-3 mr-2 gap-x-2 gap-y-1">
               <div>
                 <label className="label">
                   <span className="modal-label-name">Description</span>

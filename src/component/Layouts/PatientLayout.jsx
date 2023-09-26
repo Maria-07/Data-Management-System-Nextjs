@@ -47,12 +47,12 @@ const PatientLayout = ({ id, children }) => {
     {
       icon: <AiOutlineFileAdd />,
       link_name: "Patient Vob",
-      link: `/patients/patient-vob/${patientId}`,
+      link: `/admin/patients/patient-vob/${patientId}`,
     },
     {
       icon: <IoDocumentTextOutline />,
       link_name: "Patient Documents",
-      link: `/patients/patient-documents/${patientId}`,
+      link: `/admin/patients/patient-documents/${patientId}`,
     },
   ];
 

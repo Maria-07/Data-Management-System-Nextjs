@@ -2,7 +2,7 @@ import PatientLayout from "@/component/Layouts/PatientLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
 import React, { useState } from "react";
 import { HiPlus } from "react-icons/hi";
-import check from "../../../assets/img/checked.png";
+
 import { Table } from "antd";
 import Loading from "@/component/UI/Layouts/Loading";
 import DocumentsAction from "@/component/UI/Patients/Patients/Documents/DocumentsAction";
@@ -19,7 +19,88 @@ const Documents = () => {
   const handleClickOpen = () => {
     setOpenEditModal(true);
   };
-  const data = [];
+  const data = [
+    {
+      id: 1,
+      Document: "Perren",
+      File_name: "Quis.mp3",
+      uploaded_on: "4/24/2022",
+      created_by: "Construction Expeditor",
+      expired_date: "3/24/2022",
+    },
+    {
+      id: 2,
+      Document: "Bethanne",
+      File_name: "Morbi.ppt",
+      uploaded_on: "3/29/2022",
+      created_by: "Construction Worker",
+      expired_date: "7/4/2022",
+    },
+    {
+      id: 3,
+      Document: "Romonda",
+      File_name: "NonVelitNec.mov",
+      uploaded_on: "5/31/2022",
+      created_by: "Electrician",
+      expired_date: "2/16/2022",
+    },
+    {
+      id: 4,
+      Document: "Reynard",
+      File_name: "AcNibh.avi",
+      uploaded_on: "2/15/2022",
+      created_by: "Supervisor",
+      expired_date: "1/6/2022",
+    },
+    {
+      id: 5,
+      Document: "Gwenora",
+      File_name: "Sapien.ppt",
+      uploaded_on: "2/11/2022",
+      created_by: "Construction Manager",
+      expired_date: "1/16/2022",
+    },
+    {
+      id: 6,
+      Document: "Stanleigh",
+      File_name: "Rutrum.pdf",
+      uploaded_on: "8/15/2022",
+      created_by: "Architect",
+      expired_date: "1/11/2022",
+    },
+    {
+      id: 7,
+      Document: "Marti",
+      File_name: "AmetNunc.ppt",
+      uploaded_on: "2/5/2022",
+      created_by: "Architect",
+      expired_date: "5/3/2022",
+    },
+    {
+      id: 8,
+      Document: "Milena",
+      File_name: "AtNullaSuspendisse.xls",
+      uploaded_on: "7/26/2022",
+      created_by: "Surveyor",
+      expired_date: "2/17/2022",
+    },
+    {
+      id: 9,
+      Document: "Lenka",
+      File_name: "Facilisi.tiff",
+      uploaded_on: "7/18/2022",
+      created_by: "Construction Manager",
+      expired_date: "8/1/2022",
+    },
+    {
+      id: 10,
+      Document: "Ealasaid",
+      File_name: "Ac.gif",
+      uploaded_on: "6/4/2022",
+      created_by: "Construction Foreman",
+      expired_date: "9/23/2021",
+    },
+  ];
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
 
@@ -85,11 +166,7 @@ const Documents = () => {
       dataIndex: "created_at",
       render: (_, { created_at }) => {
         console.log("render data", created_at);
-        return (
-          <div>
-            <p>{DatabaseDateConverter(created_at)}</p>
-          </div>
-        );
+        return <div>{/* <p>{DatabaseDateConverter(created_at)}</p> */}</div>;
       },
       width: 100,
       filters: [{}],

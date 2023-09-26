@@ -13,9 +13,10 @@ export const api = createApi({
     prepareHeaders: (headers, {}) => {
       const token = getAccessToken();
       if (token) {
-        headers.set("authorization", token);
+        headers.set("x-auth-token", token);
       }
       headers.set("Content-Type", "application/json");
+      // headers.set("Accept", "application/json");
       return headers;
     },
   }),

@@ -68,3 +68,11 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--secondary-shade);
 }
+
+.table-striped-rows tr:nth-child(2n) td {
+  background-color: #f7f7f7 !important;
+}
+
+.table-striped-rows thead {
+  background-color: white !important;
+}

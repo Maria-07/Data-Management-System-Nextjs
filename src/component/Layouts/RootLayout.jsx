@@ -40,7 +40,7 @@ const menuItem = [
     icon: <BiCalendarWeek />,
   },
   {
-    path: "/patients",
+    path: "/admin/patients",
     name: "Patients",
     icon: <BiUserCircle />,
   },

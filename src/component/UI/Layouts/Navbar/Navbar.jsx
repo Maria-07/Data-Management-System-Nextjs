@@ -20,8 +20,27 @@ import NavbarSmallDevice from "./NavbarSmallDevice";
 import ThemeSwitcher from "../ThemeSwitcher";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { getAccessToken } from "@/Redux/api/apiSlice";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 
 const Navbar = ({ handle, handleSidebar }) => {
+  const [accessToken, setAccessToken] = useState("");
+  const token = getAccessToken();
+
+  useEffect(() => {
+    setAccessToken(token);
+  }, [token]);
+
+  const router = useRouter();
+
+  const handleLogOut = () => {
+    console.log("logout");
+    Cookies.remove("accessToken");
+    // setUserInfo(null);
+    router.push("/");
+  };
+
   //! Theme system
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -215,7 +234,7 @@ const Navbar = ({ handle, handleSidebar }) => {
                         <button
                           type="button"
                           className="rounded px-2 mx-auto bg-secondary text-white font-medium text-sm gap-2 shadow-md mb-3 mt-5 flex items-center justify-center py-1 hover:bg-[#B91C1C] "
-                          // onClick={handleSignOut}
+                          onClick={handleLogOut}
                         >
                           Sign Out
                         </button>

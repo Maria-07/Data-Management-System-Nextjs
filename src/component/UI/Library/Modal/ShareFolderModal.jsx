@@ -66,7 +66,7 @@ const ShareFolderModal = ({ handleClose, clicked }) => {
                     <input
                       placeholder="Recipient Mail"
                       type="text"
-                      className="input-border-modal w-[100%] my-5 py-2"
+                      className="modal-input-field w-[100%] my-5 py-2"
                     />
                   </div>
                 )}

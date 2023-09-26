@@ -8,12 +8,15 @@ import "@/styles/settings.css";
 import { Provider } from "react-redux";
 import store from "@/Redux/store";
 import { ThemeProvider } from "next-themes";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App({ Component, pageProps }) {
   const getLayout = Component.getLayout || ((page) => page);
 
   return (
     <>
+      <ToastContainer />
       <ThemeProvider enableSystem={true} attribute="class">
         <Provider store={store}>
           <SessionProvider session={pageProps.session}>

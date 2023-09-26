@@ -65,7 +65,7 @@
     font-weight: 400;
 }
 
-.input-border-modal {
+.modal-input-field {
     border: 1px solid #cacaca;
     border-radius: 8px;
     padding: 6px 12px;
@@ -81,7 +81,7 @@
 
 .modal-label-name {
     color: rgba(54, 54, 54, 0.85);
-    font-weight: 500;
+    font-weight: 600;
     text-transform: capitalize;
     letter-spacing: 0px;
     word-spacing: 1px;
@@ -140,7 +140,7 @@
     color: rgb(255, 255, 255);
     border-radius: 3px;
     /* box-shadow: 2px 2px 2px 0px #626d6e; */
-    display: inline-block;
+
     transition: ease-in-out 0.3s;
     border: 1px solid var(--primary-color);
 }
@@ -299,4 +299,78 @@
 
 .dcm-modal-close-button:hover {
     background-color: #d9d9d9;
+}
+
+@media only screen and (min-width:320px) {
+
+    /* smartphones, iPhone, portrait 480x320 phones */
+    /* For mobile  */
+
+    .login-form {
+        width: 95%;
+        top: 5em;
+        right: -6px;
+    }
+
+}
+
+@media only screen and (min-width:481px) {
+
+    /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+    /* For mobile  */
+
+    .login-form {
+        width: 95%;
+        top: 5em;
+        right: -6px;
+    }
+
+}
+
+@media only screen and (min-width:641px) {
+
+    /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+    .login-form {
+        width: 65%;
+        /* top: 18em; */
+        right: 9em;
+    }
+
+}
+
+@media only screen and (min-width:961px) and (max-width:1024px) {
+
+    /* tablet, landscape iPad, lo-res laptops ands desktops */
+    /* For tablets: */
+
+    .login-form {
+        width: 65%;
+        top: 18em;
+        right: 9em;
+    }
+}
+
+@media only screen and (min-width:1025px) {
+
+    /* big landscape tablets, laptops, and desktops */
+    /* For desktop: */
+
+    .login-form {
+        width: 40%;
+        /* width: 29%; */
+        /* top: 15em; */
+        right: 10em;
+    }
+}
+
+@media only screen and (min-width:1281px) {
+
+    /* hi-res laptops and desktops */
+
+    .login-form {
+        width: 32%;
+        top: 7em;
+        right: 10em;
+    }
+
 }

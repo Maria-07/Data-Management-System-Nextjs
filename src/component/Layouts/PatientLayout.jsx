@@ -5,9 +5,13 @@ import { useRouter } from "next/router";
 import { BiData, BiUserCircle } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { IoCaretBackCircleOutline } from "react-icons/io5";
+import {
+  IoCaretBackCircleOutline,
+  IoDocumentTextOutline,
+} from "react-icons/io5";
 import Image from "next/image";
 import doctor from "../../assets/img/doctor.png";
+import { AiOutlineFileAdd } from "react-icons/ai";
 
 const PatientLayout = ({ id, children }) => {
   //! Theme system
@@ -22,9 +26,14 @@ const PatientLayout = ({ id, children }) => {
       link: `/patients/patient-info/${patientId}`,
     },
     {
-      icon: <BiData />,
+      icon: <AiOutlineFileAdd />,
       link_name: "Patient Vob",
-      link: `/patients/pateint-vob/${patientId}`,
+      link: `/patients/patient-vob/${patientId}`,
+    },
+    {
+      icon: <IoDocumentTextOutline />,
+      link_name: "Patient Documents",
+      link: `/patients/patient-documents/${patientId}`,
     },
   ];
 
@@ -51,7 +60,7 @@ const PatientLayout = ({ id, children }) => {
           initial={{ opacity: 0, x: -25 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.6 }}
-          className={`p-2 my-2 border-[1px] lg:col-span-2 shadow-md rounded-md min-h-screen ${
+          className={`p-2 my-2 border-[1px] lg:col-span-2 shadow-md rounded-md min-h-[20vh] ${
             theme === "dark"
               ? "bg-dark-background border-dark-background"
               : "secondary"
@@ -61,8 +70,10 @@ const PatientLayout = ({ id, children }) => {
             <div className="">
               <Image
                 src={doctor}
-                className="h-24 w-24 m-auto rounded-full border border-gray-100"
-                alt=""
+                className=" m-auto rounded-full border border-gray-100"
+                alt="doctor"
+                height={120}
+                width={"auto"}
               />
             </div>
           </div>

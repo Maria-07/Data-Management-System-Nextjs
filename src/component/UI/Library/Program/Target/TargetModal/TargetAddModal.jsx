@@ -49,7 +49,7 @@ const TargetAddModal = ({ handleClose, clicked }) => {
                 <input
                   placeholder="Rename Folder Name"
                   type="text"
-                  className="input-border-modal w-[100%] "
+                  className="modal-input-field w-[100%] "
                 />
               </div>
               <div className="my-5">

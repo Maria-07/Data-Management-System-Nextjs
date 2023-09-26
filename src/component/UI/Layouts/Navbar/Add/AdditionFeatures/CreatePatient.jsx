@@ -103,7 +103,7 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
                   <input
                     type="text"
                     name="client_first_name"
-                    className="input-border-modal ml-1 w-full"
+                    className="modal-input-field ml-1 w-full"
                     {...register("client_first_name", {
                       required: {
                         value: true,
@@ -130,7 +130,7 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
                   <input
                     type="text"
                     name="client_last_name"
-                    className=" input-border-modal ml-1 w-full"
+                    className=" modal-input-field ml-1 w-full"
                     {...register("client_last_name", {
                       required: {
                         value: true,
@@ -156,7 +156,7 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
                   </label>
 
                   <input
-                    className=" input-border-modal ml-1 w-full"
+                    className=" modal-input-field ml-1 w-full"
                     name="client_dob"
                     type="date"
                     {...register("client_dob", {
@@ -181,7 +181,7 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
                     </h1>
                   </label>
                   <select
-                    className=" input-border-modal ml-1 w-full"
+                    className=" modal-input-field ml-1 w-full"
                     {...register("client_gender", {
                       required: {
                         value: true,
@@ -208,7 +208,7 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
                     </h1>
                   </label>
                   <select
-                    className="input-border-modal ml-1 w-full"
+                    className="modal-input-field ml-1 w-full"
                     {...register("pos")}
                   >
                     <option value=""></option>
@@ -231,7 +231,7 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
                       <input
                         type="text"
                         name="email"
-                        className="input-border-modal ml-1 w-3/4"
+                        className="modal-input-field ml-1 w-3/4"
                         {...register("email", {
                           required: {
                             value: true,
@@ -244,7 +244,7 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
                     <>
                       <div>
                         <select
-                          className="input-border-modal ml-1 w-full"
+                          className="modal-input-field ml-1 w-full"
                           {...register("email_type", {
                             required: {
                               value: true,
@@ -296,7 +296,7 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
                     {/* <input
                     type="text"
                     name="phone_number"
-                    className="input-border-modal ml-1 w-3/4"
+                    className="modal-input-field ml-1 w-3/4"
                     {...register("phone_number")}
                   /> */}
                     <div className="customPhone ml-1">
@@ -322,7 +322,7 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
                     </div>
                     <div>
                       <select
-                        className="input-border-modal ml-1 w-full"
+                        className="modal-input-field ml-1 w-full"
                         {...register("phone_type", {
                           required: {
                             value: true,

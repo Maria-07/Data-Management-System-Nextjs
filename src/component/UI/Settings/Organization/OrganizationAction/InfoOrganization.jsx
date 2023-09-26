@@ -36,10 +36,7 @@ const InfoOrganization = ({ handleClose }) => {
             </h1>
 
             <div>
-              <input
-                type="text"
-                className="input-border-modal w-[100%]  py-2"
-              />
+              <input type="text" className="modal-input-field w-[100%]  py-2" />
             </div>
           </div>
           <div className="px-2 my-5">
@@ -50,7 +47,7 @@ const InfoOrganization = ({ handleClose }) => {
             <div>
               <input
                 type="email"
-                className="input-border-modal w-[100%]  py-2"
+                className="modal-input-field w-[100%]  py-2"
               />
             </div>
           </div>

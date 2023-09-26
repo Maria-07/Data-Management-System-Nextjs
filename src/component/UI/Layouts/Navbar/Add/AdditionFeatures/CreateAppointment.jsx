@@ -202,7 +202,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
 
               <select
                 // disabled={patientsNameLoading || !billable ? true : false}
-                className="col-span-2 input-border-modal ml-1 w-full"
+                className="col-span-2 modal-input-field ml-1 w-full"
                 {...register("client_id")}
                 onChange={(e) => setClientId(e.target.value)}
               >
@@ -232,7 +232,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                 //     ? true
                 //     : false
                 // }
-                className="col-span-2 input-border-modal ml-1 w-full"
+                className="col-span-2 modal-input-field ml-1 w-full"
                 {...register("authorization_id")}
                 onChange={(e) => setAuthId(e.target.value)}
               >
@@ -273,7 +273,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                 //     ? true
                 //     : false
                 // }
-                className="col-span-2 input-border-modal ml-1 w-full"
+                className="col-span-2 modal-input-field ml-1 w-full"
                 {...register("activity_id")}
               >
                 {!billable ? (
@@ -305,7 +305,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
               {billable ? (
                 <div className="col-span-2 flex item-center">
                   <select
-                    className=" input-border-modal ml-1 w-2/3"
+                    className=" modal-input-field ml-1 w-2/3"
                     {...register("provider_id")}
                   >
                     <option value="0">Select Provider</option>
@@ -339,7 +339,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                 <span className="modal-label-name">POS</span>
               </label>
               <select
-                className="col-span-2 input-border-modal ml-1 w-full"
+                className="col-span-2 modal-input-field ml-1 w-full"
                 {...register("location")}
               >
                 <option value="0">Select Location</option>
@@ -360,7 +360,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                 readOnly
                 onClick={() => setOpen(!open)}
                 value={date ? date.toLocaleDateString() : "Select a Date"}
-                className="col-span-2 input-border-modal ml-1 w-full px-2"
+                className="col-span-2 modal-input-field ml-1 w-full px-2"
                 {...register("from_time")}
               />
 
@@ -443,14 +443,14 @@ const CreateAppointment = ({ handleClose, clicked }) => {
               </label>
               <div className="grid col-span-2 grid-cols-1 md:grid-cols-1 lg:grid-cols-3 pl-1 gap-1">
                 <TimePicker
-                  className="input-border-modal"
+                  className="modal-input-field"
                   use12Hours
                   format="h:mm A"
                   onChange={from_Time}
                 />
                 <div className="modal-label-name mt-2 mx-auto">To Time</div>
                 <TimePicker
-                  className="input-border-modal"
+                  className="modal-input-field"
                   use12Hours
                   format="h:mm A"
                   onChange={to_Time}
@@ -460,7 +460,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                 <span className="modal-label-name">Status</span>
               </label>
               <select
-                className="col-span-2 input-border-modal ml-1 w-full"
+                className="col-span-2 modal-input-field ml-1 w-full"
                 {...register("status")}
               >
                 <option value="0">Select</option>
@@ -494,7 +494,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
               <div>
                 {recurrence && (
                   <input
-                    className="px-2 input-border-modal ml-1 w-full"
+                    className="px-2 modal-input-field ml-1 w-full"
                     type="date"
                     {...register("check_Date")}
                   />

@@ -63,7 +63,7 @@ const NewEligibilityInquiry = ({ handleClose, eligibility }) => {
                 <span className="modal-label-name">Patient Name</span>
               </label>
               <select
-                className="col-span-2 input-border-modal ml-1 w-full"
+                className="col-span-2 modal-input-field ml-1 w-full"
                 {...register("patients")}
               >
                 <option value=""></option>
@@ -74,7 +74,7 @@ const NewEligibilityInquiry = ({ handleClose, eligibility }) => {
                 <span className="modal-label-name">Auth</span>
               </label>
               <select
-                className="col-span-2 input-border-modal ml-1 w-full"
+                className="col-span-2 modal-input-field ml-1 w-full"
                 {...register("Auth")}
               >
                 <option value=""></option>
@@ -85,7 +85,7 @@ const NewEligibilityInquiry = ({ handleClose, eligibility }) => {
                 <span className="modal-label-name">Benefit Type</span>
               </label>
               <select
-                className="col-span-2 input-border-modal ml-1 w-full"
+                className="col-span-2 modal-input-field ml-1 w-full"
                 {...register("benefit_type")}
               >
                 <option value=""></option>
@@ -98,14 +98,14 @@ const NewEligibilityInquiry = ({ handleClose, eligibility }) => {
               <input
                 name="check_date"
                 type="date"
-                className="col-span-2 input-border-modal ml-1 w-full px-2"
+                className="col-span-2 modal-input-field ml-1 w-full px-2"
                 {...register("check_date")}
               />
               <label className="label">
                 <span className="modal-label-name">NPI</span>
               </label>
               <select
-                className="col-span-2 input-border-modal ml-1 w-full"
+                className="col-span-2 modal-input-field ml-1 w-full"
                 {...register("npi")}
               >
                 <option value=""></option>

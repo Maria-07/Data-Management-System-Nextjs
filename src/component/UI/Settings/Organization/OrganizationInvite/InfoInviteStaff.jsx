@@ -19,10 +19,7 @@ const InfoInviteStaff = ({ handleClose }) => {
             </h1>
 
             <div>
-              <input
-                type="text"
-                className="input-border-modal w-[100%]  py-2"
-              />
+              <input type="text" className="modal-input-field w-[100%]  py-2" />
             </div>
           </div>
 

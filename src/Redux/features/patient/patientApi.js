@@ -4,13 +4,21 @@ const patientApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getPatient: builder.mutation({
       query: (page) => ({
-        url: "/inadmin/patient/list",
+        url: "/patient/list",
         method: "POST",
         body: { page },
+      }),
+      invalidatesTags: [],
+    }),
+    getPatientInfo: builder.mutation({
+      query: ({ payload }) => ({
+        url: "/patient/list",
+        method: "POST",
+        body: { payload },
       }),
       invalidatesTags: [],
     }),
   }),
 });
 
-export const { useGetPatientMutation } = patientApi;
+export const { useGetPatientMutation, useGetPatientInfoMutation } = patientApi;

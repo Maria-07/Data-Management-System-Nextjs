@@ -9,11 +9,12 @@ const PatientStatusAction = ({ s }) => {
   return (
     <div className="">
       <select
+        defaultValue={s}
         onChange={(e) => handleStatus(e)}
         className="border w-full rounded-md lg:px-5 py-[4px]"
       >
-        <option value="Active">Active</option>
-        <option value="In-Active">In-Active</option>
+        <option value="1">Active</option>
+        <option value="2">In-Active</option>
         <option value="Wait-List">Wait-List</option>
       </select>
     </div>

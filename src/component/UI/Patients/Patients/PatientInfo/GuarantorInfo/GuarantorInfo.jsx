@@ -67,9 +67,9 @@ const GuarantorInfo = ({ register, checkLocation, SameasPatientBtn, hook }) => {
         <div className="dtm-button mt-[17px]">
           <button
             type="button"
-            // onClick={() => {
-            //   SameasPatientBtn();
-            // }}
+            onClick={() => {
+              SameasPatientBtn();
+            }}
           >
             Same as patient address
           </button>

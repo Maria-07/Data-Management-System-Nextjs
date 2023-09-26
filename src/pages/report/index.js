@@ -1,7 +1,13 @@
 import RootLayout from "@/component/Layouts/RootLayout";
+import TableShimmer from "@/component/UI/Layouts/Shimmer/TableShimmer";
 
 const reportPage = () => {
-  return <div>Still Developing</div>;
+  return (
+    <div>
+      Still Developing
+      <TableShimmer></TableShimmer>
+    </div>
+  );
 };
 
 export default reportPage;

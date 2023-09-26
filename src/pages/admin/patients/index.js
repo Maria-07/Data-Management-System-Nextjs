@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import RootLayout from "@/component/Layouts/RootLayout";
-import Loading from "@/component/UI/Layouts/Loading";
+import TableShimmer from "@/component/UI/Layouts/Shimmer/TableShimmer";
 import PatientAuthorizationsTableModal from "@/component/UI/Patients/PatientAuthorizationsTableModal";
 import PatientStatusAction from "@/component/UI/Patients/PatientStatusAction";
 import { Table } from "antd";
@@ -9,39 +10,57 @@ import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BiCreditCard } from "react-icons/bi";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const PatientPage = () => {
   const [patientId, setPatientId] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const token = getAccessToken();
-  const [data, setData] = useState([]);
   const [patients, setPatients] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
 
-  //! get data from API + data fetch from api while scrolling[Important]
+  //! fetch all patients using InfiniteScrolling
+  const fetchPatients = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/patient/list`,
+        {
+          page,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "x-auth-token": token,
+          },
+        }
+      );
+      const data = response?.data?.data?.data;
+      return data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error;
+    }
+  };
+
+  const fetchData = async () => {
+    const patientsFromServer = await fetchPatients();
+
+    if (patientsFromServer.length > 0) {
+      setPatients([...patients, ...patientsFromServer]);
+      setPage(page + 1);
+    } else {
+      setHasMore(false); // No more data to load
+    }
+  };
+
   useEffect(() => {
-    const getPatientsData = async () => {
-      let res = await axios({
-        method: "post",
-        url: `https://stagapi.therapypms.com/api/v1/inadmin/patient/list`,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "x-auth-token": token,
-        },
-        data: {
-          page: 1,
-        },
-      });
-      const data = res?.data?.data?.data;
-      console.log(res);
-      setPatients(data);
-    };
-    getPatientsData();
-  }, [token]);
+    fetchData(); // Fetch initial data
+  }, []);
+  //! fetch all patients using InfiniteScrolling END
 
-  console.log(patients);
-
-  //Auth click event handler
+  //! Auth click event handler
   const handleAuthClick = (id) => {
     console.log(id);
     setModalOpen(true);
@@ -62,6 +81,10 @@ const PatientPage = () => {
     console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
+  };
+
+  const clearFilters = () => {
+    setFilteredInfo({});
   };
 
   const columns = [
@@ -85,7 +108,7 @@ const PatientPage = () => {
       render: (_, { client_full_name, id, key }) => {
         //console.log("tags : ", client_full_name, id, key);
         return (
-          <Link href={`/patients/patient-info/${id}`} className="">
+          <Link href={`/admin/patients/patient-info/${id}`} className="">
             <button className="text-secondary font-medium">
               {client_full_name}
             </button>
@@ -258,10 +281,7 @@ const PatientPage = () => {
         //console.log("Status : ", Status);
         return (
           <div className="flex justify-center">
-            <PatientStatusAction
-              status={is_active_client}
-            ></PatientStatusAction>
-            {is_active_client}
+            <PatientStatusAction s={is_active_client}></PatientStatusAction>
           </div>
         );
       },
@@ -270,27 +290,33 @@ const PatientPage = () => {
 
   return (
     <div>
-      <h1 className="text-lg text-orange-500 text-left font-semibold mb-5">
-        Patient
-      </h1>
-      <div className=" overflow-scroll">
-        {" "}
+      <div className="flex items-center flex-wrap justify-between gap-2 mt-2 mb-5">
+        <h1 className="text-lg text-orange-500 text-left font-semibold ">
+          Patient
+        </h1>
+        <div>
+          <button onClick={clearFilters} className="dtm-button">
+            Clear filters
+          </button>
+        </div>
+      </div>
+      <InfiniteScroll
+        dataLength={patients.length} //items is basically all data here
+        next={patients?.length > 0 && fetchData} //This condition is mendatory for perfectly working with infinite scrolling
+        hasMore={hasMore}
+        loader={<TableShimmer></TableShimmer>}
+      >
         <Table
           bordered
-          rowKey="id" //warning issue solve ar jnno unique id rowKey hisabey use hobey
-          pagination={false} //pagination dekhatey chailey just 'true' korey dilei hobey
+          rowKey="id"
+          pagination={false}
           size="small"
           className="table-striped-rows text-xs font-normal"
           columns={columns}
-          dataSource={patients} //Which data chunk you want to show in table
-          // For fixed header table at top
-          // scroll={{
-          //   y: 750,
-          // }}
+          dataSource={patients}
           onChange={handleChange}
         />
-      </div>
-
+      </InfiniteScroll>
       {modalOpen && (
         <PatientAuthorizationsTableModal
           modalOpen={modalOpen}

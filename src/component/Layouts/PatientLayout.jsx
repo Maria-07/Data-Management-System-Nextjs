@@ -12,18 +12,37 @@ import {
 import Image from "next/image";
 import doctor from "../../assets/img/doctor.png";
 import { AiOutlineFileAdd } from "react-icons/ai";
+import { getPatientsDetails } from "@/Redux/features/patient/patientSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getAccessToken } from "@/Redux/api/apiSlice";
 
 const PatientLayout = ({ id, children }) => {
   //! Theme system
   const { theme } = useTheme();
-
   const [patientId, setPatientId] = useState(id);
 
+  //! main parent component for all patient related components
+  localStorage.setItem("p_key", id);
+  const token = getAccessToken();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // action dispatched
+    dispatch(
+      getPatientsDetails({
+        payload: {
+          patient_id: id,
+        },
+        token,
+      })
+    );
+  }, [id, dispatch, token]);
+
+  //! links
   const patientSidebar = [
     {
       icon: <BiUserCircle />,
       link_name: "Patient Info",
-      link: `/patients/patient-info/${patientId}`,
+      link: `/admin/patients/patient-info/${patientId}`,
     },
     {
       icon: <AiOutlineFileAdd />,

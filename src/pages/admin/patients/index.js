@@ -8,11 +8,13 @@ import PatientStatusAction from "@/component/UI/Patients/PatientStatusAction";
 import { Table } from "antd";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { BiCreditCard } from "react-icons/bi";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const PatientPage = () => {
+  const router = useRouter();
   const [patientId, setPatientId] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const token = getAccessToken();
@@ -87,6 +89,14 @@ const PatientPage = () => {
     setFilteredInfo({});
   };
 
+  const PIdHandler = (id) => {
+    console.log(id, "iddddddddddd");
+    if (id) {
+      localStorage.setItem("PId", id);
+      router.push(`/admin/patients/patient-info/${id}`);
+    }
+  };
+
   const columns = [
     {
       title: "Patient",
@@ -108,11 +118,14 @@ const PatientPage = () => {
       render: (_, { client_full_name, id, key }) => {
         //console.log("tags : ", client_full_name, id, key);
         return (
-          <Link href={`/admin/patients/patient-info/${id}`} className="">
-            <button className="text-secondary font-medium">
-              {client_full_name}
-            </button>
-          </Link>
+          // <Link href={`/admin/patients/patient-info/${id}`} className="">
+          <button
+            onClick={() => PIdHandler(id)}
+            className="text-secondary font-medium"
+          >
+            {client_full_name}
+          </button>
+          // </Link>
         );
       },
       // ellipsis: true,

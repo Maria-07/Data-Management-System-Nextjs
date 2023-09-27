@@ -24,7 +24,6 @@ const { TextArea } = Input;
 const PatientInfo = () => {
   const [active, setActive] = useState(false);
   const [Guarantor, setGuarantor] = useState(false);
-  const [relation, setRelation] = useState("Self");
   const [checkLocation, setLocation] = useState(false);
   //file uploaded issue
   const [signatureUpload, setSignatureUpload] = useState("");
@@ -163,17 +162,17 @@ const PatientInfo = () => {
         GuaratorCity: patient_details?.client_granter?.g_city,
         GuratorCountry: patient_details?.client_granter?.g_state,
         GuratorZip: patient_details?.client_granter?.g_zip,
-        relationship: patientOtherDetails?.client_relationship,
+        relationship: patientOtherDetails?.relationship,
       });
-      if (patientOtherDetails?.client_relationship !== "Self") {
+      if (patientOtherDetails?.relationship !== "Self") {
         setGuarantor(true);
-        setRelation(patientOtherDetails?.client_relationship);
+        setRelation(patientOtherDetails?.relationship);
       } else {
         setGuarantor(false);
-        setRelation(patientOtherDetails?.client_relationship);
+        setRelation(patientOtherDetails?.relationship);
       }
     }, 0);
-  }, [patientOtherDetails?.client_relationship, patient_details, reset]);
+  }, [patientOtherDetails?.relationship, patient_details, reset]);
 
   const onSubmit = (data) => {
     console.log(data);
@@ -186,6 +185,7 @@ const PatientInfo = () => {
   };
 
   ///relation value handle
+  const [relation, setRelation] = useState(patientOtherDetails?.relationship);
   const settingRelation = (e) => {
     console.log("e value", e.target.value);
     if (e.target.value === "Self") {
@@ -273,7 +273,7 @@ const PatientInfo = () => {
             }}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 my-1 mr-2 gap-x-6 gap-y-1">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 my-1 mr-2 gap-x-6 gap-y-1 mt-5">
             {/* <div className="flex flex-wrap my-1 mr-2 md:gap-x-2 gap-y-5"> */}
             {/* address  */}
             <div className="pr-6">
@@ -380,22 +380,22 @@ const PatientInfo = () => {
           </div>
 
           <AboutPatient register={register}></AboutPatient>
-          <div className="divider"></div>
+          <Divider></Divider>
           <div className="flex ml-1 mt-1 items-center">
-            {/* <input
+            <input
               disabled={relation === "Self" ? true : false}
               type="checkbox"
-              // checked={relation !== "Self"}
+              checked={relation !== "Self"}
               onChange={handleChange}
               id="checkbox"
-            /> */}
-            <input
+            />
+            {/* <input
               disabled={relation === "Self"}
               type="checkbox"
               checked={Guarantor}
               onChange={handleChange}
               id="checkbox"
-            />
+            /> */}
 
             <span className="text-sm ml-1 text-gray-700 font-medium">
               Is Guarantor Available?
@@ -438,7 +438,7 @@ const PatientInfo = () => {
           </div>
           <div className="mb-24">
             {/* submit  */}
-            <button className="pms-button my-3" type="submit">
+            <button className="dtm-button my-3" type="submit">
               Save Patient
             </button>
           </div>

@@ -1,0 +1,385 @@
+.rdrSelected,
+.rdrInRange {
+    background: rgba(255, 0, 0, 0.788) !important;
+    /* background: #29c1d2 !important; */
+    border: #000;
+}
+
+.rdrStaticRanges {
+    gap: 0 5px;
+    padding: 4px;
+}
+
+/* .rdrMonthAndYearPickers select:hover {
+    background-color: hsla(186, 89%, 37%, 0.179) !important;
+} */
+
+.rdrStartEdge,
+.rdrEndEdge {
+    background-color: #0AA1B2 !important;
+}
+
+.rdrDateDisplayWrapper {
+    display: none !important;
+}
+
+.rdrDateDisplayWrapper {
+    background-color: #fff !important;
+}
+
+.rdrInputRanges {
+    display: none !important;
+}
+
+.rdrDefinedRangesWrapper {
+    /* width: 100% !important; */
+    padding-top: 50px !important;
+    width: 120px !important;
+    background-color: red;
+}
+
+/* .rdrStaticRange {
+    border-radius: 5px;
+} */
+
+.rdrDayNumber,
+.rdrDay {
+    color: #0AA1B2;
+}
+
+
+.rdrWeekDay {
+    color: #849095 !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    word-spacing: 2px;
+}
+
+.rdrDayNumber,
+.rdrMonthAndYearPicker>select {
+    font-size: 12px !important;
+    font-weight: 450 !important;
+    color: #898989 !important;
+}
+
+.rdrMonthAndYearWrapper {
+    height: 45px !important;
+    border-bottom: 1px solid #cececf9d;
+    padding: 13px 0;
+
+}
+
+.rdrDayToday .rdrDayNumber span:after {
+    background: #0AA1B2 !important;
+}
+
+.rdrMonthName,
+.rdrMonthPicker,
+.rdrYearPicker {
+    margin-top: 2px;
+    margin-left: -8px;
+    font-size: 14px !important;
+    padding: none;
+}
+
+.rdrMonthPicker {
+    /* margin-right: -10px !important; */
+    margin-left: -35px !important;
+    /* background-color: red; */
+    /* padding: 10px 0 !important; */
+    background-color: #EFF2F7;
+    border-radius: 5px;
+}
+
+.rdrYearPicker {
+    margin-left: 12px !important;
+    background-color: #EFF2F7;
+    border-radius: 5px;
+}
+
+.rdrMonth {
+    padding: 5px 15px !important;
+    border: 1px solid #eaeaea !important;
+    margin: 5px !important;
+    border-radius: 10px !important;
+}
+
+.rdrStaticRangeLabel {
+    font-size: 14px !important;
+    padding: 5px 10px !important;
+    font-weight: 450 !important;
+}
+
+.rdrStaticRangeLabel:hover {
+    background-color: #0AA1B2 !important;
+    color: #fff !important;
+    border-radius: 5px;
+}
+
+.rdrStaticRangeLabel:active {
+    background-color: #0AA1B2 !important;
+}
+
+.rdrMonth {
+    /* padding: 0 4px 0 8px !important; */
+    width: 250px !important;
+}
+
+.width-fix {
+    min-width: 100%;
+}
+
+.date-range {
+    box-shadow: 0px 3px 10px -1px rgba(110, 103, 103, 0.825) !important;
+    /* border: 1px solid #00a3b2; */
+}
+
+/* date range select year month */
+
+.rdrDefinedRangesWrapper .rdrStaticRangeSelected {
+    color: white !important;
+    font-weight: bolder;
+    border-radius: 5px;
+    background-color: #27d1e4;
+
+}
+
+.rdrDateRangePickerWrapper {
+    display: inline-flex;
+    user-select: none;
+    border-radius: 5px;
+}
+
+@media only screen and (max-width:465px) {
+    .rdrWeekDay {
+        font-size: 12px !important;
+    }
+
+    .rdrMonth {
+        padding: 0px !important;
+        width: 200px !important;
+    }
+
+    .rdrDateRangePickerWrapper,
+    .range-date-ok {
+        width: 100% !important;
+    }
+
+    .rdrNextPrevButton {
+        width: 15px !important;
+        margin: 0px !important;
+    }
+
+    .rdrMonthAndYearPickers select {
+        padding: 10px 20px 10px 0px !important;
+    }
+}
+
+@media only screen and (max-width:639px) {
+    .rdrMonths {
+        flex-direction: column !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+    }
+
+    .rdrDateRangePickerWrapper,
+    .range-date-ok {
+        width: 80% !important;
+    }
+}
+
+
+
+@media only screen and (max-width:400px) {
+
+    /* smartphones, iPhone, portrait 480x320 phones */
+    /* For mobile  */
+
+    .rdrWeekDay {
+        font-size: 12px !important;
+        /* background-color: red; */
+    }
+
+    .rdrMonth {
+        padding: 5px 5px !important;
+        width: 200px !important;
+    }
+
+    .rdrDateRangePickerWrapper,
+    .range-date-ok {
+        width: 90% !important;
+    }
+
+    .rdrNextPrevButton {
+        width: 19px !important;
+        margin: 0px !important;
+    }
+
+    .rdrNextPrevButton:hover {
+        width: 19px !important;
+        /* background-color: #0AA1B2 !important; */
+        margin: 0px !important;
+    }
+
+
+    .rdrStaticRanges {
+        margin-top: 10px;
+        flex-direction: column !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        width: 100%;
+    }
+
+    .rdrMonthPicker {
+        /* margin-right: -10px !important; */
+        margin-left: 0px !important;
+        /* background-color: red; */
+        /* padding: 10px 0 !important; */
+        background-color: #EFF2F7;
+        border-radius: 5px;
+    }
+
+    .rdrYearPicker {
+        margin-left: 0px !important;
+        padding: 0px 5px;
+        background-color: #EFF2F7;
+        border-radius: 5px;
+    }
+
+    .rdrNextButton i {
+        margin: 0 0 0 04px !important;
+
+    }
+
+}
+
+@media only screen and (max-width:639px) {
+
+    .rdrMonthPicker {
+        /* margin-right: -10px !important; */
+        margin-left: 0px !important;
+        /* background-color: red; */
+        /* padding: 10px 0 !important; */
+        background-color: #EFF2F7;
+        border-radius: 5px;
+    }
+
+    .rdrYearPicker {
+        margin-left: 0px !important;
+        padding: 0px 5px;
+        background-color: #EFF2F7;
+        border-radius: 5px;
+    }
+
+    .rdrNextButton i {
+        margin: 0 0 0 04px !important;
+
+    }
+
+
+    /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+    /* For mobile  */
+
+    .rdrDateRangePickerWrapper {
+        flex-direction: column-reverse;
+    }
+
+    .rdrDateRangePickerWrapper,
+    .range-date-ok {
+        width: 100% !important;
+    }
+
+    .rdrStaticRanges {
+        flex-direction: column !important;
+    }
+
+    .rdrMonth {
+        padding: 0px 5px !important;
+    }
+
+    .rdrStaticRangeLabel {
+        border: 1px solid #e5e5e5;
+        align-items: center !important;
+    }
+
+    .rdrMonthAndYearPickers {
+        margin: 0 auto !important;
+    }
+
+    .rdrDateRangePickerWrapper {
+        flex-direction: column-reverse;
+    }
+
+    .rdrStaticRanges {
+        margin-top: 10px;
+        flex-direction: column !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        /* align-items: center !important; */
+        /* border: 1PX solid #8e8e93; */
+        width: 100%;
+    }
+
+}
+
+@media only screen and (max-width: 768px) and (min-width: 400px) {
+
+    /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+    .rdrDateRangePickerWrapper {
+        flex-direction: column-reverse;
+    }
+
+    .rdrStaticRanges {
+        flex-direction: column !important;
+    }
+
+    .rdrDefinedRangesWrapper {
+        /* border-right: none !important; */
+        /* border-bottom: 1px solid #afafaf; */
+        padding-top: 10px !important;
+        width: 100% !important
+    }
+
+    .rdrMonth {
+        padding: 0px 15px !important;
+    }
+
+    .rdrStaticRangeLabel {
+        border: 1pxsolid #e5e5e5;
+        align-items: center !important;
+    }
+
+    .rdrMonthAndYearPickers {
+        margin: 0 auto !important;
+    }
+
+    .rdrDateRangePickerWrapper {
+        flex-direction: column-reverse;
+    }
+
+    .rdrStaticRanges {
+        /* background-color: red; */
+        flex-direction: column !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        /* align-items: center !important; */
+        /* border: 1PX solid #8e8e93; */
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width:1023px) {
+    .rdrDateRangePickerWrapper {
+        flex-direction: column-reverse !important;
+    }
+
+    .rdrStaticRanges {
+        flex-direction: column !important;
+    }
+
+    .rdrDefinedRangesWrapper {
+        width: 100% !important;
+        padding-top: 0px !important;
+        border-right: none !important;
+    }
+}

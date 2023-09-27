@@ -11,7 +11,6 @@ import Image from "next/image";
 
 const LogInForm = () => {
   const [value, setValue] = useState(false);
-
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 

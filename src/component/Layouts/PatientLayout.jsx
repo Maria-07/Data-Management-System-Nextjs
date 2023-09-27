@@ -19,10 +19,13 @@ import { getAccessToken } from "@/Redux/api/apiSlice";
 const PatientLayout = ({ id, children }) => {
   //! Theme system
   const { theme } = useTheme();
-  const [patientId, setPatientId] = useState(id);
+  // const [patientId, setPatientId] = useState(id);
+
+  const patientId = localStorage.getItem("PId");
+  console.log("user iddd", patientId);
 
   //! main parent component for all patient related components
-  localStorage.setItem("p_key", id);
+  // localStorage.setItem("p_key", id);
   const token = getAccessToken();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -48,6 +51,11 @@ const PatientLayout = ({ id, children }) => {
       icon: <AiOutlineFileAdd />,
       link_name: "Patient Vob",
       link: `/admin/patients/patient-vob/${patientId}`,
+    },
+    {
+      icon: <AiOutlineFileAdd />,
+      link_name: "Patient Authorization",
+      link: `/admin/patients/patient-authorization/${patientId}`,
     },
     {
       icon: <IoDocumentTextOutline />,

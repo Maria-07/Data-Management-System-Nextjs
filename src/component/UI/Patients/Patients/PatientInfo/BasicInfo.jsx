@@ -123,6 +123,7 @@ const BasicInfo = ({ adData }) => {
             </span>
           </label>
           <select
+            // defaultValue={relationship}
             {...register("relationship")}
             onChange={settingRelation}
             className="input-border-bottom mt-[7px] input-font  w-full focus:outline-none"

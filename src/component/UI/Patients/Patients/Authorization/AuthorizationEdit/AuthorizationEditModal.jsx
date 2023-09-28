@@ -1,32 +1,29 @@
-import { getAccessToken } from "@/Redux/api/apiSlice";
+// This code is useless so need to delete this one
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { IoCloseCircleOutline } from "react-icons/io5";
+import { Input, Modal } from "antd";
+import { toast } from "react-toastify";
 import {
   useGetActivityCptcodeMutation,
   useGetActivitySubtypesQuery,
   useGetSettingServiceMutation,
   usePatientAuthorizationActivityCreateMutation,
 } from "@/Redux/features/patient/authorization/authorizationApi";
+import { getAccessToken } from "@/Redux/api/apiSlice";
 import Loading from "@/component/UI/Layouts/Loading";
-import ModalLoader from "@/component/UI/Layouts/ModalLoader";
-import { Input, Modal } from "antd";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { IoCloseCircleOutline } from "react-icons/io5";
 
 const { TextArea } = Input;
 
-const AuthorizationActivityAddModal = ({
-  id,
-  handleClose,
-  open,
-  treatment_name,
-}) => {
+const AuthorizationEditModal = ({ handleClose, open, treatment_name }) => {
   // console.log("getting treatment_name:-", treatment_name);
   const { register, handleSubmit, reset } = useForm();
   const [notes, setNotes] = useState("");
   const patientId = localStorage.getItem("PId");
   const [billed, setBilled] = useState("");
-
   const token = getAccessToken();
+
+  console.log("billed", billed);
 
   //Patient authorization activity create/save api
   const [
@@ -38,12 +35,7 @@ const AuthorizationActivityAddModal = ({
   const [
     getSettingService,
     { data: activityServices, isLoading: activityServicesLoading },
-  ] = useGetSettingServiceMutation({
-    token,
-    payload: {
-      treatment_name,
-    },
-  });
+  ] = useGetSettingServiceMutation();
   useEffect(() => {
     getSettingService({
       token,
@@ -51,7 +43,7 @@ const AuthorizationActivityAddModal = ({
         treatment_name,
       },
     });
-  }, [token, treatment_name]);
+  }, [getSettingService, token, treatment_name]);
 
   const { data: activitySubtypes, isLoading: activitySubtypesLoading } =
     useGetActivitySubtypesQuery({
@@ -64,7 +56,7 @@ const AuthorizationActivityAddModal = ({
     getActivityCptcode,
     { data: activityCptCode, isLoading: activityCptLoading },
   ] = useGetActivityCptcodeMutation();
-
+  // console.log(activityServices, activitySubtypes, activityCptCode);
   useEffect(() => {
     getActivityCptcode({
       token,
@@ -72,8 +64,7 @@ const AuthorizationActivityAddModal = ({
         treatment_name,
       },
     });
-  }, [token, treatment_name]);
-  console.log(activityServices, activitySubtypes, activityCptCode);
+  }, [getActivityCptcode, token, treatment_name]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -490,4 +481,4 @@ const AuthorizationActivityAddModal = ({
   );
 };
 
-export default AuthorizationActivityAddModal;
+export default AuthorizationEditModal;

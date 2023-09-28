@@ -41,7 +41,7 @@ const DynamicPhone = ({ adData }) => {
               </div>
               <div>
                 <select
-                  className="input-border-bottom mt-[2px] input-font w-16 focus:outline-none"
+                  className="input-border-bottom mt-[2px] pb-1 input-font w-16 focus:outline-none"
                   {...register("group")}
                 >
                   <option value="work">work</option>

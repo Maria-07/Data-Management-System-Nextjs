@@ -23,7 +23,7 @@ const DynamicEmail = ({ adData }) => {
               </div>
               <div>
                 <select
-                  className="input-border-bottom input-font mt-[2px] w-16 focus:outline-none"
+                  className="input-border-bottom input-font pb-1 mt-[2px] w-16 focus:outline-none"
                   {...register(`group2${index}`)}
                 >
                   <option value="work">work</option>

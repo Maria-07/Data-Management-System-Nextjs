@@ -5,6 +5,8 @@ import PatientLayout from "@/component/Layouts/PatientLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
 import Loading from "@/component/UI/Layouts/Loading";
 import AuthorizationActivityTable from "@/component/UI/Patients/Patients/Authorization/AuthorizationActivityTable/AuthorizationActivityTable";
+import AuthorizationEditModal from "@/component/UI/Patients/Patients/Authorization/AuthorizationEdit/AuthorizationEditModal";
+import SelectContactRate from "@/component/UI/Patients/Patients/Authorization/SelectContactRate";
 import { Table } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -13,13 +15,12 @@ import { AiFillDelete, AiOutlineEdit, AiOutlinePlus } from "react-icons/ai";
 import { BiCopy, BiSolidCircle } from "react-icons/bi";
 
 const PatientAuth = () => {
-  const token = getAccessToken();
-
   //! Id get
   const router = useRouter();
   const { query } = router;
   const id = query.patientAuth;
   console.log(id);
+  const token = getAccessToken();
 
   //! get patient authorization api
   const { data: authorizationData, isLoading: authorizationloading } =
@@ -75,6 +76,11 @@ const PatientAuth = () => {
       keys.push(record.id); // I have set my record.id as row key. Check the documentation for more details.
     }
     setExpandedRowKeys(keys);
+  };
+
+  const handleClose = () => {
+    setOpenEditModal(false);
+    setSelectContact(false);
   };
 
   const columns = [
@@ -268,14 +274,14 @@ const PatientAuth = () => {
       {" "}
       <div className="h-[100vh]">
         <div className="h-[100%]">
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
             <h1 className="text-[14px] font-semibold">Authorization</h1>
             <div className="flex items-center gap-2 flex-wrap">
-              <button onClick={clearFilters} className="pms-clear-button">
+              <button onClick={clearFilters} className="dcm-clear-button">
                 Clear filters
               </button>
-              <Link href={"/admin/authorization-add"}>
-                <button className="pms-button">+ Add Authorization</button>
+              <Link href={"/admin/patients/patient-authorization/add-auth"}>
+                <button className="dtm-button">+ Add Authorization</button>
               </Link>
             </div>
           </div>
@@ -305,7 +311,8 @@ const PatientAuth = () => {
             )}
           </div>
         </div>
-        {/* {selectContact && (
+
+        {selectContact && (
           <SelectContactRate
             handleClose={handleClose}
             open={selectContact}
@@ -319,7 +326,7 @@ const PatientAuth = () => {
             open={openEditModal}
             // editableRow={editableRow}
           ></AuthorizationEditModal>
-        )} */}
+        )}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ const Loading = () => {
       <div className="flex h-[84vh] items-center justify-center">
         <button
           type="button"
-          className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-cyan-600 hover:bg-cyan-400 transition ease-in-out duration-150 cursor-not-allowed"
+          className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-secondary hover:bg-secondary transition ease-in-out duration-150 cursor-not-allowed"
           disabled=""
         >
           <svg

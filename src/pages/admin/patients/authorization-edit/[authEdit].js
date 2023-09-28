@@ -18,6 +18,7 @@ import { Switch } from "antd";
 import AuthorizationActivityNestedTable from "@/component/UI/Patients/Patients/Authorization/AuthorizationEdit/AuthorizationActivityNestedTable";
 import AuthorizationActivityAddModal from "@/component/UI/Patients/Patients/Authorization/AuthorizationActivityTable/AuthorizationActivityAddModal";
 import RootLayout from "@/component/Layouts/RootLayout";
+import { FaArrowsAltH } from "react-icons/fa";
 
 const AuthorizationEdit = () => {
   // console.log("single authorization data edit id ", id);
@@ -343,12 +344,15 @@ const AuthorizationEdit = () => {
       </div>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-lg font-medium mx-1">Edit Auth</h1>
-        <Link href={`/admin/patients/patient-authorization/${patientId}`}>
-          <button className="px-2 flex items-center py-2 bg-gradient-to-r from-secondary to-primary text-xs font-medium  hover:to-secondary text-white rounded-md">
+        {/* <Link href={`/admin/patients/patient-authorization/${patientId}`}>
+          <button
+            type="button"
+            className="px-2 flex items-center py-2 bg-gradient-to-r from-secondary to-primary text-xs font-medium  hover:to-secondary text-white rounded-md"
+          >
             <IoCaretBackCircleOutline className="mr-1 text-sm" />
             Back
           </button>
-        </Link>
+        </Link> */}
       </div>
       <motion.div
         initial={{ opacity: 0, y: 15 }}
@@ -360,26 +364,26 @@ const AuthorizationEdit = () => {
             <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mb-3 mr-2 gap-x-6 gap-y-3">
               <div>
                 <label className="label">
-                  <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
+                  <h1 className="label-font mb-1 mt-3  ml-1">
                     Description<span className="text-red-500">*</span>
-                  </span>
+                  </h1>
                 </label>
                 <input
                   type="text"
                   name="description"
-                  className="input-border text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                   {...register("description")}
                 />
               </div>
               <div>
                 <label className="label">
-                  <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
+                  <h1 className="label-font mb-1 mt-3  ml-1">
                     Insurance
                     <span className="text-red-500">*</span>
-                  </span>
+                  </h1>
                 </label>
                 <select
-                  className="input-border text-gray-600 rounded-sm  text-[14px] font-medium ml-1  w-full focus:outline-none"
+                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1  w-full focus:outline-none"
                   {...register("payor_id")}
                 >
                   {payor_id ? (
@@ -406,13 +410,13 @@ const AuthorizationEdit = () => {
               </div>
               <div>
                 <label className="label">
-                  <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
+                  <h1 className="label-font mb-1 mt-3  ml-1">
                     Tx Type
                     <span className="text-red-500">*</span>
-                  </span>
+                  </h1>
                 </label>
                 <select
-                  className="input-border text-gray-600 rounded-sm  text-[14px] font-medium ml-1  w-full focus:outline-none"
+                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1  w-full focus:outline-none"
                   {...register("treatment_type")}
                   onChange={(e) => setTreatmentType(e.target.value)}
                 >
@@ -437,13 +441,13 @@ const AuthorizationEdit = () => {
               </div>
               <div>
                 <label className="label">
-                  <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
+                  <h1 className="label-font mb-1 mt-3  ml-1">
                     SUPV. Provider
                     <span className="text-red-500">*</span>
-                  </span>
+                  </h1>
                 </label>
                 <select
-                  className="input-border text-gray-600 rounded-sm  text-[14px] font-medium ml-1  w-full focus:outline-none"
+                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1  w-full focus:outline-none"
                   {...register("supervisor_id")}
                 >
                   {supervisor_id ? (
@@ -470,12 +474,10 @@ const AuthorizationEdit = () => {
               </div>
               <div>
                 <label className="label">
-                  <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
-                    Selected date
-                  </span>
+                  <h1 className="label-font mb-1 mt-3  ml-1">Selected date</h1>
                 </label>
                 <div className="ml-1">
-                  <div className="flex  justify-between items-center text-gray-600 input-border rounded-sm px-1 mx-1 w-full">
+                  <div className="flex  justify-between items-center text-gray-600 input-border-bottom rounded-sm px-1 mx-1 w-full">
                     <input
                       value={
                         startDate
@@ -485,12 +487,12 @@ const AuthorizationEdit = () => {
                       readOnly
                       onClick={() => setOpenCalendar(true)}
                       {...register("start_date")}
-                      className="focus:outline-none font-medium text-center pb-[1.8px] text-[14px] text-gray-600 bg-transparent w-2/5 cursor-pointer"
+                      className="focus:outline-none font-semibold text-center pb-[1.8px] text-[14px] text-gray-600 bg-transparent w-2/5 cursor-pointer"
                     />
-                    <BiSolidRightArrow
+                    <FaArrowsAltH
                       onClick={() => setOpenCalendar(true)}
                       className="cursor-pointer mx-1 text-gray-600 text-[14px] font-medium w-1/5"
-                    ></BiSolidRightArrow>
+                    ></FaArrowsAltH>
                     <input
                       // defaultValue={"5-10-2034"}
                       value={
@@ -501,7 +503,7 @@ const AuthorizationEdit = () => {
                       readOnly
                       onClick={() => setOpenCalendar(true)}
                       {...register("end_date")}
-                      className="focus:outline-none font-medium text-center bg-transparent text-[14px] text-gray-600 w-2/5 cursor-pointer"
+                      className="focus:outline-none font-semibold text-center bg-transparent text-[14px] text-gray-600 w-2/5 cursor-pointer"
                     />
                   </div>
 
@@ -524,41 +526,41 @@ const AuthorizationEdit = () => {
 
               <div>
                 <label className="label">
-                  <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
+                  <h1 className="label-font mb-1 mt-3  ml-1">
                     Authorization Number
                     <span className="text-red-500">*</span>
-                  </span>
+                  </h1>
                 </label>
                 <input
                   type="text"
                   name="authorization_number"
-                  className="input-border text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                   {...register("authorization_number")}
                 />
               </div>
               <div>
                 <label className="label">
-                  <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
+                  <h1 className="label-font mb-1 mt-3  ml-1">
                     UCI / Insurance ID<span className="text-red-500">*</span>
-                  </span>
+                  </h1>
                 </label>
                 <input
                   type="text"
                   name="uci_id"
-                  className="input-border text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                   {...register("uci_id")}
                 />
               </div>
 
               <div>
                 <label className="label">
-                  <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
+                  <h1 className="label-font mb-1 mt-3  ml-1">
                     COB
                     <span className="text-red-500">*</span>
-                  </span>
+                  </h1>
                 </label>
                 <select
-                  className="input-border text-gray-600 rounded-sm  text-[14px] font-medium ml-1  w-full focus:outline-none"
+                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1  w-full focus:outline-none"
                   {...register("is_primary")}
                 >
                   <option value="">Select Any</option>
@@ -570,9 +572,9 @@ const AuthorizationEdit = () => {
 
               <div className="">
                 <label className="label">
-                  <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
+                  <h1 className="label-font mb-1 mt-3  ml-1">
                     Upload Authorization
-                  </span>
+                  </h1>
                 </label>
                 <input
                   type="file"
@@ -584,28 +586,26 @@ const AuthorizationEdit = () => {
               <div className=" grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2  mr-2 gap-x-4 gap-y-1">
                 <div>
                   <label className="label">
-                    <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
+                    <h1 className="label-font mb-1 mt-3  ml-1">
                       Diagnosis1<span className="text-red-500">*</span>
-                    </span>
+                    </h1>
                   </label>
                   <input
                     type="text"
                     name="diagnosis1"
-                    className="input-border text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                     {...register("diagnosis_one")}
                   />
                 </div>
                 <div>
                   <label className="label">
-                    <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
-                      Diagnosis2
-                    </span>
+                    <h1 className="label-font mb-1 mt-3  ml-1">Diagnosis2</h1>
                   </label>
                   <input
                     type="text"
                     name="diagnosis2"
                     // className="border border-gray-300 rounded-sm py-[5px] mx-2 text-xs w-full"
-                    className="input-border text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                     {...register("diagnosis_two")}
                   />
                 </div>
@@ -614,27 +614,25 @@ const AuthorizationEdit = () => {
               <div className=" grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 mr-2 gap-x-4 gap-y-1">
                 <div>
                   <label className="label">
-                    <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
+                    <h1 className="label-font mb-1 mt-3  ml-1">
                       Diagnosis3<span className="text-red-500">*</span>
-                    </span>
+                    </h1>
                   </label>
                   <input
                     type="text"
                     name="diagnosis3"
-                    className="input-border text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                     {...register("diagnosis_three")}
                   />
                 </div>
                 <div>
                   <label className="label">
-                    <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
-                      Diagnosis4
-                    </span>
+                    <h1 className="label-font mb-1 mt-3  ml-1">Diagnosis4</h1>
                   </label>
                   <input
                     type="text"
                     name="diagnosis4"
-                    className="input-border text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                     {...register("diagnosis_four")}
                   />
                 </div>
@@ -643,14 +641,12 @@ const AuthorizationEdit = () => {
               <div className=" grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2  mr-2 gap-x-4 gap-y-1">
                 <div>
                   <label className="label">
-                    <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
-                      Deductible
-                    </span>
+                    <h1 className="label-font mb-1 mt-3  ml-1">Deductible</h1>
                   </label>
                   <input
                     type="text"
                     name="diagnosis1"
-                    className="input-border text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                     {...register("deductible")}
                   />
                 </div>
@@ -670,40 +666,38 @@ const AuthorizationEdit = () => {
 
               <div>
                 <label className="label">
-                  <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
-                    CoPay
-                  </span>
+                  <h1 className="label-font mb-1 mt-3  ml-1">CoPay</h1>
                 </label>
                 <input
                   type="text"
                   name="copay"
-                  className="input-border text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                   {...register("copay")}
                 />
               </div>
               <div>
                 <label className="label">
-                  <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
+                  <h1 className="label-font mb-1 mt-3  ml-1">
                     CMS 4 (Insured Name)
-                  </span>
+                  </h1>
                 </label>
                 <input
                   type="text"
                   name="cms4"
-                  className="input-border text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                   {...register("cms_four")}
                 />
               </div>
               <div>
                 <label className="label">
-                  <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
+                  <h1 className="label-font mb-1 mt-3  ml-1">
                     CMS 11 (Group No)
-                  </span>
+                  </h1>
                 </label>
                 <input
                   type="text"
                   name="cms11"
-                  className="input-border text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                   {...register("cms_eleven")}
                 />
               </div>
@@ -731,9 +725,7 @@ const AuthorizationEdit = () => {
               </div>
               <div>
                 <label className="label">
-                  <span className="label-font text-[13px] font-medium text-[#00a1b1] text-left">
-                    Notes
-                  </span>
+                  <h1 className="label-font mb-1 mt-3  ml-1">Notes</h1>
                 </label>
                 <textarea
                   {...register("notes")}
@@ -744,12 +736,12 @@ const AuthorizationEdit = () => {
               </div>
             </div>
             {/* submit  */}
-            <button className=" pms-button" type="submit">
+            <button className=" dtm-button" type="submit">
               Save
             </button>
 
             <Link href={`/admin/patient/patient-authorization/${patientId}`}>
-              <button className=" ml-2 pms-close-button" autoFocus>
+              <button className=" ml-2 dcm-close-button" autoFocus>
                 Cancel
               </button>
             </Link>
@@ -763,7 +755,6 @@ const AuthorizationEdit = () => {
           transition={{ delay: 0.3 }}
         >
           <div className="divider"></div>
-
           <div className="flex justify-end">
             <button
               // disabled={treatmentType ? false : true}
@@ -787,6 +778,7 @@ const AuthorizationEdit = () => {
       )}
       {addServiceModal && (
         <AuthorizationActivityAddModal
+          id={id}
           treatment_name={treatmentType}
           handleClose={handleClose}
           open={addServiceModal}

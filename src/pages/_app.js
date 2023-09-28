@@ -5,6 +5,8 @@ import "@/styles/component.css";
 import "@/styles/antd5Custom.css";
 import "@/styles/settings.css";
 import "@/styles/CustomDateRange.css";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 // import "@/styles/textEditor.css";
 import { Provider } from "react-redux";
 import store from "@/Redux/store";

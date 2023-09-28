@@ -22,7 +22,7 @@ const PrimaryEmail = ({ adData }) => {
             </div>
             <div>
               <select
-                className="input-border-bottom input-font mt-[2px] w-16 focus:outline-none"
+                className="input-border-bottom input-font mt-[2px] pb-[3px] w-16 focus:outline-none"
                 {...register("group2")}
               >
                 <option value="work">work</option>

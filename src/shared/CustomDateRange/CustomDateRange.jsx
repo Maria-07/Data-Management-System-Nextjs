@@ -35,7 +35,7 @@ const CustomDateRange = ({ setRange, range, handleCancelDate, setOpen }) => {
           editableDateInputs={true}
           moveRangeOnFirstSelection={false}
           ranges={range}
-          rangeColors={["#0AA7B8"]}
+          rangeColors={["#4F709C"]}
           months={2}
           direction="horizontal"
           className="border-2 border-gray-100 p-2 sm:p-0 bg-white"
@@ -72,21 +72,23 @@ const CustomDateRange = ({ setRange, range, handleCancelDate, setOpen }) => {
           ]}
         />
       </div>
-      <div className="text-right w-full bg-[#26818F]  rounded-b-md range-date-ok py-2 pr-1 shadow-xl">
-        <button
-          className="px-4 m-1 py-1 text-white border border-white rounded hover:border-red-700 hover:bg-red-700"
-          type="submit"
-          onClick={handleCancelDate}
-        >
-          Cancel
-        </button>
-        <button
-          className="px-4 m-1 py-1 text-secondary border border-white bg-white rounded"
-          type="submit"
-          onClick={() => setOpen(false)}
-        >
-          Save
-        </button>
+      <div className="w-full bg-secondary py-2 flex items-end justify-end rounded-b-md shadow-xl">
+        <div className="mr-3">
+          <button
+            className="dcm-close-button mr-2"
+            type="submit"
+            onClick={handleCancelDate}
+          >
+            Cancel
+          </button>
+          <button
+            className="dtm-button"
+            type="submit"
+            onClick={() => setOpen(false)}
+          >
+            Save
+          </button>
+        </div>
       </div>
     </motion.div>
   );

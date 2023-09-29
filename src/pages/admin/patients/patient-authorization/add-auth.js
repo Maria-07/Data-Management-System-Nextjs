@@ -63,11 +63,12 @@ const AddAuthorization = () => {
     return [mnth, day, date.getFullYear()].join("/");
   }
 
-  //Date Range Picker
+  //!-------------------Date Range Picker
   const [openCalendar, setOpenCalendar] = useState(false);
   const [range, setRange] = useState([
     {
-      startDate: new Date(),
+      // startDate: new Date(),
+      startDate: null,
       endDate: null,
       key: "selection",
     },
@@ -83,11 +84,11 @@ const AddAuthorization = () => {
     ]);
     setOpenCalendar(false);
   };
-  console.log(auth);
 
-  // date range picker calendar
+  // date range picker Start Date and End Date Modifer Part
   const startDate = range ? range[0]?.startDate : null;
   const endDate = range ? range[0]?.endDate : null;
+  // console.log("calender date", startDate, endDate);
   const startMonth = startDate
     ? startDate.toLocaleString("en-us", { month: "short" })
     : null;
@@ -100,6 +101,24 @@ const AddAuthorization = () => {
     ? startDate.getFullYear().toString().slice(2, 4)
     : null;
   const endYear = endDate ? endDate.getFullYear().toString().slice(2, 4) : null;
+
+  //!-------------------Date Range Picker END
+
+  // // date range picker calendar
+  // const startDate = range ? range[0]?.startDate : null;
+  // const endDate = range ? range[0]?.endDate : null;
+  // const startMonth = startDate
+  //   ? startDate.toLocaleString("en-us", { month: "short" })
+  //   : null;
+  // const endMonth = endDate
+  //   ? endDate.toLocaleString("en-us", { month: "short" })
+  //   : null;
+  // const startDay = startDate ? startDate.getDate() : null;
+  // const endDay = endDate ? endDate.getDate() : null;
+  // const startYear = startDate
+  //   ? startDate.getFullYear().toString().slice(2, 4)
+  //   : null;
+  // const endYear = endDate ? endDate.getFullYear().toString().slice(2, 4) : null;
 
   //test design
   const [clicked, setClicked] = useState(false);
@@ -162,6 +181,7 @@ const AddAuthorization = () => {
         theme: "dark",
       });
       reset();
+      router.push(`/admin/patients/patient-authorization/${patientId}`);
     } else if (createError) {
       toast.error("Some Error Occured", {
         position: "top-center",
@@ -301,7 +321,7 @@ const AddAuthorization = () => {
                 <h1 className="label-font mb-1 mt-3  ml-1">Selected date</h1>
               </label>
               <div className="ml-1">
-                <div className="flex flex-wrap justify-between items-center text-gray-600 input-border-bottom rounded-sm px-1 mx-1 w-full">
+                <div className="flex  justify-between items-center text-gray-600 input-border-bottom rounded-sm px-1 mx-1 w-full">
                   <input
                     value={
                       startDate

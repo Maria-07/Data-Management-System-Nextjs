@@ -1,6 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { getAccessToken } from "@/Redux/api/apiSlice";
-import { useGetPatientAuthorizationQuery } from "@/Redux/features/patient/authorization/authorizationApi";
+import {
+  useGetPatientAuthorizationQuery,
+  usePatientAuthorizationDeleteMutation,
+} from "@/Redux/features/patient/authorization/authorizationApi";
 import PatientLayout from "@/component/Layouts/PatientLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
 import Loading from "@/component/UI/Layouts/Loading";
@@ -34,10 +37,32 @@ const PatientAuth = () => {
   const clientAuthorizationData = authorizationData?.allAuthorization || [];
   const clientSelectedPayors = authorizationData?.selectedPayors || [];
 
+  console.log("Patient Auth = ", clientAuthorizationData);
+  console.log("Patient clientSelectedPayors = ", clientSelectedPayors);
+
   const editAuth = (record) => {
     //console.log("editdata edit", record);
     router.push(`/admin/patients/authorization-edit/${record?.id}`);
     // navigate();
+  };
+
+  const [
+    patientAuthorizationDelete,
+    { isSuccess: deleteSuccess, isError: deleteError },
+  ] = usePatientAuthorizationDeleteMutation();
+
+  const handleDelete = (record) => {
+    console.log("delete record", record?.id);
+    if (record?.id) {
+      const res = patientAuthorizationDelete({
+        token,
+        payload: {
+          id: record?.id,
+        },
+      });
+
+      console.log("res delete", res);
+    }
   };
 
   //! table info
@@ -324,6 +349,7 @@ const PatientAuth = () => {
           <AuthorizationEditModal
             handleClose={handleClose}
             open={openEditModal}
+            authorizationId={id}
             // editableRow={editableRow}
           ></AuthorizationEditModal>
         )}

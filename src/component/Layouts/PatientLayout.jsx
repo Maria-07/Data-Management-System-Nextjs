@@ -2,11 +2,18 @@ import { motion } from "framer-motion";
 import SettingSidebar from "../UI/Layouts/Sidebar/SettingSidebar";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
-import { BiData, BiUserCircle } from "react-icons/bi";
+import {
+  BiData,
+  BiSolidUserRectangle,
+  BiTimer,
+  BiUserCircle,
+} from "react-icons/bi";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
+  IoCall,
   IoCaretBackCircleOutline,
+  IoCloudUploadOutline,
   IoDocumentTextOutline,
 } from "react-icons/io5";
 import Image from "next/image";
@@ -15,6 +22,7 @@ import { AiOutlineFileAdd } from "react-icons/ai";
 import { getPatientsDetails } from "@/Redux/features/patient/patientSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getAccessToken } from "@/Redux/api/apiSlice";
+import { FaBusinessTime } from "react-icons/fa";
 
 const PatientLayout = ({ id, children }) => {
   //! Theme system
@@ -22,7 +30,7 @@ const PatientLayout = ({ id, children }) => {
   // const [patientId, setPatientId] = useState(id);
 
   const patientId = localStorage.getItem("PId");
-  console.log("user iddd", patientId);
+  // console.log("user iddd", patientId);
 
   //! main parent component for all patient related components
   // localStorage.setItem("p_key", id);
@@ -53,14 +61,34 @@ const PatientLayout = ({ id, children }) => {
       link: `/admin/patients/patient-vob/${patientId}`,
     },
     {
-      icon: <AiOutlineFileAdd />,
+      icon: <BiSolidUserRectangle />,
       link_name: "Patient Authorization",
       link: `/admin/patients/patient-authorization/${patientId}`,
     },
     {
       icon: <IoDocumentTextOutline />,
-      link_name: "Patient Documents",
+      link_name: "Documents",
       link: `/admin/patients/patient-documents/${patientId}`,
+    },
+    {
+      icon: <FaBusinessTime />,
+      link_name: "Patient Ledger",
+      link: `/admin/patients/patient-ledger/${patientId}`,
+    },
+    {
+      icon: <BiTimer />,
+      link_name: "Patient Portal",
+      link: `/admin/patients/patient-portal/${patientId}`,
+    },
+    {
+      icon: <IoCloudUploadOutline />,
+      link_name: "Patient Intake",
+      link: `/admin/patients/patient-intake/${patientId}`,
+    },
+    {
+      icon: <IoCall />,
+      link_name: "Call Log",
+      link: `/admin/patients/patient-callLog/${patientId}`,
     },
   ];
 

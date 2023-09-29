@@ -15,7 +15,12 @@ import Loading from "@/component/UI/Layouts/Loading";
 
 const { TextArea } = Input;
 
-const AuthorizationEditModal = ({ handleClose, open, treatment_name }) => {
+const AuthorizationEditModal = ({
+  authorizationId,
+  handleClose,
+  open,
+  treatment_name,
+}) => {
   // console.log("getting treatment_name:-", treatment_name);
   const { register, handleSubmit, reset } = useForm();
   const [notes, setNotes] = useState("");
@@ -36,6 +41,7 @@ const AuthorizationEditModal = ({ handleClose, open, treatment_name }) => {
     getSettingService,
     { data: activityServices, isLoading: activityServicesLoading },
   ] = useGetSettingServiceMutation();
+
   useEffect(() => {
     getSettingService({
       token,
@@ -44,6 +50,12 @@ const AuthorizationEditModal = ({ handleClose, open, treatment_name }) => {
       },
     });
   }, [getSettingService, token, treatment_name]);
+
+  console.log(
+    "getSettingService 🚩🚩🚩🚩🚩🚩",
+
+    getSettingService
+  );
 
   const { data: activitySubtypes, isLoading: activitySubtypesLoading } =
     useGetActivitySubtypesQuery({
@@ -56,6 +68,7 @@ const AuthorizationEditModal = ({ handleClose, open, treatment_name }) => {
     getActivityCptcode,
     { data: activityCptCode, isLoading: activityCptLoading },
   ] = useGetActivityCptcodeMutation();
+
   // console.log(activityServices, activitySubtypes, activityCptCode);
   useEffect(() => {
     getActivityCptcode({

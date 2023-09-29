@@ -19,11 +19,9 @@ import AuthorizationActivityNestedTable from "@/component/UI/Patients/Patients/A
 import AuthorizationActivityAddModal from "@/component/UI/Patients/Patients/Authorization/AuthorizationActivityTable/AuthorizationActivityAddModal";
 import RootLayout from "@/component/Layouts/RootLayout";
 import { FaArrowsAltH } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const AuthorizationEdit = () => {
-  // console.log("single authorization data edit id ", id);
-  // const patientId = localStorage.getItem("p_key");
-  // console.log(patientId);
   const [textNotes, setTextNotes] = useState("");
   const { register, handleSubmit, reset } = useForm();
   const [addServiceModal, setAddServiceModal] = useState(false);
@@ -32,17 +30,18 @@ const AuthorizationEdit = () => {
   const [startD, setStartD] = useState(null);
   const [endD, setEndD] = useState(null);
 
+  const handleClose = () => {
+    setAddServiceModal(false);
+  };
+
   //! Id get
   const router = useRouter();
   const { query } = router;
   const id = query.authEdit;
   const patientId = localStorage.getItem("PId");
-  console.log(id, patientId);
   const token = getAccessToken();
 
-  console.log("testing on change txtype", treatmentType);
-
-  //Patient authorization info API(ID wise)
+  //! Patient authorization info API(ID wise) and RTK-query
   const {
     data: authorizationInfo,
     isLaoding,
@@ -51,9 +50,8 @@ const AuthorizationEdit = () => {
     token,
     id,
   });
-  console.log("authorization info data", authorizationInfo);
 
-  //Patient Authorization Activity nested table data api
+  //! Patient Authorization Activity nested table data api
   const {
     data: allActivityData,
     isLoading: activityLoading,
@@ -65,21 +63,18 @@ const AuthorizationEdit = () => {
     },
   });
 
-  //Patient Authorization update api
+  //! Patient Authorization update api
   const [
     patientAuthorizationUpdate,
     { isSuccess: updateSuccess, isError: updateError },
   ] = usePatientAuthorizationUpdateMutation();
 
-  // console.log(
-  //   "authorization Activity data",
-  //   allActivityData?.client_authorization_activity?.data
-  // );
   const allAuthorizationActivity = allActivityData?.patientActivities || [];
 
-  // API date Data Destructring
+  //! API date Data Destructring
   let selectedDate =
     authorizationInfo?.client_authorization_info?.selected_date || null;
+
   // API Destructuring
   const {
     description,
@@ -104,19 +99,6 @@ const AuthorizationEdit = () => {
     is_primary,
     notes,
   } = authorizationInfo?.client_authorization_info || {};
-  console.log("Notes", notes);
-  //All payors array
-  const txType = authorizationInfo?.treatment_types;
-  console.log("all tx types", txType);
-  //All supervisor array
-  const insurance = authorizationInfo?.all_payors;
-  //All treatment types
-  const supvProvider = authorizationInfo?.supervisor;
-
-  //initial TxType
-  useEffect(() => {
-    setTreatmentType(treatment_type);
-  }, [treatment_type]);
 
   //Toggle handler code
   const [network, setNetwork] = useState(BoolConverter(in_network));
@@ -124,6 +106,20 @@ const AuthorizationEdit = () => {
   const [place_holder, setPlace_holder] = useState(
     BoolConverter(is_placeholder)
   );
+
+  //! All payors array
+  const txType = authorizationInfo?.treatment_types;
+
+  //!All supervisor array
+  const insurance = authorizationInfo?.all_payors;
+
+  //!All treatment types
+  const supvProvider = authorizationInfo?.supervisor;
+
+  //! initial TxType
+  useEffect(() => {
+    setTreatmentType(treatment_type);
+  }, [treatment_type]);
 
   useEffect(() => {
     setNetwork(BoolConverter(in_network));
@@ -137,13 +133,7 @@ const AuthorizationEdit = () => {
     setPlace_holder(BoolConverter(is_placeholder));
   }, [is_placeholder]);
 
-  console.log("after boolconversion call data", network, valid, place_holder);
-
-  const handleClose = () => {
-    setAddServiceModal(false);
-  };
-
-  //Date Range Picker
+  //!-------------------Date Range Picker
   const [openCalendar, setOpenCalendar] = useState(false);
   const [range, setRange] = useState([
     {
@@ -168,7 +158,7 @@ const AuthorizationEdit = () => {
   // date range picker Start Date and End Date Modifer Part
   const startDate = range ? range[0]?.startDate : null;
   const endDate = range ? range[0]?.endDate : null;
-  console.log("calender date", startDate, endDate);
+  // console.log("calender date", startDate, endDate);
   const startMonth = startDate
     ? startDate.toLocaleString("en-us", { month: "short" })
     : null;
@@ -181,6 +171,8 @@ const AuthorizationEdit = () => {
     ? startDate.getFullYear().toString().slice(2, 4)
     : null;
   const endYear = endDate ? endDate.getFullYear().toString().slice(2, 4) : null;
+
+  //!-------------------Date Range Picker END
 
   //Date spliter function
   const SingleDate = (x) => {
@@ -217,7 +209,7 @@ const AuthorizationEdit = () => {
       setEndD(convertToString(result?.last));
     }
   }, [selectedDate]);
-  console.log(startD, endD);
+  // console.log(startD, endD);
 
   // Hide calendar on outside click
   const refClose = useRef(null);
@@ -297,7 +289,7 @@ const AuthorizationEdit = () => {
       token,
       payload,
     });
-    console.log(payload);
+    // console.log(payload);
   };
 
   useEffect(() => {

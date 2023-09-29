@@ -1,6 +1,6 @@
 .rdrSelected,
 .rdrInRange {
-    background: rgba(255, 0, 0, 0.788) !important;
+    background-color: var(--primary-color) !important;
     /* background: #29c1d2 !important; */
     border: #000;
 }
@@ -16,7 +16,7 @@
 
 .rdrStartEdge,
 .rdrEndEdge {
-    background-color: #0AA1B2 !important;
+    background-color: var(--primary-color) !important;
 }
 
 .rdrDateDisplayWrapper {
@@ -35,7 +35,7 @@
     /* width: 100% !important; */
     padding-top: 50px !important;
     width: 120px !important;
-    background-color: red;
+    background-color: var(--primary-color);
 }
 
 /* .rdrStaticRange {
@@ -44,7 +44,7 @@
 
 .rdrDayNumber,
 .rdrDay {
-    color: #0AA1B2;
+    color: var(--primary-color);
 }
 
 
@@ -70,7 +70,7 @@
 }
 
 .rdrDayToday .rdrDayNumber span:after {
-    background: #0AA1B2 !important;
+    background: var(--primary-color) !important;
 }
 
 .rdrMonthName,
@@ -111,13 +111,13 @@
 }
 
 .rdrStaticRangeLabel:hover {
-    background-color: #0AA1B2 !important;
+    background-color: var(--secondary-shade) !important;
     color: #fff !important;
     border-radius: 5px;
 }
 
 .rdrStaticRangeLabel:active {
-    background-color: #0AA1B2 !important;
+    background-color: var(--primary-color) !important;
 }
 
 .rdrMonth {
@@ -140,7 +140,7 @@
     color: white !important;
     font-weight: bolder;
     border-radius: 5px;
-    background-color: #27d1e4;
+    background-color: var(--primary-color);
 
 }
 
@@ -217,7 +217,7 @@
 
     .rdrNextPrevButton:hover {
         width: 19px !important;
-        /* background-color: #0AA1B2 !important; */
+        /* background-color: var(--primary-color) !important; */
         margin: 0px !important;
     }
 

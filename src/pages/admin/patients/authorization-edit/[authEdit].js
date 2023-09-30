@@ -27,8 +27,6 @@ const AuthorizationEdit = () => {
   const [addServiceModal, setAddServiceModal] = useState(false);
   const [authEditData, setauthEditData] = useState([]);
   const [treatmentType, setTreatmentType] = useState();
-  const [startD, setStartD] = useState(null);
-  const [endD, setEndD] = useState(null);
 
   const handleClose = () => {
     setAddServiceModal(false);
@@ -134,6 +132,8 @@ const AuthorizationEdit = () => {
   }, [is_placeholder]);
 
   //!-------------------Date Range Picker
+  const [startD, setStartD] = useState(null);
+  const [endD, setEndD] = useState(null);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [range, setRange] = useState([
     {

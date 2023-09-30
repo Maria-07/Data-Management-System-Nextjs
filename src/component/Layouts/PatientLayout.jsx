@@ -4,6 +4,7 @@ import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import {
   BiData,
+  BiLogoPaypal,
   BiSolidUserRectangle,
   BiTimer,
   BiUserCircle,
@@ -18,11 +19,12 @@ import {
 } from "react-icons/io5";
 import Image from "next/image";
 import doctor from "../../assets/img/doctor.png";
-import { AiOutlineFileAdd } from "react-icons/ai";
+import { AiOutlineFileAdd, AiOutlineFileText } from "react-icons/ai";
 import { getPatientsDetails } from "@/Redux/features/patient/patientSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getAccessToken } from "@/Redux/api/apiSlice";
-import { FaBusinessTime } from "react-icons/fa";
+import { FaBusinessTime, FaUsers } from "react-icons/fa";
+import { BsClipboard2Data } from "react-icons/bs";
 
 const PatientLayout = ({ id, children }) => {
   //! Theme system
@@ -89,6 +91,26 @@ const PatientLayout = ({ id, children }) => {
       icon: <IoCall />,
       link_name: "Call Log",
       link: `/admin/patients/patient-callLog/${patientId}`,
+    },
+    {
+      icon: <FaUsers />,
+      link_name: "Sibling",
+      link: `/admin/patients/patient-sibling/${patientId}`,
+    },
+    {
+      icon: <BiLogoPaypal />,
+      link_name: "Patient Payment",
+      link: `/admin/patients/patient-payment-info/${patientId}`,
+    },
+    {
+      icon: <BsClipboard2Data />,
+      link_name: "Session Notes",
+      link: `/admin/patients/patient-session-notes/${patientId}`,
+    },
+    {
+      icon: <AiOutlineFileText />,
+      link_name: "Clinicians Team",
+      link: `/admin/patients/patient-clinicians/${patientId}`,
     },
   ];
 

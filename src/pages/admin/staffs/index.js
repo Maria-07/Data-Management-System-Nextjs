@@ -254,7 +254,7 @@ const staffPage = () => {
       render: (_, { full_name, id }) => {
         return (
           <Link
-            href={`/admin/staff/staffs-biographic/${id}`}
+            href={`/admin/staffs/staff-bio/${id}`}
             className="text-secondary"
           >
             {full_name}

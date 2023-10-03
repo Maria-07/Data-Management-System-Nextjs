@@ -45,7 +45,7 @@ const menuItem = [
     icon: <BiUserCircle />,
   },
   {
-    path: "/staffs",
+    path: "/admin/staffs",
     name: "Staffs",
     icon: <BiUser />,
   },

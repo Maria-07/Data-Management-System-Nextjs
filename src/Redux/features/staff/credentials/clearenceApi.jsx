@@ -1,8 +1,6 @@
-//stuff crud operatios api will be handled here
+import { api } from "@/Redux/api/apiSlice";
 
-import { apiSlice } from "../../api/apiSlice";
-
-export const clearenceApi = apiSlice.injectEndpoints({
+export const clearenceApi = api.injectEndpoints({
   endpoints: (builder) => ({
     //Get clearence api
     getClearence: builder.query({

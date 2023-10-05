@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import {
   BiData,
   BiLogoPaypal,
+  BiSolidContact,
   BiSolidUserRectangle,
   BiTimer,
   BiUserCircle,
@@ -29,17 +30,82 @@ import { BsClipboard2Data } from "react-icons/bs";
 const StaffLayout = ({ children }) => {
   //! Theme system
   const { theme } = useTheme();
-  // const [patientId, setPatientId] = useState(id);
+  // const [staffId, setstaffId] = useState(id);
 
-  const patientId = localStorage.getItem("SId");
-  // console.log("user iddd", patientId);
+  const staffId = localStorage.getItem("SId");
+  // console.log("user iddd", staffId);
 
   //! links
-  const patientSidebar = [
+  const staffSidebar = [
     {
       icon: <BiUserCircle />,
-      link_name: "Patient Info",
-      link: `/admin/patients/patient-info/${patientId}`,
+      link_name: "Staff Bio",
+      link: `/admin/staffs/staff-bio/${staffId}`,
+    },
+    {
+      icon: <BiSolidContact />,
+      link_name: "Contact Info",
+      link: `/admin/staffs/contact-info/${staffId}`,
+    },
+    {
+      icon: <BiUserCircle />,
+      link_name: "Credential",
+      link: `/admin/staffs/credential/${staffId}`,
+    },
+    {
+      icon: <BiUserCircle />,
+      link_name: "Department Supervisor",
+      link: `/admin/staffs/department-supervisor/${staffId}`,
+    },
+    {
+      icon: <BiUserCircle />,
+      link_name: "Payroll Setup",
+      link: `/admin/staffs/payroll-setup/${staffId}`,
+    },
+    {
+      icon: <BiUserCircle />,
+      link_name: "Other SetUp",
+      link: `/admin/staffs/other-setUp/${staffId}`,
+    },
+    {
+      icon: <BiUserCircle />,
+      link_name: "Leave Tracking",
+      link: `/admin/staffs/leave-tracking/${staffId}`,
+    },
+    {
+      icon: <BiUserCircle />,
+      link_name: "Insurance Exclusion",
+      link: `/admin/staffs/insurance-exclusion/${staffId}`,
+    },
+    {
+      icon: <BiUserCircle />,
+      link_name: "Service Sub Type Exclusion",
+      link: `/admin/staffs/service-sub-type-exclusion/${staffId}`,
+    },
+    {
+      icon: <BiUserCircle />,
+      link_name: "Leave Tracking",
+      link: `/admin/staffs/leave-tracking/${staffId}`,
+    },
+    {
+      icon: <BiUserCircle />,
+      link_name: "Patient Exclusion",
+      link: `/admin/staffs/patient-exclusion/${staffId}`,
+    },
+    {
+      icon: <BiUserCircle />,
+      link_name: "Staff Portal",
+      link: `/admin/staffs/staff-portal/${staffId}`,
+    },
+    {
+      icon: <BiUserCircle />,
+      link_name: "Staff Portal",
+      link: `/admin/staffs/staff-portal/${staffId}`,
+    },
+    {
+      icon: <BiUserCircle />,
+      link_name: "Work Schedule",
+      link: `/admin/staffs/work-schedule/${staffId}`,
     },
   ];
 
@@ -83,7 +149,7 @@ const StaffLayout = ({ children }) => {
               />
             </div>
           </div>
-          {patientSidebar.map((s, i) => (
+          {staffSidebar.map((s, i) => (
             <SettingSidebar key={i} data={s}></SettingSidebar>
           ))}
         </motion.div>

@@ -1,6 +1,6 @@
-import { apiSlice } from "../../api/apiSlice";
+import { api } from "@/Redux/api/apiSlice";
 
-export const staffInfoApi = apiSlice.injectEndpoints({
+export const staffInfoApi = api.injectEndpoints({
   endpoints: (builder) => ({
     // get staff table and emergency table data
     staffContactInfo: builder.query({
@@ -46,4 +46,8 @@ export const staffInfoApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useStaffContactInfoQuery, useAddContactInfoMutation, useAddEmergencyContactInfoMutation } = staffInfoApi;
+export const {
+  useStaffContactInfoQuery,
+  useAddContactInfoMutation,
+  useAddEmergencyContactInfoMutation,
+} = staffInfoApi;

@@ -1,11 +1,11 @@
-import { apiSlice } from "../../api/apiSlice";
+import { api } from "@/Redux/api/apiSlice";
 
-export const qualificationApi = apiSlice.injectEndpoints({
+export const credentialApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    //Get qualification
-    getQualification: builder.query({
+    //Get staff credentials
+    getCredentials: builder.query({
       query: ({ token, page, id }) => ({
-        url: `inadmin/provider/qualification/list`,
+        url: `inadmin/provider/credential/list`,
         method: "POST",
         headers: {
           "content-type": "Application/json",
@@ -13,12 +13,13 @@ export const qualificationApi = apiSlice.injectEndpoints({
         },
         body: JSON.stringify({ page, id }),
       }),
-      providesTags: ["Qualification"],
+      providesTags: ["Credentials"],
     }),
-    //Add qualification
-    addQualification: builder.mutation({
+
+    //Add staff credential
+    addCredential: builder.mutation({
       query: ({ token, payload }) => ({
-        url: "inadmin/provider/qualification/save",
+        url: "inadmin/provider/credential/save",
         method: "POST",
         headers: {
           "content-type": "Application/json",
@@ -26,24 +27,24 @@ export const qualificationApi = apiSlice.injectEndpoints({
         },
         body: JSON.stringify(payload),
       }),
-      invalidatesTags: ["Qualification"],
+      invalidatesTags: ["Credentials"],
     }),
-    //get qualification table individual data
-    getQualificationInfo: builder.query({
+    //get staff credential table individual data
+    getcredentialinfo: builder.query({
       query: ({ token, id }) => ({
-        url: `inadmin/provider/single/qualification/${id}`,
+        url: `inadmin/provider/single/credential/${id}`,
         method: "GET",
         headers: {
           "content-type": "Application/json",
           "x-auth-token": token,
         },
       }),
-      providesTags: ["Qualification"],
+      providesTags: ["Credentials"],
     }),
-    //Update qualification info
-    updateQualification: builder.mutation({
+    //Update staff credential info
+    updateCredential: builder.mutation({
       query: ({ token, payload }) => ({
-        url: "inadmin/provider/qualification/update",
+        url: "inadmin/provider/credential/update",
         method: "POST",
         headers: {
           "content-type": "Application/json",
@@ -51,12 +52,12 @@ export const qualificationApi = apiSlice.injectEndpoints({
         },
         body: JSON.stringify(payload),
       }),
-      invalidatesTags: ["Qualification"],
+      invalidatesTags: ["Credentials"],
     }),
-    //Delete qualification by id
-    deleteQualification: builder.mutation({
+    //Delete staff credential info
+    deleteCredential: builder.mutation({
       query: ({ token, payload }) => ({
-        url: `inadmin/provider/qualification/delete`,
+        url: "inadmin/provider/credential/delete",
         method: "POST",
         headers: {
           "content-type": "Application/json",
@@ -64,15 +65,15 @@ export const qualificationApi = apiSlice.injectEndpoints({
         },
         body: JSON.stringify(payload),
       }),
-      invalidatesTags: ["Qualification"],
+      invalidatesTags: ["Credentials"],
     }),
   }),
 });
 
 export const {
-  useAddQualificationMutation,
-  useGetQualificationQuery,
-  useUpdateQualificationMutation,
-  useDeleteQualificationMutation,
-  useGetQualificationInfoQuery,
-} = qualificationApi;
+  useGetCredentialsQuery,
+  useAddCredentialMutation,
+  useUpdateCredentialMutation,
+  useGetcredentialinfoQuery,
+  useDeleteCredentialMutation,
+} = credentialApi;

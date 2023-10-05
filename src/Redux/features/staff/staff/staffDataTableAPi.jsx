@@ -1,6 +1,6 @@
-import { apiSlice } from "../../api/apiSlice";
+import { api } from "@/Redux/api/apiSlice";
 
-export const staffDataTableAPi = apiSlice.injectEndpoints({
+export const staffDataTableAPi = api.injectEndpoints({
   endpoints: (builder) => ({
     // get all stuff data
     getStaffData: builder.query({

@@ -1,8 +1,8 @@
 //stuff crud operatios api will be handled here
 
-import { apiSlice } from "../../api/apiSlice";
+import { api } from "@/Redux/api/apiSlice";
 
-export const staffApi = apiSlice.injectEndpoints({
+export const staffApi = api.injectEndpoints({
   endpoints: (builder) => ({
     // Get staff info id wise
     getInfo: builder.query({

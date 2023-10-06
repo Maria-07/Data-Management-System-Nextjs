@@ -1,8 +1,6 @@
-//payrold crud operatios api will be handled here
+import { api } from "@/Redux/api/apiSlice";
 
-import { apiSlice } from "../../api/apiSlice";
-
-export const payrollApi = apiSlice.injectEndpoints({
+export const payrollApi = api.injectEndpoints({
   endpoints: (builder) => ({
     //staff payroll get
     getPayrolls: builder.query({

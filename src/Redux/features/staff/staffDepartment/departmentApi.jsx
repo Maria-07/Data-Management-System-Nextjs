@@ -1,8 +1,6 @@
-//staff department api will be handled here
+import { api } from "@/Redux/api/apiSlice";
 
-import { apiSlice } from "../../api/apiSlice";
-
-export const staffDepartmentApi = apiSlice.injectEndpoints({
+export const staffDepartmentApi = api.injectEndpoints({
   endpoints: (builder) => ({
     //dept. supervisor list
     getSupervisorList: builder.query({
@@ -32,4 +30,5 @@ export const staffDepartmentApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useUpdateDepartmentMutation, useGetSupervisorListQuery } = staffDepartmentApi;
+export const { useUpdateDepartmentMutation, useGetSupervisorListQuery } =
+  staffDepartmentApi;

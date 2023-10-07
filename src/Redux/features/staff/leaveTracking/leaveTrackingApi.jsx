@@ -1,7 +1,6 @@
-import { apiSlice } from "../../api/apiSlice";
+import { api } from "@/Redux/api/apiSlice";
 
-//
-const leaveTrackApi = apiSlice.injectEndpoints({
+const leaveTrackApi = api.injectEndpoints({
   endpoints: (builder) => ({
     // leave tracking get All data
     getLeaveTracking: builder.query({
@@ -46,4 +45,8 @@ const leaveTrackApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetLeaveTrackingQuery, useAddLeaveTrackingMutation, useDeleteLeaveTrackingMutation } = leaveTrackApi;
+export const {
+  useGetLeaveTrackingQuery,
+  useAddLeaveTrackingMutation,
+  useDeleteLeaveTrackingMutation,
+} = leaveTrackApi;

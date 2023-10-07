@@ -1,7 +1,6 @@
-//staff sub-type exclusions api
-import { apiSlice } from "../../api/apiSlice";
+import { api } from "@/Redux/api/apiSlice";
 
-const staffSubActivityExclusionApi = apiSlice.injectEndpoints({
+const staffSubActivityExclusionApi = api.injectEndpoints({
   endpoints: (builder) => ({
     //  get all staff subtypes
     getAllSubActivity: builder.query({
@@ -60,5 +59,9 @@ const staffSubActivityExclusionApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetAllSubActivityQuery, useGetAssignedSubtypeQuery, useAddServiceSubtypeMutation, useDeleteServiceSubtypeMutation } =
-  staffSubActivityExclusionApi;
+export const {
+  useGetAllSubActivityQuery,
+  useGetAssignedSubtypeQuery,
+  useAddServiceSubtypeMutation,
+  useDeleteServiceSubtypeMutation,
+} = staffSubActivityExclusionApi;

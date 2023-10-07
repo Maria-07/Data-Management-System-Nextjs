@@ -84,11 +84,6 @@ const StaffLayout = ({ children }) => {
     },
     {
       icon: <BiUserCircle />,
-      link_name: "Leave Tracking",
-      link: `/admin/staffs/leave-tracking/${staffId}`,
-    },
-    {
-      icon: <BiUserCircle />,
       link_name: "Patient Exclusion",
       link: `/admin/staffs/patient-exclusion/${staffId}`,
     },
@@ -97,11 +92,7 @@ const StaffLayout = ({ children }) => {
       link_name: "Staff Portal",
       link: `/admin/staffs/staff-portal/${staffId}`,
     },
-    {
-      icon: <BiUserCircle />,
-      link_name: "Staff Portal",
-      link: `/admin/staffs/staff-portal/${staffId}`,
-    },
+
     {
       icon: <BiUserCircle />,
       link_name: "Work Schedule",
@@ -158,7 +149,7 @@ const StaffLayout = ({ children }) => {
           initial={{ opacity: 0, x: 25 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.6 }}
-          className={`sm:m-2 sm:p-4 lg:col-span-10 md:col-span-11 border-[1px] shadow-md rounded-lg min-h-screen ${
+          className={`sm:m-2 sm:p-2 lg:col-span-10 md:col-span-11 border-[1px] shadow-md rounded-lg min-h-screen p-4 ${
             theme === "dark"
               ? "bg-dark-background border-dark-background"
               : "secondary"

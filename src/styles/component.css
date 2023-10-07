@@ -132,6 +132,68 @@
 }
 
 
+.other-box {
+    width: 25%;
+}
+
+@media (min-width:320px) {
+
+    /* smartphones, iPhone, portrait 480x320 phones */
+    /* For mobile  */
+    .other-box {
+        width: 100%;
+    }
+
+}
+
+@media (min-width:481px) {
+
+    /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+    /* For mobile  */
+
+    .other-box {
+        width: 100%;
+    }
+}
+
+@media (min-width:641px) {
+
+    /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+    .other-box {
+        width: 60%;
+    }
+
+}
+
+@media (min-width:961px) {
+
+    /* tablet, landscape iPad, lo-res laptops ands desktops */
+    /* For tablets: */
+    .other-box {
+        width: 60%;
+    }
+
+}
+
+@media (min-width:1025px) {
+
+    /* big landscape tablets, laptops, and desktops */
+    /* For desktop: */
+    .other-box {
+        width: 40%;
+    }
+}
+
+@media (min-width:1281px) {
+
+    /* hi-res laptops and desktops */
+    .other-box {
+        width: 40%;
+    }
+
+}
+
+
 
 /* ---------------------------- email setting --------------- */
 

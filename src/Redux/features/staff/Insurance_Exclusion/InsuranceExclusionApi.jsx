@@ -1,7 +1,6 @@
-import { apiSlice } from "../../api/apiSlice";
+import { api } from "@/Redux/api/apiSlice";
 
-//
-const InsuranceExclusionApi = apiSlice.injectEndpoints({
+const InsuranceExclusionApi = api.injectEndpoints({
   endpoints: (builder) => ({
     //  get all payor by id
     getAllPayor: builder.query({
@@ -60,4 +59,9 @@ const InsuranceExclusionApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetAllPayorQuery, useGetAssignedQuery, useExcludeSelectedMutation, useExcludeDeleteMutation } = InsuranceExclusionApi;
+export const {
+  useGetAllPayorQuery,
+  useGetAssignedQuery,
+  useExcludeSelectedMutation,
+  useExcludeDeleteMutation,
+} = InsuranceExclusionApi;

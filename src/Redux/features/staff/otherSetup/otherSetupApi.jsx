@@ -1,7 +1,6 @@
-//staff other setup api will be handled here
-import { apiSlice } from "../../api/apiSlice";
+import { api } from "@/Redux/api/apiSlice";
 
-export const otherSetupApi = apiSlice.injectEndpoints({
+export const otherSetupApi = api.injectEndpoints({
   endpoints: (builder) => ({
     //Get staff Other Setup
     getOtherSetup: builder.query({
@@ -31,4 +30,5 @@ export const otherSetupApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetOtherSetupQuery, useAddOtherSetupMutation } = otherSetupApi;
+export const { useGetOtherSetupQuery, useAddOtherSetupMutation } =
+  otherSetupApi;

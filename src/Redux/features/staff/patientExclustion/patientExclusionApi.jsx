@@ -1,8 +1,6 @@
-//patient exclusions api
+import { api } from "@/Redux/api/apiSlice";
 
-import { apiSlice } from "../../api/apiSlice";
-
-const patientExclusionApi = apiSlice.injectEndpoints({
+const patientExclusionApi = api.injectEndpoints({
   endpoints: (builder) => ({
     //staff patient exclusion get all
     getAllPatientExclusion: builder.query({
@@ -61,5 +59,9 @@ const patientExclusionApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useAddPatientExclusionMutation, useDeletePatientExclusionMutation, useGetAllPatientExclusionQuery, useGetAssignedPatientExclusionQuery } =
-  patientExclusionApi;
+export const {
+  useAddPatientExclusionMutation,
+  useDeletePatientExclusionMutation,
+  useGetAllPatientExclusionQuery,
+  useGetAssignedPatientExclusionQuery,
+} = patientExclusionApi;

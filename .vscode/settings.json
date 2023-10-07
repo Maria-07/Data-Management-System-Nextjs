@@ -18,5 +18,6 @@
     "titleBar.inactiveBackground": "#0c356a99",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "peacock.color": "#0C356A"
+  "peacock.color": "#0C356A",
+  "cSpell.words": ["addother"]
 }

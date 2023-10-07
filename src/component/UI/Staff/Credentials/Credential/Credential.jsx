@@ -54,7 +54,7 @@ const Credential = ({ credentials, token, id }) => {
         style: { fontSize: "12px" },
       });
     }
-  }, []);
+  }, [deleteSuccess]);
 
   const column = [
     {

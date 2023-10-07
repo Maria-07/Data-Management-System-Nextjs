@@ -3,6 +3,7 @@ import SettingSidebar from "../UI/Layouts/Sidebar/SettingSidebar";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import {
+  BiBuilding,
   BiData,
   BiLogoPaypal,
   BiSolidContact,
@@ -20,12 +21,26 @@ import {
 } from "react-icons/io5";
 import Image from "next/image";
 import doctor from "../../assets/img/doctor.png";
-import { AiOutlineFileAdd, AiOutlineFileText } from "react-icons/ai";
+import {
+  AiOutlineFileAdd,
+  AiOutlineFileText,
+  AiOutlineIdcard,
+} from "react-icons/ai";
 import { getPatientsDetails } from "@/Redux/features/patient/patientSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import { FaBusinessTime, FaUsers } from "react-icons/fa";
-import { BsClipboard2Data } from "react-icons/bs";
+import {
+  BsCardText,
+  BsClipboard2Data,
+  BsHddNetwork,
+  BsInboxFill,
+  BsJournalRichtext,
+  BsPersonBadge,
+  BsPersonCircle,
+  BsPersonVcard,
+  BsReceiptCutoff,
+} from "react-icons/bs";
 
 const StaffLayout = ({ children }) => {
   //! Theme system
@@ -48,53 +63,53 @@ const StaffLayout = ({ children }) => {
       link: `/admin/staffs/contact-info/${staffId}`,
     },
     {
-      icon: <BiUserCircle />,
+      icon: <BsPersonCircle />,
       link_name: "Credential",
       link: `/admin/staffs/credential/${staffId}`,
     },
     {
-      icon: <BiUserCircle />,
+      icon: <BiBuilding />,
       link_name: "Department Supervisor",
       link: `/admin/staffs/department-supervisor/${staffId}`,
     },
     {
-      icon: <BiUserCircle />,
+      icon: <BsCardText />,
       link_name: "Payroll Setup",
       link: `/admin/staffs/payroll-setup/${staffId}`,
     },
     {
-      icon: <BiUserCircle />,
+      icon: <BsHddNetwork />,
       link_name: "Other SetUp",
       link: `/admin/staffs/other-setUp/${staffId}`,
     },
     {
-      icon: <BiUserCircle />,
+      icon: <BsJournalRichtext />,
       link_name: "Leave Tracking",
       link: `/admin/staffs/leave-tracking/${staffId}`,
     },
     {
-      icon: <BiUserCircle />,
+      icon: <AiOutlineIdcard />,
       link_name: "Insurance Exclusion",
       link: `/admin/staffs/insurance-exclusion/${staffId}`,
     },
     {
-      icon: <BiUserCircle />,
+      icon: <BsInboxFill />,
       link_name: "Service Sub Type Exclusion",
       link: `/admin/staffs/service-sub-type-exclusion/${staffId}`,
     },
     {
-      icon: <BiUserCircle />,
+      icon: <BsPersonBadge />,
       link_name: "Patient Exclusion",
       link: `/admin/staffs/patient-exclusion/${staffId}`,
     },
     {
-      icon: <BiUserCircle />,
+      icon: <BsPersonVcard />,
       link_name: "Staff Portal",
       link: `/admin/staffs/staff-portal/${staffId}`,
     },
 
     {
-      icon: <BiUserCircle />,
+      icon: <BsReceiptCutoff />,
       link_name: "Work Schedule",
       link: `/admin/staffs/work-schedule/${staffId}`,
     },

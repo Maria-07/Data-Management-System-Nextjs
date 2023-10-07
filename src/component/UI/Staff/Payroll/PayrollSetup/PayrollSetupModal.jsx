@@ -50,7 +50,7 @@ const PayrollSetupModal = ({ handleClose, open, services, token, id }) => {
         style: { fontSize: "12px", width: "70%" },
       });
     }
-  }, [addSuccess, addError]);
+  }, [addSuccess, addError, handleClose]);
   return (
     <div>
       <div>

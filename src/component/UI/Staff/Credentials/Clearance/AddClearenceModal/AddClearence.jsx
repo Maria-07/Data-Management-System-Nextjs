@@ -48,7 +48,7 @@ const AddClearence = ({ handleClose, open, token, id }) => {
       });
     }
     //handleClose dependency tey na dileo choley cuz aita change hoy na
-  }, [addClearenceSuccess, addClearenceError]);
+  }, [addClearenceSuccess, addClearenceError, handleClose]);
   return (
     <div>
       <Modal

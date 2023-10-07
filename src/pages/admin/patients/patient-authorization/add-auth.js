@@ -148,7 +148,7 @@ const AddAuthorization = () => {
         end_date: `${endMonth} ${endDay}, ${endYear}`,
       });
     }, 0);
-  }, [endDay, endMonth, endYear, startDay, startMonth, startYear]);
+  }, [endDay, endMonth, endYear, startDay, startMonth, startYear, reset]);
 
   const onSubmit = (data) => {
     const payload = {
@@ -189,7 +189,7 @@ const AddAuthorization = () => {
         theme: "dark",
       });
     }
-  }, [createSuccess, createError]);
+  }, [createSuccess, createError, patientId, reset, router]);
 
   return (
     <div className="md:h-[100vh]">

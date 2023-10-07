@@ -84,7 +84,7 @@ const PayrollEditModal = ({
         style: { fontSize: "12px" },
       });
     }
-  }, [updateSuccess, updateError]);
+  }, [updateSuccess, updateError, handleClose]);
   return (
     <div>
       <div>

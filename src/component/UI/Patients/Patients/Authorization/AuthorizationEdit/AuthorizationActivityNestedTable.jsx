@@ -219,7 +219,10 @@ const AuthorizationActivityNestedTable = ({
         theme: "dark",
       });
     }
-  }, [AuthorizationActivityDeleted?.status]);
+  }, [
+    AuthorizationActivityDeleted?.status,
+    AuthorizationActivityDeleted?.message,
+  ]);
 
   return (
     <>

@@ -50,7 +50,7 @@ const AddCredential = ({ handleClose, open, token, id }) => {
       });
     }
     //handleClose dependency tey na dileo choley cuz aita change hoy na
-  }, [addCredentialSuccess, addCredentialError]);
+  }, [addCredentialSuccess, addCredentialError, handleClose]);
   return (
     <div>
       <Modal

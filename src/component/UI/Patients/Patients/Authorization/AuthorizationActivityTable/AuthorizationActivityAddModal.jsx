@@ -51,7 +51,7 @@ const AuthorizationActivityAddModal = ({
         treatment_name,
       },
     });
-  }, [token, treatment_name]);
+  }, [token, treatment_name, getSettingService]);
 
   const { data: activitySubtypes, isLoading: activitySubtypesLoading } =
     useGetActivitySubtypesQuery({
@@ -72,7 +72,7 @@ const AuthorizationActivityAddModal = ({
         treatment_name,
       },
     });
-  }, [token, treatment_name]);
+  }, [token, treatment_name, getActivityCptcode]);
   console.log(activityServices, activitySubtypes, activityCptCode);
 
   useEffect(() => {

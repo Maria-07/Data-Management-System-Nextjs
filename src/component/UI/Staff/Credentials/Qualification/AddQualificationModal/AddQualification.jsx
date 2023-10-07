@@ -51,7 +51,7 @@ const AddQualification = ({ handleClose, open, token, id }) => {
       });
     }
     //handleClose dependency tey na dileo choley cuz aita change hoy na
-  }, [addQualificationSuccess, addQualificationError]);
+  }, [addQualificationSuccess, addQualificationError, handleClose]);
   return (
     <div>
       <Modal

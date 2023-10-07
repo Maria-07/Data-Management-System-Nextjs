@@ -52,7 +52,7 @@ const AddBlockOffTime = ({ handleClose, open, staff_id, token }) => {
         style: { fontSize: "12px" },
       });
     }
-  }, [createdSuccess]);
+  }, [createdSuccess, handleClose]);
 
   return (
     <div>

@@ -29,7 +29,7 @@ const DepartmentSupervisor = () => {
 
   useEffect(() => {
     setSortBy(superVisors?.exist_dep?.is_supervisor);
-  }, []);
+  }, [superVisors?.exist_dep?.is_supervisor]);
 
   const [updateDepartment, { isSuccess: updateSuccess, isError: updateError }] =
     useUpdateDepartmentMutation();
@@ -58,7 +58,7 @@ const DepartmentSupervisor = () => {
         supervisor_id: superVisors?.exist_dep?.supervisor_id,
       });
     }, 500);
-  }, [reset]);
+  }, [reset, superVisors?.exist_dep?.supervisor_id]);
 
   const onSubmit = (data) => {
     console.log(data);

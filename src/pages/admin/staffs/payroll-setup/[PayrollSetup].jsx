@@ -19,7 +19,7 @@ import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 
 const PayrollSetup = () => {
-  // change some changes
+  // change some changes !
   //! Id get
   const router = useRouter();
   const { query } = router;

@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 
 const LeaveTracking = () => {
+  // leavetracking stuff 
   //! Id get
   const router = useRouter();
   const { query } = router;

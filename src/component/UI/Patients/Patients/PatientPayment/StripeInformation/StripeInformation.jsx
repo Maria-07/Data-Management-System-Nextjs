@@ -3,11 +3,16 @@ import { Button, Col, DatePicker, Form, Input, Row } from "antd";
 import React, { useState } from "react";
 import { FaAmazonPay } from "react-icons/fa";
 import PaymentAddModel from "./PaymentAddModel";
+import PaymentEditModel from "./PaymentEditModel";
 
 const StripeInformation = () => {
   const [addPayment, setAddPayment] = useState(false);
   const handleAddPayment = () => {
     setAddPayment(!addPayment);
+  };
+  const [editPayment, setEditPayment] = useState(false);
+  const handleEditPayment = () => {
+    setEditPayment(!editPayment);
   };
 
   const formRef = React.useRef(null);
@@ -41,7 +46,7 @@ const StripeInformation = () => {
         </p>
       </div>
       <div className=" ">
-        <Form
+        <div
           ref={formRef}
           name="control-ref"
           layout="vertical"
@@ -52,6 +57,12 @@ const StripeInformation = () => {
           }}
         >
           <div className="border p-3 rounded-md">
+            <div>
+              {" "}
+              <button onClick={handleEditPayment} className="dcm-button">
+                Add Card
+              </button>
+            </div>
             <Form.Item
               name="card_name"
               label="Name On Card"
@@ -118,13 +129,19 @@ const StripeInformation = () => {
               </Col>
             </Row>
           </div>
-        </Form>
+        </div>
       </div>
       {addPayment && (
         <PaymentAddModel
           handleClose={handleAddPayment}
           clicked={addPayment}
         ></PaymentAddModel>
+      )}
+      {editPayment && (
+        <PaymentEditModel
+          handleClose={handleEditPayment}
+          clicked={editPayment}
+        ></PaymentEditModel>
       )}
     </div>
   );

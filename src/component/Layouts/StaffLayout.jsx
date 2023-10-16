@@ -7,6 +7,7 @@ import {
   BiData,
   BiLogoPaypal,
   BiSolidContact,
+  BiSolidUserDetail,
   BiSolidUserRectangle,
   BiTimer,
   BiUserCircle,
@@ -112,6 +113,12 @@ const StaffLayout = ({ children }) => {
       icon: <BsReceiptCutoff />,
       link_name: "Work Schedule",
       link: `/admin/staffs/work-schedule/${staffId}`,
+    },
+
+    {
+      icon: <BiSolidUserDetail />,
+      link_name: "Assigned Patient",
+      link: `/admin/staffs/assigned-patient/${staffId}`,
     },
   ];
 

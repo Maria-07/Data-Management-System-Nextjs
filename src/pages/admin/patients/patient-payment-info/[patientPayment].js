@@ -55,6 +55,7 @@ const PatientPayment = () => {
       children: <PaypalInformation></PaypalInformation>,
     },
   ];
+
   return (
     <div>
       <div className="my-10">

@@ -7,7 +7,8 @@ const BasicInfo = ({ adData }) => {
 
   return (
     <div>
-      {/* <div className="flex ml-1 mt-1 mr-2 items-center justify-end">
+      {/*
+       <div className="flex ml-1 mt-1 mr-2 items-center justify-end">
         <Switch
           size="small"
           checked={active ? true : false}
@@ -16,7 +17,8 @@ const BasicInfo = ({ adData }) => {
         <span className="text-[15px] ml-1 text-gray-700 gap-1 font-semibold">
           Active Patient
         </span>
-      </div> */}
+      </div>
+       */}
       <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-7 my-3 mr-2 gap-x-6 gap-y-1 ">
         {/* name  */}
         <div>

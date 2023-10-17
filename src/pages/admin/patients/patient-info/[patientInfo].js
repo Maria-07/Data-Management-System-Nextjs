@@ -423,9 +423,31 @@ const PatientInfo = () => {
             </motion.div>
           )}
 
-          <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 my-1 mr-2 gap-x-3 gap-y-1">
-            <div className="mt-3">
-              <TextArea rows={7} placeholder=" Notes" size="large" />
+          <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6  mr-2 gap-x-3 gap-y-1 my-5">
+            <div className="w-full">
+              <label className="label">
+                <span className=" label-font">Insurance:</span>
+              </label>
+              <select
+                className="input-border-bottom input-font py-[1px] mt-2 w-full focus:outline-none"
+                {...register("pos")}
+              >
+                <option value="Main Office">Main Office</option>
+                <option value="Telehealth">Telehealth</option>
+                <option value="Home">Home</option>
+              </select>
+            </div>
+            <div className="w-full sm:col-span-2">
+              <div className="label mb-2">
+                <span className=" label-font">Patient Notes:</span>
+              </div>
+              <TextArea rows={4} placeholder=" Notes" size="large" />
+            </div>
+            <div className="w-full sm:col-span-2">
+              <div className="label mb-2">
+                <span className=" label-font">Additional Information:</span>
+              </div>
+              <TextArea rows={4} placeholder="Notes" size="large" />
             </div>
 
             {/* <div className="ml-2 mt-[12px] ">
@@ -435,6 +457,208 @@ const PatientInfo = () => {
               ></CustomFileUploader>
               <p className="mt-3 text-sm ">Upload Signature</p>
             </div> */}
+          </div>
+
+          <div className="my-10">
+            <div className="flex items-center justify-around gap-2 mb-4 ">
+              <h3 className="text-sm font-semibold w-80">Treatment </h3>
+              <h3 className="text-sm font-semibold w-80 text-center">
+                Physician Type
+              </h3>
+              <h3 className="text-sm font-semibold w-80 text-center">
+                Referred By
+              </h3>
+              <h3 className="text-sm font-semibold w-80 text-center">
+                Diagnosis1
+              </h3>
+              <h3 className="text-sm font-semibold w-80 text-center">
+                Diagnosis2
+              </h3>
+              <h3 className="text-sm font-semibold w-80 text-center">
+                Diagnosis3
+              </h3>
+              <h3 className="text-sm font-semibold w-80 text-center">
+                Diagnosis4
+              </h3>
+            </div>
+            <div className="flex items-center justify-around gap-5 mb-4 ">
+              <h3 className="text-sm font-medium w-80">Behavioral therapy </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <select
+                  className="input-border-bottom input-font w-full focus:outline-none"
+                  {...register("pos")}
+                >
+                  <option value="Main Office">Main Office</option>
+                  <option value="Telehealth">Telehealth</option>
+                  <option value="Home">Home</option>
+                </select>
+              </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <select
+                  className="input-border-bottom input-font  w-full focus:outline-none"
+                  {...register("pos")}
+                >
+                  <option value="Main Office">Main Office</option>
+                  <option value="Telehealth">Telehealth</option>
+                  <option value="Home">Home</option>
+                </select>
+              </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <input
+                  type="text"
+                  name="provider_level"
+                  className="input-border-bottom input-font w-full focus:outline-none py-[1px]"
+                  {...register("provider_level")}
+                />
+              </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <input
+                  type="text"
+                  name="provider_level"
+                  className="input-border-bottom input-font w-full focus:outline-none py-[1px]"
+                  {...register("provider_level")}
+                />
+              </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <input
+                  type="text"
+                  name="provider_level"
+                  className="input-border-bottom input-font w-full focus:outline-none py-[1px]"
+                  {...register("provider_level")}
+                />
+              </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <input
+                  type="text"
+                  name="provider_level"
+                  className="input-border-bottom input-font w-full focus:outline-none py-[1px]"
+                  {...register("provider_level")}
+                />
+              </h3>
+            </div>
+            <div className="flex items-center justify-around gap-5 mb-4 ">
+              <h3 className="text-sm font-medium w-80">Mental Health </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <select
+                  className="input-border-bottom input-font w-full focus:outline-none"
+                  {...register("pos")}
+                >
+                  <option value="Main Office">Main Office</option>
+                  <option value="Telehealth">Telehealth</option>
+                  <option value="Home">Home</option>
+                </select>
+              </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <select
+                  className="input-border-bottom input-font  w-full focus:outline-none"
+                  {...register("pos")}
+                >
+                  <option value="Main Office">Main Office</option>
+                  <option value="Telehealth">Telehealth</option>
+                  <option value="Home">Home</option>
+                </select>
+              </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <input
+                  type="text"
+                  name="provider_level"
+                  className="input-border-bottom input-font w-full focus:outline-none py-[1px]"
+                  {...register("provider_level")}
+                />
+              </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <input
+                  type="text"
+                  name="provider_level"
+                  className="input-border-bottom input-font w-full focus:outline-none py-[1px]"
+                  {...register("provider_level")}
+                />
+              </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <input
+                  type="text"
+                  name="provider_level"
+                  className="input-border-bottom input-font w-full focus:outline-none py-[1px]"
+                  {...register("provider_level")}
+                />
+              </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <input
+                  type="text"
+                  name="provider_level"
+                  className="input-border-bottom input-font w-full focus:outline-none py-[1px]"
+                  {...register("provider_level")}
+                />
+              </h3>
+            </div>
+            <div className="flex items-center justify-around gap-5 mb-4 ">
+              <h3 className="text-sm font-medium w-80">Mucsic Therapy</h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <select
+                  className="input-border-bottom input-font w-full focus:outline-none"
+                  {...register("pos")}
+                >
+                  <option value="Main Office">Main Office</option>
+                  <option value="Telehealth">Telehealth</option>
+                  <option value="Home">Home</option>
+                </select>
+              </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <select
+                  className="input-border-bottom input-font  w-full focus:outline-none"
+                  {...register("pos")}
+                >
+                  <option value="Main Office">Main Office</option>
+                  <option value="Telehealth">Telehealth</option>
+                  <option value="Home">Home</option>
+                </select>
+              </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <input
+                  type="text"
+                  name="provider_level"
+                  className="input-border-bottom input-font w-full focus:outline-none py-[1px]"
+                  {...register("provider_level")}
+                />
+              </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <input
+                  type="text"
+                  name="provider_level"
+                  className="input-border-bottom input-font w-full focus:outline-none py-[1px]"
+                  {...register("provider_level")}
+                />
+              </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <input
+                  type="text"
+                  name="provider_level"
+                  className="input-border-bottom input-font w-full focus:outline-none py-[1px]"
+                  {...register("provider_level")}
+                />
+              </h3>
+              <h3 className="text-sm font-medium w-80 text-center">
+                <input
+                  type="text"
+                  name="provider_level"
+                  className="input-border-bottom input-font w-full focus:outline-none py-[1px]"
+                  {...register("provider_level")}
+                />
+              </h3>
+            </div>
+
+            {/* {!otherSetupLoading ? (
+            <Loading />
+          ) : ( */}
+            {/* {loading ? (
+              <p>loading</p>
+            ) : (
+              <OtherSetUpBottom
+                // propdata={{ fields, register, OtherSetupApiData, dm }}
+                propdata={{ register, txTypedata, loading }}
+              />
+            )} */}
+            {/* )} */}
           </div>
           <div className="mb-24">
             {/* submit  */}

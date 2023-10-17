@@ -15,7 +15,6 @@ const PatientStatusAction = ({ s }) => {
       >
         <option value="1">Active</option>
         <option value="2">In-Active</option>
-        <option value="Wait-List">Wait-List</option>
       </select>
     </div>
   );

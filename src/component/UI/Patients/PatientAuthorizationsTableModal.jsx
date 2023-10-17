@@ -1,61 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { Table } from "antd";
-// import Loading from "../../../../Loading/Loading";
-//Ant Design modal used here[to solve table data filtering issue]
 import { Modal } from "antd";
-import Link from "next/link";
-// import { useGetPatientAuthorizationQuery } from "../../../../features/Patient_redux/authorization/authorizationApi";
-// import useToken from "../../../../CustomHooks/useToken";
+import { useGetPatientAuthorizationQuery } from "@/Redux/features/patient/authorization/authorizationApi";
 
-const PatientAuthorizationsTableModal = ({ modalOpen, setModalOpen }) => {
+const PatientAuthorizationsTableModal = ({
+  patient_id,
+  modalOpen,
+  setModalOpen,
+  token,
+}) => {
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
   const [loading, setLoading] = useState(false);
+
+  //get patient authorization api
+  const { data: authorizationData, isLoading: authorizationloading } =
+    useGetPatientAuthorizationQuery({
+      token,
+      payload: {
+        client_id: patient_id,
+      },
+    });
+
+  const clientAuthorizationData =
+    authorizationData?.client_authorization?.data || [];
+
+  console.log("clientAuthorizationData", clientAuthorizationData);
 
   const handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
-
-  const data = [
-    {
-      key: "1",
-      client_full_name: "John Doe",
-      phone_number: "123-456-7890",
-      client_dob: "1990-01-15",
-      client_gender: "Male",
-      location: "New York",
-      insurance: "6780496111",
-      id: "1",
-      is_active_client: true,
-    },
-    {
-      key: "2",
-      client_full_name: "Alice Johnson",
-      phone_number: "987-654-3210",
-      client_dob: "1985-07-25",
-      client_gender: "Female",
-      location: "Los Angeles",
-      insurance: "1261739329",
-      id: "2",
-      is_active_client: false,
-    },
-    {
-      key: "3",
-      client_full_name: "Bob Smith",
-      phone_number: "555-123-4567",
-      client_dob: "1978-12-03",
-      client_gender: "Male",
-      location: "Chicago",
-      insurance: "5614267557",
-      id: "3",
-      is_active_client: true,
-    },
-    // Add more data entries as needed
-  ];
-
   const columns = [
     {
       title: "Description",
@@ -235,7 +212,7 @@ const PatientAuthorizationsTableModal = ({ modalOpen, setModalOpen }) => {
         bodyStyle={{ padding: "0" }}
         className="box rounded-lg"
       >
-        <div className="px-5 py-2">
+        <div className="px-2 py-2">
           <div className="flex items-center justify-between">
             <h1 className="text-lg text-left text-orange-400 ">
               All Authorizations
@@ -259,7 +236,7 @@ const PatientAuthorizationsTableModal = ({ modalOpen, setModalOpen }) => {
                 columns={columns}
                 bordered
                 rowKey={(record) => record.id} //record is kind of whole one data object and here we are
-                dataSource={data}
+                dataSource={clientAuthorizationData}
                 onChange={handleChange}
               />
             </div>
@@ -273,7 +250,7 @@ const PatientAuthorizationsTableModal = ({ modalOpen, setModalOpen }) => {
             </Link> */}
 
             <button
-              className="pms-close-button"
+              className="dcm-modal-close-button"
               onClick={() => setModalOpen(false)}
             >
               Close

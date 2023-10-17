@@ -131,6 +131,27 @@ const PatientPage = () => {
       // ellipsis: true,
     },
     {
+      title: "Wait List",
+      key: "wait_list",
+      dataIndex: "wait_list",
+      width: 100,
+      render: (_, { wait_list }) => {
+        //console.log("Status : ", Status);
+        return (
+          <div className="flex justify-center">
+            <select
+              // defaultValue={s}
+              // onChange={(e) => handle status(e)}
+              className="border w-full rounded-md lg:px-5 py-[4px]  text-center"
+            >
+              <option value="1">Yes</option>
+              <option value="2">No</option>
+            </select>
+          </div>
+        );
+      },
+    },
+    {
       title: "Contact Info",
       dataIndex: "phone_number",
       key: "phone_number",
@@ -304,9 +325,20 @@ const PatientPage = () => {
   return (
     <div>
       <div className="flex items-center flex-wrap justify-between gap-2 mt-2 mb-5">
-        <h1 className="text-lg text-orange-500 text-left font-semibold ">
-          Patient
-        </h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-lg text-orange-500 text-left font-semibold ">
+            Patient
+          </h1>
+          <div>
+            <button className="text-[11px]  bg-green-700 font-semibold px-2 py-[2px] rounded-md text-white shadow-sm">
+              Active 5
+            </button>
+            <button className="text-[11px] ml-2 bg-gray-200 font-semibold px-2 py-[2px] rounded-md text-fontC shadow-sm">
+              In-Active 5
+            </button>
+          </div>
+        </div>
+
         <div>
           <button onClick={clearFilters} className="dtm-button">
             Clear filters
@@ -334,6 +366,8 @@ const PatientPage = () => {
         <PatientAuthorizationsTableModal
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}
+          token={token}
+          patient_id={patientId}
         ></PatientAuthorizationsTableModal>
       )}
     </div>

@@ -2,7 +2,7 @@ import PatientLayout from "@/component/Layouts/PatientLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
 import React from "react";
 import { Tabs } from "antd";
-import Aba from "@/component/UI/Patients/Patients/Documents/ABA/aba";
+// import Aba from "@/component/UI/Patients/Patients/Documents/ABA/aba";
 import { useTheme } from "next-themes";
 
 const Documents = () => {
@@ -32,7 +32,7 @@ const Documents = () => {
             theme === "dark" ? "text-dark-secondary" : "text-fontC"
           }`}
         >
-          <Aba></Aba>
+          <></>
         </div>
       ),
     },

@@ -181,7 +181,7 @@ const PatientInfo = () => {
       is_client_active,
     };
     console.log(formData);
-    // //console.log(file);
+    //console.log(file);
   };
 
   ///relation value handle

@@ -143,7 +143,7 @@ const PatientPortal = () => {
               <span
                 onClick={() => {
                   setDisplay(false);
-                }}
+                }}              
               >
                 <FcCancel />
               </span>                                            

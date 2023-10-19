@@ -3,6 +3,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import { Table } from "antd";
 import { Modal } from "antd";
 import { useGetPatientAuthorizationQuery } from "@/Redux/features/patient/authorization/authorizationApi";
+import Link from "next/link";
 
 const PatientAuthorizationsTableModal = ({
   patient_id,
@@ -23,45 +24,32 @@ const PatientAuthorizationsTableModal = ({
       },
     });
 
-  const clientAuthorizationData =
-    authorizationData?.client_authorization?.data || [];
+  const clientAuthorizationData = authorizationData?.allAuthorization || [];
 
-  console.log("clientAuthorizationData", clientAuthorizationData);
+  console.log("clientAuthorizationData", authorizationData?.allAuthorization);
 
   const handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
+
+  //! Optimized function to get dynamic filter value-text
+  const generateFilterValues = (data, columnKey) => {
+    const uniqueValues = [...new Set(data?.map((d) => d[columnKey]))];
+    return uniqueValues.map((value) => ({ text: value, value }));
+  };
+
   const columns = [
     {
       title: "Description",
       dataIndex: "description",
       key: "description",
       width: 120,
-      filters: [
-        {
-          text: "Realcube",
-          value: "Realcube",
-        },
-        {
-          text: "Mycat",
-          value: "Mycat",
-        },
-        {
-          text: "Donovan",
-          value: "Donovan",
-        },
-        {
-          text: "Burke Beard",
-          value: "Burke Beard",
-        },
-        {
-          text: "Hector Moses",
-          value: "Hector Moses",
-        },
-      ],
+      filters: generateFilterValues(clientAuthorizationData, "description"),
+      filterSearch: true, //Filtering value search(Antd new Feature)
       filteredValue: filteredInfo.description || null,
+      onFilter: (value, record) => record.description.includes(value),
       onFilter: (value, record) => record.description.includes(value),
       sorter: (a, b) => {
         return a.description > b.description ? -1 : 1;
@@ -74,17 +62,9 @@ const PatientAuthorizationsTableModal = ({
       title: "Onset Date",
       dataIndex: "onset_date",
       key: "onset_date",
-      width: 100,
-      filters: [
-        {
-          text: `Amet`,
-          value: "Amet",
-        },
-        {
-          text: "Malesuada",
-          value: "Malesuada",
-        },
-      ],
+      width: 130,
+      filters: generateFilterValues(clientAuthorizationData, "onset_date"),
+      filterSearch: true, //Filtering value search(Antd new Feature)
       filteredValue: filteredInfo.onset_date || null,
       onFilter: (value, record) => record.onset_date.includes(value),
       //   sorter is for sorting asc or dsc purstatuse
@@ -99,17 +79,9 @@ const PatientAuthorizationsTableModal = ({
       title: "End Date",
       dataIndex: "end_date",
       key: "end_date",
-      width: 100,
-      filters: [
-        {
-          text: `Amet`,
-          value: "Amet",
-        },
-        {
-          text: "Malesuada",
-          value: "Malesuada",
-        },
-      ],
+      width: 130,
+      filters: generateFilterValues(clientAuthorizationData, "end_date"),
+      filterSearch: true, //Filtering value search(Antd new Feature)
       filteredValue: filteredInfo.end_date || null,
       onFilter: (value, record) => record.end_date.includes(value),
       //   sorter is for sorting asc or dsc purstatuse
@@ -120,49 +92,37 @@ const PatientAuthorizationsTableModal = ({
       ellipsis: true,
     },
     {
-      title: "Insurance",
-      dataIndex: "insurance",
-      key: "insurance",
+      title: "Primary Insurance",
+      dataIndex: "authorization_name",
+      key: "authorization_name",
       width: 150,
-      filters: [
-        {
-          text: `Amet`,
-          value: "Amet",
-        },
-        {
-          text: "Malesuada",
-          value: "Malesuada",
-        },
-      ],
+      filters: generateFilterValues(
+        clientAuthorizationData,
+        "authorization_name"
+      ),
+      filterSearch: true, //Filtering value search(Antd new Feature)
+      filteredValue: filteredInfo.authorization_name || null,
+      onFilter: (value, record) => record.authorization_name.includes(value),
       render: (_, { authorization_name }) => {
         if (authorization_name) {
           return <h1>{authorization_name.split(" ")[0]}</h1>;
         }
       },
-      filteredValue: filteredInfo.insurance || null,
-      onFilter: (value, record) => record.insurance.includes(value),
       //   sorter is for sorting asc or dsc purstatuse
       sorter: (a, b) => {
-        return a.insurance > b.insurance ? -1 : 1; //sorting problem solved using this logic
+        return a.authorization_name > b.authorization_name ? -1 : 1; //sorting problem solved using this logic
       },
-      sortOrder: sortedInfo.columnKey === "insurance" ? sortedInfo.order : null,
+      sortOrder:
+        sortedInfo.columnKey === "authorization_name" ? sortedInfo.order : null,
       ellipsis: true,
     },
     {
-      title: "Ins. ID",
+      title: "UCI",
       dataIndex: "uci_id",
       key: "uci_id",
       width: 150,
-      filters: [
-        {
-          text: `Amet`,
-          value: "Amet",
-        },
-        {
-          text: "Malesuada",
-          value: "Malesuada",
-        },
-      ],
+      filters: generateFilterValues(clientAuthorizationData, "uci_id"),
+      filterSearch: true, //Filtering value search(Antd new Feature)
       filteredValue: filteredInfo.uci_id || null,
       onFilter: (value, record) => record.uci_id.includes(value),
       //   sorter is for sorting asc or dsc purstatuse
@@ -173,31 +133,38 @@ const PatientAuthorizationsTableModal = ({
       ellipsis: true,
     },
     {
-      title: "Auth No.",
-      dataIndex: "authorization_number",
-      key: "authorization_number",
+      title: "Treatment Type",
+      dataIndex: "treatment_type",
+      key: "treatment_type",
       width: 150,
-      filters: [
-        {
-          text: `Amet`,
-          value: "Amet",
-        },
-        {
-          text: "Malesuada",
-          value: "Malesuada",
-        },
-      ],
-      filteredValue: filteredInfo.authorization_number || null,
-      onFilter: (value, record) => record.authorization_number.includes(value),
+      filters: generateFilterValues(clientAuthorizationData, "treatment_type"),
+      filterSearch: true, //Filtering value search(Antd new Feature)
+      filteredValue: filteredInfo.treatment_type || null,
+      onFilter: (value, record) => record.treatment_type.includes(value),
       //   sorter is for sorting asc or dsc purstatuse
       sorter: (a, b) => {
-        return a.authorization_number > b.authorization_number ? -1 : 1; //sorting problem solved using this logic
+        return a.treatment_type > b.treatment_type ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder:
-        sortedInfo.columnKey === "authorization_number"
-          ? sortedInfo.order
-          : null,
+        sortedInfo.columnKey === "treatment_type" ? sortedInfo.order : null,
       ellipsis: true,
+    },
+    {
+      title: "Action",
+      key: "id",
+      dataIndex: "id",
+      width: 100,
+      render: (_, { client_id }) => {
+        //console.log("Status : ", Status);
+        return (
+          <Link
+            href={`/admin/patients/patient-authorization/${client_id}`}
+            className="flex justify-center text-primary"
+          >
+            Go to Auth
+          </Link>
+        );
+      },
     },
   ];
 

@@ -1,7 +1,5 @@
 import { HiPlus } from "react-icons/hi";
 import AddDocuments from "../AddDocuments";
-import RootLayout from "@/component/Layouts/RootLayout";
-import PatientLayout from "@/component/Layouts/PatientLayout";
 import DocumentsAction from "../DocumentsAction";
 import { Table } from "antd";
 import { useState } from "react";

@@ -25,7 +25,7 @@ import { useTheme } from "next-themes";
 
 const menuItem = [
   {
-    path: "/dashboard",
+    path: "/admin/dashboard",
     name: "Dashboard",
     icon: <BiSolidDashboard />,
   },

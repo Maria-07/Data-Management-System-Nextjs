@@ -56,7 +56,7 @@ const PatientPortal = () => {
                 </span>
               </div>
               <div className="flex items-center mb-1">
-                {/* <input
+                {/* <input 
                 type="checkbox"
                 name="patient"
                 onClick={() => {

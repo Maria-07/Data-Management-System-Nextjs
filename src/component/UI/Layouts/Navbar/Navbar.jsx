@@ -151,8 +151,10 @@ const Navbar = ({ handle, handleSidebar }) => {
                 <IoMdNotificationsOutline className="hover:text-primary" />
               </Dropdown>
             </div>
-            <div>
-              <IoChatboxEllipsesOutline className="hover:text-primary" />
+            <div title="Chat">
+              <Link href="https://realtime-chat-system-nextjs.vercel.app/">
+                <IoChatboxEllipsesOutline className="hover:text-primary" />
+              </Link>
             </div>
             <div>
               <Dropdown

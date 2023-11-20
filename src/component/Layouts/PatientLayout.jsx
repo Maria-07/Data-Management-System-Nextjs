@@ -58,6 +58,11 @@ const PatientLayout = ({ id, children }) => {
       link: `/admin/patients/patient-info/${patientId}`,
     },
     {
+      icon: <BiUserCircle />,
+      link_name: "Clinical Data",
+      link: `/admin/patients/clinical-data/${patientId}`,
+    },
+    {
       icon: <AiOutlineFileAdd />,
       link_name: "Patient Vob",
       link: `/admin/patients/patient-vob/${patientId}`,

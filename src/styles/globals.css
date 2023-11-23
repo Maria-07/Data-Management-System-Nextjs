@@ -122,7 +122,7 @@ body {
 }
 
 .Global .dropdown-container:focus-within {
-  box-shadow: #00a1b100 0 0 0 0px !important;
+  box-shadow: #00a1b100 0 0 0 0px !important; 
 }
 
 .Global .gray {

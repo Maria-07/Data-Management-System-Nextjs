@@ -229,9 +229,7 @@ const BehaviorAnalyst = () => {
   ];
   return (
     <div>
-      {" "}
       <div className=" overflow-scroll">
-        {" "}
         <Table
           bordered
           rowKey="id" //warning issue solve ar jnno unique id rowKey hisabey use hobey

@@ -1,3 +1,14 @@
+.card {
+    transition: ease-in-out 0.3s;
+    margin: 10px auto;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    border-bottom: 2px solid var(--primary-color);
+    box-shadow: 0 8px 24px rgba(10, 167, 184, 0.087);
+}
+
 /* -----------------------------------------input form --------------------------------------- */
 
 .input-border-bottom {
@@ -6,19 +17,17 @@
     font-weight: 600;
     color: #4b5563;
     border-radius: 0;
-
     /* margin-left: 4px; */
 }
 
 .label-font {
     /* font-size: 15px;
-  color: #9b9b9b; */
+    color: #9b9b9b; */
     font-size: 13px;
     color: var(--primary-color);
     font-weight: 600;
     text-align: left;
-    font-family: poppins,
-        sans-serif;
+    font-family: poppins, sans-serif;
 }
 
 .label-font-tabbing {

@@ -35,7 +35,7 @@ const menuItem = [
     icon: <BiLibrary />,
   },
   {
-    path: "/appointment",
+    path: "/admin/appointment",
     name: "Appointment",
     icon: <BiCalendarWeek />,
   },

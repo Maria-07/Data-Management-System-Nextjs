@@ -4,8 +4,8 @@ import SessionCard from "@/component/UI/Patients/Patients/CinicalData/SessionsCa
 const appointmentPage = () => {
   return (
     <div>
-      <div className="h-[40%]">
-        <div className=" overflow-y-scroll">
+      <div className="h-[40%] mx-auto w-[100%] sm:w-[80%]">
+        <div className="overflow-y-scroll">
           <SessionCard> </SessionCard>
           <SessionCard> </SessionCard>
           <SessionCard> </SessionCard>

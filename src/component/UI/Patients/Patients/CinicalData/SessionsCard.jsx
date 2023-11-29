@@ -6,6 +6,8 @@ import { BiDotsHorizontal, BiEdit, BiSolidBullseye } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa";
 import { IoIosNotificationsOff } from "react-icons/io";
 import ManualSessionEntryModal from "./Modal/ManualSessionEntryModal";
+import ScheduleModal from "./Modal/ScheduleModal";
+import { GrSchedule } from "react-icons/gr";
 
 const SessionCard = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -28,10 +30,15 @@ const SessionCard = () => {
     return monthNames[monthNumber - 1]; // Adjust for zero-indexed months
   };
 
-  // modals
+  //* modals
   const [manualSessionEntry, setManualSessionEntry] = useState(false);
   const handleManualSessionEntry = () => {
     setManualSessionEntry(!manualSessionEntry);
+  };
+
+  const [schedule, setSchedule] = useState(false);
+  const handleSchedule = () => {
+    setSchedule(!schedule);
   };
 
   // Extract components (day, month, year)
@@ -72,8 +79,11 @@ const SessionCard = () => {
                               Manual session entry
                             </button>
                             <hr />
-                            <button className=" text-dark hover:text-primary flex items-center gap-3 text-base mx-4 font-semibold my-3">
-                              <BiSolidBullseye className="text-xl" /> Preview
+                            <button
+                              onClick={handleSchedule}
+                              className=" text-dark hover:text-primary flex items-center gap-3 text-base mx-4 font-semibold my-3"
+                            >
+                              <GrSchedule className="text-xl" /> Schedule
                             </button>
                             <button
                               // onClick={handleShareFolder}
@@ -126,13 +136,19 @@ const SessionCard = () => {
         </div>
       </div>
 
-      {/* open modals  */}
+      {/* //* open modals */}
       {manualSessionEntry && (
         <ManualSessionEntryModal
           title={"Manual session entry"}
           handleClose={handleManualSessionEntry}
           clicked={manualSessionEntry}
         ></ManualSessionEntryModal>
+      )}
+      {schedule && (
+        <ScheduleModal
+          handleClose={handleSchedule}
+          clicked={schedule}
+        ></ScheduleModal>
       )}
     </div>
   );

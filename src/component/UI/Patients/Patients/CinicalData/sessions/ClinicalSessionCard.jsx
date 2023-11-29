@@ -1,7 +1,6 @@
 import { Image } from "antd";
-import Link from "next/link";
 import React, { useState } from "react";
-import { Divider, List, Typography } from "antd";
+import { List } from "antd";
 import SessionProgramModal from "../Modal/SessionProgramModal";
 
 function ClinicalSessionCard() {

@@ -186,7 +186,7 @@ const appointmentPage = () => {
   return (
     <div>
       <div className="cursor-pointer">
-        <div className="bg-gradient-to-r from-secondary to-cyan-600 rounded-lg px-4 py-2">
+        <div className="bg-gradient-to-r from-secondary to-primary rounded-lg px-4 py-2">
           <div
             onClick={clickHandler}
             className="flex items-center justify-between "
@@ -476,12 +476,14 @@ const appointmentPage = () => {
                   )}
                   {table && (
                     <>
-                      {/* <button
+                      {/*
+
+                      <button
                           onClick={clearFilters}
-                          className="2xl:mb-2 xl:mb-0 lg:mb-0 md:mb-0 2xl:mt-[35px] xl:mt-[0px] py-2 px-1  bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm"
-                        >
+                          className="2xl:mb-2 xl:mb-0 lg:mb-0 md:mb-0 2xl:mt-[35px] xl:mt-[0px] py-2 px-1  bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm" ````>
                           Clear filters
-                        </button> */}
+                        </button> 
+                      */}
                     </>
                   )}
                 </div>
@@ -490,7 +492,7 @@ const appointmentPage = () => {
           )}
         </div>
       </div>
-      <div className="h-[40%] mx-auto w-[100%] sm:w-[80%]">
+      <div className="h-[40%] mx-auto w-[100%] sm:w-[70%]">
         <div className="overflow-y-scroll">
           <SessionCard> </SessionCard>
           <SessionCard> </SessionCard>

@@ -4,12 +4,18 @@ import Link from "next/link";
 import { useState } from "react";
 import { BiDotsHorizontal, BiEdit, BiSolidBullseye } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa";
-import { IoIosNotificationsOff } from "react-icons/io";
+import {
+  IoIosArrowDown,
+  IoIosArrowUp,
+  IoIosNotificationsOff,
+} from "react-icons/io";
 import ManualSessionEntryModal from "./Modal/ManualSessionEntryModal";
 import ScheduleModal from "./Modal/ScheduleModal";
 import { GrSchedule } from "react-icons/gr";
+import ProgramCards from "./Programs/ProgramCards";
 
 const SessionCard = () => {
+  const [cardExpend, setCardExpend] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const dateObject = new Date(currentDate);
   const getAlphabeticMonth = (monthNumber) => {
@@ -47,25 +53,25 @@ const SessionCard = () => {
   const year = dateObject.getFullYear();
 
   return (
-    <div>
-      <div className="border shadow-md  z-0 card rounded-t-lg bg-white my-2">
+    <div className="my-5">
+      <div className="border shadow-md  z-0 card rounded-t-lg bg-white rounded-b-lg ">
         {/* patient details  */}
 
         <div>
-          <h1 className="bg-secondary text-sm w-full py-2 px-5 rounded-t-lg text-white font-medium">
+          <h1 className="bg-secondary text-sm w-full py-1 px-5 rounded-t-lg text-white font-medium">
             1:1 ABA Session
           </h1>
           <div>
-            <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-5 ">
-              <div className="col-span-2 px-5 py-4 my-auto">
-                <div className="flex justify-between ">
+            <div>
+              <div className=" px-5 py-4 my-auto">
+                <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 ">
                   <div>
                     <div className="font-semibold">Kyle Scibelli</div>
                     <div className="text-primary text-sm">
                       8:00 PM to 11:00 PM
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-end gap-2">
                     <IoIosNotificationsOff className="text-lg" />
                     <Dropdown
                       dropdownRender={() => (
@@ -107,32 +113,64 @@ const SessionCard = () => {
                     </Dropdown>
                   </div>
                 </div>
-              </div>
-
-              {/* right section  */}
-              <div className="bg-secondary py-1 w-full">
-                <div className="flex justify-center items-center">
-                  <div className="text-white mb-5">
-                    <div className="text-lg font-semibold text-center">
-                      {day}
-                    </div>
-                    <div className="text-lg font-semibold text-center">
-                      {month}
-                    </div>
-                  </div>
-                </div>
-                <Link
-                  href={"/admin/patients/clinical-data/session-details/1212"}
+                <div
+                  onClick={() => {
+                    setCardExpend(!cardExpend);
+                  }}
+                  className="w-full"
                 >
-                  <div className="px-2 mb-2 hover:text-secondary text-white">
-                    <button className="font-semibold text-sm rounded-md  border-primary bg-primary w-full  uppercase border py-[6px]">
-                      Start Session
-                    </button>
-                  </div>
-                </Link>
+                  <button className="flex items-center  mt-2 text-secondary">
+                    <span className="text-[13px] font-semibold mr-1">
+                      Session Details
+                    </span>{" "}
+                    {!cardExpend ? (
+                      <IoIosArrowDown className="text-sm mt-[2px] font-medium" />
+                    ) : (
+                      <IoIosArrowUp className="text-sm mt-[2px]  font-medium" />
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+          {cardExpend && (
+            <>
+              <h1 className="bg-primary text-sm w-full py-1 px-5 text-white font-medium">
+                Programs
+              </h1>
+              <div>
+                <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2 ">
+                  <div className="col-span-3 px-2 py-5">
+                    <ProgramCards></ProgramCards>
+                  </div>
+                  {/* right section  */}
+                  <div className="bg-primary py-1 w-full ">
+                    <div className="flex justify-center items-center">
+                      <div className="text-white mb-5">
+                        <div className="text-lg font-semibold text-center">
+                          {day}
+                        </div>
+                        <div className="text-lg font-semibold text-center">
+                          {month}
+                        </div>
+                      </div>
+                    </div>
+                    <Link
+                      href={
+                        "/admin/patients/clinical-data/session-details/1212"
+                      }
+                    >
+                      <div className="px-2 mb-2  text-white">
+                        <button className="font-semibold text-sm rounded-md  border-white hover:border-secondary hover:bg-secondary w-full transition-all  uppercase border py-[6px]">
+                          Start Session
+                        </button>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
 

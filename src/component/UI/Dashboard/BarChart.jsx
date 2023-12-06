@@ -7,7 +7,8 @@ const BarChart = () => {
     <div div className="bar border rounded-t-xl">
       {/* <div div className="lg:w-4/12 md:w-6/12"> */}
       <h1 className="graph-box bg-gradient-to-b from-teal-400 to-blue-900 py-1 mb-0 text-center text-white">
-        Total Billed vs Total Paid
+        {/* Total Billed vs Total Paid */}
+        Total Sessions Vs Rendered Sessions
       </h1>
       <Bar
         className=" chart p-2"
@@ -23,13 +24,13 @@ const BarChart = () => {
           ],
           datasets: [
             {
-              label: "Billed",
+              label: "Total",
               data: [3328, 1800, 940],
               backgroundColor: "#56BBF1",
               barThickness: 25,
             },
             {
-              label: "Paid",
+              label: "Rendered",
               data: [2.24],
               backgroundColor: "#6CC4A1",
               barThickness: 25,

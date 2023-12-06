@@ -28,7 +28,8 @@ const TreatmentBarChart = () => {
     <div className="border rounded-t-xl">
       {/* <div className="lg:w-4/12 md:w-5/12"> */}
       <h1 className=" graph-box bg-gradient-to-b from-teal-400 to-blue-900 py-1 mb-0 text-center text-white">
-        Total Billed vs Total Paid
+        {/* Total Billed vs Total Paid */}
+        Total Sessions
       </h1>
       {Graph.length > 0 ? (
         <Bar
@@ -39,35 +40,35 @@ const TreatmentBarChart = () => {
 
             datasets: [
               {
-                label: "97153",
+                label: "Scheduled",
                 data: data1,
                 backgroundColor: "#00A4D6",
                 barThickness: 25,
               },
               {
-                label: "97156",
+                label: "Rendered",
                 data: data2,
                 backgroundColor: "#00B88A",
                 barThickness: 20,
               },
               {
-                label: "0002",
+                label: "Cancelled by Provider",
                 data: data3,
                 backgroundColor: "#FFAD33",
                 barThickness: 20,
               },
               {
-                label: "0002",
+                label: "Cancelled by client",
                 data: data4,
                 backgroundColor: "#217FB5",
                 barThickness: 20,
               },
-              {
-                label: "0",
-                data: data5,
-                backgroundColor: "#EB4444",
-                barThickness: 20,
-              },
+              // {
+              //   label: "0",
+              //   data: data5,
+              //   backgroundColor: "#EB4444",
+              //   barThickness: 20,
+              // },
             ],
           }}
           options={{

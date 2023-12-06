@@ -1,12 +1,35 @@
-import { FaUser, FaUserFriends, FaBoxOpen, FaWpforms, FaRegAddressCard } from "react-icons/fa";
+import {
+  FaUser,
+  FaUserFriends,
+  FaBoxOpen,
+  FaWpforms,
+  FaRegAddressCard,
+} from "react-icons/fa";
 import { TbBuildingHospital, TbFileTime } from "react-icons/tb";
 import { BiRename, BiLinkAlt, BiFolderOpen } from "react-icons/bi";
-import { BsHouseDoor, BsFileEarmarkMedical, BsFileEarmark, BsFolder2Open, BsBox } from "react-icons/bs";
+import {
+  BsHouseDoor,
+  BsFileEarmarkMedical,
+  BsFileEarmark,
+  BsFolder2Open,
+  BsBox,
+} from "react-icons/bs";
 import { MdOutlinePayment, MdTrackChanges } from "react-icons/md";
 import { ImUsers } from "react-icons/im";
 import { TbArrowsRightLeft } from "react-icons/tb";
-import { AiOutlineUserAdd, AiOutlineUser, AiOutlineFile, AiOutlineMail, AiOutlineCloud } from "react-icons/ai";
-import { RiSettingsFill, RiHospitalLine, RiSendPlaneLine, RiFolderUserLine } from "react-icons/ri";
+import {
+  AiOutlineUserAdd,
+  AiOutlineUser,
+  AiOutlineFile,
+  AiOutlineMail,
+  AiOutlineCloud,
+} from "react-icons/ai";
+import {
+  RiSettingsFill,
+  RiHospitalLine,
+  RiSendPlaneLine,
+  RiFolderUserLine,
+} from "react-icons/ri";
 import { FiLayers, FiAnchor } from "react-icons/fi";
 import { VscServerProcess } from "react-icons/vsc";
 
@@ -17,29 +40,29 @@ import { VscServerProcess } from "react-icons/vsc";
 export const dashboardCount = [
   {
     icon: <FaUser />,
-    number: "36",
+    number: "77",
     info: "Total No. of Patients",
     bgClass: "bg-gradient-to-b from-cyan-400 to-violet-900",
     iColor: "bg-blue-600",
   },
   {
     icon: <FaUser />,
-    number: "12",
-    info: "Total No. of Staffs",
+    number: "1303",
+    info: "Sessions Rendered",
     bgClass: "bg-gradient-to-b from-orange-300 to-red-700",
     iColor: "bg-red-700",
   },
   {
     icon: <ImUsers />,
-    number: "71",
-    info: "Unrendered Sessions",
+    number: "269",
+    info: "Sessions Unrendered",
     bgClass: "bg-gradient-to-b from-teal-400 to-blue-900",
     iColor: "bg-blue-600",
   },
   {
     icon: <TbBuildingHospital />,
-    number: "321",
-    info: "Unbilled Claims",
+    number: "127",
+    info: "Unbilled Sessions",
     bgClass: "bg-gradient-to-b from-emerald-300 to-emerald-900 ",
     iColor: "bg-green-800",
   },

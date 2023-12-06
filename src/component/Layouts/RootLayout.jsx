@@ -22,6 +22,8 @@ import Head from "next/head";
 import Footer from "../UI/Layouts/Footer";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { useTheme } from "next-themes";
+import { FaCalendarAlt, FaListAlt } from "react-icons/fa";
+import { VscDebugDisconnect } from "react-icons/vsc";
 
 const menuItem = [
   {
@@ -35,9 +37,21 @@ const menuItem = [
     icon: <BiLibrary />,
   },
   {
-    path: "/admin/appointment",
+    path: "/",
     name: "Appointment",
     icon: <BiCalendarWeek />,
+    subRoute: [
+      {
+        path: "/admin/appointment/listView",
+        name: "List View",
+        icon: <FaListAlt />,
+      },
+      {
+        path: "/admin/appointment/calender-view",
+        name: "Calender View",
+        icon: <FaCalendarAlt />,
+      },
+    ],
   },
   {
     path: "/admin/patients",
@@ -256,7 +270,7 @@ const RootLayout = ({ children }) => {
                     ? "p-4 font-medium min-h-screen main bg-dark-primary border-dark-primary shadow-md rounded-2xl w-auto mt-4 mx-2 lg:ml-[98px] lg:mr-[22px]"
                     : "p-4 font-medium min-h-screen main bg-[#fff] border shadow-md rounded-2xl w-auto mt-4 mx-2 lg:ml-[98px] lg:mr-[22px]"
                 }
-                // className=" p-4 font-medium min-h-screen main bg-[#fff] border shadow-md rounded-2xl w-auto mt-4 mx-2 lg:ml-[98px] lg:mr-[22px]"
+                // className="p-4 font-medium min-h-screen main bg-[#fff] border shadow-md rounded-2xl w-auto mt-4 mx-2 lg:ml-[98px] lg:mr-[22px]"
               >
                 {children}
               </main>

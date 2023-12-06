@@ -47,30 +47,30 @@ const dashboardPage = () => {
         transition={{ delay: 0.6 }}
         className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 my-5 gap-5"
       >
-        <Tables
+        {/* <Tables
           tableType={task}
           tableName={<span className=" text-sm px-2">Today&apos;s Task</span>}
-        ></Tables>
+        ></Tables> */}
         <Tables
           tableType={patient}
           tableName={<span className=" text-sm px-2">Patient</span>}
         ></Tables>
-        <Tables
+        {/* <Tables
           tableType={staffs}
           tableName={<span className=" text-sm px-2">Staffs</span>}
-        ></Tables>
-        <Tables
+        ></Tables> */}
+        {/* <Tables
           tableType={billing}
           tableName={<span className=" text-sm px-2">Billing</span>}
-        ></Tables>
+        ></Tables> */}
         <Tables
           tableType={scheduler}
           tableName={<span className=" text-sm px-2">Scheduler</span>}
         ></Tables>
-        <Tables
+        {/* <Tables
           tableType={reports}
           tableName={<span className=" text-sm px-2">Trending Reports</span>}
-        ></Tables>
+        ></Tables> */}
       </motion.div>
     </div>
   );

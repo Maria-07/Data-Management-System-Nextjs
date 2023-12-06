@@ -13,7 +13,7 @@ const LineChart = () => {
         SetLineChartGraph(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   }, []);
 
@@ -21,7 +21,8 @@ const LineChart = () => {
     // <div div className="lg:w-4/12 md:w-6/12">
     <div className="border rounded-t-xl">
       <h1 className="graph-box bg-gradient-to-b from-teal-400 to-blue-900 py-1 mb-0 text-center text-white">
-        Charge Analysis by Service Date
+        {/* Charge Analysis by Service Date */}
+        Cancelled Sessions
       </h1>
       {LineChartGraph.length > 0 ? (
         <Line
@@ -30,7 +31,7 @@ const LineChart = () => {
             labels: LineChartGraph.map((x) => x.name.slice(1, 8)),
             datasets: [
               {
-                label: "Billed",
+                label: "Cancelled Sessions",
                 data: [3328, 1800, 940, 0, 0, 0],
                 backgroundColor: "#56BBF1",
                 barThickness: 35,

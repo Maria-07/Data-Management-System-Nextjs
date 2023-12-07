@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "first_name": "Thea",
+    "last_name": "Thoday",
+    "npi": 39,
+    "upin": 75
+  },
+  {
+    "id": 2,
+    "first_name": "Grover",
+    "last_name": "Rheubottom",
+    "npi": 54,
+    "upin": 100
+  },
+  {
+    "id": 3,
+    "first_name": "Renate",
+    "last_name": "Bould",
+    "npi": 90,
+    "upin": 68
+  },
+  {
+    "id": 4,
+    "first_name": "Evin",
+    "last_name": "Manville",
+    "npi": 29,
+    "upin": 66
+  },
+  {
+    "id": 5,
+    "first_name": "Stormi",
+    "last_name": "Vanezis",
+    "npi": 59,
+    "upin": 45
+  },
+  {
+    "id": 6,
+    "first_name": "Anita",
+    "last_name": "Sleet",
+    "npi": 64,
+    "upin": 79
+  },
+  {
+    "id": 7,
+    "first_name": "Glori",
+    "last_name": "Chisholm",
+    "npi": 70,
+    "upin": 80
+  },
+  {
+    "id": 8,
+    "first_name": "Herrick",
+    "last_name": "O'Mahoney",
+    "npi": 51,
+    "upin": 60
+  },
+  {
+    "id": 9,
+    "first_name": "Odie",
+    "last_name": "Sich",
+    "npi": 48,
+    "upin": 33
+  },
+  {
+    "id": 10,
+    "first_name": "Noell",
+    "last_name": "Golly",
+    "npi": 25,
+    "upin": 26
+  }
+]

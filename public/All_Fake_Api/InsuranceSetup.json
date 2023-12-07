@@ -1,0 +1,27 @@
+[
+  {
+    "insurance": "Anthem Blue C",
+    "id": 21,
+    "cms32": 10
+  },
+  {
+    "insurance": "Health Net",
+    "id": 212,
+    "cms32": 10
+  },
+  {
+    "insurance": "Cigna Behavioral Health",
+    "id": 41,
+    "cms32": 15
+  },
+  {
+    "insurance": "Southern Illinoi",
+    "id": 51,
+    "cms32": 30
+  },
+  {
+    "insurance": "Blue Cross Blue Shield TX",
+    "id": 81,
+    "cms32": 40
+  }
+]

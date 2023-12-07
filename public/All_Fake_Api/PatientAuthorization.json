@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "Description": "Aloysius",
+    "Onset_Date": "5/31/2022",
+    "End_Date": "2/16/2022",
+    "Primary_insurance": "Mineral Oil",
+    "Treatment_type": "Cardinal Health",
+    "uci": "06-741-5403"
+  },
+  {
+    "id": 2,
+    "Description": "Louisa",
+    "Onset_Date": "6/13/2022",
+    "End_Date": "10/18/2021",
+    "Primary_insurance": "Erythromycin",
+    "Treatment_type": "Arbor Pharmaceuticals, Inc.",
+    "uci": "95-398-9962"
+  },
+  {
+    "id": 3,
+    "Description": "Wynn",
+    "Onset_Date": "4/25/2022",
+    "End_Date": "9/6/2022",
+    "Primary_insurance": "AMARANTHUS TUBERCULATUS POLLEN",
+    "Treatment_type": "ALK-Abello, Inc.",
+    "uci": "08-368-4616"
+  },
+  {
+    "id": 44,
+    "Description": "Sadie",
+    "Onset_Date": "6/30/2022",
+    "End_Date": "3/13/2022",
+    "Primary_insurance": "Benzphetamine Hydrochloride",
+    "Treatment_type": "Paddock Laboratories, Inc.",
+    "uci": "62-476-0410"
+  }
+]

@@ -28,7 +28,7 @@ const ViewNotes = ({ view, setView }) => {
           <div className="flex justify-between">
             <IoCloseCircleOutline
               onClick={() => setView(!view)}
-              className="text-gray-600 text-2xl hover:text-primary"
+              className="text-gray-600 text-2xl  hover:text-primary"
             />
           </div>
         </div>
@@ -38,7 +38,7 @@ const ViewNotes = ({ view, setView }) => {
           <div>
             <label className="label">
               <span className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
-              Select form
+                Select form
               </span>
             </label>
             <select

@@ -1,0 +1,401 @@
+[{
+    "patient": "Odie Belvard",
+    "provider": "Odie",
+    "supervisor": "Odie Giberd",
+    "date": "7/2/2022",
+    "copay": "$1.23",
+    "region": "France",
+    "authorization": "SVU"
+  }, {
+    "patient": "Drucy O'Loughane",
+    "provider": "Drucy",
+    "supervisor": "Drucy Stothert",
+    "date": "5/5/2022",
+    "copay": "$2.63",
+    "region": "Russia",
+    "authorization": "AMH^F"
+  }, {
+    "patient": "Marya Huntar",
+    "provider": "Marya",
+    "supervisor": "Marya Ericssen",
+    "date": "6/30/2022",
+    "copay": "$4.04",
+    "region": "Japan",
+    "authorization": "HBI"
+  }, {
+    "patient": "Leyla Vergo",
+    "provider": "Leyla",
+    "supervisor": "Leyla Mattia",
+    "date": "11/8/2021",
+    "copay": "$6.87",
+    "region": "Panama",
+    "authorization": "DBD"
+  }, {
+    "patient": "Gloriana Mufford",
+    "provider": "Gloriana",
+    "supervisor": "Gloriana Plumley",
+    "date": "10/3/2021",
+    "copay": "$7.41",
+    "region": "Palestinian Territory",
+    "authorization": "EBTC"
+  }, {
+    "patient": "Teddy Andrusov",
+    "provider": "Teddy",
+    "supervisor": "Teddy McCuis",
+    "date": "9/7/2021",
+    "copay": "$2.47",
+    "region": "Indonesia",
+    "authorization": "KYN"
+  }, {
+    "patient": "Kirsti Walklett",
+    "provider": "Kirsti",
+    "supervisor": "Kirsti Rock",
+    "date": "6/21/2022",
+    "copay": "$0.21",
+    "region": "Indonesia",
+    "authorization": "CALX"
+  }, {
+    "patient": "Evangeline Laundon",
+    "provider": "Evangeline",
+    "supervisor": "Evangeline Stopforth",
+    "date": "7/19/2022",
+    "copay": "$1.77",
+    "region": "Namibia",
+    "authorization": "SHIPW"
+  }, {
+    "patient": "Donnie Scholz",
+    "provider": "Donnie",
+    "supervisor": "Donnie Parsand",
+    "date": "3/23/2022",
+    "copay": "$3.58",
+    "region": "Russia",
+    "authorization": "TYL"
+  }, {
+    "patient": "Ethelda Lillicrop",
+    "provider": "Ethelda",
+    "supervisor": "Ethelda Jewer",
+    "date": "4/27/2022",
+    "copay": "$9.22",
+    "region": "Afghanistan",
+    "authorization": "MTL"
+  }, {
+    "patient": "Pascal Cheyenne",
+    "provider": "Pascal",
+    "supervisor": "Pascal Vandrill",
+    "date": "6/25/2022",
+    "copay": "$7.18",
+    "region": "Japan",
+    "authorization": "SCHL"
+  }, {
+    "patient": "Olympe Cullerne",
+    "provider": "Olympe",
+    "supervisor": "Olympe Verbeek",
+    "date": "10/13/2021",
+    "copay": "$0.18",
+    "region": "Macedonia",
+    "authorization": "MSP"
+  }, {
+    "patient": "Angeline Lilley",
+    "provider": "Angeline",
+    "supervisor": "Angeline Colrein",
+    "date": "6/15/2022",
+    "copay": "$0.11",
+    "region": "Czech Republic",
+    "authorization": "VR"
+  }, {
+    "patient": "Dieter Inworth",
+    "provider": "Dieter",
+    "supervisor": "Dieter Karys",
+    "date": "8/25/2022",
+    "copay": "$9.41",
+    "region": "China",
+    "authorization": "TDA"
+  }, {
+    "patient": "Casey Oventon",
+    "provider": "Casey",
+    "supervisor": "Casey Tynnan",
+    "date": "8/4/2022",
+    "copay": "$9.23",
+    "region": "Bolivia",
+    "authorization": "SRT"
+  }, {
+    "patient": "Dyanna Edyson",
+    "provider": "Dyanna",
+    "supervisor": "Dyanna Palphreyman",
+    "date": "11/4/2021",
+    "copay": "$9.17",
+    "region": "Russia",
+    "authorization": "SHOS"
+  }, {
+    "patient": "Huberto Ewart",
+    "provider": "Huberto",
+    "supervisor": "Huberto Saintpierre",
+    "date": "12/2/2021",
+    "copay": "$3.34",
+    "region": "Lithuania",
+    "authorization": "AMN"
+  }, {
+    "patient": "Antonin Muncie",
+    "provider": "Antonin",
+    "supervisor": "Antonin Stirton",
+    "date": "7/29/2022",
+    "copay": "$6.68",
+    "region": "China",
+    "authorization": "QEP"
+  }, {
+    "patient": "Boote Penzer",
+    "provider": "Boote",
+    "supervisor": "Boote Frusher",
+    "date": "2/16/2022",
+    "copay": "$7.79",
+    "region": "Bosnia and Herzegovina",
+    "authorization": "ANDE"
+  }, {
+    "patient": "Neda Dalligan",
+    "provider": "Neda",
+    "supervisor": "Neda Boutwell",
+    "date": "1/9/2022",
+    "copay": "$1.06",
+    "region": "Armenia",
+    "authorization": "CBSHP"
+  }, {
+    "patient": "Juli Garric",
+    "provider": "Juli",
+    "supervisor": "Juli Creasy",
+    "date": "7/14/2022",
+    "copay": "$5.79",
+    "region": "China",
+    "authorization": "AZN"
+  }, {
+    "patient": "Giacobo MacRonald",
+    "provider": "Giacobo",
+    "supervisor": "Giacobo Ringe",
+    "date": "2/28/2022",
+    "copay": "$2.35",
+    "region": "Philippines",
+    "authorization": "DCM"
+  }, {
+    "patient": "Nat Brabban",
+    "provider": "Nat",
+    "supervisor": "Nat Doree",
+    "date": "6/25/2022",
+    "copay": "$7.18",
+    "region": "Egypt",
+    "authorization": "MYL"
+  }, {
+    "patient": "Neron Pauling",
+    "provider": "Neron",
+    "supervisor": "Neron McReath",
+    "date": "10/12/2021",
+    "copay": "$5.86",
+    "region": "Tunisia",
+    "authorization": "CENTA"
+  }, {
+    "patient": "Blisse Keigher",
+    "provider": "Blisse",
+    "supervisor": "Blisse Goring",
+    "date": "7/7/2022",
+    "copay": "$1.34",
+    "region": "Nigeria",
+    "authorization": "CNET"
+  }, {
+    "patient": "Flossie Corrao",
+    "provider": "Flossie",
+    "supervisor": "Flossie Bowyer",
+    "date": "7/1/2022",
+    "copay": "$5.22",
+    "region": "Mexico",
+    "authorization": "KEG"
+  }, {
+    "patient": "Dag Fromont",
+    "provider": "Dag",
+    "supervisor": "Dag Kerfod",
+    "date": "3/9/2022",
+    "copay": "$2.77",
+    "region": "Sweden",
+    "authorization": "HDP"
+  }, {
+    "patient": "Nilson Feasey",
+    "provider": "Nilson",
+    "supervisor": "Nilson Beauly",
+    "date": "6/30/2022",
+    "copay": "$8.34",
+    "region": "Philippines",
+    "authorization": "LOGI"
+  }, {
+    "patient": "Giovanni Cavendish",
+    "provider": "Giovanni",
+    "supervisor": "Giovanni Erdely",
+    "date": "7/19/2022",
+    "copay": "$6.76",
+    "region": "Russia",
+    "authorization": "JAZZ"
+  }, {
+    "patient": "Sarajane Mellings",
+    "provider": "Sarajane",
+    "supervisor": "Sarajane Sketch",
+    "date": "8/1/2022",
+    "copay": "$0.01",
+    "region": "Sweden",
+    "authorization": "RVNC"
+  }, {
+    "patient": "Dall Arnell",
+    "provider": "Dall",
+    "supervisor": "Dall Voice",
+    "date": "12/2/2021",
+    "copay": "$5.81",
+    "region": "Norway",
+    "authorization": "NEFF"
+  }, {
+    "patient": "Tessy Cullinan",
+    "provider": "Tessy",
+    "supervisor": "Tessy McReynolds",
+    "date": "1/14/2022",
+    "copay": "$5.31",
+    "region": "Nigeria",
+    "authorization": "GYC"
+  }, {
+    "patient": "Nathalia Gronauer",
+    "provider": "Nathalia",
+    "supervisor": "Nathalia Upwood",
+    "date": "9/2/2021",
+    "copay": "$0.27",
+    "region": "France",
+    "authorization": "WFC^Q"
+  }, {
+    "patient": "Hart Elphick",
+    "provider": "Hart",
+    "supervisor": "Hart Dunning",
+    "date": "3/14/2022",
+    "copay": "$9.78",
+    "region": "Russia",
+    "authorization": "UNB"
+  }, {
+    "patient": "Gifford Routhorn",
+    "provider": "Gifford",
+    "supervisor": "Gifford Bushrod",
+    "date": "6/16/2022",
+    "copay": "$0.76",
+    "region": "China",
+    "authorization": "GIII"
+  }, {
+    "patient": "Krishna Sainsbury",
+    "provider": "Krishna",
+    "supervisor": "Krishna Blampy",
+    "date": "9/7/2021",
+    "copay": "$1.07",
+    "region": "Mexico",
+    "authorization": "GNE^A"
+  }, {
+    "patient": "Nedi Lambdon",
+    "provider": "Nedi",
+    "supervisor": "Nedi Aaron",
+    "date": "5/30/2022",
+    "copay": "$3.18",
+    "region": "Russia",
+    "authorization": "NI"
+  }, {
+    "patient": "Francisco Antunes",
+    "provider": "Francisco",
+    "supervisor": "Francisco Mattiazzo",
+    "date": "5/7/2022",
+    "copay": "$8.56",
+    "region": "Philippines",
+    "authorization": "QHC"
+  }, {
+    "patient": "Darrick Krug",
+    "provider": "Darrick",
+    "supervisor": "Darrick Morrison",
+    "date": "7/25/2022",
+    "copay": "$1.41",
+    "region": "Brazil",
+    "authorization": "SEAC"
+  }, {
+    "patient": "Eustacia Frail",
+    "provider": "Eustacia",
+    "supervisor": "Eustacia Searle",
+    "date": "1/31/2022",
+    "copay": "$5.13",
+    "region": "China",
+    "authorization": "LBRDA"
+  }, {
+    "patient": "Guntar Nornable",
+    "provider": "Guntar",
+    "supervisor": "Guntar Morena",
+    "date": "7/30/2022",
+    "copay": "$7.35",
+    "region": "Sweden",
+    "authorization": "OTEL"
+  }, {
+    "patient": "Noreen Brakespear",
+    "provider": "Noreen",
+    "supervisor": "Noreen Dinsmore",
+    "date": "3/16/2022",
+    "copay": "$6.64",
+    "region": "Argentina",
+    "authorization": "CRAY"
+  }, {
+    "patient": "Olga Sandyfirth",
+    "provider": "Olga",
+    "supervisor": "Olga Paulitschke",
+    "date": "4/13/2022",
+    "copay": "$5.61",
+    "region": "Thailand",
+    "authorization": "DUK"
+  }, {
+    "patient": "Bud O'Deoran",
+    "provider": "Bud",
+    "supervisor": "Bud Condon",
+    "date": "11/27/2021",
+    "copay": "$7.18",
+    "region": "Czech Republic",
+    "authorization": "RBS^F"
+  }, {
+    "patient": "Kilian Stanesby",
+    "provider": "Kilian",
+    "supervisor": "Kilian Dowsing",
+    "date": "10/23/2021",
+    "copay": "$6.79",
+    "region": "Poland",
+    "authorization": "MGCD"
+  }, {
+    "patient": "Marie Dimmne",
+    "provider": "Marie",
+    "supervisor": "Marie Lowdyane",
+    "date": "3/14/2022",
+    "copay": "$7.83",
+    "region": "Argentina",
+    "authorization": "PSB"
+  }, {
+    "patient": "Juline Garlee",
+    "provider": "Juline",
+    "supervisor": "Juline Storm",
+    "date": "2/22/2022",
+    "copay": "$8.30",
+    "region": "United States",
+    "authorization": "DRA"
+  }, {
+    "patient": "Michaella Cowlas",
+    "provider": "Michaella",
+    "supervisor": "Michaella Blackaby",
+    "date": "8/30/2021",
+    "copay": "$8.95",
+    "region": "Bulgaria",
+    "authorization": "FBC"
+  }, {
+    "patient": "Seth Storey",
+    "provider": "Seth",
+    "supervisor": "Seth Skullet",
+    "date": "8/27/2022",
+    "copay": "$1.11",
+    "region": "China",
+    "authorization": "MCHX"
+  }, {
+    "patient": "Vinnie Gaspard",
+    "provider": "Vinnie",
+    "supervisor": "Vinnie Foord",
+    "date": "6/10/2022",
+    "copay": "$5.81",
+    "region": "Cape Verde",
+    "authorization": "WMGI"
+  }]

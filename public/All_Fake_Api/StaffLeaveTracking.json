@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "history_date": "1/30/2022",
+    "status": "Pending",
+    "description": "Pedal cycle driver injured in noncollision transport accident in nontraffic accident"
+  },
+  {
+    "id": 2,
+    "history_date": "10/5/2021",
+    "status": "Hold",
+    "description": "Motorcycle passenger injured in collision with other motor vehicles in traffic accident"
+  },
+  {
+    "id": 3,
+    "history_date": "4/27/2022",
+    "status": "Pending",
+    "description": "Person boarding or alighting a heavy transport vehicle injured in noncollision transport accident, initial encounter"
+  },
+  {
+    "id": 4,
+    "history_date": "2/7/2022",
+    "status": "Pending",
+    "description": "Maxillary fracture, left side"
+  },
+  {
+    "id": 5,
+    "history_date": "2/8/2022",
+    "status": "Pending",
+    "description": "Vitiligo"
+  },
+  {
+    "id": 6,
+    "history_date": "8/9/2022",
+    "status": "Scheduled",
+    "description": "Amniotic fluid embolism in childbirth"
+  },
+  {
+    "id": 7,
+    "history_date": "7/28/2022",
+    "status": "Scheduled",
+    "description": "Keratoconus, unspecified, left eye"
+  },
+  {
+    "id": 8,
+    "history_date": "12/1/2021",
+    "status": "Hold",
+    "description": "Military operations involving fragments of improvised explosive device [IED]"
+  }
+]

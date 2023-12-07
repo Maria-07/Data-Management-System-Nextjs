@@ -24,6 +24,7 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { useTheme } from "next-themes";
 import { FaCalendarAlt, FaListAlt } from "react-icons/fa";
 import { VscDebugDisconnect } from "react-icons/vsc";
+import { AiOutlineAudit } from "react-icons/ai";
 
 const menuItem = [
   {
@@ -43,7 +44,7 @@ const menuItem = [
     subRoute: [
       {
         path: "/admin/appointment/listView",
-        name: "List View",
+        name: "My Schedule",
         icon: <FaListAlt />,
       },
       {
@@ -55,7 +56,7 @@ const menuItem = [
   },
   {
     path: "/admin/patients",
-    name: "Patients",
+    name: "Patients (+)",
     icon: <BiUserCircle />,
   },
   {
@@ -64,15 +65,20 @@ const menuItem = [
     icon: <BiUser />,
   },
   {
-    path: "/report",
-    name: "Report",
-    icon: <BiSolidReport />,
+    path: "/admin/timesheet",
+    name: "Timesheet",
+    icon: <AiOutlineAudit />,
   },
-  {
-    path: "/settings/program-data",
-    name: "Settings",
-    icon: <SettingOutlined />,
-  },
+  // {
+  //   path: "/report",
+  //   name: "Report",
+  //   icon: <BiSolidReport />,
+  // },
+  // {
+  //   path: "/settings/program-data",
+  //   name: "Settings",
+  //   icon: <SettingOutlined />,
+  // },
 ];
 
 const initialDropState = {};

@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "hourly_rate": 21,
+    "service": "Toxic effect of carbon monoxide from other source, assault",
+    "milage_rate": 49,
+    "billable": false
+  },
+  {
+    "id": 2,
+    "hourly_rate": 42,
+    "service": "Intraoperative hemorrhage and hematoma of skin and subcutaneous tissue complicating other procedure",
+    "milage_rate": 89,
+    "billable": true
+  },
+  {
+    "id": 3,
+    "hourly_rate": 49,
+    "service": "Stenosis of pulmonary artery",
+    "milage_rate": 50,
+    "billable": false
+  },
+  {
+    "id": 4,
+    "hourly_rate": 39,
+    "service": "Osteonecrosis due to drugs of left carpus",
+    "milage_rate": 76,
+    "billable": false
+  },
+  {
+    "id": 5,
+    "hourly_rate": 75,
+    "service": "Unspecified fracture of right femur, subsequent encounter for open fracture type I or II with routine healing",
+    "milage_rate": 41,
+    "billable": true
+  },
+  {
+    "id": 6,
+    "hourly_rate": 9,
+    "service": "Chlamydial infection of pelviperitoneum and other genitourinary organs",
+    "milage_rate": 83,
+    "billable": true
+  },
+  {
+    "id": 7,
+    "hourly_rate": 51,
+    "service": "Laceration without foreign body of hand",
+    "milage_rate": 59,
+    "billable": false
+  },
+  {
+    "id": 8,
+    "hourly_rate": 49,
+    "service": "Malignant neoplasm of supraglottis",
+    "milage_rate": 96,
+    "billable": false
+  }
+]

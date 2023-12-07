@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "rule": "Patient Unavailable",
+    "description": "Pt. is not available during scheduled session time.",
+    "rules": true
+  },
+  {
+    "id": 2,
+    "rule": "Holiday(s)/Closure(s)",
+    "description": "A session has been scheduled on eit",
+    "rules": true
+  },
+  {
+    "id": 3,
+    "rule": "Provider overbooked",
+    "description": "Provider has a session already scheduled during this time",
+    "rules": true
+  },
+  {
+    "id": 4,
+    "rule": "Provider Blocked Schedule",
+    "description": "Provider is not available during this time.",
+    "rules": true
+  },
+  {
+    "id": 5,
+    "rule": "Provider on Leave",
+    "description": "Provider is scheduled to be out of the office.",
+    "rules": false
+  },
+  {
+    "id": 6,
+    "rule": "Dupl. SERV./Same Day/Same Time",
+    "description": "This service has already been scheduled for same time and day.",
+    "rules": true
+  },
+  {
+    "id": 7,
+    "rule": "Authorization End Date",
+    "description": "Pt. is not available during scheduled session time.",
+    "rules": true
+  },
+  {
+    "id": 8,
+    "rule": "Authorized Hrs./ Units",
+    "description": "Pt. is not available during scheduled session time.",
+    "rules": false
+  },
+  {
+    "id": 9,
+    "rule": "Auth Hrs./ Units per day",
+    "description": "Pt. is not available during scheduled session time.",
+    "rules": true
+  },
+  {
+    "id": 44,
+    "rule": "Patient Unavailable",
+    "description": "Pt. is not available during scheduled session time.",
+    "rules": true
+  },
+  {
+    "id": 91,
+    "rule": "Auth Hrs./Units per week",
+    "description": "Pt. is not available during scheduled session time.",
+    "rules": true
+  },
+  {
+    "id": 100,
+    "rule": "Concurrent Billing (Tricare",
+    "description": "Pt. is not available during scheduled session time.",
+    "rules": false
+  }
+]

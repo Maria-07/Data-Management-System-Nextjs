@@ -41,7 +41,7 @@ const MessegeShow = ({ messege, setMessege }) => {
           <div className="mt-2 ">
             <div>
               <h1 className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
-              Session Sticky Notes:
+                Session Sticky Notes:
               </h1>
               <div className="mt-3 mb-3">
                 <TextArea
@@ -57,7 +57,7 @@ const MessegeShow = ({ messege, setMessege }) => {
 
             <div>
               <h1 className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
-              Patient Sticky Notes:
+                Patient Sticky Notes:
               </h1>
               <div className="mt-3">
                 <TextArea

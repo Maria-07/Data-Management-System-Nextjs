@@ -66,6 +66,8 @@ const CustomModal = ({
   const month = date ? date.toLocaleString("en-us", { month: "long" }) : null;
   const currentDate = date ? date.getDate() : null;
   const year = date ? date.getFullYear() : null;
+  const [billable, setBillable] = useState(true);
+  const [therapy, setTherapy] = useState(true);
 
   const toggleForm = () => {
     setShowForm(!showForm);
@@ -202,13 +204,22 @@ const CustomModal = ({
         // aria-labelledby="responsive-dialog-title"
       >
         <div className="px-0 py-2 font-[poppins,sans-serif]">
-          <div className="flex items-center justify-between px-3 py-2">
+          <div className="flex items-center justify-between">
             <h1 className="text-lg text-left text-orange-400 ">
-              Edit Appointment
+              Add Appointment
             </h1>
 
-            <div className="flex justify-between">
-              <IoTrashOutline className="text-gray-600 text-2xl hover:text-red-600 mr-2" />
+            <div className="flex items-center gap-2">
+              <div>
+                <Switch defaultChecked size="small" onClick={() => {}} />
+                <label
+                  className="form-check-label inline-block font-medium ml-2 text-[12px] text-gray-600"
+                  htmlFor="flesmwitchCheckDefault"
+                >
+                  No Auth
+                </label>
+              </div>
+
               <IoCloseCircleOutline
                 onClick={handleClose}
                 className="text-gray-600 text-2xl hover:text-primary"
@@ -221,14 +232,46 @@ const CustomModal = ({
             onSubmit={handleSubmit(onSubmit)}
             className="h-[513px] overflow-auto px-3 py-2"
           >
-            <div className=" grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 my-5 mr-2 gap-1 md:gap-2">
+            <div className=" grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 mb-5 mr-2 gap-2 md:gap-2">
               <label className="label">
-                <span className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
-                  Patient Name
-                </span>
+                <span className="modal-label-name">Add Type</span>
+              </label>
+              <div className="col-span-2 ml-1 mb-1">
+                <Switch
+                  defaultChecked
+                  size="small"
+                  onClick={() => {
+                    setBillable(!billable);
+                    reset();
+                  }}
+                />
+                <label
+                  className="form-check-label inline-block font-medium ml-2 text-[12px] text-gray-600"
+                  htmlFor="flesmwitchCheckDefault"
+                >
+                  {billable ? "Billable" : "Non-Billable"}
+                </label>
+                <Switch
+                  className="ml-5"
+                  defaultChecked
+                  size="small"
+                  onClick={() => {
+                    setTherapy(!therapy);
+                    reset();
+                  }}
+                />
+                <div
+                  className="form-check-label  inline-block font-medium ml-2 text-[12px] text-gray-600"
+                  htmlFor="flesmwitchCheckDefault"
+                >
+                  {therapy ? "Individual Therapy" : "Group Therapy"}
+                </div>
+              </div>
+              <label className="label">
+                <span className="modal-label-name">Patient Name</span>
               </label>
               <select
-                className="border border-gray-300  col-span-2 rounded-sm px-2 py-[1px] mx-1 text-[12px] w-full"
+                className="modal-input-field col-span-2"
                 {...register("patient")}
               >
                 <option value="">Select</option>
@@ -237,12 +280,10 @@ const CustomModal = ({
                 <option value="Ashni Soni">Ashni Soni</option>
               </select>
               <label className="label">
-                <span className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
-                  Auth
-                </span>
+                <span className="modal-label-name">Auth</span>
               </label>
               <select
-                className="border border-gray-300 col-span-2 rounded-sm px-2 py-[1px] mx-1 text-[12px] w-full"
+                className="modal-input-field col-span-2"
                 {...register("auth")}
               >
                 <option value="">Select</option>
@@ -250,12 +291,10 @@ const CustomModal = ({
                 <option value="Baffa Authorization">Baffa Authorization</option>
               </select>
               <label className="label">
-                <span className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
-                  Service
-                </span>
+                <span className="modal-label-name">Service</span>
               </label>
               <select
-                className="border border-gray-300 col-span-2 rounded-sm px-2 py-[1px] mx-1 text-[12px] w-full"
+                className="modal-input-field col-span-2"
                 {...register("auth")}
               >
                 <option value="">Select</option>
@@ -263,12 +302,10 @@ const CustomModal = ({
                 <option value="Baffa Authorization">Baffa Authorization</option>
               </select>
               <label className="label">
-                <span className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
-                  Provider Name
-                </span>
+                <span className="modal-label-name">Provider Name</span>
               </label>
               <select
-                className="border border-gray-300 col-span-2 rounded-sm px-2 py-[1px] mx-1 text-[12px] w-full"
+                className="modal-input-field col-span-2"
                 {...register("provider")}
               >
                 <option value="">Select</option>
@@ -277,12 +314,10 @@ const CustomModal = ({
                 <option value="Gomex twin">Gomex twin</option>
               </select>
               <label className="label">
-                <span className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
-                  From Date
-                </span>
+                <span className="modal-label-name">From Date</span>
               </label>
               {/* <input
-               className="border border-gray-300 col-span-2 rounded-sm px-2 py-[3px] mx-1 text-[12px] w-full"
+               className="modal-input-field col-span-2"
                type="date"
                disabled="disabled"
                {...register("from_date")}
@@ -361,33 +396,27 @@ const CustomModal = ({
               {/* Custom Calender End */}
 
               <label className="label">
-                <span className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
-                  From
-                </span>
+                <span className="modal-label-name">From</span>
               </label>
               <input
-                className="border border-gray-300 col-span-2 rounded-sm px-2 py-[3px] mx-1 text-[12px] w-full"
+                className="modal-input-field col-span-2"
                 type="time"
                 {...register("from_time")}
               />
 
               <label className="label">
-                <span className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
-                  To
-                </span>
+                <span className="modal-label-name">To</span>
               </label>
               <input
-                className="border border-gray-300 col-span-2 rounded-sm px-2 py-[3px] mx-1 text-[12px] w-full"
+                className="modal-input-field col-span-2"
                 type="time"
                 {...register("to_time")}
               />
               <label className="label">
-                <span className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
-                  Status
-                </span>
+                <span className="modal-label-name">Status</span>
               </label>
               <select
-                className="border border-gray-300 col-span-2 rounded-sm px-2 py-[1px] mx-1 text-[12px] w-full"
+                className="modal-input-field col-span-2"
                 {...register("provider")}
               >
                 <option value="">Select</option>
@@ -489,7 +518,7 @@ const CustomModal = ({
                     {/*  form content goes here */}
                     <form>
                       <label className="label">
-                        <span className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
+                        <span className="modal-label-name">
                           Replacement Provider
                         </span>
                       </label>
@@ -506,7 +535,7 @@ const CustomModal = ({
                       <div className="grid col-span-2 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 mt-2 pl-1 gap-1">
                         <div>
                           <label className="label">
-                            <span className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
+                            <span className="modal-label-name">
                               Break Form Time
                             </span>
                           </label>
@@ -520,7 +549,7 @@ const CustomModal = ({
 
                         <div>
                           <label className="label">
-                            <span className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
+                            <span className="modal-label-name">
                               Break To Time
                             </span>
                           </label>

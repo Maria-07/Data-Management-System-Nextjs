@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "tx_type": "Prudence",
+    "cpt": 86
+  },
+  {
+    "id": 2,
+    "tx_type": "Bald",
+    "cpt": 4
+  },
+  {
+    "id": 3,
+    "tx_type": "Mose",
+    "cpt": 19
+  },
+  {
+    "id": 4,
+    "tx_type": "Marylinda",
+    "cpt": 25
+  },
+  {
+    "id": 5,
+    "tx_type": "Derby",
+    "cpt": 16
+  },
+  {
+    "id": 6,
+    "tx_type": "Decca",
+    "cpt": 29
+  },
+  {
+    "id": 7,
+    "tx_type": "Brunhilda",
+    "cpt": 60
+  },
+  {
+    "id": 8,
+    "tx_type": "Arlene",
+    "cpt": 74
+  },
+  {
+    "id": 9,
+    "tx_type": "Suzy",
+    "cpt": 76
+  },
+  {
+    "id": 10,
+    "tx_type": "Ferrel",
+    "cpt": 33
+  }
+]

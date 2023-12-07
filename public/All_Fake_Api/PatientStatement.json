@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "first_name": "Bernardine",
+    "last_name": "Huyge",
+    "dob": "3/19/2022",
+    "gurantor": "Vervet monkey"
+  },
+  {
+    "id": 2,
+    "first_name": "Evaleen",
+    "last_name": "Sessuns",
+    "dob": "3/15/2022",
+    "gurantor": "Fox, north american red"
+  },
+  {
+    "id": 3,
+    "first_name": "Rollo",
+    "last_name": "Downham",
+    "dob": "11/18/2021",
+    "gurantor": "Ferret, black-footed"
+  },
+  {
+    "id": 4,
+    "first_name": "Lauren",
+    "last_name": "Hechlin",
+    "dob": "5/31/2022",
+    "gurantor": "Crab, sally lightfoot"
+  },
+  {
+    "id": 5,
+    "first_name": "Cletis",
+    "last_name": "Wrighton",
+    "dob": "12/22/2021",
+    "gurantor": "Southern ground hornbill"
+  },
+  {
+    "id": 6,
+    "first_name": "Wandie",
+    "last_name": "Hulson",
+    "dob": "12/2/2021",
+    "gurantor": "Nilgai"
+  },
+  {
+    "id": 7,
+    "first_name": "Alvie",
+    "last_name": "Piell",
+    "dob": "12/12/2021",
+    "gurantor": "Whale, long-finned pilot"
+  },
+  {
+    "id": 8,
+    "first_name": "Lorrie",
+    "last_name": "D'Elias",
+    "dob": "6/14/2022",
+    "gurantor": "Coot, red-knobbed"
+  },
+  {
+    "id": 9,
+    "first_name": "Towney",
+    "last_name": "Priscott",
+    "dob": "6/2/2022",
+    "gurantor": "Monkey, bleeding heart"
+  },
+  {
+    "id": 10,
+    "first_name": "Dian",
+    "last_name": "Thurlbeck",
+    "dob": "1/8/2022",
+    "gurantor": "Seal, harbor"
+  }
+]

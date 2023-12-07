@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "facility_id": 1,
+    "name": "Wordpedia",
+    "main_contact_number": "Citalopram",
+    "email": "lyukhnev0@tiny.cc",
+    "phone": "548-686-4289"
+  },
+  {
+    "id": 2,
+    "facility_id": 2,
+    "name": "Topdrive",
+    "main_contact_number": "Famotidine",
+    "email": "sasplen1@sina.com.cn",
+    "phone": "851-241-4429"
+  },
+  {
+    "id": 3,
+    "facility_id": 3,
+    "name": "Mudo",
+    "main_contact_number": "Treatment Set TS350533",
+    "email": "rfirmin2@ameblo.jp",
+    "phone": "616-720-9626"
+  },
+  {
+    "id": 4,
+    "facility_id": 4,
+    "name": "InnoZ",
+    "main_contact_number": "Avobenzone, Homosalate, Octisalate, Octocrylene, and Oxybenzone",
+    "email": "kbutrimovich3@nps.gov",
+    "phone": "929-545-1196"
+  },
+  {
+    "id": 5,
+    "facility_id": 5,
+    "name": "Yozio",
+    "main_contact_number": "Diphenhydramine hydrochloride and Zinc acetate",
+    "email": "wmassingham4@hexun.com",
+    "phone": "628-389-2599"
+  },
+  {
+    "id": 6,
+    "facility_id": 6,
+    "name": "Skyndu",
+    "main_contact_number": "ascorbic acid, calcium threonate, cholecalciferol, .alpha.-tocopherol acetate, dl-, pyridoxine hydrochloride, folic acid, calcium carbonate, ferrous fumarate, magnesium oxide, zinc oxide and cupric ox",
+    "email": "fvolkes5@ucoz.ru",
+    "phone": "279-977-5529"
+  },
+  {
+    "id": 7,
+    "facility_id": 7,
+    "name": "Jatri",
+    "main_contact_number": "Calcipotriene",
+    "email": "ccroxall6@google.de",
+    "phone": "222-857-0233"
+  },
+  {
+    "id": 8,
+    "facility_id": 8,
+    "name": "Fadeo",
+    "main_contact_number": "Methocarbamol",
+    "email": "tverson7@columbia.edu",
+    "phone": "300-916-7260"
+  },
+  {
+    "id": 9,
+    "facility_id": 9,
+    "name": "Quimba",
+    "main_contact_number": "Pecan Carya Carya illinoensis",
+    "email": "ccunde8@hostgator.com",
+    "phone": "148-902-1645"
+  },
+  {
+    "id": 10,
+    "facility_id": 10,
+    "name": "Jaloo",
+    "main_contact_number": "Johnson Grass",
+    "email": "vfakes9@cnn.com",
+    "phone": "596-444-6263"
+  }
+]

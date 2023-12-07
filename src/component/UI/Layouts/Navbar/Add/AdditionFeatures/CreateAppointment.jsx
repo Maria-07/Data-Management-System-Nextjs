@@ -125,6 +125,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
     // }
     // // reset();
   };
+
   // To Show Success Or Error Message
   // useEffect(() => {
   //   if (creationData?.status === "success") {
@@ -168,13 +169,15 @@ const CreateAppointment = ({ handleClose, clicked }) => {
             />
           </div>
           <div className="h-4 py-1">
-            {/* {authorizationActivityLoading || patientAuthLoading ? (
+            {/* 
+            {authorizationActivityLoading || patientAuthLoading ? (
               <>
                 <progress className="progress w-full bg-secondary h-[3px]"></progress>
               </>
             ) : (
               <div className="bg-gray-200 py-[1.5px] mt-3"></div>
-            )} */}
+            )} 
+            */}
             <div className="bg-gray-200 py-[1.5px] mt-3"></div>
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -328,11 +331,13 @@ const CreateAppointment = ({ handleClose, clicked }) => {
               ) : (
                 // Non-billable Appointment creation part provider multi select
                 <div className="col-span-2 ml-1">
-                  {/* <ProviderMultiSelect
+                  {/* 
+                  <ProviderMultiSelect
                     providers={providersName?.claims}
                     seletedProvider={seletedProvider}
                     setSelectedProvider={setSelectedProvider}
-                  /> */}
+                  />
+                  */}
                 </div>
               )}
               <label className="label">
@@ -343,13 +348,15 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                 {...register("location")}
               >
                 <option value="0">Select Location</option>
-                {/* {posData?.pos?.map((p) => {
+                {/* 
+                {posData?.pos?.map((p) => {
                   return (
                     <option key={p?.id} value={p?.pos_code}>
                       {p?.pos_name}
                     </option>
                   );
-                })} */}
+                })} 
+                */}
               </select>
               {/* calender */}
               <label className="label">
@@ -399,7 +406,8 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                       </div>
                     )}
                     {/* single calendar */}
-                    {/* <div className="col-span-2 w-[95%] my-0 mx-auto">
+                    {/* 
+                    <div className="col-span-2 w-[95%] my-0 mx-auto">
                       <Calendar onChange={setDate} value={date} />
                       <div className="flex justify-between rounded-b-[5px] bg-white py-1 rounded-br-[5px]">
                         <button
@@ -423,11 +431,14 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                           </button>
                         </div>
                       </div>
-                    </div> */}
+                    </div> 
+                    */}
                   </div>
                 </Modal>
               )}
+
               {/* Custom Calender End */}
+
               {/* <label className="label">
                 <span className="modal-label-name">
                   From Date
@@ -438,6 +449,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                 type="date"
                 {...register("check_Date")}
               /> */}
+
               <label className="label">
                 <span className="modal-label-name">From Time</span>
               </label>
@@ -476,7 +488,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
               </select>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 my-5  mr-2 gap-1">
+            <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 my-5 mr-2 gap-1">
               <div className="">
                 <Switch
                   size="small"
@@ -517,7 +529,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                     </label>
                   </div>
                   {daily && (
-                    <div className=" grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5  gap-1">
+                    <div className=" grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1">
                       <div className="flex ml-1 mt-1 items-center">
                         <input
                           type="checkbox"

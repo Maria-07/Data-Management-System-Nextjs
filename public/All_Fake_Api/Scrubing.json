@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "rule": "Ferdinande",
+    "description": "Isramco, Inc.",
+    "run": true,
+    "parcentage": true
+  },
+  {
+    "id": 2,
+    "rule": "Catharine",
+    "description": "General Finance Corporation",
+    "run": true,
+    "parcentage": true
+  },
+  {
+    "id": 3,
+    "rule": "Ellerey",
+    "description": "Gabelli Dividend",
+    "run": true,
+    "parcentage": false
+  },
+  {
+    "id": 4,
+    "rule": "Naomi",
+    "description": "Hecla Mining Company",
+    "run": true,
+    "parcentage": true
+  },
+  {
+    "id": 5,
+    "rule": "Kermie",
+    "description": "BLACKROCK INTERNATIONAL, LTD.",
+    "run": true,
+    "parcentage": true
+  },
+  {
+    "id": 6,
+    "rule": "Anjela",
+    "description": "Core-Mark Holding Company, Inc.",
+    "run": false,
+    "parcentage": false
+  },
+  {
+    "id": 7,
+    "rule": "Natasha",
+    "description": "Two Harbors Investments Corp",
+    "run": true,
+    "parcentage": true
+  },
+  {
+    "id": 8,
+    "rule": "Avictor",
+    "description": "Playa Hotels & Resorts N.V.",
+    "run": false,
+    "parcentage": true
+  },
+  {
+    "id": 9,
+    "rule": "Staffard",
+    "description": "United States Cellular Corporation",
+    "run": true,
+    "parcentage": true
+  },
+  {
+    "id": 10,
+    "rule": "Nevile",
+    "description": "JetPay Corporation",
+    "run": false,
+    "parcentage": false
+  }
+]

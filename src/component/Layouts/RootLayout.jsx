@@ -23,7 +23,7 @@ import Footer from "../UI/Layouts/Footer";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { useTheme } from "next-themes";
 import { FaCalendarAlt, FaListAlt } from "react-icons/fa";
-import { VscDebugDisconnect } from "react-icons/vsc";
+import { LuCalendarClock } from "react-icons/lu";
 import { AiOutlineAudit } from "react-icons/ai";
 
 const menuItem = [
@@ -32,11 +32,11 @@ const menuItem = [
     name: "Dashboard",
     icon: <BiSolidDashboard />,
   },
-  {
-    path: "/library",
-    name: "Library",
-    icon: <BiLibrary />,
-  },
+  // {
+  //   path: "/library",
+  //   name: "Library",
+  //   icon: <BiLibrary />,
+  // },
   {
     path: "/",
     name: "Appointment",
@@ -55,14 +55,24 @@ const menuItem = [
     ],
   },
   {
+    path: "/admin/biographic/info",
+    name: "Biographic",
+    icon: <BiUser />,
+  },
+  {
     path: "/admin/patients",
     name: "Patients (+)",
     icon: <BiUserCircle />,
   },
+  // {
+  //   path: "/admin/staffs",
+  //   name: "Staffs",
+  //   icon: <BiUser />,
+  // },
   {
-    path: "/admin/staffs",
-    name: "Staffs",
-    icon: <BiUser />,
+    path: "/admin/clock-in",
+    name: "Clock In",
+    icon: <LuCalendarClock />,
   },
   {
     path: "/admin/timesheet",

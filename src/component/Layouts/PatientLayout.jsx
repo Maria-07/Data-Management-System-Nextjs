@@ -55,67 +55,67 @@ const PatientLayout = ({ id, children }) => {
     {
       icon: <BiUserCircle />,
       link_name: "Patient Info",
-      link: `/admin/patients/patient-info/${patientId}`,
+      link: `/provider/patients/patient-info/${patientId}`,
     },
     {
       icon: <BiUserCircle />,
       link_name: "Clinical Data",
-      link: `/admin/patients/clinical-data/${patientId}`,
+      link: `/provider/patients/clinical-data/${patientId}`,
     },
     {
       icon: <AiOutlineFileAdd />,
       link_name: "Patient Vob",
-      link: `/admin/patients/patient-vob/${patientId}`,
+      link: `/provider/patients/patient-vob/${patientId}`,
     },
     {
       icon: <BiSolidUserRectangle />,
       link_name: "Patient Authorization",
-      link: `/admin/patients/patient-authorization/${patientId}`,
+      link: `/provider/patients/patient-authorization/${patientId}`,
     },
     {
       icon: <IoDocumentTextOutline />,
       link_name: "Documents",
-      link: `/admin/patients/patient-documents/${patientId}`,
+      link: `/provider/patients/patient-documents/${patientId}`,
     },
     {
       icon: <FaBusinessTime />,
       link_name: "Patient Ledger",
-      link: `/admin/patients/patient-ledger/${patientId}`,
+      link: `/provider/patients/patient-ledger/${patientId}`,
     },
     {
       icon: <BiTimer />,
       link_name: "Patient Portal",
-      link: `/admin/patients/patient-portal/${patientId}`,
+      link: `/provider/patients/patient-portal/${patientId}`,
     },
     {
       icon: <IoCloudUploadOutline />,
       link_name: "Patient Intake",
-      link: `/admin/patients/patient-intake/${patientId}`,
+      link: `/provider/patients/patient-intake/${patientId}`,
     },
     {
       icon: <IoCall />,
       link_name: "Call Log",
-      link: `/admin/patients/patient-callLog/${patientId}`,
+      link: `/provider/patients/patient-callLog/${patientId}`,
     },
     {
       icon: <FaUsers />,
       link_name: "Sibling",
-      link: `/admin/patients/patient-sibling/${patientId}`,
+      link: `/provider/patients/patient-sibling/${patientId}`,
     },
     {
       icon: <BiLogoPaypal />,
       link_name: "Patient Payment",
-      link: `/admin/patients/patient-payment-info/${patientId}`,
+      link: `/provider/patients/patient-payment-info/${patientId}`,
     },
     {
       icon: <BsClipboard2Data />,
       link_name: "Session Notes",
-      link: `/admin/patients/patient-session-notes/${patientId}`,
+      link: `/provider/patients/patient-session-notes/${patientId}`,
     },
     {
       icon: <AiOutlineFileText />,
       link_name: "Clinicians Team",
-      link: `/admin/patients/patient-clinicians/${patientId}`,
+      link: `/provider/patients/patient-clinicians/${patientId}`,
     },
   ];
 

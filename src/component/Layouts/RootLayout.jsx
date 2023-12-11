@@ -28,7 +28,7 @@ import { AiOutlineAudit } from "react-icons/ai";
 
 const menuItem = [
   {
-    path: "/admin/dashboard",
+    path: "/provider/dashboard",
     name: "Dashboard",
     icon: <BiSolidDashboard />,
   },
@@ -43,39 +43,44 @@ const menuItem = [
     icon: <BiCalendarWeek />,
     subRoute: [
       {
-        path: "/admin/appointment/listView",
+        path: "/provider/appointment/listView",
         name: "My Schedule",
         icon: <FaListAlt />,
       },
       {
-        path: "/admin/appointment/calender-view",
+        path: "/provider/appointment/calender-view",
         name: "Calender View",
+        icon: <FaCalendarAlt />,
+      },
+      {
+        path: "/provider/appointment/recurring-session",
+        name: "Recurring Session",
         icon: <FaCalendarAlt />,
       },
     ],
   },
   {
-    path: "/admin/biographic/info",
+    path: "/provider/biographic/info",
     name: "Biographic",
     icon: <BiUser />,
   },
   {
-    path: "/admin/patients",
+    path: "/provider/patients",
     name: "Patients (+)",
     icon: <BiUserCircle />,
   },
   // {
-  //   path: "/admin/staffs",
+  //   path: "/provider/staffs",
   //   name: "Staffs",
   //   icon: <BiUser />,
   // },
   {
-    path: "/admin/clock-in",
+    path: "/provider/clock-in",
     name: "Clock In",
     icon: <LuCalendarClock />,
   },
   {
-    path: "/admin/timesheet",
+    path: "/provider/timesheet",
     name: "Timesheet",
     icon: <AiOutlineAudit />,
   },

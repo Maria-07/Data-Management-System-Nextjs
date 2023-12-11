@@ -56,7 +56,7 @@ const MessegeShow = ({ messege, setMessege }) => {
             </div>
 
             <div>
-              <h1 className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
+              <h1 className="label-text font-medium f  lex items-center text-[12px] text-gray-600 text-left">
                 Patient Sticky Notes:
               </h1>
               <div className="mt-3">

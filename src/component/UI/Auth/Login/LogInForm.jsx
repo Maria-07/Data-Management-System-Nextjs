@@ -37,7 +37,7 @@ const LogInForm = () => {
 
       if (response?.data?.status === "success") {
         toast.success(response?.data?.message);
-        router.push("/library");
+        router.push("/provider/dashboard");
       } else {
         setMessage(response?.data?.message);
         toast.error(response?.error?.data?.message);

@@ -41,70 +41,70 @@ const BiographyLayout = ({ children }) => {
     {
       icon: <BiUserCircle />,
       link_name: "Bio's",
-      link: `/admin/biographic/info`,
+      link: `/provider/biographic/info`,
     },
 
     {
       icon: <BiSolidContact />,
       link_name: "Contact Info",
-      link: `/admin/biographic/contact-info`,
+      link: `/provider/biographic/contact-info`,
     },
     {
       icon: <BsPersonCircle />,
       link_name: "Credential",
-      link: `/admin/biographic/credential`,
+      link: `/provider/biographic/credential`,
     },
     // {
     //   icon: <BiBuilding />,
     //   link_name: "Department Supervisor",
-    //   link: `/admin/staffs/department-supervisor/${staffId}`,
+    //   link: `/provider/staffs/department-supervisor/${staffId}`,
     // },
     // {
     //   icon: <BsCardText />,
     //   link_name: "Payroll Setup",
-    //   link: `/admin/staffs/payroll-setup/${staffId}`,
+    //   link: `/provider/staffs/payroll-setup/${staffId}`,
     // },
     // {
     //   icon: <BsHddNetwork />,
     //   link_name: "Other SetUp",
-    //   link: `/admin/staffs/other-setUp/${staffId}`,
+    //   link: `/provider/staffs/other-setUp/${staffId}`,
     // },
     {
       icon: <BsJournalRichtext />,
       link_name: "Leave Tracking",
-      link: `/admin/biographic/leave-tracking`,
+      link: `/provider/biographic/leave-tracking`,
     },
     // {
     //   icon: <AiOutlineIdcard />,
     //   link_name: "Insurance Exclusion",
-    //   link: `/admin/staffs/insurance-exclusion/${staffId}`,
+    //   link: `/provider/staffs/insurance-exclusion/${staffId}`,
     // },
     // {
     //   icon: <BsInboxFill />,
     //   link_name: "Service Sub Type Exclusion",
-    //   link: `/admin/staffs/service-sub-type-exclusion/${staffId}`,
+    //   link: `/provider/staffs/service-sub-type-exclusion/${staffId}`,
     // },
     // {
     //   icon: <BsPersonBadge />,
     //   link_name: "Patient Exclusion",
-    //   link: `/admin/staffs/patient-exclusion/${staffId}`,
+    //   link: `/provider/staffs/patient-exclusion/${staffId}`,
     // },
     // {
     //   icon: <BsPersonVcard />,
     //   link_name: "Staff Portal",
-    //   link: `/admin/staffs/staff-portal/${staffId}`,
+    //   link: `/provider/staffs/staff-portal/${staffId}`,
     // },
 
     {
       icon: <BsReceiptCutoff />,
       link_name: "Work Schedule",
-      link: `/admin/biographic/work-schedule`,
+      link: `/provider/biographic/work-schedule`,
     },
 
     // {
     //   icon: <BiSolidUserDetail />,
     //   link_name: "Assigned Patient",
-    //   link: `/admin/staffs/assigned-patient/${staffId}`,
+    //   link: `/provider/staffs/assigned-patient/${staffId}`,
     // },
   ];
 

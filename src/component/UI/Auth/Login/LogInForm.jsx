@@ -8,6 +8,7 @@ import { useLoginMutation } from "@/Redux/features/auth/userApi";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import Image from "next/image";
+import Link from "next/link";
 
 const LogInForm = () => {
   const [value, setValue] = useState(false);
@@ -30,10 +31,10 @@ const LogInForm = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
     try {
       const response = await login(data);
-      console.log("response", response);
+      // console.log("response", response);
 
       if (response?.data?.status === "success") {
         toast.success(response?.data?.message);
@@ -53,10 +54,6 @@ const LogInForm = () => {
     } catch (error) {
       console.log("error", error);
     }
-  };
-
-  const forgetPass = () => {
-    navigate("/forget-password");
   };
 
   return (
@@ -134,12 +131,11 @@ const LogInForm = () => {
                   <span className="modal-label-name text-xs font-medium text-gray-600 text-left">
                     Password
                   </span>
-                  <span
-                    onClick={forgetPass}
-                    className="modal-label-name text-xs text-secondary font-medium cursor-pointer"
-                  >
-                    Forget Password ?
-                  </span>
+                  <Link href={"/forgot-password"}>
+                    <span className="modal-label-name text-xs text-secondary font-medium cursor-pointer">
+                      Forget Password ?
+                    </span>
+                  </Link>
                 </label>
 
                 <input

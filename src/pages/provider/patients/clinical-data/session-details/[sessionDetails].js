@@ -2,6 +2,7 @@ import PatientLayout from "@/component/Layouts/PatientLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
 import ClinicalSessionCards from "@/component/UI/Patients/Patients/CinicalData/sessions/ClinicalSessionCards";
 import { Timeline } from "antd";
+import Link from "next/link";
 
 const SessionDetails = () => {
   return (
@@ -102,9 +103,11 @@ const SessionDetails = () => {
             <button className="border rounded bg-blue-500 hover:bg-blue-600 transition-all text-white px-2 py-2 text-xs font-semibold">
               START VIDEO SESSION
             </button>
-            <button className="border rounded bg-green-300 hover:bg-green-600 transition-all  px-2 py-2 text-xs font-semibold">
-              START SESSION
-            </button>
+            <Link href={"/provider/data-recording"}>
+              <button className="border rounded bg-green-300 hover:bg-green-600 transition-all  px-2 py-2 text-xs font-semibold">
+                START SESSION
+              </button>
+            </Link>
           </div>
         </div>
       </div>

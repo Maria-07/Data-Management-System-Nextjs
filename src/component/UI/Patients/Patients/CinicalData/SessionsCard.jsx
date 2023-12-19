@@ -337,7 +337,7 @@ const SessionCard = () => {
                     </div>
                     <Link
                       href={
-                        "/admin/patients/clinical-data/session-details/1212"
+                        "/provider/patients/clinical-data/session-details/1212"
                       }
                     >
                       <div className="px-2 mb-2  text-white">

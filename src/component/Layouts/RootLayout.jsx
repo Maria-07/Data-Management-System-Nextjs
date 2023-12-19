@@ -32,11 +32,11 @@ const menuItem = [
     name: "Dashboard",
     icon: <BiSolidDashboard />,
   },
-  // {
-  //   path: "/library",
-  //   name: "Library",
-  //   icon: <BiLibrary />,
-  // },
+  {
+    path: "/library",
+    name: "Library",
+    icon: <BiLibrary />,
+  },
   {
     path: "/",
     name: "Appointment",
@@ -89,11 +89,11 @@ const menuItem = [
   //   name: "Report",
   //   icon: <BiSolidReport />,
   // },
-  // {
-  //   path: "/settings/program-data",
-  //   name: "Settings",
-  //   icon: <SettingOutlined />,
-  // },
+  {
+    path: "/settings/program-data",
+    name: "Settings",
+    icon: <SettingOutlined />,
+  },
 ];
 
 const initialDropState = {};

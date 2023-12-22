@@ -60,7 +60,7 @@ const listViewPage = () => {
 
   useEffect(() => {
     const getPatientsData = async () => {
-      const res = await axios({
+      /*const res = await axios({
         method: "POST",
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/manage/session/get/all/client`,
         headers: {
@@ -69,8 +69,18 @@ const listViewPage = () => {
           "x-auth-token": token || null,
         },
       });
-      const data = res?.data;
-      // console.log(data);
+      const data = res?.data;*/
+      const res = await axios({
+        method: "GET",
+        url: 'https://app.therapypms.com/api/v1/dcm/appointment/filter/patients',
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Authorization": token || null,
+        },
+      });
+      const data = res?.data?.patient_data;
+      //console.log(data);
       setPatients(data);
     };
     getPatientsData();

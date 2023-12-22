@@ -4,14 +4,18 @@ import { MultiSelect } from "react-multi-select-component";
 
 const Clients = ({ patients, setPatientId, setFetchQuery }) => {
   const [selected, setSelected] = useState([]);
-
   const patientDataProcess = () => {
     let processedData = [];
     if (patients) {
       for (let x of patients) {
-        processedData.push({
+        /*processedData.push({
           label: x?.client_full_name,
           value: x?.client_full_name,
+          id: x?.id,
+        });*/
+        processedData.push({
+          label: x?.name,
+          value: x?.name,
           id: x?.id,
         });
       }

@@ -54,8 +54,9 @@ export const apointmentApi = api.injectEndpoints({
     //Appointment Get POS
     getAppointmentPOS: builder.query({
       query: (token) => ({
-        url: `/inadmin/setting/list/all/pos/code`,
-        method: "POST",
+        //url: `/inadmin/setting/list/all/pos/code`,
+        //method: "POST",
+        url: `/appointment/pointofservice`,
         headers: {
           "content-type": "Application/json",
           "x-auth-token": token,
@@ -79,7 +80,8 @@ export const apointmentApi = api.injectEndpoints({
     //Appointment Info
     appointmentInfo: builder.query({
       query: ({ token, payload }) => ({
-        url: `admin/ac/get/single/appointment/info`,
+        //url: `admin/ac/get/single/appointment/info`,
+        url: `/appointments/list`,
         method: "POST",
         headers: {
           "content-type": "Application/json",
@@ -96,7 +98,7 @@ export const {
   useGetAppointmentProviderNameQuery,
   useGetAppointmentPatientAuthMutation,
   useGetAppointmentAuthorizationActivityMutation,
+  useGetAppointmentPOSQuery,
   useAppointmentCreateMutation,
   useAppointmentInfoQuery,
-  useGetAppointmentPOSQuery,
 } = apointmentApi;

@@ -16,13 +16,14 @@ import ProgramCards from "./Programs/ProgramCards";
 import { IoEyeOutline } from "react-icons/io5";
 import { MdNotificationsActive } from "react-icons/md";
 
-const SessionCard = () => {
+const SessionCard = ({appointment}) => {
   const [cardExpend, setCardExpend] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [sessionVisibility, setSessionVisibility] = useState(false);
   const [sessionLimit, setSessionLimit] = useState(false);
 
-  const dateObject = new Date(currentDate);
+  //const dateObject = new Date(currentDate);
+  const dateObject = new Date(appointment.scheduled_date);
   const getAlphabeticMonth = (monthNumber) => {
     const monthNames = [
       "January",
@@ -64,16 +65,16 @@ const SessionCard = () => {
 
         <div>
           <h1 className="bg-secondary text-sm w-full py-1 px-5 rounded-t-lg text-white font-medium">
-            1:1 ABA Session
+            {`${appointment.service_name}`}
           </h1>
           <div>
             <div>
               <div className=" px-5 py-4 my-auto">
                 <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 ">
                   <div>
-                    <div className="font-semibold">Kyle Scibelli</div>
+                    <div className="font-semibold">{`${appointment.patient_name}`}</div>
                     <div className="text-primary text-sm">
-                      8:00 PM to 11:00 PM
+                    {`${appointment.hours}`}
                     </div>
                   </div>
                   <div className="flex items-center justify-end gap-2">

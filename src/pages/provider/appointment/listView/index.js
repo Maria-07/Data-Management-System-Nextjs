@@ -8,6 +8,7 @@
 // import CustomDateRange from "@/shared/CustomDateRange/CustomDateRange";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import { useGetAppointmentPOSQuery } from "@/Redux/features/Appointment/appointmentApi";
+import { useAppointmentInfoQuery } from "@/Redux/features/Appointment/appointmentApi";
 import RootLayout from "@/component/Layouts/RootLayout";
 import Clients from "@/component/UI/Appointment/MultiSelectComponents/Clients";
 import Providers from "@/component/UI/Appointment/MultiSelectComponents/Providers";
@@ -57,6 +58,7 @@ const listViewPage = () => {
   const [procceed, setprocceed] = useState(false);
   const [nonBillableData, setNonBillableData] = useState([]);
   const [hide, setHide] = useState(false);
+  const [appointmentData, setAppointmentData] = useState([]);
 
   useEffect(() => {
     const getPatientsData = async () => {
@@ -72,7 +74,7 @@ const listViewPage = () => {
       const data = res?.data;*/
       const res = await axios({
         method: "GET",
-        url: 'https://app.therapypms.com/api/v1/dcm/appointment/filter/patients',
+        url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointment/filter/patients`,
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -80,7 +82,6 @@ const listViewPage = () => {
         },
       });
       const data = res?.data?.patient_data;
-      //console.log(data);
       setPatients(data);
     };
     getPatientsData();
@@ -89,7 +90,7 @@ const listViewPage = () => {
   //Provider multi select data from server(Provider=>Staff)
   useEffect(() => {
     const getProviderData = async () => {
-      const res = await axios({
+      /*const res = await axios({
         method: "POST",
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/manage/session/get/all/provider`,
         headers: {
@@ -98,11 +99,23 @@ const listViewPage = () => {
           "x-auth-token": token || null,
         },
       });
-      const data = res?.data;
+      const data = res?.data;*/
+      
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointment/filter/providers`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Authorization": token || null,
+        },
+      });
+      const data = res?.data?.provider_data;
       setStuffs(data);
     };
     getProviderData();
   }, [token]);
+
   // console.log("selected stuffs", stuffsId);
 
   // is fixed toggle
@@ -161,11 +174,13 @@ const listViewPage = () => {
     return [date.getFullYear(), mnth, day].join("-");
   }
   //Date Range Picker
+  var prev_date = new Date();
+  prev_date.setDate(prev_date.getDate() - 1);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [range, setRange] = useState([
     {
-      startDate: new Date(),
-      endDate: null,
+      startDate: prev_date,
+      endDate: new Date(),
       key: "selection",
     },
   ]);
@@ -202,7 +217,35 @@ const listViewPage = () => {
   //Appointment Pos get API
   const { data: posData, isLoading: posDataLoading } =
     useGetAppointmentPOSQuery(token);
-  // console.log("pos data", posData?.pos);
+  //console.log("pos data", posData?.point_of_service);
+
+  useEffect(() => {
+    var current_date = new Date();
+    var prev_date = new Date();
+    prev_date.setDate(prev_date.getDate() - 1);
+    const apppointmentFilter = {
+      "report_range": {
+        "start_date": convert(prev_date),
+        "end_date": convert(current_date)
+      }
+    }
+    getAppointmentData(apppointmentFilter);
+  }, [token]);
+  const getAppointmentData = async (payload) => {
+      
+    const res = await axios({
+      method: "POST",
+      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointments/list`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Authorization": token || null,
+      },
+      data : payload
+    });
+    const data = res?.data;
+    setAppointmentData(data);
+  };
 
   // -----------------------------------------------Form-------------------------------
   const { handleSubmit, register, reset } = useForm({
@@ -214,7 +257,7 @@ const listViewPage = () => {
   const onSubmit = async (data) => {
     setCheck(true);
     setFilteredInfo({}); //When Go btn is pressed
-    // console.log("form-data", data);
+    console.log("form-data", data);
     const from_date = convert(data?.start_date);
     const to_date = convert(data?.end_date);
     const payLoad = {
@@ -226,7 +269,8 @@ const listViewPage = () => {
       from_date: from_date,
       to_date: to_date,
     };
-    if (payLoad?.to_date === "NaN-aN-aN") {
+    getAppointmentData(payLoad);
+    /*if (payLoad?.to_date === "NaN-aN-aN") {
       toast.error(<h1 className="font-bold">Select Valid Date-Range</h1>, {
         position: "top-center",
         autoClose: 5000,
@@ -235,8 +279,8 @@ const listViewPage = () => {
     } else {
       setFromData(payLoad);
       setPage(1);
-    }
-    handlePageClick({ selected: 0 });
+    }*/
+    //handlePageClick({ selected: 0 });
   };
 
   return (
@@ -368,7 +412,7 @@ const listViewPage = () => {
                             <option value="" className="text-black">
                               Select
                             </option>
-                            {posData?.pos?.map((p) => {
+                            {posData?.point_of_service?.map((p) => {
                               return (
                                 <option
                                   className="text-black"
@@ -550,21 +594,12 @@ const listViewPage = () => {
       </div>
       <div className="h-[40%] mx-auto w-[100%] sm:w-[70%]">
         <div className="overflow-y-scroll">
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
+        {appointmentData?.appointments?.data?.map((p) => {
+              return (
+                <SessionCard appointment={p}> </SessionCard>
+              );
+        })}
+          
         </div>
       </div>
     </div>

@@ -34,7 +34,7 @@ const LogInForm = () => {
     // console.log(data);
     try {
       const response = await login(data);
-      // console.log("response", response);
+      console.log("response", response);
 
       if (response?.data?.status === "success") {
         toast.success(response?.data?.message);

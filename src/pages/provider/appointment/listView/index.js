@@ -59,6 +59,7 @@ const listViewPage = () => {
   const [nonBillableData, setNonBillableData] = useState([]);
   const [hide, setHide] = useState(false);
   const [appointmentData, setAppointmentData] = useState([]);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     const getPatientsData = async () => {
@@ -196,8 +197,10 @@ const listViewPage = () => {
     setOpenCalendar(false);
   };
 
+
   // date range picker calendar
   const startDate = range ? range[0]?.startDate : null;
+
   const endDate = range ? range[0]?.endDate : null;
   const startMonth = startDate
     ? startDate.toLocaleString("en-us", { month: "short" })
@@ -232,7 +235,7 @@ const listViewPage = () => {
     getAppointmentData(apppointmentFilter);
   }, [token]);
   const getAppointmentData = async (payload) => {
-      
+    setMessage('');  
     const res = await axios({
       method: "POST",
       url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointments/list`,
@@ -244,6 +247,10 @@ const listViewPage = () => {
       data : payload
     });
     const data = res?.data;
+    if(data?.appointments?.total == 0)
+    {
+      setMessage('No Results Found');
+    }
     setAppointmentData(data);
   };
 
@@ -258,17 +265,22 @@ const listViewPage = () => {
     setCheck(true);
     setFilteredInfo({}); //When Go btn is pressed
     console.log("form-data", data);
-    const from_date = convert(data?.start_date);
-    const to_date = convert(data?.end_date);
+    //const from_date = convert(data?.start_date);
+    //const to_date = convert(data?.end_date);
+    const from_date = convert(startDate);
+    const to_date = convert(endDate);
     const payLoad = {
       patient_ids: patientId,
       provider_ids: stuffsId?.length > 0 ? stuffsId : "",
       status: data?.status,
       ses_pos: location,
       ses_app_type: 1,
-      from_date: from_date,
-      to_date: to_date,
+      //from_date: from_date,
+      //to_date: to_date,
+      report_range:{start_date:from_date,end_date:to_date}
     };
+    console.log("payload", payLoad);
+    setFromData(payLoad);
     getAppointmentData(payLoad);
     /*if (payLoad?.to_date === "NaN-aN-aN") {
       toast.error(<h1 className="font-bold">Select Valid Date-Range</h1>, {
@@ -602,6 +614,7 @@ const listViewPage = () => {
           
         </div>
       </div>
+      <h4 className="text-center">{message}</h4>
     </div>
   );
 };

@@ -4,8 +4,8 @@ const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
-        // url: "/login",
-        url: "/inadmin/auth",
+        url: "/login",
+        //url: "/inadmin/auth",
         method: "POST",
         body: credentials,
       }),

@@ -7,11 +7,13 @@ export const staffApi = api.injectEndpoints({
     // Get staff info id wise
     getInfo: builder.query({
       query: ({ token, id }) => ({
-        url: `inadmin/provider/biographic/${id}`,
+        //url: `inadmin/provider/biographic/${id}`,
+        url:`personal-info`,
         method: "GET",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
       }),
       providesTags: (result, error, arg) => {
@@ -37,11 +39,13 @@ export const staffApi = api.injectEndpoints({
     // Update Staff Info
     updateStaff: builder.mutation({
       query: ({ token, payload }) => ({
-        url: "inadmin/provider/biographic/update",
+        //url: "inadmin/provider/biographic/update",
+        url: "/personal-info/update",
         method: "POST",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
         body: JSON.stringify(payload),
       }),

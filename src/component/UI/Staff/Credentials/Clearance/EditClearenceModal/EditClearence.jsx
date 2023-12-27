@@ -3,42 +3,50 @@ import {
   useUpdateClearenceMutation,
 } from "@/Redux/features/staff/credentials/clearenceApi";
 import { Modal } from "antd";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 const EditClearence = ({ handleClose, open, clearenceInfo, token, id }) => {
-  console.log(clearenceInfo);
-
+  
+  const [imageData,setImageData] = useState(null);
+  const [filenameData,setFilenameData] = useState(null);
   //Getting clearence info data api
-  const {
+  /*const {
     data: clearenceData,
     isLoading,
     isSuccess,
-  } = useClearenceInfoQuery({ token, id: clearenceInfo?.id });
+  } = useClearenceInfoQuery({ token, id: clearenceInfo?.id });*/
 
   //Update clearence info data api
   const [updateClearence, { isSuccess: updateSuccess, isError: updateError }] =
     useUpdateClearenceMutation();
 
+  const cname = {
+    clearance_name:clearenceInfo.clearance_name,
+    clearance_date_issue:clearenceInfo.clearance_date_issue,
+    clearance_date_exp:clearenceInfo.clearance_date_expired,
+    clearance_applicable:clearenceInfo.clearance_applicable,
+  }
+  console.log(cname);
   const {
     clearance_name,
     clearance_date_issue,
     clearance_date_exp,
     clearance_applicable,
-  } = clearenceData?.employeeClearance || {}; //api tey bhul
+  } = cname || {}; //api tey bhul
 
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
     const payload = {
-      clear_id: clearenceInfo.id,
-      clear_type: data?.clear_type,
-      date_issue: data?.date_issue,
-      date_expire: data?.date_expire,
-      //0/1 hobey cred_apply
-      clear_apply: data?.clear_apply ? 1 : 0,
-      // cred_file: null,
+      clearance_id: clearenceInfo.clearance_id,
+      clearance_name: data?.clear_type,
+      clearance_date_issue: data?.date_issue,
+      clearance_date_expired: data?.date_expire,
+      file_name:filenameData,
+      clearance_applicable: data?.clear_apply,
+      file: imageData,
     };
     console.log("clearance", payload);
     if (payload) {
@@ -66,7 +74,25 @@ const EditClearence = ({ handleClose, open, clearenceInfo, token, id }) => {
     clearance_date_exp,
     clearance_date_issue,
   ]);
+  const convertBase64 =  (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file)
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      }
+      fileReader.onerror = (error) => {
+        reject(error);
+      }
+    })
+  }
 
+const handleFileRead = async (event) => {
+  const file = event.target.files[0];
+  setFilenameData(file.name);
+  const base64 =  await convertBase64(file);
+  setImageData(base64);
+}
   //To show Toast
   useEffect(() => {
     if (updateSuccess) {
@@ -151,6 +177,7 @@ const EditClearence = ({ handleClose, open, clearenceInfo, token, id }) => {
                   type="file"
                   className=" px-2 py-[5px] mx-1 text-xs w-full"
                   {...register("fileName")}
+                  onChange={handleFileRead}
                 />
               </div>
               <div className="flex ml-1 mt-4 gap-2 items-center">

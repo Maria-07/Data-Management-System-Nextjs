@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useDeleteCredentialMutation } from "@/Redux/features/staff/credentials/credentialsApi";
 
 const Credential = ({ credentials, token, id }) => {
+  console.log("credentials -- ", credentials);
   const [display, setDisplay] = useState(true);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});

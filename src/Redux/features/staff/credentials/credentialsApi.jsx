@@ -3,7 +3,7 @@ import { api } from "@/Redux/api/apiSlice";
 export const credentialApi = api.injectEndpoints({
   endpoints: (builder) => ({
     //Get staff credentials
-    getCredentials: builder.query({
+    /*getCredentials: builder.query({
       query: ({ token, page, id }) => ({
         url: `inadmin/provider/credential/list`,
         method: "POST",
@@ -12,6 +12,18 @@ export const credentialApi = api.injectEndpoints({
           "x-auth-token": token,
         },
         body: JSON.stringify({ page, id }),
+      }),
+      providesTags: ["Credentials"],
+    }),*/
+
+    getCredentials: builder.query({
+      query: ({  token, id }) => ({
+        url: `credentials`,
+        method: "GET",
+        headers: {
+          "content-type": "Application/json",
+          "Authorization": token || null,
+        },
       }),
       providesTags: ["Credentials"],
     }),

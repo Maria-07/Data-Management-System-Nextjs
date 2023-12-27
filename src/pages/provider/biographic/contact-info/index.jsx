@@ -1,6 +1,5 @@
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import { useStaffContactInfoQuery } from "@/Redux/features/staff/contactInfo/contactInfoApi";
-import { useStateInfoQuery } from "@/Redux/features/staff/contactInfo/contactInfoApi";
 import BiographyLayout from "@/component/Layouts/BiographyLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
 import ContactDetails from "@/component/UI/Staff/ContactInfo/ContactDetails";
@@ -21,10 +20,6 @@ const ContactInfo = () => {
   const { data: contactData, isSuccess: contactDetailsSucess } =
     useStaffContactInfoQuery({ token });
   console.log("contactData", contactData);
-
-  const { data: stateData, isSuccess: stateDetailsSucess } =
-  useStateInfoQuery({ token });
-  console.log("useStateInfoQuery - ", stateData);
 
   const items = [
     {

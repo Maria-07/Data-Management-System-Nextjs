@@ -5,6 +5,7 @@ import {
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { useStateInfoQuery } from "@/Redux/features/staff/contactInfo/contactInfoApi";
 
 const EmergencyContactDetails = ({ token, emergencyApiData }) => {
   const { register, handleSubmit, reset } = useForm();
@@ -45,7 +46,9 @@ useEffect(() => {
   address_one, address_two, city, state, zip, mobile, fax, main_phone, address_note
 ]);
   console.log("emergencyApiData em", emergencyApiData);
-
+  const { data: stateData, isSuccess: stateDetailsSucess } =
+  useStateInfoQuery({ token });
+  const stateList = {...stateData?.states};
   const onSubmit = (data) => {
     console.log(emergencyApiData);
     const payloadData = {
@@ -151,22 +154,17 @@ useEffect(() => {
               className="input-border-bottom mt-1 input-font w-full focus:outline-none"
               {...register("state")}
             >
-              <option value="Speech Therapist">Speech Therapist</option>
-              <option value="female">Female</option>
-              <option value="AK">Alaska</option>
-
-              <option value="AL">Alabama</option>
-              <option value="jm">jamaica</option>
-              <option value="AS">American Samoa</option>
-              <option value="AZ">Arizona</option>
-              <option value="AR">Arkansas</option>
-              <option value="CA">California</option>
-              <option value="CO">Colorado</option>
-              <option value="DE">Delaware</option>
-              <option value="DC">District of Columbia</option>
-              <option value="FM">Federated States of Micronesia</option>
-              <option value="FL">Florida</option>
-              <option value="GA">Georgia</option>
+            {Object.entries(stateList).map((v,k) => {
+              return (
+                <option
+                  className="text-black"
+                  key={v[0]}
+                  value={v[0]}
+                >
+                  {v[1]}
+                </option>
+              );
+            } )}
             </select>
           </div>
 

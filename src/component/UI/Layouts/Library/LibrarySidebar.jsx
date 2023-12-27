@@ -10,10 +10,10 @@ const LibrarySidebar = () => {
   return (
     <div className="">
       <div>
-        <Link href={"/library/treatment"}>
+        <Link href={"/provider/library/treatment"}>
           <div
             className={
-              currentRoute === "/library/treatment"
+              currentRoute === "/provider/library/treatment"
                 ? `px-5 py-10 ${
                     theme === "dark"
                       ? "border-b-[1px] bg-dark-background border-dark-secondary"
@@ -30,10 +30,10 @@ const LibrarySidebar = () => {
         </Link>
       </div>
       <div>
-        <Link href={"/library/instruction"}>
+        <Link href={"/provider/library/instruction"}>
           <div
             className={
-              currentRoute === "/library/instruction"
+              currentRoute === "/provider/library/instruction"
                 ? `px-5 py-10 ${
                     theme === "dark"
                       ? "border-b-[1px] bg-dark-background border-dark-secondary"
@@ -50,10 +50,10 @@ const LibrarySidebar = () => {
         </Link>
       </div>
       <div>
-        <Link href={"/library/target"}>
+        <Link href={"/provider/library/target"}>
           <div
             className={
-              currentRoute === "/library/target"
+              currentRoute === "/provider/library/target"
                 ? `px-5 py-10 ${
                     theme === "dark"
                       ? "border-b-[1px] bg-dark-background border-dark-secondary"
@@ -71,10 +71,10 @@ const LibrarySidebar = () => {
       </div>
 
       <div>
-        <Link href={"/library/dataRecording"}>
+        <Link href={"/provider/library/dataRecording"}>
           <div
             className={
-              currentRoute === "/library/dataRecording"
+              currentRoute === "/provider/library/dataRecording"
                 ? `px-5 py-10 ${
                     theme === "dark"
                       ? "border-b-[1px] bg-dark-background border-dark-secondary"

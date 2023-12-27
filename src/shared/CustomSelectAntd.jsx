@@ -1,6 +1,5 @@
 import { Button, Divider, Input, Select, Space } from "antd";
 import { useEffect, useRef, useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
 import { BiPlus } from "react-icons/bi";
 
 const CustomSelectAntd = ({ item, setOption, sName }) => {

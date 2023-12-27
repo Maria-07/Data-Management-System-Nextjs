@@ -2,7 +2,13 @@ import ClinicalSessionCard from "./ClinicalSessionCard";
 
 function ClinicalSessionCards() {
   return (
-    <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-5">
+    <div className="grid md:grid-cols-4 sm:grid-cols-3 gap-3">
+      <ClinicalSessionCard></ClinicalSessionCard>
+      <ClinicalSessionCard></ClinicalSessionCard>
+      <ClinicalSessionCard></ClinicalSessionCard>
+      <ClinicalSessionCard></ClinicalSessionCard>
+      <ClinicalSessionCard></ClinicalSessionCard>
+      <ClinicalSessionCard></ClinicalSessionCard>
       <ClinicalSessionCard></ClinicalSessionCard>
       <ClinicalSessionCard></ClinicalSessionCard>
       <ClinicalSessionCard></ClinicalSessionCard>

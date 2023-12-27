@@ -1,28 +1,48 @@
 import { useAddCredentialMutation } from "@/Redux/features/staff/credentials/credentialsApi";
 import { Modal } from "antd";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 const AddCredential = ({ handleClose, open, token, id }) => {
   const { register, handleSubmit, reset } = useForm();
+  const [imageData,setImageData] = useState(null);
+  const [filenameData,setFilenameData] = useState(null);
 
   // Add credential Api
   const [
     addCredential,
     { isSuccess: addCredentialSuccess, isError: addCredentialError },
   ] = useAddCredentialMutation();
+  const convertBase64 =  (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file)
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      }
+      fileReader.onerror = (error) => {
+        reject(error);
+      }
+    })
+  }
+
+const handleFileRead = async (event) => {
+  const file = event.target.files[0];
+  setFilenameData(file.name);
+  const base64 =  await convertBase64(file);
+  setImageData(base64);
+}
 
   const onSubmit = (data) => {
     const payload = {
-      employee_id: id,
-      cred_type: data?.cred_type,
-      date_issue: data?.date_issue,
-      date_expire: data?.expiry_Date,
-      //0/1 hobey cred_apply
-      cred_apply: data?.cred_apply ? 1 : 0,
-      // cred_file: null,
+      credential_name: data?.cred_type,
+      credential_date_issue: data?.date_issue,
+      credential_date_expired: data?.expiry_Date,
+      file_name:filenameData,
+      credential_applicable: data?.cred_apply,
+      file: imageData,
     };
     if (payload) {
       addCredential({
@@ -83,7 +103,7 @@ const AddCredential = ({ handleClose, open, token, id }) => {
                 </label>
                 <input
                   type="text"
-                  name="cred_type"
+                  name="cred_type" 
                   className="modal-input-field ml-1 w-full"
                   {...register("cred_type")}
                 />
@@ -118,6 +138,7 @@ const AddCredential = ({ handleClose, open, token, id }) => {
                   type="file"
                   className=" px-2 py-[5px]  text-xs w-full"
                   {...register("fileName")}
+                  onChange={handleFileRead}
                 />
               </div>
               <div className="flex  ml-1 mt-4 gap-2 items-center">

@@ -31,11 +31,12 @@ export const credentialApi = api.injectEndpoints({
     //Add staff credential
     addCredential: builder.mutation({
       query: ({ token, payload }) => ({
-        url: "inadmin/provider/credential/save",
+        url: "credential/create",
         method: "POST",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
         body: JSON.stringify(payload),
       }),
@@ -56,11 +57,12 @@ export const credentialApi = api.injectEndpoints({
     //Update staff credential info
     updateCredential: builder.mutation({
       query: ({ token, payload }) => ({
-        url: "inadmin/provider/credential/update",
+        url: "credential/update",
         method: "POST",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
         body: JSON.stringify(payload),
       }),
@@ -69,11 +71,12 @@ export const credentialApi = api.injectEndpoints({
     //Delete staff credential info
     deleteCredential: builder.mutation({
       query: ({ token, payload }) => ({
-        url: "inadmin/provider/credential/delete",
+        url: "credential/delete",
         method: "POST",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
         body: JSON.stringify(payload),
       }),

@@ -3,39 +3,68 @@ import {
   useUpdateCredentialMutation,
 } from "@/Redux/features/staff/credentials/credentialsApi";
 import { Modal } from "antd";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 const EditCredential = ({ handleClose, open, credentialInfo, token, id }) => {
+  const [imageData,setImageData] = useState(null);
+  const [filenameData,setFilenameData] = useState(null);
   //Getting credential info data api
-  const {
+  /*const {
     data: credentialData,
     isLoading,
     isSuccess,
-  } = useGetcredentialinfoQuery({ token, id: credentialInfo?.id });
+  } = useGetcredentialinfoQuery({ token, id: credentialInfo?.id });*/
   // console.log("credentialData", credentialData);
   //Update credential info data api
   const [updateCredential, { isSuccess: updateSuccess, isError: updateError }] =
     useUpdateCredentialMutation();
 
+  const cname = {
+    credential_name:credentialInfo.credential_name,
+    credential_applicable:credentialInfo.credential_applicable,
+    credential_date_expired:credentialInfo.credential_date_expired,
+    credential_date_issue:credentialInfo.credential_date_issue,
+  }
   const {
     credential_name,
     credential_applicable,
     credential_date_expired,
     credential_date_issue,
-  } = credentialData?.employeeCredential || {};
+  } = cname || {};
 
   const { register, handleSubmit, reset } = useForm();
+  const convertBase64 =  (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file)
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      }
+      fileReader.onerror = (error) => {
+        reject(error);
+      }
+    })
+  }
+
+const handleFileRead = async (event) => {
+  const file = event.target.files[0];
+  setFilenameData(file.name);
+  const base64 =  await convertBase64(file);
+  setImageData(base64);
+}
   const onSubmit = (data) => {
+    console.log(data)
     const payload = {
-      cred_id: credentialInfo.id,
-      cred_type: data?.cred_type,
-      date_expire: data?.date_expire,
-      date_issue: data?.date_issue,
-      cred_apply: data?.cred_apply ? 1 : 0,
-      // cred_file: null,
+      credential_id: credentialInfo.credential_id,
+      credential_name: data?.cred_type,
+      credential_date_issue: data?.date_issue,
+      credential_date_expired: data?.expiry_Date,
+      file_name:filenameData,
+      credential_applicable: data?.cred_apply,
+      file: imageData,
     };
     console.log(payload);
     if (payload) {
@@ -149,6 +178,7 @@ const EditCredential = ({ handleClose, open, credentialInfo, token, id }) => {
                   type="file"
                   className=" px-2 py-[5px] mx-1 text-xs w-full"
                   {...register("fileName")}
+                  onChange={handleFileRead}
                 />
               </div>
               <div className="flex  ml-1 mt-4 gap-2 items-center">

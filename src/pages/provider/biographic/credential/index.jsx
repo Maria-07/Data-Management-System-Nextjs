@@ -26,7 +26,7 @@ const CredentialPage = () => {
       page: 1,
       id: 1,
     });
-    
+
   //! get all credential data api
   const { data: credentials, isLoading: credentialsLoading } =
     useGetCredentialsQuery({
@@ -34,8 +34,6 @@ const CredentialPage = () => {
       page: 1,
       // id: id,
     });
-
-console.log('credentials',credentials);
 
   //! get all Qualification data api
   const { data: qualification, isLoading: qualificationLoading } =

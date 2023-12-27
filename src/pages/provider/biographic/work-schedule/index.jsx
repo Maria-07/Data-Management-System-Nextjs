@@ -75,7 +75,13 @@ function tConvert (time) {
         }
     }
 
+    if(time=='00:00:00' || time=='00:00')
+    {
+      time_part_array[0] = '12';
+    } 
+
     let formatted_time = time_part_array[0]  + ':' + time_part_array[1] +  ':' + ampm;
+    
 
     return formatted_time;
 }
@@ -212,6 +218,7 @@ const workSchedule = () => {
               "end": tConvert(data.sun_end),
           }
     }
+    console.log(data);
     console.log(payload);
     if (payload) {
       updateWorkingSchedule({

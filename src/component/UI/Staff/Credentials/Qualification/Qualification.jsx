@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useDeleteQualificationMutation } from "@/Redux/features/staff/credentials/qualificationApi";
 
 const Qualification = ({ qualification, token, id }) => {
+ 
   const [display, setDisplay] = useState(true);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
@@ -30,7 +31,7 @@ const Qualification = ({ qualification, token, id }) => {
   const handleDelete = (id) => {
     console.log("delete id", id);
     const payload = {
-      qual_id: id,
+      qualification_id: id,
     };
     deleteQualification({
       token,
@@ -60,21 +61,21 @@ const Qualification = ({ qualification, token, id }) => {
     // Display Name Data(Exceptional)=>Static
     {
       title: "Name",
-      dataIndex: "Test",
-      key: "Test",
+      dataIndex: "employee_name",
+      key: "employee_name",
       width: 120,
-      render: (_, {}) => {
+      /*render: (_, {}) => {
         // console.log("tags : ", Name, id);
         return <h1>{qualification?.employee?.first_name}</h1>;
       },
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Qualification",
       dataIndex: "qualification_name",
       key: "qualification_name",
       width: 120,
-      filters: [
+      /*filters: [
         {
           text: "YY TEST",
           value: "YY TEST",
@@ -91,7 +92,7 @@ const Qualification = ({ qualification, token, id }) => {
       },
       sortOrder:
         sortedInfo.columnKey === "qualification_name" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
 
     {
@@ -99,7 +100,7 @@ const Qualification = ({ qualification, token, id }) => {
       key: "qualification_applicable",
       dataIndex: "qualification_applicable",
       width: 100,
-      filters: [{}],
+      /*filters: [{}],
       filteredValue: filteredInfo.qualification_applicable || null,
       onFilter: (value, record) =>
         record.qualification_applicable.includes(value),
@@ -111,14 +112,14 @@ const Qualification = ({ qualification, token, id }) => {
         sortedInfo.columnKey === "qualification_applicable"
           ? sortedInfo.order
           : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Date issue",
       key: "qualification_date_issue",
       dataIndex: "qualification_date_issue",
       width: 100,
-      filters: [{}],
+      /*filters: [{}],
       filteredValue: filteredInfo.qualification_date_issue || null,
       onFilter: (value, record) =>
         record.qualification_date_issue.includes(value),
@@ -130,14 +131,14 @@ const Qualification = ({ qualification, token, id }) => {
         sortedInfo.columnKey === "qualification_date_issue"
           ? sortedInfo.order
           : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Date Expire",
-      key: "qualification_date_exp",
-      dataIndex: "qualification_date_exp",
+      key: "qualification_date_expired",
+      dataIndex: "qualification_date_expired",
       width: 100,
-      filters: [{}],
+      /*filters: [{}],
       filteredValue: filteredInfo.qualification_date_exp || null,
       onFilter: (value, record) =>
         record.qualification_date_exp.includes(value),
@@ -149,7 +150,7 @@ const Qualification = ({ qualification, token, id }) => {
         sortedInfo.columnKey === "qualification_date_exp"
           ? sortedInfo.order
           : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Action",
@@ -159,7 +160,7 @@ const Qualification = ({ qualification, token, id }) => {
       render: (_, record) => (
         <div className="flex justify-center gap-1 text-primary">
           <FiEdit
-            onClick={() => handleQualificationEdit(record?.id)}
+            onClick={() => handleQualificationEdit(record)}
             className="text-xs mx-2  text-lime-700"
             title="Edit"
           />
@@ -167,7 +168,7 @@ const Qualification = ({ qualification, token, id }) => {
           <span>|</span>
 
           <AiOutlineDelete
-            onClick={() => handleDelete(record?.id)}
+            onClick={() => handleDelete(record?.qualification_id)}
             className="text-xs text-red-500 mx-2"
             title="Delete"
           />
@@ -228,8 +229,8 @@ const Qualification = ({ qualification, token, id }) => {
                 className=" text-xs font-normal mt-5"
                 columns={column}
                 bordered
-                rowKey={(record) => record.id} //record is kind of whole one data object and here we are
-                dataSource={qualification?.qualifications?.data}
+                rowKey={(record) => record.qualification_id} //record is kind of whole one data object and here we are
+                dataSource={qualification?.qualification?.data}
                 onChange={handleChange}
               />
             </div>
@@ -240,9 +241,6 @@ const Qualification = ({ qualification, token, id }) => {
               Add Qualification
             </button>
 
-            <button onClick={clearFilters} className="dcm-close-button mt-2">
-              Clear filters
-            </button>
           </div>
         </motion.div>
       </div>

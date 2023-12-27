@@ -24,7 +24,7 @@ const EditCredential = ({ handleClose, open, credentialInfo, token, id }) => {
 
   const cname = {
     credential_name:credentialInfo.credential_name,
-    credential_applicable:credentialInfo.credential_applicable,
+    credential_applicable:credentialInfo.credential_applicable !='No' ? credentialInfo.credential_applicable : '',
     credential_date_expired:credentialInfo.credential_date_expired,
     credential_date_issue:credentialInfo.credential_date_issue,
   }

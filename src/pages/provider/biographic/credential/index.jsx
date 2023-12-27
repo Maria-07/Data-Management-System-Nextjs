@@ -43,7 +43,7 @@ const CredentialPage = () => {
       // id: id,
     });
 
-  console.log("data -> 👉", credentials?.credentialsList);
+  //console.log('qualification -- ',qualification);
 
   if (credentialsLoading || clearenceLoading || qualificationLoading) {
     return <Loading></Loading>;

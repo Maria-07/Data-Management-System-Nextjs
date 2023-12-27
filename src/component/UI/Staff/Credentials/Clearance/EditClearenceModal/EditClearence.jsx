@@ -27,7 +27,7 @@ const EditClearence = ({ handleClose, open, clearenceInfo, token, id }) => {
     clearance_name:clearenceInfo.clearance_name,
     clearance_date_issue:clearenceInfo.clearance_date_issue,
     clearance_date_exp:clearenceInfo.clearance_date_expired,
-    clearance_applicable:clearenceInfo.clearance_applicable,
+    clearance_applicable:clearenceInfo.clearance_applicable!='No' ? clearenceInfo.clearance_applicable : '',
   }
   console.log(cname);
   const {

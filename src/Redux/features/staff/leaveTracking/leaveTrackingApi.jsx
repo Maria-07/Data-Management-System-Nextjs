@@ -4,25 +4,27 @@ const leaveTrackApi = api.injectEndpoints({
   endpoints: (builder) => ({
     // leave tracking get All data
     getLeaveTracking: builder.query({
-      query: ({ payload, token }) => ({
-        url: `inadmin/provider/ac/staff/leave/tracking`,
-        method: "POST",
+      query: ({ token, payload  }) => ({
+        url: `leave-tracking`,
+        method: "GET",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
-        body: JSON.stringify(payload),
+        //body: JSON.stringify(payload),
       }),
       providesTags: ["LeaveTrack"],
     }),
     //Staff leave Tracking Update
     addLeaveTracking: builder.mutation({
       query: ({ token, payload }) => ({
-        url: "inadmin/provider/ac/staff/leave/tracking/save",
+        url: "leave-tracking/create",
         method: "POST",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
         body: JSON.stringify(payload),
       }),
@@ -32,11 +34,12 @@ const leaveTrackApi = api.injectEndpoints({
     // delete leave tracking
     DeleteLeaveTracking: builder.mutation({
       query: ({ token, payload }) => ({
-        url: "inadmin/provider/ac/staffs/leave/delete",
+        url: "leave-tracking/delete",
         method: "POST",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
         body: JSON.stringify(payload),
       }),

@@ -20,10 +20,11 @@ const LeaveTrackingAdd = ({ handleClose, open, id, token }) => {
 
   const onSubmit = (data) => {
     const addTrackPaylod = {
-      employee_id: id,
+      //employee_id: id,
       leave_date: data.date,
-      desc: data.desc,
+      description: data.desc,
     };
+    console.log(addTrackPaylod);
     addLeaveTracking({
       token,
       payload: addTrackPaylod,

@@ -34,6 +34,7 @@ const PatientPage = () => {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
+            method: "POST",
             //"x-auth-token": token,
             "Authorization": token || null,
           },
@@ -101,8 +102,8 @@ const PatientPage = () => {
   const columns = [
     {
       title: "Patient",
-      dataIndex: "patient_first_name",
-      key: "patient_first_name",
+      dataIndex: "patient_full_name",
+      key: "patient_full_name",
       width: 150,
       /*filters: generateFilterValues(patients, "patient_first_name"),
       filterSearch: true, //Filtering value search(Antd new Feature)
@@ -226,7 +227,7 @@ const PatientPage = () => {
       dataIndex: "patient_gender",
       key: "patient_gender",
       width: 100,
-      filters: generateFilterValues(patients, "patient_gender"),
+      /*filters: generateFilterValues(patients, "patient_gender"),
       filterSearch: true,
       filteredValue: filteredInfo.client_gender || null,
       onFilter: (value, record) => record.client_gender.includes(value),
@@ -236,14 +237,14 @@ const PatientPage = () => {
       },
       sortOrder:
         sortedInfo.columnKey === "patient_gender" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "POS",
-      dataIndex: "location",
-      key: "location",
+      dataIndex: "patient_POS",
+      key: "patient_POS",
       width: 100,
-      filters: generateFilterValues(patients, "location"),
+      /*filters: generateFilterValues(patients, "location"),
       filterSearch: true,
       render: (_, { location }) => {
         return (
@@ -266,14 +267,14 @@ const PatientPage = () => {
         return a.location > b.location ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "location" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Insurance",
-      dataIndex: "insurance",
-      key: "insurance",
+      dataIndex: "patient_payor",
+      key: "patient_payor",
       width: 100,
-      filters: generateFilterValues(patients, "insurance"),
+      /*filters: generateFilterValues(patients, "insurance"),
       filterSearch: true,
       render: (_, { insurance }) => {
         return <div className="flex justify-end px-1">{insurance}</div>;
@@ -285,7 +286,7 @@ const PatientPage = () => {
         return a.insurance > b.insurance ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "insurance" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Auth",
@@ -328,22 +329,8 @@ const PatientPage = () => {
       <div className="flex items-center flex-wrap justify-between gap-2 mt-2 mb-5">
         <div className="flex items-center gap-3">
           <h1 className="text-lg text-orange-500 text-left font-semibold ">
-            Patient
+           All Patients
           </h1>
-          <div>
-            <button className="text-[11px]  bg-green-700 font-semibold px-2 py-[2px] rounded-md text-white shadow-sm">
-              Active 5
-            </button>
-            <button className="text-[11px] ml-2 bg-gray-200 font-semibold px-2 py-[2px] rounded-md text-fontC shadow-sm">
-              In-Active 5
-            </button>
-          </div>
-        </div>
-
-        <div>
-          <button onClick={clearFilters} className="dtm-button">
-            Clear filters
-          </button>
         </div>
       </div>
       <InfiniteScroll

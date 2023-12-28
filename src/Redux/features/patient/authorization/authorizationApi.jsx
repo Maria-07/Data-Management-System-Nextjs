@@ -6,7 +6,7 @@ export const patientAuthorizationApi = api.injectEndpoints({
     //get patient authorization api
     getPatientAuthorization: builder.query({
       query: ({ token, id }) => ({
-        url: `/patient/authorization/${id}`,
+        url: `/patient/list/authorization/${id}`,
         method: "GET",
         headers: {
           "content-type": "Application/json",

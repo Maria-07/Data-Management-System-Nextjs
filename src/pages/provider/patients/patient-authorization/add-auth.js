@@ -22,7 +22,7 @@ const AddAuthorization = () => {
   const { query } = router;
   const id = query.authEdit;
   const patientId = localStorage.getItem("PId");
-  console.log(id, patientId);
+  console.log('adsgasdg', patientId);
   const token = getAccessToken();
 
   //console.log(patientId);

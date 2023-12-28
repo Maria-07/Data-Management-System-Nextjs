@@ -2,12 +2,67 @@ import { Modal } from "antd";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { useEffect, useState } from "react";
+import { useUpdateCalllogMutation } from "@/Redux/features/patient/calllog/calllogApi";
+import { toast } from "react-toastify";
+import { getAccessToken } from "@/Redux/api/apiSlice";
 
-const EditCallLog = ({ handleClose, open }) => {
-  const { register, handleSubmit } = useForm();
+const EditCallLog = ({ handleClose, open, logdata, patientId }) => {
+  const token = getAccessToken();
+  const { register, handleSubmit, reset } = useForm();  
+  const [textNotes, setTextNotes] = useState();
+  const [updateCalllog, { isSuccess: updateSuccess, isError: updateError }] =
+  useUpdateCalllogMutation();
+  const cdata = { 
+    notes : logdata?.call_log,
+    expiry_Date : logdata?.log_date,
+  };
 
+  const { notes, expiry_Date } = cdata || {}
+  //To show default data in the form
+  useEffect(() => {
+    setTimeout(() => {
+      reset({
+        notes: notes,
+        expiry_Date: expiry_Date,
+      });
+    }, 500);
+  }, [
+    reset,
+    notes,
+    expiry_Date,
+  ]);
+    //To show Toast
+    useEffect(() => {
+      if (updateSuccess) {
+        handleClose();
+        toast.success("Successfully Updated", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "dark",
+        });
+      } else if (updateError) {
+        toast.error("Some Error Occured", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "dark",
+        });
+      }
+    }, [updateSuccess, updateError, handleClose]);
   const onSubmit = (data) => {
-    console.log(data);
+    const payload = {
+      patient_id: patientId,
+      call_log_id: logdata?.call_log_id,
+      log_date: data?.expiry_Date,
+      call_log: textNotes
+    };
+    //console.log(payload);
+    if (payload) {
+      updateCalllog({
+        token,
+        payload,
+      });
+    }
   };
   return (
     <div>
@@ -42,7 +97,7 @@ const EditCallLog = ({ handleClose, open }) => {
                   </label>
                   <textarea
                     {...register("notes")}
-                    // onChange={(e) => setTextNotes(e.target.value)}
+                    onChange={(e) => setTextNotes(e.target.value)}
                     name="comment"
                     className="border border-gray-300 text-sm p-2  ml-1 h-24 w-full"
                   ></textarea>

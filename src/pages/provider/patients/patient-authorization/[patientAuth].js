@@ -25,16 +25,16 @@ const PatientAuth = () => {
   console.log(id);
   const token = getAccessToken();
 
+  console.log('patient_id',id);
+
   //! get patient authorization api
   const { data: authorizationData, isLoading: authorizationloading } =
     useGetPatientAuthorizationQuery({
       token,
-      payload: {
-        client_id: id,
-      },
+      id      
     });
 
-  const clientAuthorizationData = authorizationData?.allAuthorization || [];
+  const clientAuthorizationData = authorizationData?.patient_authorization[0]?.authorization_list || [];
   const clientSelectedPayors = authorizationData?.selectedPayors || [];
 
   console.log("Patient Auth = ", clientAuthorizationData);
@@ -89,7 +89,7 @@ const PatientAuth = () => {
     // console.log("record", record);
     return (
       <div className="ml-[-40px] my-2">
-        <AuthorizationActivityTable id={record?.id} />
+        <AuthorizationActivityTable id={record?.authorization_id} activity_details={record.activity_details}/>
       </div>
     );
   };
@@ -114,12 +114,12 @@ const PatientAuth = () => {
       dataIndex: "description",
       key: "description",
       width: 120,
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.description > b.description ? -1 : 1;
       },
       sortOrder:
         sortedInfo.columnKey === "description" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Onset Date",
@@ -127,12 +127,12 @@ const PatientAuth = () => {
       key: "onset_date",
       width: 130,
       //   sorter is for sorting asc or dsc purstatuse
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.onset_date > b.onset_date ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder:
         sortedInfo.columnKey === "onset_date" ? sortedInfo.order : null,
-      ellipsis: false,
+      ellipsis: false,*/
     },
     {
       title: "End Date",
@@ -140,18 +140,18 @@ const PatientAuth = () => {
       key: "end_date",
       width: 100,
       //   sorter is for sorting asc or dsc purstatuse
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.end_date > b.end_date ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "end_date" ? sortedInfo.order : null,
-      ellipsis: false,
+      ellipsis: false,*/
     },
     {
       title: "Insurance",
-      dataIndex: "insurance",
-      key: "insurance",
+      dataIndex: "payor_name",
+      key: "payor_name",
       width: 150,
-      render: (_, record) => {
+      /*render: (_, record) => {
         return (
           <h1>
             {
@@ -167,19 +167,19 @@ const PatientAuth = () => {
         return a.insurance > b.insurance ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "insurance" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Ins. ID",
-      dataIndex: "uci_id",
-      key: "uci_id",
+      dataIndex: "insurance_id",
+      key: "insurance_id",
       width: 150,
       //   sorter is for sorting asc or dsc purstatuse
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.uci_id > b.uci_id ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "uci_id" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Auth No.",
@@ -187,21 +187,21 @@ const PatientAuth = () => {
       key: "authorization_number",
       width: 150,
       //   sorter is for sorting asc or dsc purstatuse
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.authorization_number > b.authorization_number ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder:
         sortedInfo.columnKey === "authorization_number"
           ? sortedInfo.order
           : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "COB",
-      dataIndex: "is_primary",
-      key: "is_primary",
+      dataIndex: "cob",
+      key: "cob",
       width: 100,
-      render: (_, { is_primary }) => {
+      /*render: (_, { is_primary }) => {
         if (is_primary === 1) {
           return <h1 className="text-green-600">Primary</h1>;
         } else if (is_primary === 2) {
@@ -216,7 +216,7 @@ const PatientAuth = () => {
       },
       sortOrder:
         sortedInfo.columnKey === "is_primary" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
 
     {

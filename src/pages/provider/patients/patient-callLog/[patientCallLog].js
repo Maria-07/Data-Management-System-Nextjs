@@ -5,80 +5,29 @@ import CallLogEdit from "@/component/UI/Patients/Patients/PatientCallLog/CallLog
 import { Table } from "antd";
 import { useState } from "react";
 import { HiPlus } from "react-icons/hi";
+import { useGetCalllogQuery } from "@/Redux/features/patient/calllog/calllogApi";
+import { useRouter } from "next/router";
+import { getAccessToken } from "@/Redux/api/apiSlice";
 
 const PatientCallLog = () => {
-  const [allData, setAllData] = useState([
-    {
-      id: 1,
-      first_name: "Bernardine",
-      last_name: "Huyge",
-      dob: "3/19/2022",
-      gurantor: "Vervet monkey",
-    },
-    {
-      id: 2,
-      first_name: "Evaleen",
-      last_name: "Sessuns",
-      dob: "3/15/2022",
-      gurantor: "Fox, north american red",
-    },
-    {
-      id: 3,
-      first_name: "Rollo",
-      last_name: "Downham",
-      dob: "11/18/2021",
-      gurantor: "Ferret, black-footed",
-    },
-    {
-      id: 4,
-      first_name: "Lauren",
-      last_name: "Hechlin",
-      dob: "5/31/2022",
-      gurantor: "Crab, sally lightfoot",
-    },
-    {
-      id: 5,
-      first_name: "Cletis",
-      last_name: "Wrighton",
-      dob: "12/22/2021",
-      gurantor: "Southern ground hornbill",
-    },
-    {
-      id: 6,
-      first_name: "Wandie",
-      last_name: "Hulson",
-      dob: "12/2/2021",
-      gurantor: "Nilgai",
-    },
-    {
-      id: 7,
-      first_name: "Alvie",
-      last_name: "Piell",
-      dob: "12/12/2021",
-      gurantor: "Whale, long-finned pilot",
-    },
-    {
-      id: 8,
-      first_name: "Lorrie",
-      last_name: "D'Elias",
-      dob: "6/14/2022",
-      gurantor: "Coot, red-knobbed",
-    },
-    {
-      id: 9,
-      first_name: "Towney",
-      last_name: "Priscott",
-      dob: "6/2/2022",
-      gurantor: "Monkey, bleeding heart",
-    },
-    {
-      id: 10,
-      first_name: "Dian",
-      last_name: "Thurlbeck",
-      dob: "1/8/2022",
-      gurantor: "Seal, harbor",
-    },
-  ]);
+  
+  const router = useRouter();
+  const { query } = router;
+  const id = query.patientCallLog;
+  console.log(id);
+  const token = getAccessToken();
+
+  const { data: calllogData, isLoading: calllogloading } =
+    useGetCalllogQuery({
+      token,
+      id
+    });
+
+    //console.log('calllogData',calllogData);
+
+  const allData = calllogData?.call_log?.data || [];
+
+
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
   const [assign, setAssign] = useState(false);
@@ -95,52 +44,49 @@ const PatientCallLog = () => {
   const column = [
     {
       title: "Date",
-      dataIndex: "description",
-      key: "description",
+      dataIndex: "log_date",
+      key: "log_date",
       width: 120,
-      filters: [{}],
+      /*filters: [{}],
       filteredValue: filteredInfo.Document || null,
       onFilter: (value, record) => record.Document.includes(value),
       sorter: (a, b) => {
         return a.Document > b.Document ? -1 : 1;
       },
       sortOrder: sortedInfo.columnKey === "Document" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
+    },
+    {
+      title: "Log By",
+      dataIndex: "call_log_by",
+      key: "call_log_by",
+      width: 120,
+      /*filters: [{}],
+      filteredValue: filteredInfo.Document || null,
+      onFilter: (value, record) => record.Document.includes(value),
+      sorter: (a, b) => {
+        return a.Document > b.Document ? -1 : 1;
+      },
+      sortOrder: sortedInfo.columnKey === "Document" ? sortedInfo.order : null,
+      ellipsis: true,*/
     },
     {
       title: "Log",
-      dataIndex: "description",
-      key: "description",
-      width: 120,
-      filters: [{}],
-      filteredValue: filteredInfo.Document || null,
-      onFilter: (value, record) => record.Document.includes(value),
-      sorter: (a, b) => {
-        return a.Document > b.Document ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "Document" ? sortedInfo.order : null,
-      ellipsis: true,
-    },
-    {
-      title: "Review Status",
-      dataIndex: "operation",
-      key: "operation",
+      dataIndex: "call_log",
+      key: "call_log",
       width: 90,
-      render: (_, { nt }) => {
-        // return <ReviewStatus></ReviewStatus>;
-      },
     },
     {
       title: "Action",
       dataIndex: "operation",
       key: "operation",
       width: 90,
-      render: (_, { nt }) => {
+      render: (_, record) => {
         return (
           // <div className="flex items-center justify-center">
           //   <AiOutlineEye />
           // </div>
-          <CallLogEdit></CallLogEdit>
+          <CallLogEdit patientCalllog={record} patientId={id}></CallLogEdit>
         );
       },
     },
@@ -178,6 +124,7 @@ const PatientCallLog = () => {
               className=" text-xs font-normal "
               columns={column}
               dataSource={allData}
+              rowKey={(record) => record.call_log_id}
               scroll={{
                 y: 700,
               }}
@@ -189,6 +136,7 @@ const PatientCallLog = () => {
           <AddCallLog
             handleClose={handleClose}
             open={openEditModal}
+            patientId={id}
           ></AddCallLog>
         )}
       </div>

@@ -5,14 +5,15 @@ export const patientAuthorizationApi = api.injectEndpoints({
     //handle auth endpoint here
     //get patient authorization api
     getPatientAuthorization: builder.query({
-      query: ({ token, payload }) => ({
-        url: `inadmin/patient/authorization/list`,
-        method: "POST",
+      query: ({ token, id }) => ({
+        url: `/patient/authorization/${id}`,
+        method: "GET",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
-        body: JSON.stringify(payload),
+        //body: JSON.stringify(payload),
       }),
       providesTags: ["PatientAuthorizationTable"],
     }),
@@ -217,7 +218,7 @@ export const {
   usePatientAuthorizationUpdateMutation,
   usePatientAuthorizationDeleteMutation,
   useGetPatientAuthorizationActivityQuery,
-  usePatientAuthorizationActivityInfoQuery,
+  usePatientAuthorizationActivityInfoQuery, 
   usePatientAuthorizationActivityCreateMutation,
   usePatientAuthorizationActivityUpdateMutation,
   usePatientAuthorizationActivityDeleteMutation,

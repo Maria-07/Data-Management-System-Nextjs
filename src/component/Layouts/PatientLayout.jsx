@@ -32,7 +32,7 @@ const PatientLayout = ({ id, children }) => {
   const { theme } = useTheme();
   // const [patientId, setPatientId] = useState(id);
   const [patientData,setPatientData] = useState([]);
-  const [patientAddress,setPatientAddress] = useState();
+  const [patientAddress,setPatientAddress] = useState([]);
   const patientId = localStorage.getItem("PId");
   // console.log("user iddd", patientId);
 
@@ -65,11 +65,19 @@ const PatientLayout = ({ id, children }) => {
       });
       const data = res?.data?.patient_info;
       setPatientData(data[0]);
+      const addressData = {
+        street:data[0]?.patient_main_address?.street,
+        city:data[0]?.patient_main_address?.city,
+        state:data[0]?.patient_main_address?.state,
+        zip:data[0]?.patient_main_address?.zip,
+      }
+      setPatientAddress(addressData);
       //setStuffs(data);
     };
     getPatientData();
   }, [token]);
-
+//console.log('patientData',patientData.patient_main_address.street);
+//console.log('patientAddress',patientAddress);
   //! links
   const patientSidebar = [
     {
@@ -154,7 +162,7 @@ const PatientLayout = ({ id, children }) => {
           {patientData.patient_dob} |<span className="text-orange-400 font-semibold">Phone : </span>
           {patientData.patient_first_name} |
           <span className="text-orange-400 font-semibold">Address : </span>
-          street, city, state zip
+          {patientAddress.street}, {patientAddress.city}, {patientAddress.state}, {patientAddress.zip}
         </div>
       </div>
       <div className="grid sm:grid-cols-12 grid-cols-1">

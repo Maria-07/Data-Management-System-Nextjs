@@ -22,7 +22,7 @@ const PatientAuth = () => {
   const router = useRouter();
   const { query } = router;
   const id = query.patientAuth;
-  console.log(id);
+  console.log('id',id);
   const token = getAccessToken();
 
   console.log('patient_id',id);
@@ -33,16 +33,16 @@ const PatientAuth = () => {
       token,
       id      
     });
-
+  //console.log('authorizationData',authorizationData?.patient_authorization[0]?.authorization_list);
+  
   const clientAuthorizationData = authorizationData?.patient_authorization[0]?.authorization_list || [];
-  const clientSelectedPayors = authorizationData?.selectedPayors || [];
 
-  console.log("Patient Auth = ", clientAuthorizationData);
-  console.log("Patient clientSelectedPayors = ", clientSelectedPayors);
+  //console.log("Patient Auth = ", clientAuthorizationData);
+  //console.log("Patient clientSelectedPayors = ", clientSelectedPayors);
 
   const editAuth = (record) => {
     //console.log("editdata edit", record);
-    router.push(`/admin/patients/authorization-edit/${record?.id}`);
+    router.push(`/admin/patients/authorization-edit/${record?.authorization_id}`);
     // navigate();
   };
 
@@ -98,7 +98,7 @@ const PatientAuth = () => {
   const onTableRowExpand = (expanded, record) => {
     const keys = [];
     if (expanded) {
-      keys.push(record.id); // I have set my record.id as row key. Check the documentation for more details.
+      keys.push(record.authorization_id); // I have set my record.id as row key. Check the documentation for more details.
     }
     setExpandedRowKeys(keys);
   };
@@ -218,60 +218,12 @@ const PatientAuth = () => {
         sortedInfo.columnKey === "is_primary" ? sortedInfo.order : null,
       ellipsis: true,*/
     },
-
-    {
-      title: "Action",
-      dataIndex: "operation",
-      key: "operation",
-      width: 150,
-      render: (_, record) => {
-        return (
-          <div>
-            <div className="flex justify-center gap-1 text-primary">
-              <button
-                onClick={() => {
-                  setSelectContact(true);
-                }}
-              >
-                <BiCopy className="text-xs mx-2 " />
-              </button>
-
-              <span>|</span>
-              <button
-                onClick={() => {
-                  setOpenEditModal(true);
-                }}
-              >
-                <AiOutlinePlus className="text-xs mx-2 " />
-              </button>
-              {/* edit */}
-              <span>|</span>
-              <button onClick={() => editAuth(record)}>
-                <AiOutlineEdit
-                  className="text-xs mx-2  text-lime-700"
-                  title="Edit"
-                />
-              </button>
-
-              <span>|</span>
-              <button>
-                <AiFillDelete
-                  onClick={() => handleDelete(record)}
-                  className="text-sm mt-[3px] text-red-500 mx-2"
-                  title="Delete"
-                />
-              </button>
-            </div>
-          </div>
-        );
-      },
-    },
     {
       title: "Status",
       key: "status",
       dataIndex: "status",
       width: 100,
-      render: (_, { status }) => {
+      /*render: (_, { status }) => {
         return (
           <>
             {status === true ? (
@@ -291,8 +243,29 @@ const PatientAuth = () => {
         return a.status > b.status ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "status" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
+
+    {
+      title: "Action",
+      dataIndex: "operation",
+      key: "operation",
+      width: 150,
+      render: (_, record) => {
+        return (
+          <div>
+            <div className="flex justify-center gap-1 text-primary">
+              <button onClick={() => editAuth(record)}>
+                <AiOutlineEdit
+                  className="text-xs mx-2  text-lime-700"
+                  title="Edit"
+                />
+              </button>
+            </div>
+          </div>
+        );
+      },
+    }
   ];
   return (
     <div>
@@ -301,14 +274,6 @@ const PatientAuth = () => {
         <div className="h-[100%]">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
             <h1 className="text-[14px] font-semibold">Authorization</h1>
-            <div className="flex items-center gap-2 flex-wrap">
-              <button onClick={clearFilters} className="dcm-clear-button">
-                Clear filters
-              </button>
-              <Link href={"/admin/patients/patient-authorization/add-auth"}>
-                <button className="dtm-button">+ Add Authorization</button>
-              </Link>
-            </div>
           </div>
 
           <div className=" overflow-scroll ">
@@ -316,7 +281,7 @@ const PatientAuth = () => {
               <Table
                 bordered
                 pagination={false} //pagination dekhatey chailey just 'true' korey dilei hobey
-                rowKey={(record) => record.id} //record is kind of whole one data object and here we are
+                rowKey={(record) => record.authorization_id} //record is kind of whole one data object and here we are
                 size="small"
                 className=" text-xs font-normal table-striped-rows"
                 columns={columns}

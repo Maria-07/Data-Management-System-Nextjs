@@ -25,12 +25,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import { FaBusinessTime, FaUsers } from "react-icons/fa";
 import { BsClipboard2Data } from "react-icons/bs";
+import axios from "axios";
 
 const PatientLayout = ({ id, children }) => {
   //! Theme system
   const { theme } = useTheme();
   // const [patientId, setPatientId] = useState(id);
-
+  const [patientData,setPatientData] = useState([]);
+  const [patientAddress,setPatientAddress] = useState();
   const patientId = localStorage.getItem("PId");
   // console.log("user iddd", patientId);
 
@@ -50,6 +52,24 @@ const PatientLayout = ({ id, children }) => {
     );
   }, [id, dispatch, token]);
 
+  useEffect(() => {
+    const getPatientData = async () => {
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/patient/nav-info/${patientId}`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Authorization": token || null,
+        },
+      });
+      const data = res?.data?.patient_info;
+      setPatientData(data[0]);
+      //setStuffs(data);
+    };
+    getPatientData();
+  }, [token]);
+
   //! links
   const patientSidebar = [
     {
@@ -57,7 +77,7 @@ const PatientLayout = ({ id, children }) => {
       link_name: "Patient Info",
       link: `/provider/patients/patient-info/${patientId}`,
     },
-    {
+    /*{
       icon: <BiUserCircle />,
       link_name: "Clinical Data",
       link: `/provider/patients/clinical-data/${patientId}`,
@@ -66,7 +86,7 @@ const PatientLayout = ({ id, children }) => {
       icon: <AiOutlineFileAdd />,
       link_name: "Patient Vob",
       link: `/provider/patients/patient-vob/${patientId}`,
-    },
+    },*/
     {
       icon: <BiSolidUserRectangle />,
       link_name: "Patient Authorization",
@@ -77,7 +97,7 @@ const PatientLayout = ({ id, children }) => {
       link_name: "Documents",
       link: `/provider/patients/patient-documents/${patientId}`,
     },
-    {
+    /*{
       icon: <FaBusinessTime />,
       link_name: "Patient Ledger",
       link: `/provider/patients/patient-ledger/${patientId}`,
@@ -91,13 +111,13 @@ const PatientLayout = ({ id, children }) => {
       icon: <IoCloudUploadOutline />,
       link_name: "Patient Intake",
       link: `/provider/patients/patient-intake/${patientId}`,
-    },
+    },*/
     {
       icon: <IoCall />,
       link_name: "Call Log",
       link: `/provider/patients/patient-callLog/${patientId}`,
     },
-    {
+    /*{
       icon: <FaUsers />,
       link_name: "Sibling",
       link: `/provider/patients/patient-sibling/${patientId}`,
@@ -106,17 +126,17 @@ const PatientLayout = ({ id, children }) => {
       icon: <BiLogoPaypal />,
       link_name: "Patient Payment",
       link: `/provider/patients/patient-payment-info/${patientId}`,
-    },
+    },*/
     {
       icon: <BsClipboard2Data />,
       link_name: "Session Notes",
       link: `/provider/patients/patient-session-notes/${patientId}`,
     },
-    {
+    /*{
       icon: <AiOutlineFileText />,
       link_name: "Clinicians Team",
       link: `/provider/patients/patient-clinicians/${patientId}`,
-    },
+    },*/
   ];
 
   //! Theme system done
@@ -128,11 +148,11 @@ const PatientLayout = ({ id, children }) => {
         </Link>
         <div className="text-xs font-normal">
           <span className="text-sm font-semibold text-primary">
-            Full Name |
+            {patientData.patient_last_name}, {patientData.patient_first_name} |
           </span>
           <span className="text-orange-400 font-semibold">DOB :</span>
-          Dob |<span className="text-orange-400 font-semibold">Phone : </span>
-          1231212312 |
+          {patientData.patient_dob} |<span className="text-orange-400 font-semibold">Phone : </span>
+          {patientData.patient_first_name} |
           <span className="text-orange-400 font-semibold">Address : </span>
           street, city, state zip
         </div>

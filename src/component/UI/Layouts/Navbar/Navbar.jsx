@@ -40,7 +40,8 @@ const Navbar = ({ handle, handleSidebar }) => {
     // setUserInfo(null);
     router.push("/");
   };
-
+  const loginuserFullname = Cookies.get("loginuserFullname");
+  const loginuserEmail = Cookies.get("loginuserEmail");
   //! Theme system
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -185,14 +186,14 @@ const Navbar = ({ handle, handleSidebar }) => {
                           width={"auto"}
                           height={"auto"}
                           alt="Picture of the author"
-                          className="rounded-full"
+                          className="rounded-full" 
                         />
                       </div>
                       <div>
                         <h5 className=" text-sm text-white font-bold text-end">
-                          Hello admin
+                          Hello {loginuserFullname}
                         </h5>
-                        <p className="text-xs text-white">admin@admin.com</p>
+                        <p className="text-xs text-white">{loginuserEmail}</p>
                       </div>
                     </div>
                     <div className="shadow-md bg-white">
@@ -260,13 +261,13 @@ const Navbar = ({ handle, handleSidebar }) => {
                     />
                   </div>
                   <div>
-                    <h4 className="font-medium text-lg">Admin</h4>
+                    <h4 className="font-medium text-lg">{loginuserFullname}</h4>
                     <h5
                       className={`${
                         theme === "dark" ? "" : "text-secondary"
                       }  font-medium text-xs`}
                     >
-                      admin@admin.com
+                      {loginuserEmail}
                     </h5>
                   </div>
                 </label>

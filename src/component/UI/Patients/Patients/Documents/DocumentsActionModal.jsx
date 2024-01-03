@@ -1,69 +1,40 @@
 import { Modal } from "antd";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { memo } from "react";
 import { useForm } from "react-hook-form";
 import { IoCloseCircleOutline } from "react-icons/io5";
-
 import { toast } from "react-toastify";
 
-const DocumentsActionModal = ({ handleClose, open, row, id }) => {
+const DocumentsActionModal = ({ handleClose, open, documentData,  token, patientId, documentTypeId }) => {
   const { register, handleSubmit, reset } = useForm();
-  // const { id } = useParams();
-  // const { token } = useToken();
-  // post edit data show
-  // const [updateDocument, { data: updateData, isSuccess, isError }] =
-  //   useUpdateDocumentMutation();
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     toast.success(updateData?.message, {
-  //       position: "top-center",
-  //       autoClose: 5000,
-  //       theme: "dark",
-  //     });
-  //     handleClose();
-  //   } else if (isError) {
-  //     toast.error("Some Error Occured", {
-  //       position: "top-center",
-  //       autoClose: 5000,
-  //       theme: "dark",
-  //     });
-  //   }
-  // }, [handleClose, isError, isSuccess, updateData?.message]);
-
+  
+  const cname = {
+    description:documentData.description,
+    expiry_Date:documentData.document_expiration_date,
+    fileName:documentData.file_name,
+  }
+  const {
+    description,
+    expiry_Date,
+    fileName,
+  } = cname || {};
   const onSubmit = (data) => {
-    console.log(data);
-
-    // const payload = {
-    //   document_id: id,
-    //   description: data.description,
-    //   exp_date: data.expiry_Date,
-    //   file_name: data.fileName,
-    // };
-    // console.log("payload");
-    // updateDocument({ token, payload });
-    reset();
-  };
-  // console.log(row);
-  // // get edit data show
-  // const { data, isLoading: singleitemLoading } = useGetdocumentsinfoQuery({
-  //   token,
-  //   id,
-  // });
-
-  // console.log("data api edit", data);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     reset({
-  //       description: `${data.document.description}`,
-  //       expiry_Date: `${data.document.exp_date}`,
-  //     });
-  //   }, 500);
-  // }, [reset, row, data]);
-
-  // if (singleitemLoading) {
-  //   return <></>;
-  // }
+    console.log(data)
+  }
+  useEffect(() => {
+    setTimeout(() => {
+      reset({
+        description: description,
+        expiry_Date: expiry_Date,
+        fileName: fileName,
+      });
+    }, 500);
+  }, [
+    reset,
+    description,
+    expiry_Date,
+    fileName,
+  ]);
   return (
     <div>
       <Modal

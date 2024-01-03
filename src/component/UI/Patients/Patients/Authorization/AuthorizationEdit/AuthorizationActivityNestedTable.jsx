@@ -133,18 +133,18 @@ const AuthorizationActivityNestedTable = ({
       dataIndex: "remaining",
       key: "remaining",
       width: 100,
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.remaining > b.remaining ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "remaining" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Start Date",
-      dataIndex: "onset_date",
-      key: "onset_date",
+      dataIndex: "start_date",
+      key: "start_date",
       width: 100,
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.onset_date > b.onset_date ? -1 : 1; //sorting problem solved using this logic
       },
       render: (_, { onset_date }) => {
@@ -152,21 +152,21 @@ const AuthorizationActivityNestedTable = ({
       },
       sortOrder:
         sortedInfo.columnKey === "onset_date" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "End Date",
       dataIndex: "end_date",
       key: "end_date",
       width: 100,
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.end_date > b.end_date ? -1 : 1; //sorting problem solved using this logic
       },
       render: (_, { end_date }) => {
         return <h1 className="font-bold">{end_date}</h1>;
       },
       sortOrder: sortedInfo.columnKey === "end_date" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     /*{
       title: "Action",

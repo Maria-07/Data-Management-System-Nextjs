@@ -1,11 +1,12 @@
 import { Modal } from "antd";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useEffect } from "react-hook-form";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
-const CallLogView = ({ handleClose, open, logdata }) => {
+const DocumentView = ({ handleClose, open, imageData }) => {
+  console.log('imageData',imageData)
   const { register, handleSubmit } = useForm();
-
+  
   const onSubmit = (data) => {
     console.log(data);
   };
@@ -25,7 +26,7 @@ const CallLogView = ({ handleClose, open, logdata }) => {
           <div className="">
             <div className="flex items-center justify-between">
               <h1 className="text-lg text-left text-orange-400 ">
-                View Call Log
+                View Document
               </h1>
               <IoCloseCircleOutline
                 onClick={handleClose}
@@ -35,7 +36,9 @@ const CallLogView = ({ handleClose, open, logdata }) => {
 
             <div className="bg-gray-200 py-[1px] mt-3"></div>
             <div>
-              <p className="my-5">{logdata}</p>
+              <p className="my-5">
+                <img src={"data:image/jpeg;base64," + imageData.file.replace('dataimage/jpegbase64','')}  />
+              </p>
               <div className="bg-gray-200 py-[1px] mt-3"></div>
               <div className="flex gap-3 items-end justify-end mb-2 mt-4">
                 <button
@@ -53,4 +56,4 @@ const CallLogView = ({ handleClose, open, logdata }) => {
   );
 };
 
-export default CallLogView;
+export default DocumentView;

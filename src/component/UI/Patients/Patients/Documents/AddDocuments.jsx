@@ -18,7 +18,7 @@ const AddDocuments = ({ handleClose, open, token, patientId, documentId, documen
     setStatus((status) => !status);
   };
 
-    // Add credential Api
+    // Add Document Api
   const [
     addDocuemnts,
     { isSuccess: addDocumentSuccess, isError: addDocumentError },

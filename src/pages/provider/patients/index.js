@@ -95,7 +95,7 @@ const PatientPage = () => {
     console.log(id, "iddddddddddd");
     if (id) {
       localStorage.setItem("PId", id);
-      router.push(`/admin/patients/patient-info/${id}`);
+      router.push(`/provider/patients/patient-info/${id}`);
     }
   };
 

@@ -19,7 +19,7 @@ const BasicInfo = ({ adData }) => {
         </span>
       </div>
        */}
-      <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-7 my-3 mr-2 gap-x-6 gap-y-1 ">
+      <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-8 my-3 mr-2 gap-x-6 gap-y-1 ">
         {/* name  */}
         <div>
           <label className="label">
@@ -149,7 +149,7 @@ const BasicInfo = ({ adData }) => {
           </select>
         </div>
 
-        <div>
+        {/* <div>
           <label className="label">
             <span className=" label-font">
               Login Email<span className="text-red-500">*</span>
@@ -160,6 +160,30 @@ const BasicInfo = ({ adData }) => {
             name="login_email"
             className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
             {...register("login_email")}
+          />
+        </div> */}
+
+        {/* Parent Name */}
+        <div>
+          <label className="label">
+            <span className=" label-font">Parent First Name</span>
+          </label>
+          <input
+            type="text"
+            name="parent_first_name"
+            className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
+            {...register("parent_first_name")}
+          />
+        </div>
+        <div>
+          <label className="label">
+            <span className=" label-font">Parent Last Name</span>
+          </label>
+          <input
+            type="text"
+            name="parent_last_name"
+            className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
+            {...register("parent_last_name")}
           />
         </div>
       </div>

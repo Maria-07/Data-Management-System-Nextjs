@@ -1,6 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { useGetRaceEthnicityQuery } from "@/Redux/features/patient/patient-info/patientInfoApi";
 
 const AboutPatient = ({ register }) => {
+  const [isColorPaletteOpen, setIsColorPaletteOpen] = useState(false);
+  const [selectedColor, setSelectedColor] = useState("");
+  //console.log('background_color - ',bgcolor);
+  const colorOptions = [
+    "#E0EBF5",
+    "#FFE8E8",
+    "#E5F6EE",
+    "#FCEFDC",
+    "#B0DDC8",
+    "#AACBEE",
+    "#FEE9A6",
+    "#FBCBC7",
+    "#B2EBF2",
+    "#C5CAE9",
+    "#FFECB3",
+    "#D7CCC8",
+    "#B3E6CC",
+    "#B2DFDB",
+    "#FFCDD2",
+  ];
+
+  const toggleColorPalette = () => {
+    setIsColorPaletteOpen(!isColorPaletteOpen);
+  };
+
+  const handleColorSelection = (color) => {
+    setSelectedColor(color);
+    setIsColorPaletteOpen(false);
+  };
   return (
     <div className="mb-2 mt-5">
       {" "}
@@ -10,7 +41,7 @@ const AboutPatient = ({ register }) => {
             About Patient
           </span>
         </label>
-        <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4  2xl:grid-cols-6 mb-1 mr-2 gap-x-6 gap-y-1">
+        <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4  2xl:grid-cols-5 mb-1 mr-2 gap-x-6 gap-y-1">
           <div>
             <label className="label">
               <span className=" label-font">Race &amp; Ethnicity Details</span>
@@ -126,7 +157,7 @@ const AboutPatient = ({ register }) => {
               {...register("first_date")}
             />
           </div>
-          <div>
+          {/* <div>
             <label className="label">
               <span className=" label-font">Physician Type</span>
             </label>
@@ -158,7 +189,7 @@ const AboutPatient = ({ register }) => {
               <option value="23">Rhenys Targarian</option>
               <option value="1">Vanna Berry</option>
             </select>
-          </div>
+          </div> */}
           <div>
             <label className="label">
               <span className=" label-font">Assignment</span>
@@ -167,9 +198,59 @@ const AboutPatient = ({ register }) => {
               className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
               {...register("assignment")}
             >
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
             </select>
+          </div>
+
+          <div>
+            <label className="label">
+              <span className=" label-font">Background Color</span>
+            </label>
+            <div>
+              <div style={{ position: "relative", display: "inline-block" }}>
+                <input
+                  onClick={toggleColorPalette}
+                  type="text"
+                  name="background_color"
+                  className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
+                  {...register("background_color")}
+                  style={{ backgroundColor: selectedColor || "#FBCBC7" }}
+                />
+                {isColorPaletteOpen && (
+                  <motion.div
+                    style={{
+                      position: "absolute",
+                      top: "100%",
+                      left: 0,
+                      zIndex: 999,
+                      border: "1px solid #ccc",
+                      borderRadius: "5px",
+                      backgroundColor: "#000",
+                      boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.2)",
+                      padding: "15px",
+                      width: "200px",
+                    }}
+                  >
+                    <div className="grid grid-cols-5 gap-x-2 gap-y-1">
+                      {/* Color Palette Dropdown */}
+                      {colorOptions.map((color) => (
+                        <div
+                          key={color}
+                          onClick={() => handleColorSelection(color)}
+                          style={{
+                            backgroundColor: color,
+                            padding: "8px",
+                            cursor: "pointer",
+                            borderRadius: "5px",
+                          }}
+                        ></div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </>

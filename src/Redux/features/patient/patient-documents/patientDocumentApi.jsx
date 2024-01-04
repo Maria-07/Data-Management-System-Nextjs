@@ -32,9 +32,9 @@ export const patientDocumentApi = api.injectEndpoints({
     }),
     
     // Update call log
-    updateCalllog: builder.mutation({
+    updateDocument : builder.mutation({
       query: ({ token, payload }) => ({
-        url: "patient/call-log/update",
+        url: "/patient/document/update",
         method: "POST",
         headers: {
           "content-type": "Application/json",
@@ -42,7 +42,7 @@ export const patientDocumentApi = api.injectEndpoints({
         },
         body: JSON.stringify(payload),
       }),
-      invalidatesTags: ["calllogData"],
+      invalidatesTags: ["documentUpdateData"],
     }),
 
     // create call log
@@ -70,7 +70,7 @@ export const patientDocumentApi = api.injectEndpoints({
         },
         //body: JSON.stringify(payload),
       }),
-      providesTags: ["calllogData"],
+      providesTags: ["documentTypeData"],
     }),
 
     // get file for view
@@ -94,7 +94,7 @@ export const patientDocumentApi = api.injectEndpoints({
 export const {
   useGetDocumentQuery,
   useDeleteDocumentMutation,
-  useUpdateCalllogMutation,
+  useUpdateDocumentMutation,
   useCreatePatientDocMutation,
   useGetDocumentTypeQuery,
   useViewDocumentFileMutation,

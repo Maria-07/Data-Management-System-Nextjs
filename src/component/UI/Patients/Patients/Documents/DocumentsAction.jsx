@@ -94,8 +94,8 @@ const DocumentsAction = ({ documentData, token, patientId, documentTypeId }) => 
           open={openEditModal}
           documentData={documentData}
           token={token}
-          patientId={token} 
-          documentTypeId={token}
+          patientId={patientId} 
+          documentTypeId={documentTypeId}
         ></DocumentsActionModal>
       )}
       

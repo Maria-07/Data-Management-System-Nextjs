@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Table } from "antd";
 import { FiEdit } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai";
 import AddCredential from "./AddCredentialModal/AddCredential";
 import EditCredential from "./EditCredentialModal/EditCredential";
+import ViewCredential from "./ViewCredential";
 import { toast } from "react-toastify";
 import { useDeleteCredentialMutation } from "@/Redux/features/staff/credentials/credentialsApi";
 
@@ -16,6 +17,8 @@ const Credential = ({ credentials, token, id }) => {
   const [editModal, setEditModal] = useState(false);
   const [credentialRecord, setCredentialRecord] = useState();
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [fileView, setFileView] = useState(false);
+  const [credentialId, setCredentialId] = useState(false);
 
   const [deleteCredential, { isSuccess: deleteSuccess }] =
     useDeleteCredentialMutation();
@@ -56,6 +59,15 @@ const Credential = ({ credentials, token, id }) => {
       });
     }
   }, [deleteSuccess]);
+
+  const handleViewClose = () => {
+    setFileView(false);
+  };
+  const handleViewOpen = (record) => {
+    setCredentialId(record?.credential_id)
+    setFileView(true);
+  };
+
 
   const column = [
     {
@@ -121,6 +133,14 @@ const Credential = ({ credentials, token, id }) => {
       width: 150,
       render: (_, record) => (
         <div className="flex justify-center gap-1 text-primary cursor-pointer">
+        { record.credential_file ?
+        (<AiOutlineEye
+          onClick={() => handleViewOpen(record)}
+          className="text-xs mx-2  text-lime-700"
+          title="Edit"
+        />
+        ) : null }
+        { record.credential_file ? (<span>|</span>) : null}
           <FiEdit
             onClick={() => handleEditModal(record)}
             className="text-xs mx-2  text-lime-700"
@@ -215,6 +235,14 @@ const Credential = ({ credentials, token, id }) => {
           token={token}
           id={id}
         ></EditCredential>
+      )}
+      {fileView && (
+        <ViewCredential
+          handleClose={handleViewClose}
+          open={fileView}
+          token={token}
+          credentialId={credentialId}
+        ></ViewCredential>
       )}
     </div>
   );

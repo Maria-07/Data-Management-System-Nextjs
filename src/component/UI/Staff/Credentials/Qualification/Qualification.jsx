@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Table } from "antd";
 import { FiEdit } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai";
 import AddQualification from "./AddQualificationModal/AddQualification";
 import EditQualification from "./EditQualificationModal/EditQualification";
 import { toast } from "react-toastify";
 import { useDeleteQualificationMutation } from "@/Redux/features/staff/credentials/qualificationApi";
+import ViewQualification from "./ViewQualification";
 
 const Qualification = ({ qualification, token, id }) => {
  
@@ -15,6 +16,8 @@ const Qualification = ({ qualification, token, id }) => {
   const [sortedInfo, setSortedInfo] = useState({});
   const [editModal, setEditModal] = useState(false);
   const [qualificationRecord, setQualificationRecord] = useState();
+  const [fileView, setFileView] = useState(false);
+  const [qualificationlId, setQualificationId] = useState(false);
 
   //Delete Qualification Api
   const [
@@ -56,6 +59,15 @@ const Qualification = ({ qualification, token, id }) => {
       });
     }
   }, [qualificationDelete, deleteError]);
+
+  const handleViewClose = () => {
+    setFileView(false);
+  };
+  const handleViewOpen = (record) => {
+    setQualificationId(record?.qualification_id)
+    setFileView(true);
+  };
+
 
   const column = [
     // Display Name Data(Exceptional)=>Static
@@ -158,7 +170,15 @@ const Qualification = ({ qualification, token, id }) => {
       key: "operation",
       width: 150,
       render: (_, record) => (
-        <div className="flex justify-center gap-1 text-primary">
+        <div className="flex justify-center gap-1 text-primary">          
+        { record.qualification_file ?
+        (<AiOutlineEye
+          onClick={() => handleViewOpen(record)}
+          className="text-xs mx-2  text-lime-700"
+          title="Edit"
+        />
+        ) : null }
+        { record.qualification_file ? (<span>|</span>) : null}
           <FiEdit
             onClick={() => handleQualificationEdit(record)}
             className="text-xs mx-2  text-lime-700"
@@ -260,6 +280,14 @@ const Qualification = ({ qualification, token, id }) => {
           token={token}
           id={id}
         ></EditQualification>
+      )}
+      {fileView && (
+        <ViewQualification
+          handleClose={handleViewClose}
+          open={fileView}
+          token={token}
+          qualificationlId={qualificationlId}
+        ></ViewQualification>
       )}
     </div>
   );

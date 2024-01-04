@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Table } from "antd";
 import AddClearence from "./AddClearenceModal/AddClearence";
 import EditClearence from "./EditClearenceModal/EditClearence";
+import ViewClearence from "./ViewClearence";
 import { toast } from "react-toastify";
 
 const Clearance = ({ clearences, token, id }) => {
@@ -16,6 +17,8 @@ const Clearance = ({ clearences, token, id }) => {
   const [editModal, setEditModal] = useState(false);
   const [clearenceRecord, setClearenceRecord] = useState();
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [fileView, setFileView] = useState(false);
+  const [clearanceId, setClearanceId] = useState(false);
 
   const [deleteClearance, { isSuccess: deleteSuccess }] =
     useDeleteClearanceMutation();
@@ -39,6 +42,14 @@ const Clearance = ({ clearences, token, id }) => {
     if (record?.clearance_id) {
       deleteClearance({ token, payload });
     }
+  };
+
+  const handleViewClose = () => {
+    setFileView(false);
+  };
+  const handleViewOpen = (record) => {
+    setClearanceId(record?.clearance_id)
+    setFileView(true);
   };
 
   useEffect(() => {
@@ -118,6 +129,14 @@ const Clearance = ({ clearences, token, id }) => {
       render: (_, record) => (
         
         <div className="flex justify-center gap-1 text-primary">
+          { record.clearance_file ?
+          (<AiOutlineEye
+            onClick={() => handleViewOpen(record)}
+            className="text-xs mx-2  text-lime-700"
+            title="Edit"
+          />
+          ) : null }
+          { record.clearance_file ? (<span>|</span>) : null}
           <FiEdit
             onClick={() => handleClearenceEdit(record)}
             className="text-xs mx-2  text-lime-700"
@@ -213,6 +232,14 @@ const Clearance = ({ clearences, token, id }) => {
           token={token}
           id={id}
         ></EditClearence>
+      )}
+      {fileView && (
+        <ViewClearence
+          handleClose={handleViewClose}
+          open={fileView}
+          token={token}
+          clearanceId={clearanceId}
+        ></ViewClearence>
       )}
     </div>
   );

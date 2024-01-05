@@ -47,7 +47,7 @@ import LineChart from "@/component/UI/Dashboard/LineChart";
 import Tables from "@/component/UI/Dashboard/Tables";
 import TreatmentBarChart from "@/component/UI/Dashboard/TreatmentBarChart";
 import { motion } from "framer-motion";
-import { useGetDashboardCountQuery } from "@/Redux/features/dashboard/dashboardApi";
+import { useGetDashboardCountQuery, useGetPatientInfoQuery, useGetSchedularInfoQuery } from "@/Redux/features/dashboard/dashboardApi";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 
 const dashboardPage = () => {
@@ -100,6 +100,97 @@ const dashboardPage = () => {
     },
   ];
 
+  const { data: patientCount, isLoading: patientCountLoading } =
+  useGetPatientInfoQuery({
+      token,
+    });
+  console.log('patientCount : ',patientCount);
+  let expired_auths = 0;
+  let expiring_auths = 0;
+  let expiring_docs = 0;
+  let guarantor_paid = 0;
+  let missing_auths = 0;
+  let placeholders = 0;
+  if(dataCount !== undefined)
+  {
+    expired_auths = patientCount?.expired_auths;
+    expiring_auths = patientCount?.expiring_auths;
+    expiring_docs = patientCount?.expiring_docs;
+    guarantor_paid = patientCount?.guarantor_paid;
+    missing_auths = patientCount?.missing_auths;
+    placeholders = patientCount?.placeholders;
+  }
+  const patient = [
+    {
+      report: "Expiring Documents in 30 Days",
+      count: expiring_docs,
+      link: "javascript:void(0)",
+    },
+    {
+      report: "Authorization Missing",
+      count: missing_auths,
+      link: "javascript:void(0)",
+    },
+    {
+      report: "Expired Authorizations",
+      count: expired_auths,
+      link: "javascript:void(0)",
+    },
+    {
+      report: "Expiring Authorization in 60 Days",
+      count: expiring_auths,
+      link: "javascript:void(0)",
+    },
+    {
+      report: "Authorization Place Holders",
+      count: placeholders,
+      link: "javascript:void(0)",
+    },
+    {
+      report: "Patient/Guarantor pay Clients",
+      count: guarantor_paid,
+      link: "javascript:void(0)",
+    },
+  ];
+
+  const { data: schedularCount, isLoading: schedularCountLoading } =
+  useGetSchedularInfoQuery({
+      token,
+    });
+  console.log('patientCount : ',patientCount);
+  let scheduled_not_rendered = 0;
+  let sessions_not_attended_last = 0;
+  let missing_signature = 0;
+  let note_missing = 0;
+  if(schedularCount !== undefined)
+  {
+    scheduled_not_rendered = schedularCount?.scheduled_not_rendered;
+    sessions_not_attended_last = schedularCount?.sessions_not_attended_last_week;
+    missing_signature = schedularCount?.missing_signature;
+    note_missing = schedularCount?.note_missing;
+  }
+ const scheduler = [
+    {
+      report: "Scheduled Not Rendered",
+      count: scheduled_not_rendered,
+      link: "javascript:void(0)",
+    },
+    {
+      report: "Sessions Not Attended Last Week",
+      count: sessions_not_attended_last,
+      link: "javascript:void(0)",
+    },
+    {
+      report: "Provider Signature Missing In Session",
+      count: missing_signature,
+      link: "javascript:void(0)",
+    },
+    {
+      report: "Session Note Missing",
+      count: note_missing,
+      link: "javascript:void(0)",
+    },
+  ];
   return (
     <div>
       <motion.h1
@@ -122,8 +213,8 @@ const dashboardPage = () => {
         className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 my-5 gap-5"
       >
         <TreatmentBarChart token={token}></TreatmentBarChart>
-        <LineChart></LineChart>
-        <BarChart></BarChart>
+        <LineChart token={token}></LineChart>
+        <BarChart  token={token}></BarChart>
       </motion.div>
       <motion.div
         initial={{ opacity: 0, x: -20 }}

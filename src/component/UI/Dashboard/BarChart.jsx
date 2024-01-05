@@ -1,8 +1,27 @@
-import React from "react";
+import React, { useEffect, useState }from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
+import axios from "axios";
 Chart.register(...registerables);
-const BarChart = () => {
+const BarChart = ({token}) => {
+  const [GraphData, setGraphData] = useState([]);
+  useEffect(() => {
+    const getGraphData = async () => {
+    const res = await axios({
+      method: "GET",
+      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/total-session-vs-rendered-session`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Authorization": token || null,
+      }
+    });
+    const data = res?.data;
+    setGraphData(data);
+  }
+  getGraphData();
+}, []);
+console.log('Bar Graph',GraphData);
   return (
     <div div className="bar border rounded-t-xl">
       {/* <div div className="lg:w-4/12 md:w-6/12"> */}
@@ -10,28 +29,21 @@ const BarChart = () => {
         {/* Total Billed vs Total Paid */}
         Total Sessions Vs Rendered Sessions
       </h1>
+      {GraphData?.months ? (
       <Bar
         className=" chart p-2"
         data={{
-          labels: [
-            "December",
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-          ],
+          labels: GraphData?.months,
           datasets: [
             {
               label: "Total",
-              data: [3328, 1800, 940],
+              data: GraphData?.sum?.[0],
               backgroundColor: "#56BBF1",
               barThickness: 25,
             },
             {
               label: "Rendered",
-              data: [2.24],
+              data: GraphData?.sum?.[1],
               backgroundColor: "#6CC4A1",
               barThickness: 25,
             },
@@ -84,6 +96,9 @@ const BarChart = () => {
           },
         }}
       ></Bar>
+      ) : (
+        <p>load</p>
+      )}
     </div>
   );
 };

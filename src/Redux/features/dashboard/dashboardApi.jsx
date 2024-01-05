@@ -17,10 +17,10 @@ export const dashboardApi = api.injectEndpoints({
       providesTags: ["dashboardDataCount"],
     }),
 
-    //get dashboard count  api
-    getTotalSession: builder.query({
+    //get dashboard patient count  api
+    getPatientInfo: builder.query({
       query: ({ token }) => ({
-        url: `total-session-chart`,
+        url: `dashboard-patient-info`,
         method: "GET",
         headers: {
           "content-type": "Application/json",
@@ -31,10 +31,25 @@ export const dashboardApi = api.injectEndpoints({
       providesTags: ["totalSessionChart"],
     }),
 
+     //get Schedular count  api
+     getSchedularInfo: builder.query({
+      query: ({ token }) => ({
+        url: `dashboard-schedule-info`,
+        method: "GET",
+        headers: {
+          "content-type": "Application/json",
+          "Authorization": token || null,
+        },
+        //body: JSON.stringify(payload),
+      }),
+      providesTags: ["totalSchedularChart"],
+    }),
+
   }),
 });
 
 export const {
   useGetDashboardCountQuery,
-  useGetTotalSessionQuery
+  useGetPatientInfoQuery,
+  useGetSchedularInfoQuery
 } = dashboardApi;

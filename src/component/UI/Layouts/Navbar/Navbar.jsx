@@ -217,7 +217,7 @@ const Navbar = ({ handle, handleSidebar }) => {
                       </div>
                       <div>
                         <Link
-                          href={"/"}
+                          href={"/update-password"}
                           className="flex gap-4 hover:bg-slate-100 bg-opacity-10 p-3"
                         >
                           <div className=" rounded-full p-3 bg-primary ">

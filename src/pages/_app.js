@@ -8,7 +8,7 @@ import "@/styles/CustomDateRange.css";
 import "@/styles/multiSelect.css";
 import "@/styles/calender.css";
 import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";        
+import "react-date-range/dist/theme/default.css";
 // import "@/styles/textEditor.css";
 import { Provider } from "react-redux";
 import store from "@/Redux/store";
@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer position="top-center" />
       <ThemeProvider enableSystem={true} attribute="class">
         <Provider store={store}>
           <SessionProvider session={pageProps.session}>

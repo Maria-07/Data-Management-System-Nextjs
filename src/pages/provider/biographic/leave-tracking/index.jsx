@@ -132,17 +132,17 @@ const LeaveTracking = () => {
         return (
           <div className="flex justify-center items-center">
             {status === "approved" && (
-              <button className="bg-gray-500 text-white text-[10px] py-[2px]  rounded w-14">
+              <button className="bg-secondary text-white text-[10px] py-[2px]  rounded w-14">
                 {status}
               </button>
             )}
-            {status !== "approved" && (
-              <button className="bg-teal-700 text-white text-[10px] py-[2px]  rounded w-14">
+            {status !== "pending" && (
+              <button className="bg-primary text-white text-[10px] py-[2px]  rounded w-14">
                 {/* {status} */}
                 pending
               </button>
             )}
-            {status === "Scheduled" && (
+            {status === "rejected" && (
               <button className="bg-red-700 text-white text-[10px] py-[2px]  rounded w-14">
                 {status}
               </button>

@@ -742,7 +742,7 @@ const PatientSessionNote = () => {
                 {/* Multi date picker component called */}
                 <div
                   ref={refClose}
-                  className="absolute z-10 md:ml-[-9%] lg:ml-0 xl:ml-0 2xl:ml-[35%]s "
+                  className="absolute z-10 md:ml-[-9%] lg:ml-0 xl:ml-0 2xl:ml-[-27%] "
                 >
                   {openCalendar && (
                     <CustomDateRange
@@ -755,27 +755,10 @@ const PatientSessionNote = () => {
                 </div>
               </div>
             </div>
-            {/* Multi date picker component called */}
-            <div>
-              <div
-                // ref={refClose}
-                // className="absolute z-10 2xl:ml-[0%] xl:ml-[0%] lg:ml-[0%] md:ml-[0%] md:mr-[5%] sm:mr-[14%] mt-1 "
-                className="absolute z-10 2xl:ml-[0%] xl:ml-[-45%] lg:ml-[0%] md:ml-[0%] md:mr-[5%] ml-[-4%] mr-[8%] mt-1  "
-              >
-                {openCalendar && (
-                  <CustomDateRange
-                    range={range}
-                    setRange={setRange}
-                    handleCancelDate={handleCancelDate}
-                    setOpen={setOpenCalendar}
-                  ></CustomDateRange>
-                )}
-              </div>
-            </div>
           </div>
           <div>
             <label className="label">
-              <h1 className="label-font mb-1  ml-1">
+              <h1 className="label-font mb-1">
                 Locked
                 <span className="text-red-500">*</span>
               </h1>

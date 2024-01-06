@@ -118,14 +118,14 @@ const PatientPage = () => {
       render: (_, { client_full_name, id, key }) => {
         //console.log("tags : ", client_full_name, id, key);
         return (
-          // <Link href={`/admin/patients/patient-info/${id}`} className="">
-          <button
-            onClick={() => PIdHandler(id)}
-            className="text-secondary font-medium"
-          >
-            {client_full_name}
-          </button>
-          // </Link>
+          <Link href={`/provider/patients/patient-info/${id}`} className="">
+            <button
+              onClick={() => PIdHandler(id)}
+              className="text-secondary font-medium"
+            >
+              {client_full_name}
+            </button>
+          </Link>
         );
       },
       // ellipsis: true,

@@ -15,7 +15,7 @@ const DynamicPhone = ({ adData }) => {
             <label className="label">
               <span className=" label-font">Phone</span>
             </label>
-            <div className="flex  gap-1 items-center gap-x-3 gap-y-2">
+            <div className="flex  gap-1 items-center gap-x-2 gap-y-2">
               <div className=" ml-1 flex items-center">
                 <PhoneInput
                   flags={flags}
@@ -23,7 +23,7 @@ const DynamicPhone = ({ adData }) => {
                   initialValueFormat="national"
                   placeholder="Phone"
                   defaultCountry="US"
-                  className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
+                  className="input-border-bottom input-font py-[1px] w-[160px] focus:outline-none "
                   {...register(`number.${index}.number`, {
                     // required: true
                   })}
@@ -41,7 +41,7 @@ const DynamicPhone = ({ adData }) => {
               </div>
               <div>
                 <select
-                  className="input-border-bottom mt-[2px] pb-1 input-font w-16 focus:outline-none"
+                  className="input-border-bottom mt-[2px] pb-[1px] input-font w-16 focus:outline-none"
                   {...register("group")}
                 >
                   <option value="work">work</option>

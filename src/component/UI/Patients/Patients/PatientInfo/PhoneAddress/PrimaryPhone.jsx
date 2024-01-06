@@ -14,14 +14,14 @@ const PrimaryPhone = ({ adData }) => {
       <label className="label">
         <span className=" label-font">Phone</span>
       </label>
-      <div className="flex gap-1 items-center gap-x-3 gap-y-2">
+      <div className="flex gap-1 items-center gap-x-2 gap-y-2">
         <div className=" ml-1">
           {/* package input field */}
           <PhoneInput
             flags={flags}
             international
             initialValueFormat="national"
-            className="input-border-bottom input-font py-[1px] w-full focus:outline-none "
+            className="input-border-bottom input-font py-[1px] w-[160px] focus:outline-none "
             defaultCountry="US"
             value={primaryPhone}
             {...register("phone_number")}
@@ -37,7 +37,7 @@ const PrimaryPhone = ({ adData }) => {
         </div>
         <div>
           <select
-            className="input-border-bottom input-font mt-[3px] pb-1 w-16 focus:outline-none"
+            className="input-border-bottom input-font pb-[1px] w-16 focus:outline-none"
             {...register("group")}
           >
             <option value="Work">Work</option>

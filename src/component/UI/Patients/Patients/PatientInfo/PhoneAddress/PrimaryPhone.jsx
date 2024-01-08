@@ -8,6 +8,8 @@ import "react-phone-number-input/style.css";
 const PrimaryPhone = ({ adData }) => {
   const { phoneAppend, register, primaryPhone } = adData;
   const [value, setValue] = useState(primaryPhone);
+
+  const setCountry = () => {}
   console.log("primaryPhone", value);
   return (
     <>
@@ -25,6 +27,7 @@ const PrimaryPhone = ({ adData }) => {
             defaultCountry="US"
             value={primaryPhone}
             {...register("phone_number")}
+            onChange = {setCountry}
           />
 
           {/* <input

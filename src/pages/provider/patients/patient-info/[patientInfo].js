@@ -19,7 +19,8 @@ import { getAccessToken } from "@/Redux/api/apiSlice";
 import { useSelector } from "react-redux";
 import Loading from "@/component/UI/Layouts/Loading";
 import Image from "next/image";
-import { useGetPatientInfoQuery } from "@/Redux/features/patient/patient-info/patientInfoApi";
+import { toast } from "react-toastify";
+import { useGetPatientInfoQuery, useDeleteSignatureMutation, useUpdateSignatureMutation, useUpdatePatientMutation } from "@/Redux/features/patient/patient-info/patientInfoApi";
 
 const { TextArea } = Input;
 
@@ -33,6 +34,7 @@ const PatientInfo = () => {
   const [hook, setHook] = useState("");
   const [imageData,setImageData] = useState(null);
   const [filenameData,setFilenameData] = useState(null);
+  const [uploadButton,setUploadButton] = useState(false);
 
   //File Upload
   const [selectedFile, setSelectedFile] = useState(null);
@@ -53,11 +55,93 @@ const PatientInfo = () => {
     }
   };
 
+// update patient info
+const [
+  updatePatientInfo,
+   { isSuccess: patientUpdateSuccess, isError: patientUpdateError },
+ ] = useUpdatePatientMutation();
+
+useEffect(() => {
+  if (patientUpdateSuccess) {
+    toast.success("Patient info updated successfully", {
+      position: "top-center",
+      autoClose: 5000,
+      theme: "dark",
+      style: { fontSize: "12px" },
+    });
+  } else if (patientUpdateError) {
+    toast.error("Some Error Occured", {
+      position: "top-center",
+      autoClose: 5000,
+      theme: "dark",
+      style: { fontSize: "12px" },
+    });
+  }
+}, [patientUpdateSuccess, patientUpdateError]);
+
+// update signature
+  const [
+    updateSignature,
+     { isSuccess: signUpdateSuccess, isError: signUpdateError },
+   ] = useUpdateSignatureMutation();
+  const uploadSignature = () => {
+    const signData = imageData.split(',');
+    updateSignature({
+      token,
+      payload:{patient_id:id,signature_file_name:imageData,signature_file:signData[1]},
+    });
+    
+  }
+
+  useEffect(() => {
+    if (signUpdateSuccess) {
+      toast.success("Signature updated successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else if (signUpdateError) {
+      toast.error("Some Error Occured", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [signUpdateSuccess, signUpdateError]);
+
+  // delete signature
+  const [
+    deleteSignature,
+     { isSuccess: signDeleteSuccess, isError: signDeleteError },
+   ] = useDeleteSignatureMutation();
   const deletePreview = () => {
     setPreviewUrl(null);
     setSelectedFile(null);
+    setUploadButton(false);
+    deleteSignature({
+      token,
+      payload:{patient_id:id},
+    });
   };
-
+  useEffect(() => {
+    if (signDeleteSuccess) {
+      toast.success("Signature deleted successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else if (signDeleteError) {
+      toast.error("Some Error Occured", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [signDeleteSuccess, signDeleteError]);
   const convertBase64 =  (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
@@ -76,6 +160,7 @@ const handleFileRead = async (event) => {
   setFilenameData(file.name);
   const base64 =  await convertBase64(file);
   setImageData(base64);
+  setUploadButton(true);
 }
 
   //! Id get
@@ -98,8 +183,8 @@ console.log('data -- ',data);
   const patient_details = data?.patientDetails?.data?.client_info;
   const patientOtherDetails = data?.patientDetails?.data?.client_other_info;
   const loading = data?.loading;
-  const primaryPhone = patient_details?.phone_number;
-  const primaryEmail = patient_details?.email;
+  const primaryPhone = data?.phone_number;
+  const primaryEmail = data?.patient_email;
 
   console.log("patient details", patient_details);
   console.log("patient other details", patientOtherDetails);
@@ -117,10 +202,10 @@ console.log('data -- ',data);
     }, 1000);
   }, [patient_details]);
 
-  console.log(
+  /*console.log(
     "data?.patientDetails?.data?.address-",
     data?.patientDetails?.data?.address
-  );
+  );*/
 
   const { register, control, handleSubmit, reset, setValue, getValues } =
     useForm({
@@ -149,7 +234,7 @@ console.log('data -- ',data);
   const { fields, append, remove } = useFieldArray({
     control,
     name: "address",
-    // name: "number",
+    keyName: "addressId"
   });
 
   const {
@@ -158,8 +243,8 @@ console.log('data -- ',data);
     remove: phoneRemove,
   } = useFieldArray({
     control,
-    // name: "address",
     name: "number",
+    keyName: "phoneId"
   });
 
   const {
@@ -169,6 +254,7 @@ console.log('data -- ',data);
   } = useFieldArray({
     control,
     name: "Email",
+    keyName: "emailId"
   });
 
   useEffect(() => {
@@ -185,6 +271,8 @@ console.log('data -- ',data);
         language: data?.preferred_language,
         first_date: data?.patient_date_first_seen,
         assignment: data?.asignment,
+        group2: data?.patient_email_type,
+        email_ok:data?.patient_email_reminder==1 ? true : false,
         //checkedActive: patient_details?.is_active_client,
         // address
         client_street: data?.patient_main_address?.street,
@@ -203,6 +291,12 @@ console.log('data -- ',data);
         background_color:data?.background_color,
         //relationship: data?.patient_relationship,
       });
+      setPreviewUrl(null);
+      if(data?.patient_signature.length>0)
+      {
+        setPreviewUrl('data:image/png;base64,'+data?.patient_signature);
+      }
+   
       if (data?.patient_relationship !== "Self") {
         setGuarantor(true);
         setRelation(data?.patient_relationship);
@@ -213,13 +307,54 @@ console.log('data -- ',data);
     }, 0);
   }, [data?.patient_relationship, data, reset]);
   const onSubmit = (data) => {
-    console.log(data);
-    /*const is_client_active = data?.checkedActive ? 1 : 0;
-    const formData = {
-      is_client_active,
-    };*/
-    console.log(formData);
-    //console.log(file);
+    console.log('Full Data', data);
+    const payload = {
+      "patient_id": id,
+      "patient_first_name": data.first_name,
+      "patient_middle_name": data.middle_name,
+      "patient_last_name": data.last_name,
+      "patient_dob": data.guarantor_check_Date,
+      "patient_gender": data.gender,
+      "patient_relationship": data.relationship,
+      "patient_parent_first_name": data.guarantor_first_name,
+      "patient_parent_last_name": data.guarantor_last_name,
+      "patient_main_address": {
+        "street": data.client_street,
+        "city": data.client_city,
+        "state": data.client_state,
+        "zip": data.client_zip,
+      },
+      "patient_other_addresses": [data.address],
+      "patient_email":  data.login_email,
+      "patient_email_type":  data.group2,
+      "patient_email_reminder":  data.send_mail,
+      "patient_other_email": [data.Email],
+      "patient_phone_number":  data.phone_number,
+      "patient_phone_is_send_sms":  data.group,
+      "patient_other_phone_number": [data.number],
+      "pos": data.pos,
+      "zone": data.zone,
+      "race_ethnicity": data.race_details,
+      "preferred_language": data.language,
+      "patient_date_first_seen": data.first_date,
+      "asignment": data.phonecheck,
+      "patient_guarantor_info": {
+        "guarantor_first_name": data.guarantor_first_name,
+        "guarantor_last_name": data.guarantor_last_name,
+        "guarantor_dob": data.guarantor_check_Date,
+        "guarantor_street": data.GuaratorStreet,
+        "guarantor_city": data.GuaratorCity,
+        "guarantor_state": data.GuratorCountry,
+        "guarantor_zip": data.GuratorZip,
+      },
+      "patient_notes": data.notes,
+      "background_color": data.background_color,
+    }
+    console.log('payload - ', payload);
+    updatePatientInfo({
+      token,
+      payload
+    });
   };
 
   ///relation value handle
@@ -332,6 +467,7 @@ console.log('data -- ',data);
                   register,
                   remove,
                 }}
+                patientId={id}
               />
 
               {/* <div className=" grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 my-1 gap-x-4 gap-y-2"> */}
@@ -395,6 +531,7 @@ console.log('data -- ',data);
                     phoneRemove,
                     register,
                   }}
+                  patientId={id}
                 />
               </motion.div>
             </div>
@@ -419,6 +556,7 @@ console.log('data -- ',data);
                     emailFields,
                     emailRemove,
                   }}
+                  patientId={id}
                 />
               </motion.div>
             </div>
@@ -522,7 +660,7 @@ console.log('data -- ',data);
                       />
                     </svg>
                     <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                      <span class="font-semibold">Click to upload</span>
+                      <span class="font-semibold">Select your Signature</span>
                     </p>
                   </div>
                   <input id="dropzone-file" type="file" class="hidden"               
@@ -544,6 +682,9 @@ console.log('data -- ',data);
                   >
                     X
                   </button>
+                </div>
+                <div class="text-center">
+                  {uploadButton && (<span  className="dtm-button" onClick={uploadSignature}>Upload Signature</span>) }
                 </div>
               </div>
             )}

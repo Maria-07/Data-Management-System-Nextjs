@@ -3,10 +3,45 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import PhoneInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 import "react-phone-number-input/style.css";
+import { getAccessToken } from "@/Redux/api/apiSlice";
+import { useEffect } from "react";
+import { useDeletePhoneMutation } from "@/Redux/features/patient/patient-info/patientInfoApi";
+import { toast } from "react-toastify";
 
-const DynamicPhone = ({ adData }) => {
+const DynamicPhone = ({ adData, patientId }) => {
   const { phoneFields, phoneRemove, register } = adData;
-  console.log("phoneFields", phoneFields);
+  const token = getAccessToken();
+  const setCountry = () => {}
+  const [
+   updatePhone,
+    { isSuccess: updateSuccess, isError: updateError },
+  ] = useDeletePhoneMutation();
+  const deletePhone = (id, index) => {
+    phoneRemove(index);
+    updatePhone({
+      token,
+      payload:{patient_id:patientId,phone_id:id},
+    });
+
+  }
+  useEffect(() => {
+    if (updateSuccess) {
+      toast.success("Phone deleted successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else if (updateError) {
+      toast.error("Some Error Occured", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [updateSuccess, updateError]);
+  
   return (
     <div>
       {phoneFields.map((field, index) => {
@@ -17,6 +52,7 @@ const DynamicPhone = ({ adData }) => {
             </label>
             <div className="flex  gap-1 items-center gap-x-3 gap-y-2">
               <div className=" ml-1 flex items-center">
+              <input type="hidden" {...register(`number.${index}.id`)} defaultValue={field.id}/>
                 <PhoneInput
                   flags={flags}
                   international
@@ -24,9 +60,10 @@ const DynamicPhone = ({ adData }) => {
                   placeholder="Phone"
                   defaultCountry="US"
                   className="input-border-bottom input-font py-[1px] w-40 focus:outline-none"
-                  {...register(`number.${index}.number`, {
+                  {...register(`number.${index}.phone_number`, {
                     // required: true
                   })}
+                  onChange={setCountry}
                   value={field.phone_number} // Use the `value` prop instead of `defaultValue`
                 />
                 {/* <input
@@ -42,15 +79,15 @@ const DynamicPhone = ({ adData }) => {
               <div>
                 <select
                   className="input-border-bottom mt-[2px] pb-1 input-font w-16 focus:outline-none"
-                  {...register("group")}
+                  {...register(`number.${index}.phone_type`)}
                 >
-                  <option value="work">work</option>
-                  <option value="home">home</option>
-                  <option value="family">family</option>
+                  <option value="Work">Work</option>
+                  <option value="Home">Home</option>
+                  <option value="Family">Family</option>
                 </select>
               </div>
               <button
-                onClick={() => phoneRemove(index)}
+                onClick={() => deletePhone(field.id,index)}
                 className="bg-red-500 text-white p-[4px]"
               >
                 <RiDeleteBin6Line />
@@ -63,7 +100,7 @@ const DynamicPhone = ({ adData }) => {
                 <input
                   type="checkbox"
                   defaultChecked={field.checked}
-                  {...register(`number.${index}.checked`, {
+                  {...register(`number.${index}.is_send_sms`, {
                     // required: true
                   })}
                   className="sr-only peer"

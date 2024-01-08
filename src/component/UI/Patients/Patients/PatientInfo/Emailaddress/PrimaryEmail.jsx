@@ -25,9 +25,9 @@ const PrimaryEmail = ({ adData }) => {
                 className="input-border-bottom input-font mt-[2px] pb-[3px] w-16 focus:outline-none"
                 {...register("group2")}
               >
-                <option value="work">work</option>
-                <option value="home">home</option>
-                <option value="family">family</option>
+                <option value="Work">Work</option>
+                <option value="Home">Home</option>
+                <option value="Family">family</option>
               </select>
             </div>
             <button

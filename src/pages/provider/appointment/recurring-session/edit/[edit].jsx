@@ -2,14 +2,19 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { IoCaretBackCircleOutline } from "react-icons/io5";
-import { Input } from "antd";
+import { Divider, Input, Tabs } from "antd";
 import RecurringSessionModal from "@/component/UI/Appointment/RecurringSession/RecurringSessionModal";
 import Link from "next/link";
 import RootLayout from "@/component/Layouts/RootLayout";
+import DayView from "@/component/UI/Appointment/RecurringSession/RecurringSessionEdit/DayView";
+import SingleView from "@/component/UI/Appointment/RecurringSession/RecurringSessionEdit/SingleView";
+import { useTheme } from "next-themes";
 
 const TextArea = Input;
 
 const RecurringSessionEdit = () => {
+  //! Theme system
+  const { theme } = useTheme();
   const [openEditModal, setOpenEditModal] = useState(false);
   const handleClickOpen = () => {
     setOpenEditModal(true);
@@ -25,20 +30,65 @@ const RecurringSessionEdit = () => {
   };
   //console.log(errors);
 
+  const tabItems = [
+    {
+      label: (
+        <h1
+          className={`${
+            theme === "dark"
+              ? "text-dark-secondary"
+              : "text-fontC hover:text-secondary"
+          } sm:px-10 text-base  transition-all`}
+        >
+          Day View{" "}
+          <span className="bg-orange-400 text-white text-[10px] px-2 py-1 rounded-lg">
+            View - 1
+          </span>
+        </h1>
+      ),
+      key: 1,
+      children: (
+        <div
+          className={`${
+            theme === "dark" ? "text-dark-secondary" : "text-fontC"
+          }`}
+        >
+          <DayView></DayView>
+        </div>
+      ),
+    },
+    {
+      label: (
+        <h1
+          className={`${
+            theme === "dark"
+              ? "text-dark-secondary"
+              : "text-fontC hover:text-secondary"
+          } sm:px-10 text-base  transition-all`}
+        >
+          Single View{" "}
+          <span className="bg-orange-400 text-white text-[10px] px-2 py-1 rounded-lg">
+            View - 2
+          </span>
+        </h1>
+      ),
+      key: 2,
+      children: <SingleView></SingleView>,
+    },
+  ];
+
   return (
-    <div className="sm:h-[100vh]">
+    <div className="sm:min-h-[100vh]">
       <div className="flex items-start flex-wrap gap-2 justify-between">
-        <h1 className="text-sm md:text-lg text-gray-700">
+        <h1 className="text-base text-cyan-700 font-semibold">
           Edit Recurring Session
         </h1>
-        <div className="pms-button">
-          <Link
-            href={"/provider/appointment/recurring-session"}
-            className=" flex items-center"
-          >
-            <IoCaretBackCircleOutline className="mr-1 text-sm" /> Back
-          </Link>
-        </div>
+
+        <Link href={"/provider/appointment/recurring-session"} className=" ">
+          <button className="dtm-button flex items-center">
+            <IoCaretBackCircleOutline className="mr-1 text-sm" /> Back{" "}
+          </button>
+        </Link>
       </div>
       <motion.div
         initial={{ opacity: 0, y: 15 }}
@@ -50,7 +100,7 @@ const RecurringSessionEdit = () => {
         }}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-7 my-3 mr-2 gap-6">
+          <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-6 my-3 mr-2 gap-6">
             {/* name  */}
             <div>
               <label className="label">
@@ -144,7 +194,7 @@ const RecurringSessionEdit = () => {
               />
             </div>
 
-            <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 ">
+            <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-3">
               <div>
                 <label className="label">
                   <span className=" label-font">From Time</span>
@@ -186,28 +236,33 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">Office Notes</span>
               </label>
               <div className="">
-                <TextArea rows={4} placeholder=" Notes" size="large" />
+                <TextArea rows={6} placeholder=" Notes" size="large" />
               </div>
             </div>
           </div>
           <div className="divider"></div>
+          <Divider></Divider>
           {/* submit  */}
-          <div className="mt-4">
+          <div className="mt-10">
             <button
               onClick={handleClickOpen}
-              className=" pms-button mr-2"
+              className=" dtm-button mr-2"
               type="submit"
             >
               Save
             </button>
             <Link href={"/provider/appointment/recurring-session"}>
-              <button className="pms-close-button" autoFocus onClick={reset}>
+              <button className="dcm-close-button" autoFocus onClick={reset}>
                 CANCEL
               </button>
             </Link>
           </div>
         </form>
       </motion.div>
+
+      <div className="my-10">
+        <Tabs type="card" items={tabItems} />
+      </div>
       {openEditModal && (
         <RecurringSessionModal
           handleClose={handleClose}

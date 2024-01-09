@@ -20,7 +20,7 @@ const SessionDetails = () => {
         <ClinicalSessionCards></ClinicalSessionCards>
       </div>
       <div>
-        <h1 className="my-5 text-sm font-semibold">
+        {/* <h1 className="my-5 text-sm font-semibold">
           LATEST PROGRAM MODIFICATIONS
         </h1>
 
@@ -95,7 +95,7 @@ const SessionDetails = () => {
               />
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="flex items-center justify-between gap-2">
           <button className="dtm-button">CANCEL</button>

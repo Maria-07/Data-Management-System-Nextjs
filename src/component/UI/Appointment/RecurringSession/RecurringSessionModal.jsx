@@ -5,7 +5,6 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 
 const RecurringSessionModal = ({ handleClose, open }) => {
   const { register, handleSubmit, reset } = useForm();
-
   const onSubmit = (data) => {
     console.log(data);
     reset();
@@ -141,6 +140,7 @@ const RecurringSessionModal = ({ handleClose, open }) => {
       onFilter: (value, record) => record.status.includes(value),
     },
   ];
+
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(
@@ -162,6 +162,7 @@ const RecurringSessionModal = ({ handleClose, open }) => {
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
+
   return (
     <div>
       <div>

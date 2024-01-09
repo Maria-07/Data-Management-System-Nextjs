@@ -62,7 +62,7 @@ const Navbar = ({ handle, handleSidebar }) => {
       <div className="hidden lg:block sticky top-0">
         <div className="flex items-center justify-between pr-4">
           <div
-            className="flex  items-center gap-2 md:gap-4 font-medium cursor-pointer font-[Poppins] 
+            className="flex  items-center gap-2 md:gap-4 font-medium cursor-pointer 
        ml-2"
           >
             <div className="w-9 mt-1">

@@ -60,7 +60,7 @@ const TimerCount = () => {
     }
   }, [isRunning, duration]);
   return (
-    <div className="bg-primary text-white text-sm mt-1 p-2">
+    <div className="bg-gray-600 text-white text-sm mt-1 p-2">
       <>
         <div className="flex items-center gap-3">
           <div className="time">

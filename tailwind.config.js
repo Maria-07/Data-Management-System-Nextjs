@@ -31,6 +31,8 @@ module.exports = {
       fontFamily: {
         // primary: ["EB Garamond", "serif"],
         // secondary: ["Rufina", "serif"],
+        // primary: "#089dad",
+        // secondary: "#089bab",
       },
     },
   },

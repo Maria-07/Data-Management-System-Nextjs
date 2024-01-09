@@ -14,7 +14,8 @@ import { handleSidebarFixed } from "@/Redux/features/sideBar/sideBarSlice";
 import { motion } from "framer-motion";
 import Navbar from "../UI/Layouts/Navbar/Navbar";
 import SidebarMenu from "../UI/Layouts/Sidebar/SidebarMenu";
-import logo1 from "../../assets/img/LOGO.png";
+import logo1 from "../../assets/img/logo-new.png";
+import logo2 from "../../assets/img/favi.png";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { SettingOutlined } from "@ant-design/icons";
@@ -216,7 +217,15 @@ const RootLayout = ({ children }) => {
                       </>
                     ) : (
                       <>
-                        <div className="text-lg">DCM</div>
+                        <div className="text-lg">
+                          {" "}
+                          <Image
+                            src={logo2}
+                            width={"100%"}
+                            height={"auto"}
+                            alt="Picture of the author"
+                          />
+                        </div>
                       </>
                     )}
                   </div>

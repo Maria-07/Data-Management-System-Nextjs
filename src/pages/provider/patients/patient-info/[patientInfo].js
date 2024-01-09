@@ -88,7 +88,7 @@ useEffect(() => {
     const signData = imageData.split(',');
     updateSignature({
       token,
-      payload:{patient_id:id,signature_file_name:imageData,signature_file:signData[1]},
+      payload:{patient_id:id,signature_file_name:filenameData,signature_file:signData[1]},
     });
     
   }

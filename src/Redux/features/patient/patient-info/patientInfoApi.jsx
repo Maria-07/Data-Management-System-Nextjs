@@ -126,6 +126,19 @@ export const patientInfoApi = api.injectEndpoints({
       invalidatesTags: ["calllogData"],
     }),
 
+     // get race-ethnicity list
+     getPatientsList: builder.query({
+      query: ({ token }) => ({
+        url: `patient/list`,
+        method: "GET",
+        headers: {
+          "content-type": "Application/json",
+          "Authorization": token || null,
+        },
+      }),
+      providesTags: ["reacEthnicity"],
+    }),
+
   }),
 });
 
@@ -139,4 +152,5 @@ export const {
   useDeleteEmailMutation,
   useDeleteSignatureMutation,
   useUpdateSignatureMutation,
+  useGetPatientsListQuery,
 } = patientInfoApi;

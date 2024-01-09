@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaPlusSquare } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import PhoneInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
@@ -48,12 +48,13 @@ const PrimaryPhone = ({ adData }) => {
             <option value="Home">Home</option>
           </select>
         </div>
-        <button
+        <FaPlusSquare onClick={() => phoneAppend()} size={30}/>
+        {/*<button
           onClick={() => phoneAppend()}
           className="bg-secondary text-white p-[4px]"
         >
           <FaPlus />
-        </button>
+        </button>*/}
       </div>
 
       <div className="flex ml-1 mt-2 items-center">

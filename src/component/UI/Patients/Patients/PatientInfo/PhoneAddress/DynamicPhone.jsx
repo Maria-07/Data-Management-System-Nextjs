@@ -59,7 +59,7 @@ const DynamicPhone = ({ adData, patientId }) => {
                   initialValueFormat="national"
                   placeholder="Phone"
                   defaultCountry="US"
-                  className="input-border-bottom input-font py-[1px] w-40 focus:outline-none"
+                  className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
                   {...register(`number.${index}.phone_number`, {
                     // required: true
                   })}

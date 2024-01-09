@@ -1,5 +1,5 @@
 import React from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaPlusSquare } from "react-icons/fa";
 
 const PrimaryEmail = ({ adData }) => {
   const { emailAppend, register, primaryEmail } = adData;
@@ -30,14 +30,17 @@ const PrimaryEmail = ({ adData }) => {
                 <option value="Family">family</option>
               </select>
             </div>
-            <button
+            <FaPlusSquare onClick={() => {
+                emailAppend();
+              }} size={30}/>
+            {/*<button
               onClick={() => {
                 emailAppend();
               }}
               className="bg-secondary text-white p-[4px] "
             >
               <FaPlus />
-            </button>
+            </button>*/}
           </div>
           <div className="flex ml-1 mt-2 items-center">
             {/* <Switch
@@ -46,7 +49,7 @@ const PrimaryEmail = ({ adData }) => {
               onClick={() => setActive(!active)}
             /> */}
 
-            <label className="inline-flex relative items-center  cursor-pointer">
+           {/* <label className="inline-flex relative items-center  cursor-pointer">
               <input
                 type="checkbox"
                 {...register("email_ok")}
@@ -58,7 +61,7 @@ const PrimaryEmail = ({ adData }) => {
 
             <span className="text-xs ml-1 text-gray-700 font-medium">
               Email OK
-            </span>
+          </span> */}
           </div>
 
           <div className="flex ml-1 mt-1 items-center">

@@ -23,6 +23,8 @@ import { useEffect, useState } from "react";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Navbar = ({ handle, handleSidebar }) => {
   const [accessToken, setAccessToken] = useState("");
@@ -45,6 +47,29 @@ const Navbar = ({ handle, handleSidebar }) => {
   //! Theme system
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
+
+  const  openChatUrl = async () => {
+    let res = await axios({
+      method: "GET",
+      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/chat-token`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Authorization": token || null,
+      }
+    });
+    const chatUrl = res?.data?.messenger_url;
+    if(chatUrl != '' && typeof chatUrl !== "undefined") {
+      window.open(chatUrl,'_blank');
+    } else {
+      toast.error("Error in Chat Communication", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -153,9 +178,9 @@ const Navbar = ({ handle, handleSidebar }) => {
               </Dropdown>
             </div>
             <div title="Chat">
-              <Link href="https://realtime-chat-system-nextjs.vercel.app/">
+              <span onClick={openChatUrl}>
                 <IoChatboxEllipsesOutline className="hover:text-primary" />
-              </Link>
+              </span>
             </div>
             <div>
               <Dropdown

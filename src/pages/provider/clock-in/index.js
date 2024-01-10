@@ -1,5 +1,5 @@
 import RootLayout from "@/component/Layouts/RootLayout";
-import EditCallLog from "@/component/UI/Patients/Patients/PatientCallLog/EditCallLog";
+import EditLogTime from "@/component/UI/clockIn/Modal/EditLogTime";
 import AddLogTime from "@/component/UI/clockIn/Modal/AddLogTime";
 import { Table } from "antd";
 import axios from "axios";
@@ -8,6 +8,10 @@ import { useForm } from "react-hook-form";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import Clock from "react-live-clock";
+import { toast } from "react-toastify";
+import { getAccessToken } from "@/Redux/api/apiSlice";
+import { useUpdatePunchMutation } from "@/Redux/features/clockin/clockinApi";
+import Cookies from "js-cookie";
 
 const ClockIn = () => {
   const [punch, setPunch] = useState(false);
@@ -17,17 +21,37 @@ const ClockIn = () => {
   const [clockData, setClockData] = useState();
   const [addLogTime, setAddLogTime] = useState(false);
   const [editLogTime, setEditLogTime] = useState(false);
+  const [punchInTime, setPunchInTime] = useState('NA');
+  const [TimeSheetData, SetTimeSheetDate] = useState([]);
+  const [payPeriodId,setPayPeriodId] = useState('');
+  const [selectedRecord,setSelectedRecord] = useState([]);
+  const token = getAccessToken();
+
+  useEffect(() => {
+    axios(`${process.env.NEXT_PUBLIC_ADMIN_URL}/pay-period`,{
+        headers: {
+          "Authorization": token || null,
+        },
+      }).then((response) => {
+        SetTimeSheetDate(response?.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const handleClose = () => {
     setAddLogTime(false);
   };
-  const handleClickOpen = () => {
+  const handleClickOpen = (record) => {
+    setSelectedRecord(record);
     setAddLogTime(true);
   };
   const handleEditClose = () => {
     setEditLogTime(false);
   };
-  const handleEditClickOpen = () => {
+  const handleEditClickOpen = (record) => {
+    setSelectedRecord(record);
     setEditLogTime(true);
   };
 
@@ -42,18 +66,110 @@ const ClockIn = () => {
     setFilteredInfo({});
   };
 
-  // fake api call
+  const getPunchStatus = async () => {
+    let res = await axios({
+      method: "GET",
+      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/punch-status`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Authorization": token || null,
+      }
+    });
+    const data = res?.data;
+    setPunch(data?.punch_status);
+    setPunchInTime('NA')
+    if(data?.punch_status)
+    {
+      setPunchInTime(data?.punch_time);
+    }
+  }
+  
   useEffect(() => {
-    axios("../../All_Fake_Api/TimeSheet.json")
-      .then((response) => {
-        setClockData(response?.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getPunchStatus();
   }, []);
 
-  console.log("data : ", clockData);
+
+  const [
+    updatePunchTime,
+     { isSuccess: punchUpdateSuccess, isError: punchUpdateError },
+   ] = useUpdatePunchMutation();
+  const updatePunch = (punchType) => {
+    var date = new Date();
+    var iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/)
+    let punchTime = iso[1] + ' ' + iso[2];
+    console.log('punchTime',punchTime);
+    updatePunchTime({
+      token,
+      payload:{punch_time:punchTime}
+    })
+  }
+  const updatePunchIn = () => {
+    updatePunch(1)
+  }
+  const updatePunchOut = () => {
+    updatePunch(2)
+  }
+  useEffect(() => {
+    if (punchUpdateSuccess) {
+      toast.success("Punch updated successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+      getPunchStatus();
+    } else if (punchUpdateError) {
+      toast.error("Some Error Occured", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [punchUpdateSuccess, punchUpdateError]);
+  //console.log("data : ", clockData);
+  function formatDate(inputDate){  // expects Y-m-d
+    var splitDate = inputDate.split('-');
+    if(splitDate.count == 0){
+        return null;
+    }
+
+    var year = splitDate[0];
+    var month = splitDate[1];
+    var day = splitDate[2]; 
+
+    return month + '/' + day + '/' + year;
+}
+const getClockinData = async (payload) => {
+  let res = await axios({
+    method: "post",
+    url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/punch/list`,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Authorization": token || null,
+    },
+    data: payload,
+  });
+  const data = res?.data?.punch_list;
+  setClockData(data);
+  setTableOpen(true);
+};
+  const getRecords  = () => {
+    if(payPeriodId == '')
+    {
+      toast.error("Please select payroll period", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else {
+      const payload = { pay_period_id:payPeriodId}
+      getClockinData(payload)
+    }
+  }
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -74,47 +190,14 @@ const ClockIn = () => {
   const columns = [
     {
       title: "Date",
-      dataIndex: "date",
-      key: "date",
-      width: 80,
-      filters: [
-        { text: "Celestine", value: "Celestine" },
-        { text: "Annaliese", value: "Annaliese" },
-        {
-          text: `Maude`,
-          value: "Maude",
-        },
-        {
-          text: `Molly`,
-          value: "Molly",
-        },
-        {
-          text: "Karla",
-          value: "Karla",
-        },
-        {
-          text: "Marcellus",
-          value: "Marcellus",
-        },
-        {
-          text: "Hilton",
-          value: "Hilton",
-        },
-      ],
-      filteredValue: filteredInfo.date || null,
-      onFilter: (value, record) => record.date.includes(value),
-      sorter: (a, b) => {
-        return a.date > b.date ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "date" ? sortedInfo.order : null,
-
-      // render contains what we want to reflect as our data
-      // clockOut, id, key=>each row data(object) property value can be accessed.
-      render: (_, { date, id, key }) => {
+      dataIndex: "punch_date",
+      key: "punch_date",
+      width: 120,
+      render: (_, { punch_date, id, key }) => {
         //console.log("tags : ", client_first_name, id, key);
         return (
           <div>
-            <h1>{date}</h1>
+            <h1 className="text-center">{formatDate(punch_date)}</h1>
           </div>
         );
       },
@@ -122,95 +205,28 @@ const ClockIn = () => {
     },
     {
       title: "CLock In",
-      dataIndex: "timeIn",
-      key: "timeIn",
+      dataIndex: "time_in",
+      key: "time_in",
       width: 100,
-      filters: [
-        { text: "Celestine", value: "Celestine" },
-        { text: "Annaliese", value: "Annaliese" },
-        {
-          text: `Maude`,
-          value: "Maude",
-        },
-        {
-          text: `Molly`,
-          value: "Molly",
-        },
-        {
-          text: "Karla",
-          value: "Karla",
-        },
-        {
-          text: "Marcellus",
-          value: "Marcellus",
-        },
-        {
-          text: "Hilton",
-          value: "Hilton",
-        },
-      ],
-      filteredValue: filteredInfo.timeIn || null,
-      onFilter: (value, record) => record.timeIn.includes(value),
-      sorter: (a, b) => {
-        return a.timeIn > b.timeIn ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "timeIn" ? sortedInfo.order : null,
-
-      // render contains what we want to reflect as our data
-      // clockOut, id, key=>each row data(object) property value can be accessed.
-      render: (_, { timeIn, id, key }) => {
+      render: (_, { time_in, id, key }) => {
         //console.log("tags : ", client_first_name, id, key);
         return (
           <div>
-            <h1 className="text-center">{timeIn}</h1>
+            <h1 className="text-center">{time_in != null ? time_in : 'N/A'}</h1>
           </div>
         );
       },
-      ellipsis: false,
     },
     {
       title: "Clock Out",
-      dataIndex: "clockOut",
-      key: "clockOut",
+      dataIndex: "time_out",
+      key: "time_out",
       width: 100,
-      filters: [
-        { text: "Celestine", value: "Celestine" },
-        { text: "Annaliese", value: "Annaliese" },
-        {
-          text: `Maude`,
-          value: "Maude",
-        },
-        {
-          text: `Molly`,
-          value: "Molly",
-        },
-        {
-          text: "Karla",
-          value: "Karla",
-        },
-        {
-          text: "Marcellus",
-          value: "Marcellus",
-        },
-        {
-          text: "Hilton",
-          value: "Hilton",
-        },
-      ],
-      filteredValue: filteredInfo.clockOut || null,
-      onFilter: (value, record) => record.clockOut.includes(value),
-      sorter: (a, b) => {
-        return a.clockOut > b.clockOut ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "clockOut" ? sortedInfo.order : null,
-
-      // render contains what we want to reflect as our data
-      // clockOut, id, key=>each row data(object) property value can be accessed.
-      render: (_, { clockOut, id, key }) => {
+      render: (_, { time_out, id, key }) => {
         //console.log("tags : ", client_first_name, id, key);
         return (
           <div>
-            <h1>{clockOut}</h1>
+            <h1 className="text-center">{time_out != null ? time_out : 'N/A'}</h1>
           </div>
         );
       },
@@ -218,48 +234,14 @@ const ClockIn = () => {
     },
     {
       title: "Total Hours",
-      dataIndex: "totalHours",
-      key: "totalHours",
+      dataIndex: "total_time",
+      key: "total_time",
       width: 120,
-      filters: [
-        { text: "Celestine", value: "Celestine" },
-        { text: "Annaliese", value: "Annaliese" },
-        {
-          text: `Maude`,
-          value: "Maude",
-        },
-        {
-          text: `Molly`,
-          value: "Molly",
-        },
-        {
-          text: "Karla",
-          value: "Karla",
-        },
-        {
-          text: "Marcellus",
-          value: "Marcellus",
-        },
-        {
-          text: "Hilton",
-          value: "Hilton",
-        },
-      ],
-      filteredValue: filteredInfo.totalHours || null,
-      onFilter: (value, record) => record.totalHours.includes(value),
-      sorter: (a, b) => {
-        return a.totalHours > b.totalHours ? -1 : 1;
-      },
-      sortOrder:
-        sortedInfo.columnKey === "totalHours" ? sortedInfo.order : null,
-
-      // render contains what we want to reflect as our data
-      // clockOut, id, key=>each row data(object) property value can be accessed.
-      render: (_, { totalHours, id, key }) => {
+      render: (_, { total_time, id, key }) => {
         //console.log("tags : ", client_first_name, id, key);
         return (
           <div>
-            <h1 className="text-center">N/A</h1>
+            <h1 className="text-center">{total_time && total_time != null ? total_time : 'N/A'}</h1>
           </div>
         );
       },
@@ -269,46 +251,13 @@ const ClockIn = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      width: 150,
-      filters: [
-        { text: "Celestine", value: "Celestine" },
-        { text: "Annaliese", value: "Annaliese" },
-        {
-          text: `Maude`,
-          value: "Maude",
-        },
-        {
-          text: `Molly`,
-          value: "Molly",
-        },
-        {
-          text: "Karla",
-          value: "Karla",
-        },
-        {
-          text: "Marcellus",
-          value: "Marcellus",
-        },
-        {
-          text: "Hilton",
-          value: "Hilton",
-        },
-      ],
-      filteredValue: filteredInfo.status || null,
-      onFilter: (value, record) => record.status.includes(value),
-      sorter: (a, b) => {
-        return a.status > b.status ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "status" ? sortedInfo.order : null,
-
-      // render contains what we want to reflect as our data
-      // clockOut, id, key=>each row data(object) property value can be accessed.
+      width: 120,
       render: (_, { status, id, key }) => {
         //console.log("tags : ", client_first_name, id, key);
         return (
           <div className="flex justify-center">
             <button className="bg-rose-500 text-[10px] rounded-lg px-2 py-[2px] text-white">
-              N/A
+            {id && id > 0 ? 'Acceptance Pending' : 'N/A'}
             </button>
           </div>
         );
@@ -321,15 +270,17 @@ const ClockIn = () => {
       dataIndex: "action",
       key: "action",
       width: 80,
-      render: (_, { action, id, key }) => {
+      render: (_, record) => {
         //console.log("tags : ", client_first_name, id, key);
         return (
           <div className="flex items-center justify-center gap-2">
-            <IoIosAddCircleOutline
-              onClick={handleClickOpen}
-              className="text-green-600 font-bold"
-            />
-            <MdEdit onClick={handleEditClickOpen} />
+            {record.id && record.id > 0 ? (<MdEdit onClick={() => handleEditClickOpen(record)} />) : 
+            (
+              <IoIosAddCircleOutline
+                onClick={() => handleClickOpen(record)}
+                className="text-green-600 font-bold"
+              />
+            )}            
           </div>
         );
       },
@@ -346,13 +297,19 @@ const ClockIn = () => {
       <div className="flex items-center justify-center">
         <div>
           <h1 className="text-3xl font-semibold text-gray-600">
-            Hello Soni, Ashu
+            Hello {Cookies.get("loginuserFullname")}
           </h1>
           <h2 className="text-lg font-normal text-gray-400 text-center">
             Current Status{" "}
+            {!punch ? (
             <span className="text-xs px-2 py-1 bg-orange-400 text-white rounded-xl">
               OUT
             </span>
+            ) : (
+              <span className="text-xs px-2 py-1 bg-green-400 text-white rounded-xl">
+              IN
+              </span>
+            ) }
           </h2>
         </div>
       </div>
@@ -369,16 +326,16 @@ const ClockIn = () => {
             <Clock format={"h:mm:ss A"} ticking={true} />
           </div>
           <div className="flex items-center justify-center">
-            {punch ? (
+            {!punch ? (
               <button
-                onClick={() => setPunch(!punch)}
+                onClick={updatePunchIn}
                 className="border px-10 py-2 my-5 hover:text-black transition  bg-orange-400 text-white rounded-lg shadow-md text-lg font-semibold"
               >
                 Punch In
               </button>
             ) : (
               <button
-                onClick={() => setPunch(!punch)}
+                onClick={updatePunchOut}
                 className="border px-10 py-2 my-5 hover:text-black transition  bg-orange-400 text-white rounded-lg shadow-md text-lg font-semibold"
               >
                 Punch Out
@@ -388,9 +345,9 @@ const ClockIn = () => {
 
           <div className="flex justify-between">
             <div className="font-semibold">
-              Punched at: <span className="text-orange-500">NA</span>
+              Punched at: <span className="text-orange-500">{punchInTime}</span>
             </div>
-            <div>
+            <div className="px-5">
               <h1 className="font-semibold">IP Address</h1>
               <h1>00.00.000.000</h1>
             </div>
@@ -409,27 +366,21 @@ const ClockIn = () => {
                 name="type"
                 className="input-border-bottom input-font  focus:outline-none py-[1px]"
                 {...register("payroll")}
-                // onChange={() => setActive(true)}
+                onChange={(e) => { setPayPeriodId(e.target.value)}}
               >
-                <option value="name"> Select Payroll Period(s) </option>
-                <option value="01-12-2021">01/12/2021-07/12/2021</option>
-                <option value="01-12-2021">01/12/2021-07/12/2021</option>
-                <option value="01-12-2021">01/12/2021-07/12/2021</option>
-                <option value="01-12-2021">01/12/2021-07/12/2021</option>
-                <option value="01-12-2021">01/12/2021-07/12/2021</option>
-                <option value="01-12-2021">01/12/2021-07/12/2021</option>
-                <option value="01-12-2021">01/12/2021-07/12/2021</option>
-                <option value="01-12-2021">01/12/2021-07/12/2021</option>
-                <option value="01-12-2021">01/12/2021-07/12/2021</option>
-                <option value="01-12-2021">01/12/2021-07/12/2021</option>
-                <option value="01-12-2021">01/12/2021-07/12/2021</option>
-                <option value="01-12-2021">01/12/2021-07/12/2021</option>
-                <option value="01-12-2021">01/12/2021-07/12/2021</option>
+                <option value=""> Select Payroll Period(s) </option>
+                  {TimeSheetData?.pay_period?.map((timeSheet) => {
+                    return (
+                      <option key={timeSheet?.id} value={timeSheet?.id}>
+                        {formatDate(timeSheet?.start_date)} - {formatDate(timeSheet?.end_date)}
+                      </option>
+                    );
+                  })}
               </select>
             </div>
 
             <button
-              onClick={() => setTableOpen(true)}
+              onClick={getRecords}
               className="dtm-button  mt-5"
             >
               Go
@@ -450,10 +401,6 @@ const ClockIn = () => {
               columns={columns}
               bordered
               dataSource={clockData} // Which data chunk you want to show in table
-              // For fixed header table at top
-              rowSelection={{
-                ...rowSelection,
-              }}
               onChange={handleChange}
             />
           </div>
@@ -461,13 +408,15 @@ const ClockIn = () => {
       )}
 
       {addLogTime && (
-        <AddLogTime handleClose={handleClose} open={addLogTime}></AddLogTime>
+        <AddLogTime handleClose={handleClose} open={addLogTime} selectedRecord={selectedRecord} getRecords={getRecords}></AddLogTime>
       )}
       {editLogTime && (
-        <EditCallLog
+        <EditLogTime
           handleClose={handleEditClose}
           open={editLogTime}
-        ></EditCallLog>
+          selectedRecord={selectedRecord} 
+          getRecords={getRecords}
+        ></EditLogTime>
       )}
     </div>
   );

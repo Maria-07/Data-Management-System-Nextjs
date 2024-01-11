@@ -228,7 +228,6 @@ const CustomModal = ({
                   No Auth
                 </label>
               </div>
-
               <IoCloseCircleOutline
                 onClick={handleClose}
                 className="text-gray-600 text-2xl hover:text-primary"

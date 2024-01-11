@@ -1,3 +1,4 @@
+import DeleteModal from "@/component/UI/Layouts/DeleteModal/DeleteModal";
 import { Checkbox } from "antd";
 import React, { useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
@@ -11,6 +12,15 @@ const DayView = () => {
   const [Friday, setFriday] = useState(false);
   const [Saturday, setSaturday] = useState(false);
   const [Sunday, setSunday] = useState(false);
+
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  const handleClose = () => {
+    setDeleteModal(false);
+  };
+  const handleClickOpen = () => {
+    setDeleteModal(true);
+  };
 
   const onChange = (e, day) => {
     if (e.target.checked) {
@@ -68,7 +78,7 @@ const DayView = () => {
               <div key={i} className="border border-t-0 text-center py-1">
                 <>
                   <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md">
-                    <Checkbo <MdDeleteOutline className="text-rose-500" />x>
+                    <Checkbo <MdDeleteOutline   onClick={handleClickOpen} className="text-rose-500" />x>
                       {data?.date} {data?.time}
                     </Checkbox>
                   </div>
@@ -85,7 +95,10 @@ const DayView = () => {
                     <p className="text-[13px]">
                       <span className=" font-normal ">9 October</span> 4:44 PM
                     </p>
-                    <MdDeleteOutline className="text-rose-500" />
+                    <MdDeleteOutline
+                      onClick={handleClickOpen}
+                      className="text-rose-500"
+                    />
                   </div>
                   {/* <Checkbox checked={Monday} > */}
                 </Checkbox>
@@ -97,7 +110,10 @@ const DayView = () => {
                     <p className="text-[13px]">
                       <span className=" font-normal ">9 October</span> 4:44 PM
                     </p>
-                    <MdDeleteOutline className="text-rose-500" />
+                    <MdDeleteOutline
+                      onClick={handleClickOpen}
+                      className="text-rose-500"
+                    />
                   </div>
                 </Checkbox>
               </div>
@@ -115,7 +131,10 @@ const DayView = () => {
                     <p className="text-[13px]">
                       <span className=" font-normal ">9 October</span> 4:44 PM
                     </p>
-                    <MdDeleteOutline className="text-rose-500" />
+                    <MdDeleteOutline
+                      onClick={handleClickOpen}
+                      className="text-rose-500"
+                    />
                   </div>
                 </Checkbox>
               </div>
@@ -133,7 +152,10 @@ const DayView = () => {
                     <p className="text-[13px]">
                       <span className=" font-normal ">9 October</span> 4:44 PM
                     </p>
-                    <MdDeleteOutline className="text-rose-500" />
+                    <MdDeleteOutline
+                      onClick={handleClickOpen}
+                      className="text-rose-500"
+                    />
                   </div>
                 </Checkbox>
               </div>
@@ -144,7 +166,10 @@ const DayView = () => {
                     <p className="text-[13px]">
                       <span className=" font-normal ">9 October</span> 4:44 PM
                     </p>
-                    <MdDeleteOutline className="text-rose-500" />
+                    <MdDeleteOutline
+                      onClick={handleClickOpen}
+                      className="text-rose-500"
+                    />
                   </div>
                 </Checkbox>
               </div>
@@ -155,7 +180,10 @@ const DayView = () => {
                     <p className="text-[13px]">
                       <span className=" font-normal ">9 October</span> 4:44 PM
                     </p>
-                    <MdDeleteOutline className="text-rose-500" />
+                    <MdDeleteOutline
+                      onClick={handleClickOpen}
+                      className="text-rose-500"
+                    />
                   </div>
                 </Checkbox>
               </div>
@@ -166,7 +194,10 @@ const DayView = () => {
                     <p className="text-[13px]">
                       <span className=" font-normal ">9 October</span> 4:44 PM
                     </p>
-                    <MdDeleteOutline className="text-rose-500" />
+                    <MdDeleteOutline
+                      onClick={handleClickOpen}
+                      className="text-rose-500"
+                    />
                   </div>
                 </Checkbox>
               </div>
@@ -180,6 +211,9 @@ const DayView = () => {
           </div>
         </div>
       </div>
+      {deleteModal && (
+        <DeleteModal handleClose={handleClose} open={deleteModal}></DeleteModal>
+      )}
     </div>
   );
 };

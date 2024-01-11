@@ -183,7 +183,7 @@ console.log('data -- ',data);
   const patient_details = data?.patientDetails?.data?.client_info;
   const patientOtherDetails = data?.patientDetails?.data?.client_other_info;
   const loading = data?.loading;
-  const primaryPhone = data?.phone_number;
+  const primaryPhone = data?.patient_phone_number;
   const primaryEmail = data?.patient_email;
 
   console.log("patient details", patient_details);

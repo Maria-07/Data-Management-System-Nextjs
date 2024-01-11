@@ -60,7 +60,7 @@ export const patientInfoApi = api.injectEndpoints({
     }),
     // get race-ethnicity list
     getRaceEthnicity: builder.query({
-      query: ({ token, id }) => ({
+      query: ({ token }) => ({
         url: `patient/race-ethnicity`,
         method: "GET",
         headers: {

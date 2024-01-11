@@ -172,7 +172,7 @@ const BasicInfo = ({ adData }) => {
             type="text"
             name="parent_first_name"
             className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
-            {...register("parent_first_name")}
+            {...register("patient_parent_first_name")}
           />
         </div>
         <div>
@@ -183,7 +183,7 @@ const BasicInfo = ({ adData }) => {
             type="text"
             name="parent_last_name"
             className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
-            {...register("parent_last_name")}
+            {...register("patient_parent_last_name")}
           />
         </div>
       </div>

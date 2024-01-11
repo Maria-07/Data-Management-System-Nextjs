@@ -53,7 +53,7 @@ const DynamicPhone = ({ adData, patientId }) => {
             <div className="flex  gap-1 items-center gap-x-3 gap-y-2">
               <div className=" ml-1 flex items-center">
               <input type="hidden" {...register(`number.${index}.id`)} defaultValue={field.id}/>
-                <PhoneInput
+                {/*<PhoneInput
                   flags={flags}
                   international
                   initialValueFormat="national"
@@ -65,16 +65,15 @@ const DynamicPhone = ({ adData, patientId }) => {
                   })}
                   onChange={setCountry}
                   value={field.phone_number} // Use the `value` prop instead of `defaultValue`
-                />
-                {/* <input
+                />*/}
+                <input
                   type="text"
-                  placeholder="Phone"
                   className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
-                  {...register(`number.${index}.number`, {
+                  {...register(`number.${index}.phone_number`, {
                     // required: true
                   })}
                   defaultValue={field.phone_number}
-                /> */}
+                /> 
               </div>
               <div>
                 <select

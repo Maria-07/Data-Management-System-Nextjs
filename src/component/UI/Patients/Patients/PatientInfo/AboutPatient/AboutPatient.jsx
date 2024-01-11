@@ -1,11 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useGetRaceEthnicityQuery } from "@/Redux/features/patient/patient-info/patientInfoApi";
+import { getAccessToken } from "@/Redux/api/apiSlice";
+import axios from "axios";
 
-const AboutPatient = ({ register }) => {
+const AboutPatient = ({ register, patientData, setValue, getValues }) => {
   const [isColorPaletteOpen, setIsColorPaletteOpen] = useState(false);
   const [selectedColor, setSelectedColor] = useState("");
-  //console.log('background_color - ',bgcolor);
+  const [raceEthnicity, setRaceEthnicity] = useState([]);
+  const [preLanguage, setPreLanguage] = useState([]);
+  const token = getAccessToken();
+  useEffect(() => {
+    const getRaceEthnicity = async () => {
+    const res = await axios({
+      method: "GET",
+      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/patient/race-ethnicity`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Authorization": token || null,
+      }
+    });
+    const data = res?.data?.race_ethnicity;
+    //setRaceEthnicity(data);
+    let newObj = []
+
+    for (let [k, v] of Object.entries(data)) {
+      newObj[k] = v;
+    }
+    setRaceEthnicity(newObj);
+  }
+  getRaceEthnicity();
+}, []);
+
+useEffect(() => {
+  const getPreLanguage = async () => {
+  const res = await axios({
+    method: "GET",
+    url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/patient/preferred-language`,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Authorization": token || null,
+    }
+  });
+  const data = res?.data?.preferred_languages;
+  setPreLanguage(data);
+}
+getPreLanguage();
+}, []);
+
   const colorOptions = [
     "#E0EBF5",
     "#FFE8E8",
@@ -29,6 +72,7 @@ const AboutPatient = ({ register }) => {
   };
 
   const handleColorSelection = (color) => {
+    setValue("background_color", color);
     setSelectedColor(color);
     setIsColorPaletteOpen(false);
   };
@@ -50,17 +94,12 @@ const AboutPatient = ({ register }) => {
               className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
               {...register("race_details")}
             >
-              <option value="0"></option>
-              <option value="1">American Indian or Alaska Native</option>
-              <option value="2">Asian</option>
-              <option value="3">Black or African American</option>
-              <option value="4">Hispanic or Latinx</option>
-              <option value="5">Middle Eastern or North African</option>
-              <option value="6">
-                Native Hawaiian or Other Pacific Islander
-              </option>
-              <option value="7">White</option>
-              <option value="8">Race or ethnicity not listed</option>
+              <option value=""></option>
+              {raceEthnicity.map((p,k)=>{
+                return (
+                  <option value={k}>{p}</option>
+                )
+              })}
             </select>
           </div>
           <div>
@@ -71,80 +110,11 @@ const AboutPatient = ({ register }) => {
               className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
               {...register("language")}
             >
-              <option value=""></option>
-              <option value="afr">Afrikaans</option>
-              <option value="sqi">Albanian</option>
-              <option value="ase">American Sign Language</option>
-              <option value="ara">Arabic</option>
-              <option value="hye">Armenian</option>
-              <option value="eus">Basque</option>
-              <option value="ben">Bengali</option>
-              <option value="bul">Bulgarian</option>
-              <option value="cat">Catalan</option>
-              <option value="khm">Central Khmer</option>
-              <option value="zho">Chinese</option>
-              <option value="hrv">Croatian</option>
-              <option value="ces">Czech</option>
-              <option value="dan">Danish</option>
-              <option value="nld">Dutch</option>
-              <option value="eng">English</option>
-              <option value="est">Estonian</option>
-              <option value="fij">Fijian</option>
-              <option value="fin">Finnish</option>
-              <option value="fra">French</option>
-              <option value="kat">Georgian</option>
-              <option value="deu">German</option>
-              <option value="guj">Gujarati</option>
-              <option value="heb">Hebrew</option>
-              <option value="hin">Hindi</option>
-              <option value="hun">Hungarian</option>
-              <option value="isl">Icelandic</option>
-              <option value="ind">Indonesian</option>
-              <option value="gle">Irish</option>
-              <option value="ita">Italian</option>
-              <option value="jpn">Japanese</option>
-              <option value="kor">Korean</option>
-              <option value="lat">Latin</option>
-              <option value="lav">Latvian</option>
-              <option value="lit">Lithuanian</option>
-              <option value="mkd">Macedonian</option>
-              <option value="msa">Malay</option>
-              <option value="mal">Malayalam</option>
-              <option value="mlt">Maltese</option>
-              <option value="mri">Maori</option>
-              <option value="mar">Marathi</option>
-              <option value="ell">Modern Greek (1453-)</option>
-              <option value="mon">Mongolian</option>
-              <option value="nep">Nepali</option>
-              <option value="nor">Norwegian</option>
-              <option value="pan">Panjabi</option>
-              <option value="fas">Persian</option>
-              <option value="pol">Polish</option>
-              <option value="por">Portuguese</option>
-              <option value="que">Quechua</option>
-              <option value="ron">Romanian</option>
-              <option value="rus">Russian</option>
-              <option value="smo">Samoan</option>
-              <option value="srp">Serbian</option>
-              <option value="slk">Slovak</option>
-              <option value="slv">Slovenian</option>
-              <option value="spa">Spanish</option>
-              <option value="swa">Swahili</option>
-              <option value="swe">Swedish</option>
-              <option value="tam">Tamil</option>
-              <option value="tat">Tatar</option>
-              <option value="tel">Telugu</option>
-              <option value="tha">Thai</option>
-              <option value="bod">Tibetan</option>
-              <option value="ton">Tonga (Tonga Islands)</option>
-              <option value="tur">Turkish</option>
-              <option value="ukr">Ukrainian</option>
-              <option value="urd">Urdu</option>
-              <option value="uzb">Uzbek</option>
-              <option value="vie">Vietnamese</option>
-              <option value="cym">Welsh</option>
-              <option value="xho">Xhosa</option>
-              <option value="yid">Yiddish</option>
+            {
+              Object.keys(preLanguage).map(function(key) {
+                return (<option value={key} key={key}>{preLanguage[key]}</option>);
+             })
+            }
             </select>
           </div>
           <div>
@@ -198,8 +168,8 @@ const AboutPatient = ({ register }) => {
               className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
               {...register("assignment")}
             >
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
+              <option value="1">Yes</option>
+              <option value="0">No</option>
             </select>
           </div>
 

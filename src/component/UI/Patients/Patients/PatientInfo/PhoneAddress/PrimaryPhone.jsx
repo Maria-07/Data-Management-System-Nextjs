@@ -19,7 +19,7 @@ const PrimaryPhone = ({ adData }) => {
       <div className="flex gap-1 items-center gap-x-3 gap-y-2">
         <div className=" ml-1">
           {/* package input field */}
-          <PhoneInput
+          {/*<PhoneInput
             flags={flags}
             international
             initialValueFormat="national"
@@ -28,15 +28,15 @@ const PrimaryPhone = ({ adData }) => {
             value={primaryPhone}
             {...register("phone_number")}
             onChange = {setCountry}
-          />
+          />*/}
 
-          {/* <input
+          <input
             type="text"
             placeholder="Phone"
             defaultValue={primaryPhone}
             className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
             {...register("phone_number")}
-          /> */}
+          />
         </div>
         <div>
           <select

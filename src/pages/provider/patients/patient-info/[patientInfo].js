@@ -176,7 +176,7 @@ const handleFileRead = async (event) => {
   });
 
 
-const data = PatienInfoData?.patient_info[0];
+const data = id > 0 ? PatienInfoData?.patient_info[0] : [];
 
 
 console.log('data -- ',data);
@@ -273,6 +273,8 @@ console.log('data -- ',data);
         assignment: data?.asignment,
         group2: data?.patient_email_type,
         email_ok:data?.patient_email_reminder==1 ? true : false,
+        patient_parent_first_name: data?.patient_parent_first_name,
+        patient_parent_last_name:data?.patient_parent_last_name,
         //checkedActive: patient_details?.is_active_client,
         // address
         client_street: data?.patient_main_address?.street,
@@ -292,7 +294,7 @@ console.log('data -- ',data);
         //relationship: data?.patient_relationship,
       });
       setPreviewUrl(null);
-      if(data?.patient_signature.length>0)
+      if(data?.patient_signature !='')
       {
         setPreviewUrl('data:image/png;base64,'+data?.patient_signature);
       }
@@ -316,22 +318,22 @@ console.log('data -- ',data);
       "patient_dob": data.guarantor_check_Date,
       "patient_gender": data.gender,
       "patient_relationship": data.relationship,
-      "patient_parent_first_name": data.guarantor_first_name,
-      "patient_parent_last_name": data.guarantor_last_name,
+      "patient_parent_first_name": data.patient_parent_first_name,
+      "patient_parent_last_name": data.patient_parent_last_name,
       "patient_main_address": {
         "street": data.client_street,
         "city": data.client_city,
         "state": data.client_state,
         "zip": data.client_zip,
       },
-      "patient_other_addresses": [data.address],
+      "patient_other_addresses": data.address,
       "patient_email":  data.login_email,
       "patient_email_type":  data.group2,
       "patient_email_reminder":  data.send_mail,
-      "patient_other_email": [data.Email],
+      "patient_other_email": data.Email,
       "patient_phone_number":  data.phone_number,
-      "patient_phone_is_send_sms":  data.group,
-      "patient_other_phone_number": [data.number],
+      "patient_phone_is_send_sms":  data.phonecheck,
+      "patient_other_phone_number": data.number,
       "pos": data.pos,
       "zone": data.zone,
       "race_ethnicity": data.race_details,
@@ -562,7 +564,7 @@ console.log('data -- ',data);
             </div>
           </div>
 
-          <AboutPatient register={register} patientData={data}></AboutPatient>
+          <AboutPatient register={register} patientData={data} setValue={setValue} getValues={getValues}></AboutPatient>
           <Divider></Divider>
           <div className="flex ml-1 mt-1 items-center">
             <input

@@ -266,6 +266,7 @@ const workSchedule = () => {
           <h1 className="text-lg mt-2 text-left text-orange-400">
             Work Schedule
           </h1>
+          {/*
           <div className="flex items-center gap-2 ml-4 mt-1">
             <Switch
               checked={check}
@@ -275,7 +276,7 @@ const workSchedule = () => {
             <span className="text-sm text-gray-400">
               Bypass Work Schedule Validation
             </span>
-          </div>
+          </div> */}
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* working hours  */}
@@ -453,7 +454,7 @@ const workSchedule = () => {
             </div>
           </div>
         </form>
-        <BlockOffTime token={token}></BlockOffTime>
+       { /* <BlockOffTime token={token}></BlockOffTime> */ }
       </div>
     </div>
   );

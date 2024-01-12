@@ -6,7 +6,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 const AddClearence = ({ handleClose, open, token, id }) => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const [imageData,setImageData] = useState(null);
   const [filenameData,setFilenameData] = useState(null);
   
@@ -88,7 +88,7 @@ const handleFileRead = async (event) => {
       >
         <div className="px-2 py-2">
           <div className="flex items-center justify-between">
-            <h1 className="text-lg text-left text-orange-400 ">Clearence</h1>
+            <h1 className="text-lg text-left text-orange-400 ">Add Clearence</h1>
             <IoCloseCircleOutline
               onClick={handleClose}
               className="text-gray-600 text-2xl hover:text-primary"
@@ -108,41 +108,81 @@ const handleFileRead = async (event) => {
                   type="text"
                   name="clear_type"
                   className="modal-input-field ml-1 w-full"
-                  {...register("clear_type")}
-                />
+                  {...register("clear_type", {
+                    required: {
+                      value: true,
+                      message: "Please enter the clearence",
+                    },
+                  })}
+                />                
+                {errors.clear_type?.type === "required" && (
+                      <p className=" pl-1 text-red-500">
+                        {errors.clear_type.message}
+                      </p>
+                    )}
               </div>
 
               <div>
                 <label className="label">
-                  <span className="modal-label-name">Date Issued</span>
+                  <span className="modal-label-name">Date Issued</span> <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="date"
                   className="modal-input-field ml-1 w-full"
-                  {...register("date_issue")}
-                />
+                  {...register("date_issue", {
+                    required: {
+                      value: true,
+                      message: "Please enter the date of issued",
+                    },
+                  })}
+                />             
+                {errors.date_issue?.type === "required" && (
+                    <p className=" pl-1 text-red-500">
+                      {errors.date_issue.message}
+                    </p>
+                  )}
               </div>
               <div>
                 {" "}
                 <label className="label">
-                  <span className="modal-label-name">Date Expired</span>
+                  <span className="modal-label-name">Date Expired</span> <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="date"
                   className="modal-input-field ml-1 w-full"
-                  {...register("date_expire")}
-                />
+                  {...register("date_expire", {
+                    required: {
+                      value: true,
+                      message: "Please enter the date expired",
+                    },
+                  })}
+                />                             
+                {errors.date_expire?.type === "required" && (
+                  <p className=" pl-1 text-red-500">
+                    {errors.date_expire.message}
+                  </p>
+                )}
               </div>
               <div>
                 <label className="label">
-                  <span className="modal-label-name">Upload File</span>
+                  <span className="modal-label-name">Upload File</span> <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="file"
                   className=" px-2 py-[5px] mx-1 text-xs w-full"
-                  {...register("fileName")}
+                  {...register("fileName", {
+                    required: {
+                      value: true,
+                      message: "Please upload the file",
+                    },
+                  })}
                   onChange={handleFileRead}
-                />
+                />        
+                {errors.fileName?.type === "required" && (
+                  <p className=" pl-1 text-red-500">
+                    {errors.fileName.message}
+                  </p>
+                )}
               </div>
               <div className="flex ml-1 mt-4 gap-2 items-center">
                 <input

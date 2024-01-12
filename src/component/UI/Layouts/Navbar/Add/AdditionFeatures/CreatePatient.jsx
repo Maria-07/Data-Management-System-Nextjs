@@ -5,10 +5,12 @@ import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { FaPlus, FaMinus } from "react-icons/fa";
 
 const CreatePatient = ({ handleClose, patientClicked }) => {
   const [active, setActive] = useState(false);
   const [phone, setPhone] = useState();
+  const [addtionalInfoOpen, setAddtionalInfoOpen] = useState(false);
   console.log(patientClicked);
   const {
     register,
@@ -361,7 +363,57 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
                     </div>
                   </div>
                 </div>
+                <div>
+                  <label className="label">
+                    <h1 className="modal-label-name">
+                      Status
+                    </h1>
+                  </label>
+                  <select
+                        className="modal-input-field ml-1 w-full"
+                        {...register("status")}
+                      >
+                        <option value="1">Active</option>
+                        <option value="2">In-Active</option>
+                        <option value="3">Wait-List</option>
+                        <option value="36">Leaving Soon</option>
+                        <option value="37">On-Hold</option>
+                        <option value="38">Pending Approval</option>
+                        <option value="39">Onboarding</option>
+                      </select>
+                </div>
+                <div>
+                  <label className="label">
+                    <h1 className="modal-label-name">
+                      Insurance
+                    </h1>
+                  </label>
+                  <select
+                        className="modal-input-field ml-1 w-full"
+                        {...register("insurance")}
+                      >
+                        <option value=""></option>
+                      </select>
+                </div>
               </div>
+            </div>
+            {addtionalInfoOpen && (
+            <div>
+              <label className="label">
+                <h1 className="modal-label-name">
+                Additional Information
+                </h1>
+              </label>
+              <textarea
+                className="input-border input-font py-[1px] w-full focus:outline-none"
+                {...register("additionalInfo")}
+                rows={4}
+                cols={40}
+              />
+            </div>
+            )}
+            <div className=" flex justify-end mt-2" size={40}>
+            {addtionalInfoOpen ? (<FaMinus onClick={()=>setAddtionalInfoOpen(false)} className="text-red-500"/>) : (<FaPlus onClick={()=>setAddtionalInfoOpen(true)}/>) }
             </div>
 
             <div className="bg-gray-200 py-[1px] mt-3"></div>

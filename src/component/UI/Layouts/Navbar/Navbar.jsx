@@ -29,6 +29,7 @@ import { toast } from "react-toastify";
 const Navbar = ({ handle, handleSidebar }) => {
   const [accessToken, setAccessToken] = useState("");
   const token = getAccessToken();
+  const [punch, setPunch] = useState(false);
 
   useEffect(() => {
     setAccessToken(token);
@@ -47,7 +48,23 @@ const Navbar = ({ handle, handleSidebar }) => {
   //! Theme system
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
-
+  const getPunchStatus = async () => {
+    let res = await axios({
+      method: "GET",
+      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/punch-status`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Authorization": token || null,
+      }
+    });
+    const data = res?.data;
+    setPunch(data?.punch_status);
+  }
+  
+  useEffect(() => {
+    getPunchStatus();
+  }, []);
   const  openChatUrl = async () => {
     let res = await axios({
       method: "GET",
@@ -112,6 +129,17 @@ const Navbar = ({ handle, handleSidebar }) => {
             </button>
           </div>
           <div className="flex items-center gap-6 text-[25px] text-dark">
+            <div className="h-11">
+            {!punch ? (
+            <span className="text-xs px-2 py-1 bg-orange-400 text-white rounded-xl">
+              OUT
+            </span>
+            ) : (
+              <span className="text-xs px-2 py-1 bg-green-400 text-white rounded-xl">
+              IN
+              </span>
+            ) }
+            </div>
             <div>
               {!handle.active ? (
                 <div>

@@ -118,7 +118,10 @@ const ClockIn = () => {
         theme: "dark",
         style: { fontSize: "12px" },
       });
-      getPunchStatus();
+      //getPunchStatus();
+      setTimeout(() => {
+          window.location.reload();
+        }, 3000);
     } else if (punchUpdateError) {
       toast.error("Some Error Occured", {
         position: "top-center",

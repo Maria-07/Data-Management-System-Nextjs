@@ -1,94 +1,99 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { IoCaretBackCircleOutline } from "react-icons/io5";
-import { Divider, Input, Tabs } from "antd";
+import { Input } from "antd";
 import RecurringSessionModal from "@/component/UI/Appointment/RecurringSession/RecurringSessionModal";
 import Link from "next/link";
 import RootLayout from "@/component/Layouts/RootLayout";
-import DayView from "@/component/UI/Appointment/RecurringSession/RecurringSessionEdit/DayView";
-import SingleView from "@/component/UI/Appointment/RecurringSession/RecurringSessionEdit/SingleView";
-import { useTheme } from "next-themes";
+import { useRouter } from "next/router";
+import { getAccessToken } from "@/Redux/api/apiSlice";
+import axios from "axios";
 
 const TextArea = Input;
 
 const RecurringSessionEdit = () => {
-  //! Theme system
-  const { theme } = useTheme();
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const handleClickOpen = () => {
-    setOpenEditModal(true);
-  };
-  const handleClose = () => {
-    setOpenEditModal(false);
-  };
-
+  const token = getAccessToken();
+  const router = useRouter();
+  const { query } = router;
+  const id = query.edit;  
+  const [recurringData,setRecurringData] = useState([]);
+  const [providerList,setProviderList] = useState([]);
   const { register, handleSubmit, reset } = useForm();
+  useEffect(() => {
+    const getRecurringData = async () => {
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointment/recurring/details/${id}`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Authorization": token || null,
+        },
+      });
+      const data = res?.data;
+      setRecurringData(data);
+    };
+    getRecurringData();
+  }, [id,token]);
+
+  useEffect(() => {
+    const getProviderData = async () => {
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointment/recurring/provider/list`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Authorization": token || null,
+        },
+      });
+      const data = res?.data;
+      //console.log('provider - ', data)
+      setProviderList(data);
+    };
+    getProviderData();
+  }, [id,token]);
+
+  console.log('data --', recurringData);
+
+  useEffect(() => {
+    // you can do async server request and fill up form
+    setTimeout(() => {
+      reset({
+        patient_name: recurringData?.client_details?.client_full_name,
+        Pos:recurringData?.session_data?.location,
+        Provider_name:recurringData?.session_data?.provider_id,
+        from_Date:recurringData?.start_date,
+        To_Date:recurringData?.end_date,
+        from_time:recurringData?.session_data?.from_time.substr(11,8),
+        To_time:recurringData?.session_data?.to_time.substr(11,8),
+        Status:recurringData?.session_data?.status,
+        notes:recurringData?.session_data?.notes
+      });
+    }, 0);
+  }, [id,recurringData]);
+
   const onSubmit = (data) => {
     console.log(data);
     reset();
   };
   //console.log(errors);
 
-  const tabItems = [
-    {
-      label: (
-        <h1
-          className={`${
-            theme === "dark"
-              ? "text-dark-secondary"
-              : "text-fontC hover:text-secondary"
-          } sm:px-10 text-base  transition-all`}
-        >
-          Day View{" "}
-          <span className="bg-orange-400 text-white text-[10px] px-2 py-1 rounded-lg">
-            View - 1
-          </span>
-        </h1>
-      ),
-      key: 1,
-      children: (
-        <div
-          className={`${
-            theme === "dark" ? "text-dark-secondary" : "text-fontC"
-          }`}
-        >
-          <DayView></DayView>
-        </div>
-      ),
-    },
-    {
-      label: (
-        <h1
-          className={`${
-            theme === "dark"
-              ? "text-dark-secondary"
-              : "text-fontC hover:text-secondary"
-          } sm:px-10 text-base  transition-all`}
-        >
-          Single View{" "}
-          <span className="bg-orange-400 text-white text-[10px] px-2 py-1 rounded-lg">
-            View - 2
-          </span>
-        </h1>
-      ),
-      key: 2,
-      children: <SingleView></SingleView>,
-    },
-  ];
-
   return (
-    <div className="sm:min-h-[100vh]">
+    <div className="sm:h-[100vh]">
       <div className="flex items-start flex-wrap gap-2 justify-between">
-        <h1 className="text-base text-cyan-700 font-semibold">
+        <h1 className="text-sm md:text-lg text-gray-700">
           Edit Recurring Session
         </h1>
-
-        <Link href={"/provider/appointment/recurring-session"} className=" ">
-          <button className="dtm-button flex items-center">
-            <IoCaretBackCircleOutline className="mr-1 text-sm" /> Back{" "}
-          </button>
-        </Link>
+        <div className="pms-button">
+          <Link
+            href={"/provider/appointment/recurring-session"}
+            className=" flex items-center"
+          >
+            <IoCaretBackCircleOutline className="mr-1 text-sm" /> Back
+          </Link>
+        </div>
       </div>
       <motion.div
         initial={{ opacity: 0, y: 15 }}
@@ -100,28 +105,25 @@ const RecurringSessionEdit = () => {
         }}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-6 my-3 mr-2 gap-6">
+          <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-7 my-3 mr-2 gap-6">
             {/* name  */}
             <div>
               <label className="label">
                 <span className=" label-font">Patient Name</span>
               </label>
-              <select
-                className="input-border input-font w-full focus:outline-none"
-                {...register("patient_name")}
-              >
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Miss">Miss</option>
-                <option value="Dr">Dr</option>
-              </select>
+              <input
+                  type="text"
+                  className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
+                  {...register("patient_name")}  
+                  disabled                             
+              />
             </div>
             <div>
               <label className="label">
                 <span className=" label-font">Auth</span>
               </label>
               <select
-                className="input-border input-font w-full focus:outline-none"
+                className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
                 {...register("Auth")}
               >
                 <option value="Mr">Mr</option>
@@ -135,7 +137,7 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">Service</span>
               </label>
               <select
-                className="input-border input-font w-full focus:outline-none"
+                className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
                 {...register("Service")}
               >
                 <option value="Mr">Mr</option>
@@ -149,13 +151,23 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">Provider Name</span>
               </label>
               <select
-                className="input-border input-font w-full focus:outline-none"
+                className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
                 {...register("Provider_name")}
               >
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Miss">Miss</option>
-                <option value="Dr">Dr</option>
+                <option value="" className="text-black">
+                    Select
+                  </option>
+                  {providerList?.provider_data?.map((p) => {
+                    return (
+                      <option
+                        className="text-black"
+                        key={p?.id}
+                        value={p?.id}
+                      >
+                        {p?.last_name}, {p?.first_name}
+                      </option>
+                    );
+                  })}
               </select>
             </div>
             <div>
@@ -163,13 +175,14 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">POS</span>
               </label>
               <select
-                className="input-border input-font w-full focus:outline-none"
+                className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
                 {...register("Pos")}
               >
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Miss">Miss</option>
-                <option value="Dr">Dr</option>
+                <option value="03">School (03)</option>
+                <option value="11">Office (11)</option>
+                <option value="12">Home (12)</option>
+                <option value="99">Others (99)</option>
+                <option value="02">Telehealth (02)</option>
               </select>
             </div>
 
@@ -178,9 +191,10 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">From Date</span>
               </label>
               <input
-                className="input-border input-font w-full focus:outline-none"
-                type="date"
+                className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
+                type="text"
                 {...register("from_Date")}
+                disabled
               />
             </div>
             <div>
@@ -188,13 +202,14 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">To Date</span>
               </label>
               <input
-                className="input-border input-font w-full focus:outline-none"
-                type="date"
+                className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
+                type="text"
                 {...register("To_Date")}
+                disabled
               />
             </div>
 
-            <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-3">
+            <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 ">
               <div>
                 <label className="label">
                   <span className=" label-font">From Time</span>
@@ -221,7 +236,7 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">Status</span>
               </label>
               <select
-                className="input-border input-font w-full focus:outline-none"
+                className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
                 {...register("Status")}
               >
                 <option value="Rendered">Rendered</option>
@@ -236,39 +251,32 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">Office Notes</span>
               </label>
               <div className="">
-                <TextArea rows={6} placeholder=" Notes" size="large" />
+                <textarea
+                  className="input-border input-font py-[1px] w-full focus:outline-none"
+                  {...register("notes")}
+                  rows={4}
+                  cols={40}
+                />
               </div>
             </div>
           </div>
           <div className="divider"></div>
-          <Divider></Divider>
           {/* submit  */}
-          <div className="mt-10">
+          <div className="mt-4">
             <button
-              onClick={handleClickOpen}
-              className=" dtm-button mr-2"
+              className=" dtm-button"
               type="submit"
             >
               Save
             </button>
             <Link href={"/provider/appointment/recurring-session"}>
-              <button className="dcm-close-button" autoFocus onClick={reset}>
+              <button className=" ml-2 dcm-close-button" autoFocus onClick={reset}>
                 CANCEL
               </button>
             </Link>
           </div>
         </form>
       </motion.div>
-
-      <div className="my-10">
-        <Tabs type="card" items={tabItems} />
-      </div>
-      {openEditModal && (
-        <RecurringSessionModal
-          handleClose={handleClose}
-          open={openEditModal}
-        ></RecurringSessionModal>
-      )}
     </div>
   );
 };

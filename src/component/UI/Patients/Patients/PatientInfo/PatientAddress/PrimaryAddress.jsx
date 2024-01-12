@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaPlusSquare } from "react-icons/fa";
 
 const PrimaryAddress = ({ btnclick, rg, append }) => {
   //   //console.log(rg);
@@ -30,13 +30,14 @@ const PrimaryAddress = ({ btnclick, rg, append }) => {
           className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
           {...rg("client_street")}
         />
-        <button // onClick={() => setOpen(true)}
+        <FaPlusSquare onClick={() => append()} size={30}/>
+        {/*<button // onClick={() => setOpen(true)}
           // onClick={btnclick}
           onClick={() => append()}
           className="bg-secondary text-white p-[4px]"
         >
           <FaPlus />
-        </button>
+  </button>*/}
       </div>
       <div className="mb-2">
         <input

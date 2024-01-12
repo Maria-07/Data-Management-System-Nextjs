@@ -8,9 +8,14 @@ const Providers = ({ stuffs, setStuffsId, setFetchQuery }) => {
     let processedData = [];
     if (stuffs) {
       for (let x of stuffs) {
-        processedData.push({
+        /*processedData.push({
           label: x?.full_name,
           value: x?.full_name,
+          id: x?.id,
+        });*/
+        processedData.push({
+          label: x?.name,
+          value: x?.name,
           id: x?.id,
         });
       }

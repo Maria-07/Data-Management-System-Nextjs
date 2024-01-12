@@ -20,6 +20,7 @@ import AuthorizationActivityAddModal from "@/component/UI/Patients/Patients/Auth
 import RootLayout from "@/component/Layouts/RootLayout";
 import { FaArrowsAltH } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 const AuthorizationEdit = () => {
   const [textNotes, setTextNotes] = useState("");
@@ -48,17 +49,17 @@ const AuthorizationEdit = () => {
     token,
     id,
   });
-
+//console.log('authorizationInfo',authorizationInfo?.authorization_details[0]);
   //! Patient Authorization Activity nested table data api
   const {
     data: allActivityData,
     isLoading: activityLoading,
     isError: activityError,
   } = useGetPatientAuthorizationActivityQuery({
-    token,
-    payload: {
+    token, id
+    /*payload: {
       authorization_id: id,
-    },
+    },*/
   });
 
   //! Patient Authorization update api
@@ -67,11 +68,34 @@ const AuthorizationEdit = () => {
     { isSuccess: updateSuccess, isError: updateError },
   ] = usePatientAuthorizationUpdateMutation();
 
-  const allAuthorizationActivity = allActivityData?.patientActivities || [];
+  const allAuthorizationActivity = allActivityData?.authorization_service_list || [];
 
   //! API date Data Destructring
   let selectedDate =
     authorizationInfo?.client_authorization_info?.selected_date || null;
+    const authData = {
+      description : authorizationInfo?.authorization_details[0]?.description,
+      authorization_name : '',
+      payor_id : authorizationInfo?.authorization_details[0]?.insurance_id,
+      authorization_number : authorizationInfo?.authorization_details[0]?.authorization_number,
+      uci_id : authorizationInfo?.authorization_details[0]?.insurance_id,
+      treatment_type : authorizationInfo?.authorization_details[0]?.tx_type,
+      treatment_type_id : '',
+      supervisor_id : '',
+      diagnosis_one : authorizationInfo?.authorization_details[0]?.diagnosis_one,
+      diagnosis_two : authorizationInfo?.authorization_details[0]?.diagnosis_two,
+      diagnosis_three : authorizationInfo?.authorization_details[0]?.diagnosis_three,
+      diagnosis_four : authorizationInfo?.authorization_details[0]?.diagnosis_four,
+      deductible : authorizationInfo?.authorization_details[0]?.deductible,
+      in_network : authorizationInfo?.authorization_details[0]?.in_network,
+      copay : authorizationInfo?.authorization_details[0]?.copay,
+      cms_four : authorizationInfo?.authorization_details[0]?.cms_four,
+      cms_eleven : authorizationInfo?.authorization_details[0]?.cms_eleven,
+      is_valid : authorizationInfo?.authorization_details[0]?.is_active,
+      is_placeholder : authorizationInfo?.authorization_details[0]?.is_placeholder,
+      is_primary : false,
+      notes : authorizationInfo?.authorization_details[0]?.notes,
+    };
 
   // API Destructuring
   const {
@@ -96,7 +120,7 @@ const AuthorizationEdit = () => {
     is_placeholder,
     is_primary,
     notes,
-  } = authorizationInfo?.client_authorization_info || {};
+  } = authData || {};
 
   //Toggle handler code
   const [network, setNetwork] = useState(BoolConverter(in_network));
@@ -276,7 +300,8 @@ const AuthorizationEdit = () => {
   ]);
 
   const onSubmit = (data) => {
-    const payload = {
+    console.log(data);
+    /*const payload = {
       edit_authorization_id: id,
       ...data,
       select_date: `${convert(data?.start_date)} - ${convert(data?.end_date)}`,
@@ -284,12 +309,19 @@ const AuthorizationEdit = () => {
       is_valid: BoolConverter(valid),
       is_placeholder: BoolConverter(place_holder),
       notes: textNotes,
-    };
+    };*/
+    const payload = {
+      "authorization_id": id,
+      "diagnosis_one": data.diagnosis_one,
+      "diagnosis_two": data.diagnosis_two,
+      "diagnosis_three": data.diagnosis_three,
+      "diagnosis_four": data.diagnosis_four,
+    }
     patientAuthorizationUpdate({
       token,
       payload,
     });
-    // console.log(payload);
+    console.log(payload);
   };
 
   useEffect(() => {
@@ -364,7 +396,8 @@ const AuthorizationEdit = () => {
                   type="text"
                   name="description"
                   className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
-                  {...register("description")}
+                  defaultValue={authorizationInfo?.authorization_details[0]?.description}
+                  disabled
                 />
               </div>
               <div>
@@ -374,31 +407,14 @@ const AuthorizationEdit = () => {
                     <span className="text-red-500">*</span>
                   </h1>
                 </label>
-                <select
-                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1  w-full focus:outline-none"
-                  {...register("payor_id")}
-                >
-                  {payor_id ? (
-                    <option value={payor_id}>
-                      {insurance
-                        ?.filter((item) => item.payor_id === payor_id)
-                        ?.map((payors) => {
-                          return payors?.payor_name;
-                        })}
-                    </option>
-                  ) : (
-                    <option>Select Payor</option>
-                  )}
-                  {insurance
-                    ?.filter((item) => item.payor_id !== payor_id)
-                    ?.map((payors) => {
-                      return (
-                        <option key={payors?.id} value={payors?.payor_id}>
-                          {payors?.payor_name}
-                        </option>
-                      );
-                    })}
-                </select>
+                <input
+                  type="text"
+                  name="insurance_name"
+                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                  defaultValue={authorizationInfo?.authorization_details[0]?.insurance_name}
+                  disabled
+                />
+                  
               </div>
               <div>
                 <label className="label">
@@ -407,29 +423,13 @@ const AuthorizationEdit = () => {
                     <span className="text-red-500">*</span>
                   </h1>
                 </label>
-                <select
-                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1  w-full focus:outline-none"
-                  {...register("treatment_type")}
-                  onChange={(e) => setTreatmentType(e.target.value)}
-                >
-                  {treatment_type ? (
-                    <option value={treatment_type}>{treatment_type}</option>
-                  ) : (
-                    <option>Select Treatment</option>
-                  )}
-                  {txType
-                    ?.filter((item) => parseInt(item.id) !== treatment_type_id)
-                    ?.map((treatment) => {
-                      return (
-                        <option
-                          key={treatment?.id}
-                          value={treatment?.treatment_name}
-                        >
-                          {treatment?.treatment_name}
-                        </option>
-                      );
-                    })}
-                </select>
+                <input
+                  type="text"
+                  name="tx_type"
+                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                  defaultValue={authorizationInfo?.authorization_details[0]?.tx_type}
+                  disabled
+                />
               </div>
               <div>
                 <label className="label">
@@ -438,82 +438,26 @@ const AuthorizationEdit = () => {
                     <span className="text-red-500">*</span>
                   </h1>
                 </label>
-                <select
-                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1  w-full focus:outline-none"
-                  {...register("supervisor_id")}
-                >
-                  {supervisor_id ? (
-                    <option value={supervisor_id}>
-                      {supvProvider
-                        ?.filter((item) => item.employee_id === supervisor_id)
-                        ?.map((supv) => {
-                          return supv?.providerName?.full_name;
-                        })}
-                    </option>
-                  ) : (
-                    <option>Select Supervisor</option>
-                  )}
-                  {supvProvider
-                    ?.filter((item) => item.employee_id !== supervisor_id)
-                    ?.map((supv) => {
-                      return (
-                        <option key={supv?.id} value={supv?.employee_id}>
-                          {supv?.providerName?.full_name}
-                        </option>
-                      );
-                    })}
-                </select>
+                <input
+                  type="text"
+                  name="supervisor_provider"
+                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                  defaultValue={authorizationInfo?.authorization_details[0]?.supervisor_provider}
+                  disabled
+                />
               </div>
               <div>
                 <label className="label">
                   <h1 className="label-font mb-1 mt-3  ml-1">Selected date</h1>
                 </label>
-                <div className="ml-1">
-                  <div className="flex  justify-between items-center text-gray-600 input-border-bottom rounded-sm px-1 mx-1 w-full">
-                    <input
-                      value={
-                        startDate
-                          ? `${startMonth} ${startDay}, ${startYear}`
-                          : `${startD}`
-                      }
-                      readOnly
-                      onClick={() => setOpenCalendar(true)}
-                      {...register("start_date")}
-                      className="focus:outline-none font-semibold text-center pb-[1.8px] text-[14px] text-gray-600 bg-transparent w-2/5 cursor-pointer"
-                    />
-                    <FaArrowsAltH
-                      onClick={() => setOpenCalendar(true)}
-                      className="cursor-pointer mx-1 text-gray-600 text-[14px] font-medium w-1/5"
-                    ></FaArrowsAltH>
-                    <input
-                      // defaultValue={"5-10-2034"}
-                      value={
-                        endDate
-                          ? `${endMonth} ${endDay}, ${endYear}`
-                          : `${endD}`
-                      }
-                      readOnly
-                      onClick={() => setOpenCalendar(true)}
-                      {...register("end_date")}
-                      className="focus:outline-none font-semibold text-center bg-transparent text-[14px] text-gray-600 w-2/5 cursor-pointer"
-                    />
-                  </div>
-
-                  {/* Multi date picker component called */}
-                  <div
-                    ref={refClose}
-                    className="absolute z-10 md:ml-[-9%] lg:ml-0 xl:ml-0 2xl:ml-[35%]s "
-                  >
-                    {openCalendar && (
-                      <CustomDateRange
-                        range={range}
-                        setRange={setRange}
-                        handleCancelDate={handleCancelDate}
-                        setOpen={setOpenCalendar}
-                      ></CustomDateRange>
-                    )}
-                  </div>
-                </div>
+                
+                <input
+                  type="text"
+                  name="selected_date"
+                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                  defaultValue={authorizationInfo?.authorization_details[0]?.selected_date}
+                  disabled
+                />
               </div>
 
               <div>
@@ -528,6 +472,7 @@ const AuthorizationEdit = () => {
                   name="authorization_number"
                   className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                   {...register("authorization_number")}
+                  disabled
                 />
               </div>
               <div>
@@ -538,9 +483,10 @@ const AuthorizationEdit = () => {
                 </label>
                 <input
                   type="text"
-                  name="uci_id"
+                  name="insurance_id"
                   className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
-                  {...register("uci_id")}
+                  defaultValue={authorizationInfo?.authorization_details[0]?.insurance_id}
+                  disabled
                 />
               </div>
 
@@ -551,15 +497,13 @@ const AuthorizationEdit = () => {
                     <span className="text-red-500">*</span>
                   </h1>
                 </label>
-                <select
-                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1  w-full focus:outline-none"
-                  {...register("is_primary")}
-                >
-                  <option value="">Select Any</option>
-                  <option value="1">Primary</option>
-                  <option value="2">Secondary</option>
-                  <option value="3">Tertiary</option>
-                </select>
+                <input
+                  type="text"
+                  name="cob"
+                  className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
+                  defaultValue={authorizationInfo?.authorization_details[0]?.cob}
+                  disabled
+                />
               </div>
 
               <div className="">
@@ -572,6 +516,7 @@ const AuthorizationEdit = () => {
                   type="file"
                   className=" ml-1 py-[5px]  text-xs w-full"
                   {...register("fileName")}
+                  disabled
                 />
               </div>
 
@@ -640,13 +585,13 @@ const AuthorizationEdit = () => {
                     name="diagnosis1"
                     className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                     {...register("deductible")}
+                    disabled
                   />
                 </div>
                 <div className="mt-[30px]">
                   <div className="flex ml-1 mt-1 items-center">
                     <Switch
-                      checked={network}
-                      onChange={() => setNetwork(!network)}
+                      checked={in_network !==false ? in_network : ''}
                       size="small"
                     />
                     <span className="text-[14px] ml-1 text-gray-600 font-medium">
@@ -665,6 +610,7 @@ const AuthorizationEdit = () => {
                   name="copay"
                   className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                   {...register("copay")}
+                  disabled
                 />
               </div>
               <div>
@@ -678,6 +624,7 @@ const AuthorizationEdit = () => {
                   name="cms4"
                   className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                   {...register("cms_four")}
+                  disabled
                 />
               </div>
               <div>
@@ -691,13 +638,13 @@ const AuthorizationEdit = () => {
                   name="cms11"
                   className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
                   {...register("cms_eleven")}
+                  disabled
                 />
               </div>
               <div className="ml-2 mt-5 flex gap-3 items-center">
                 <div className="flex items-center">
                   <Switch
-                    checked={valid}
-                    onChange={() => setValid(!valid)}
+                    checked={is_valid !==false ? is_valid : ''}
                     size="small"
                   />
                   <span className="text-[14px] ml-2 font-medium text-gray-500">
@@ -706,8 +653,7 @@ const AuthorizationEdit = () => {
                 </div>
                 <div className="flex items-center">
                   <Switch
-                    checked={place_holder}
-                    onChange={() => setPlace_holder(!place_holder)}
+                    checked={is_placeholder !== false ? is_placeholder : ''}
                     size="small"
                   />
                   <span className="text-[14px] ml-2 font-medium text-gray-500">
@@ -721,9 +667,9 @@ const AuthorizationEdit = () => {
                 </label>
                 <textarea
                   {...register("notes")}
-                  onChange={(e) => setTextNotes(e.target.value)}
                   name="comment"
                   className="border border-gray-300 text-sm p-2  ml-1 h-24 w-full"
+                  disabled
                 ></textarea>
               </div>
             </div>
@@ -747,17 +693,6 @@ const AuthorizationEdit = () => {
           transition={{ delay: 0.3 }}
         >
           <div className="divider"></div>
-          <div className="flex justify-end">
-            <button
-              // disabled={treatmentType ? false : true}
-              onClick={() => {
-                setAddServiceModal(true);
-              }}
-              className="px-2 my-3 flex items-center py-2 bg-gradient-to-r from-secondary to-primary text-xs  hover:to-secondary text-white rounded"
-            >
-              + Add Service
-            </button>
-          </div>
 
           {/* Table */}
           <AuthorizationActivityNestedTable

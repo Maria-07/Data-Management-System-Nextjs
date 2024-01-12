@@ -27,8 +27,21 @@ export const otherSetupApi = api.injectEndpoints({
       }),
       invalidatesTags: ["OtherSetup"],
     }),
+
+    updatePassword: builder.mutation({
+      query: ({ token, payload }) => ({
+        url: "change-password",
+        method: "POST",
+        headers: {
+          "content-type": "Application/json",
+          "x-auth-token": token,
+        },
+        body: JSON.stringify(payload),
+      }),
+      invalidatesTags: ["changePassword"],
+    }),
   }),
 });
 
-export const { useGetOtherSetupQuery, useAddOtherSetupMutation } =
+export const { useGetOtherSetupQuery, useAddOtherSetupMutation, useUpdatePasswordMutation } =
   otherSetupApi;

@@ -1,8 +1,42 @@
 import React from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { getAccessToken } from "@/Redux/api/apiSlice";
+import { useEffect } from "react";
+import { useDeleteEmailMutation } from "@/Redux/features/patient/patient-info/patientInfoApi";
+import { toast } from "react-toastify";
 
-const DynamicEmail = ({ adData }) => {
+const DynamicEmail = ({ adData, patientId }) => {
   const { register, emailFields, emailRemove } = adData;
+  const token = getAccessToken();
+  const [
+   updateEmail,
+    { isSuccess: updateSuccess, isError: updateError },
+  ] = useDeleteEmailMutation();
+  const deleteEmail = (id, index) => {
+    emailRemove(index);
+    updateEmail({
+      token,
+      payload:{patient_id:patientId,email_id:id},
+    });
+
+  }
+  useEffect(() => {
+    if (updateSuccess) {
+      toast.success("Email deleted successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else if (updateError) {
+      toast.error("Some Error Occured", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [updateSuccess, updateError]);
   return (
     <div>
       {emailFields.map((field, index) => {
@@ -13,6 +47,7 @@ const DynamicEmail = ({ adData }) => {
             </label>
             <div className="flex items-center gap-x-3 gap-y-2">
               <div>
+              <input type="hidden" {...register(`Email.${index}.id`)} defaultValue={field.id}/>
                 <input
                   type="text"
                   name="email"
@@ -24,15 +59,15 @@ const DynamicEmail = ({ adData }) => {
               <div>
                 <select
                   className="input-border-bottom input-font pb-1 mt-[2px] w-16 focus:outline-none"
-                  {...register(`group2${index}`)}
+                  {...register(`Email.${index}.email_type`)}
                 >
-                  <option value="work">work</option>
-                  <option value="home">home</option>
-                  <option value="family">family</option>
+                  <option value="Work">Work</option>
+                  <option value="Home">Home</option>
+                  <option value="Family">Family</option>
                 </select>
               </div>
               <button
-                onClick={() => emailRemove(index)}
+                onClick={() => deleteEmail(field.id,index)}
                 className="bg-red-500 text-white p-[4px] "
               >
                 <RiDeleteBin6Line />
@@ -43,7 +78,7 @@ const DynamicEmail = ({ adData }) => {
                 <label className="inline-flex relative items-center cursor-pointer">
                   <input
                     type="checkbox"
-                    {...register(`Email.${index}.checked`, {
+                    {...register(`Email.${index}.is_email_ok`, {
                       // valueAsNumber: true,
                     })}
                     defaultChecked={field.checked}
@@ -72,7 +107,7 @@ const DynamicEmail = ({ adData }) => {
               <label className="inline-flex relative items-center  cursor-pointer">
                 <input
                   type="checkbox"
-                  {...register(`Email.${index}.sendMail`)}
+                  {...register(`Email.${index}.email_reminder`)}
                   defaultChecked={field.sendMail}
                   className="sr-only peer"
                 />

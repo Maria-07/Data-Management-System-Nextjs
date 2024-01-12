@@ -19,14 +19,12 @@ const PatientAuthorizationsTableModal = ({
   const { data: authorizationData, isLoading: authorizationloading } =
     useGetPatientAuthorizationQuery({
       token,
-      payload: {
-        client_id: patient_id,
-      },
+      id:patient_id
     });
 
-  const clientAuthorizationData = authorizationData?.allAuthorization || [];
+  const clientAuthorizationData = authorizationData?.all_authorizations || [];
 
-  console.log("clientAuthorizationData", authorizationData?.allAuthorization);
+  console.log("clientAuthorizationData", authorizationData?.all_authorizations);
 
   const handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
@@ -43,10 +41,10 @@ const PatientAuthorizationsTableModal = ({
   const columns = [
     {
       title: "Description",
-      dataIndex: "description",
-      key: "description",
-      width: 120,
-      filters: generateFilterValues(clientAuthorizationData, "description"),
+      dataIndex: "Description",
+      key: "Description",
+      width: 150,
+      /*filters: generateFilterValues(clientAuthorizationData, "description"),
       filterSearch: true, //Filtering value search(Antd new Feature)
       filteredValue: filteredInfo.description || null,
       onFilter: (value, record) => record.description.includes(value),
@@ -56,14 +54,14 @@ const PatientAuthorizationsTableModal = ({
       },
       sortOrder:
         sortedInfo.columnKey === "description" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Onset Date",
-      dataIndex: "onset_date",
-      key: "onset_date",
+      dataIndex: "Onset_date",
+      key: "Onset_date",
       width: 130,
-      filters: generateFilterValues(clientAuthorizationData, "onset_date"),
+      /*filters: generateFilterValues(clientAuthorizationData, "onset_date"),
       filterSearch: true, //Filtering value search(Antd new Feature)
       filteredValue: filteredInfo.onset_date || null,
       onFilter: (value, record) => record.onset_date.includes(value),
@@ -73,14 +71,14 @@ const PatientAuthorizationsTableModal = ({
       },
       sortOrder:
         sortedInfo.columnKey === "onset_date" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "End Date",
-      dataIndex: "end_date",
-      key: "end_date",
+      dataIndex: "End_date",
+      key: "End_date",
       width: 130,
-      filters: generateFilterValues(clientAuthorizationData, "end_date"),
+      /*filters: generateFilterValues(clientAuthorizationData, "end_date"),
       filterSearch: true, //Filtering value search(Antd new Feature)
       filteredValue: filteredInfo.end_date || null,
       onFilter: (value, record) => record.end_date.includes(value),
@@ -89,14 +87,14 @@ const PatientAuthorizationsTableModal = ({
         return a.end_date > b.end_date ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "end_date" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Primary Insurance",
-      dataIndex: "authorization_name",
-      key: "authorization_name",
+      dataIndex: "Primary_insurance",
+      key: "Primary_insurance",
       width: 150,
-      filters: generateFilterValues(
+      /*filters: generateFilterValues(
         clientAuthorizationData,
         "authorization_name"
       ),
@@ -114,30 +112,14 @@ const PatientAuthorizationsTableModal = ({
       },
       sortOrder:
         sortedInfo.columnKey === "authorization_name" ? sortedInfo.order : null,
-      ellipsis: true,
-    },
-    {
-      title: "UCI",
-      dataIndex: "uci_id",
-      key: "uci_id",
-      width: 150,
-      filters: generateFilterValues(clientAuthorizationData, "uci_id"),
-      filterSearch: true, //Filtering value search(Antd new Feature)
-      filteredValue: filteredInfo.uci_id || null,
-      onFilter: (value, record) => record.uci_id.includes(value),
-      //   sorter is for sorting asc or dsc purstatuse
-      sorter: (a, b) => {
-        return a.uci_id > b.uci_id ? -1 : 1; //sorting problem solved using this logic
-      },
-      sortOrder: sortedInfo.columnKey === "uci_id" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Treatment Type",
-      dataIndex: "treatment_type",
-      key: "treatment_type",
+      dataIndex: "Treatment_type",
+      key: "Treatment_type",
       width: 150,
-      filters: generateFilterValues(clientAuthorizationData, "treatment_type"),
+      /*filters: generateFilterValues(clientAuthorizationData, "treatment_type"),
       filterSearch: true, //Filtering value search(Antd new Feature)
       filteredValue: filteredInfo.treatment_type || null,
       onFilter: (value, record) => record.treatment_type.includes(value),
@@ -147,9 +129,25 @@ const PatientAuthorizationsTableModal = ({
       },
       sortOrder:
         sortedInfo.columnKey === "treatment_type" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
+      title: "UCI",
+      dataIndex: "uci",
+      key: "uci",
+      width: 150,
+      /*filters: generateFilterValues(clientAuthorizationData, "uci_id"),
+      filterSearch: true, //Filtering value search(Antd new Feature)
+      filteredValue: filteredInfo.uci_id || null,
+      onFilter: (value, record) => record.uci_id.includes(value),
+      //   sorter is for sorting asc or dsc purstatuse
+      sorter: (a, b) => {
+        return a.uci_id > b.uci_id ? -1 : 1; //sorting problem solved using this logic
+      },
+      sortOrder: sortedInfo.columnKey === "uci_id" ? sortedInfo.order : null,
+      ellipsis: true,*/
+    },
+    /*{
       title: "Action",
       key: "id",
       dataIndex: "id",
@@ -165,7 +163,7 @@ const PatientAuthorizationsTableModal = ({
           </Link>
         );
       },
-    },
+    },*/
   ];
 
   return (

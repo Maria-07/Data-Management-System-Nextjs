@@ -6,15 +6,16 @@ import axios from "axios";
 // import { Placeholder } from "rsuite";
 Chart.register(...registerables);
 
-const TreatmentBarChart = () => {
-  const [Graph, setGraph] = useState([]);
+const TreatmentBarChart = ({token}) => {
+  //const [Graph, setGraph] = useState([]);
+  const [GraphData, setGraphData] = useState([]);
   const data1 = [9];
   const data2 = [5];
   const data3 = [5.08333333333, 0.063333333];
   const data4 = [0, 2.78333333333];
   const data5 = [0.1];
 
-  useEffect(() => {
+  /*useEffect(() => {
     axios
       .get(`https://jsonplaceholder.typicode.com/users`)
       .then((response) => {
@@ -23,7 +24,29 @@ const TreatmentBarChart = () => {
       .catch((error) => {
         console.log(error);
       });
+  }, []);*/
+
+  useEffect(() => {
+      const getGraphData = async () => {
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/total-session-chart`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Authorization": token || null,
+        }
+      });
+      const data = res?.data;
+      setGraphData(data);
+    }
+    getGraphData();
   }, []);
+
+const dataSet1 = GraphData?.sum?.[0];
+const dataSet2 = GraphData?.sum?.[1];
+const dataSet3 = GraphData?.sum?.[2];
+const dataSet4 = GraphData?.sum?.[3]; 
   return (
     <div className="border rounded-t-xl">
       {/* <div className="lg:w-4/12 md:w-5/12"> */}
@@ -31,35 +54,35 @@ const TreatmentBarChart = () => {
         {/* Total Billed vs Total Paid */}
         Total Sessions
       </h1>
-      {Graph.length > 0 ? (
+      {GraphData?.months ? (
         <Bar
           className=" chart p-2 "
           data={{
-            labels: Graph.map((x) => x.name.slice(1, 8)),
+            //labels: Graph.map((x) => x.name.slice(1, 8)),
             // labels: ["June", "July", "August"],
-
+            labels: GraphData?.months,
             datasets: [
               {
                 label: "Scheduled",
-                data: data1,
+                data: dataSet1,
                 backgroundColor: "#00A4D6",
                 barThickness: 25,
               },
               {
                 label: "Rendered",
-                data: data2,
+                data: dataSet2,
                 backgroundColor: "#00B88A",
                 barThickness: 20,
               },
               {
                 label: "Cancelled by Provider",
-                data: data3,
+                data: dataSet3,
                 backgroundColor: "#FFAD33",
                 barThickness: 20,
               },
               {
                 label: "Cancelled by client",
-                data: data4,
+                data: dataSet4,
                 backgroundColor: "#217FB5",
                 barThickness: 20,
               },

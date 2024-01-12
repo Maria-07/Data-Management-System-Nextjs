@@ -23,8 +23,7 @@ const timeConvertForInput = (receivedTime) => {
   if (isNaN(receivedDate)) {
     // Handle invalid date
     return null;
-  }
-
+  };
   const timeString = receivedDate.toLocaleTimeString();
   const [time, period] = timeString.split(" ");
   let [hours, minutes, seconds] = time.split(":").map(Number);
@@ -41,6 +40,52 @@ const timeConvertForInput = (receivedTime) => {
 
   return formattedTime;
 };
+
+const convertTime12to24 = (time12h) => {
+  
+  if(typeof time12h !== 'undefined') {
+        let [hours, minutes, modifier] = time12h.split(':');
+
+      if (hours === '12') {
+        hours = '00';
+      }
+
+      if (modifier === 'PM') {
+        hours = parseInt(hours, 10) + 12;
+      }
+
+      return `${hours}:${minutes}:00`;
+  }
+  return null;
+}
+
+function tConvert (time) {   
+    var time_part_array = time.split(":");
+    var ampm = 'AM';
+
+    if (time_part_array[0] >= 12) {
+        ampm = 'PM';
+    }
+
+    if (time_part_array[0] > 12) {
+        time_part_array[0] = time_part_array[0] - 12;
+        if(time_part_array[0]<10)
+        {
+          time_part_array[0] = '0' + time_part_array[0];
+        }
+    }
+
+    if(time=='00:00:00' || time=='00:00')
+    {
+      time_part_array[0] = '12';
+    } 
+
+    let formatted_time = time_part_array[0]  + ':' + time_part_array[1] +  ':' + ampm;
+    
+
+    return formatted_time;
+}
+
 
 const workSchedule = () => {
   //! Id get
@@ -70,6 +115,22 @@ const workSchedule = () => {
     updateWorkingSchedule,
     { isSuccess: createSuccess, isError: createError },
   ] = useUpdateWorkingScheduleMutation();
+  const workData =  {
+    mon_start : workingSchedule?.work_schedule?.monday?.start,
+    mon_end : workingSchedule?.work_schedule?.monday?.end,
+    tue_start : workingSchedule?.work_schedule?.tuesday?.start,
+    tue_end : workingSchedule?.work_schedule?.tuesday?.end,
+    wed_start : workingSchedule?.work_schedule?.wednesday?.start,
+    wed_end : workingSchedule?.work_schedule?.wednesday?.end,
+    thu_start : workingSchedule?.work_schedule?.thursday?.start,
+    thu_end : workingSchedule?.work_schedule?.thursday?.end,
+    sun_start : workingSchedule?.work_schedule?.sunday?.start,
+    sun_end : workingSchedule?.work_schedule?.sunday?.end,
+    sat_start : workingSchedule?.work_schedule?.saturday?.start,
+    sat_end : workingSchedule?.work_schedule?.saturday?.end,
+    fri_start : workingSchedule?.work_schedule?.friday?.start,
+    fri_end : workingSchedule?.work_schedule?.friday?.end,
+  }
 
   const {
     mon_start,
@@ -86,26 +147,26 @@ const workSchedule = () => {
     sat_end,
     fri_start,
     fri_end,
-  } = workingSchedule || {};
+  } = workData || {};
 
   useEffect(() => {
     // you can do async server request and fill up form
     setTimeout(() => {
       reset({
-        mon_start: timeConvertForInput(mon_start),
-        mon_end: timeConvertForInput(mon_end),
-        tue_start: timeConvertForInput(tue_start),
-        tue_end: timeConvertForInput(tue_end),
-        wed_start: timeConvertForInput(wed_start),
-        wed_end: timeConvertForInput(wed_end),
-        thu_start: timeConvertForInput(thu_start),
-        thu_end: timeConvertForInput(thu_end),
-        sun_start: timeConvertForInput(sun_start),
-        sun_end: timeConvertForInput(sun_end),
-        sat_start: timeConvertForInput(sat_start),
-        sat_end: timeConvertForInput(sat_end),
-        fri_start: timeConvertForInput(fri_start),
-        fri_end: timeConvertForInput(fri_end),
+        mon_start: convertTime12to24(mon_start),
+        mon_end: convertTime12to24(mon_end),
+        tue_start: convertTime12to24(tue_start),
+        tue_end: convertTime12to24(tue_end),
+        wed_start: convertTime12to24(wed_start),
+        wed_end: convertTime12to24(wed_end),
+        thu_start: convertTime12to24(thu_start),
+        thu_end: convertTime12to24(thu_end),
+        sun_start: convertTime12to24(sun_start),
+        sun_end: convertTime12to24(sun_end),
+        sat_start: convertTime12to24(sat_start),
+        sat_end: convertTime12to24(sat_end),
+        fri_start: convertTime12to24(fri_start),
+        fri_end: convertTime12to24(fri_end),
       });
     }, 0);
   }, [
@@ -127,11 +188,38 @@ const workSchedule = () => {
   ]);
 
   const onSubmit = (data) => {
-    console.log(data);
     const payload = {
-      ...data,
-      // employee_id: id,
-    };
+          "monday": {
+            "start": tConvert(data.mon_start),
+            "end": tConvert(data.mon_end)
+          },
+          "tuesday": {
+              "start": tConvert(data.tue_start),
+              "end": tConvert(data.tue_end),
+          },
+          "wednesday": {
+              "start": tConvert(data.wed_start),
+              "end": tConvert(data.wed_end),
+          },
+          "thursday": {
+              "start": tConvert(data.thu_start),
+              "end": tConvert(data.thu_end),
+          },
+          "friday": {
+              "start": tConvert(data.fri_start),
+              "end": tConvert(data.fri_end),
+          },
+          "saturday": {
+              "start": tConvert(data.sat_start),
+              "end": tConvert(data.sat_end),
+          },
+          "sunday": {
+              "start": tConvert(data.sun_start),
+              "end": tConvert(data.sun_end),
+          }
+    }
+    console.log(data);
+    console.log(payload);
     if (payload) {
       updateWorkingSchedule({
         token: token,
@@ -178,6 +266,7 @@ const workSchedule = () => {
           <h1 className="text-lg mt-2 text-left text-orange-400">
             Work Schedule
           </h1>
+          {/*
           <div className="flex items-center gap-2 ml-4 mt-1">
             <Switch
               checked={check}
@@ -187,7 +276,7 @@ const workSchedule = () => {
             <span className="text-sm text-gray-400">
               Bypass Work Schedule Validation
             </span>
-          </div>
+          </div> */}
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* working hours  */}
@@ -365,7 +454,7 @@ const workSchedule = () => {
             </div>
           </div>
         </form>
-        <BlockOffTime token={token}></BlockOffTime>
+       { /* <BlockOffTime token={token}></BlockOffTime> */ }
       </div>
     </div>
   );

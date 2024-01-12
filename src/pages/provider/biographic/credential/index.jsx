@@ -19,18 +19,17 @@ const CredentialPage = () => {
   // const id = query.credential;
   // console.log(id);
   const token = getAccessToken();
+  //! get all clearence data api
+  const { data: clearences, isLoading: clearenceLoading } =
+    useGetClearenceQuery({
+      token,
+      page: 1,
+      id: 1,
+    });
 
   //! get all credential data api
   const { data: credentials, isLoading: credentialsLoading } =
     useGetCredentialsQuery({
-      token,
-      page: 1,
-      // id: id,
-    });
-
-  //! get all clearence data api
-  const { data: clearences, isLoading: clearenceLoading } =
-    useGetClearenceQuery({
       token,
       page: 1,
       // id: id,
@@ -44,7 +43,7 @@ const CredentialPage = () => {
       // id: id,
     });
 
-  console.log("data -> 👉", credentials?.credentialsList);
+  //console.log('qualification -- ',qualification);
 
   if (credentialsLoading || clearenceLoading || qualificationLoading) {
     return <Loading></Loading>;

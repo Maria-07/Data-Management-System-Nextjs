@@ -5,24 +5,28 @@ export const qualificationApi = api.injectEndpoints({
     //Get qualification
     getQualification: builder.query({
       query: ({ token, page, id }) => ({
-        url: `inadmin/provider/qualification/list`,
-        method: "POST",
+        //url: `inadmin/provider/qualification/list`,
+        //method: "POST",
+        url: `qualification`,
+        method: "GET",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
-        body: JSON.stringify({ page, id }),
+        //body: JSON.stringify({ page, id }),
       }),
       providesTags: ["Qualification"],
     }),
     //Add qualification
     addQualification: builder.mutation({
       query: ({ token, payload }) => ({
-        url: "inadmin/provider/qualification/save",
+        url: "/qualification/create",
         method: "POST",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
         body: JSON.stringify(payload),
       }),
@@ -43,11 +47,12 @@ export const qualificationApi = api.injectEndpoints({
     //Update qualification info
     updateQualification: builder.mutation({
       query: ({ token, payload }) => ({
-        url: "inadmin/provider/qualification/update",
+        url: "qualification/update",
         method: "POST",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
         body: JSON.stringify(payload),
       }),
@@ -56,11 +61,12 @@ export const qualificationApi = api.injectEndpoints({
     //Delete qualification by id
     deleteQualification: builder.mutation({
       query: ({ token, payload }) => ({
-        url: `inadmin/provider/qualification/delete`,
+        url: `qualification/delete`,
         method: "POST",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
         body: JSON.stringify(payload),
       }),

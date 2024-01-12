@@ -18,6 +18,9 @@ import { useEffect, useState } from "react";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import { useSelector } from "react-redux";
 import Loading from "@/component/UI/Layouts/Loading";
+import Image from "next/image";
+import { toast } from "react-toastify";
+import { useGetPatientInfoQuery, useDeleteSignatureMutation, useUpdateSignatureMutation, useUpdatePatientMutation } from "@/Redux/features/patient/patient-info/patientInfoApi";
 
 const { TextArea } = Input;
 
@@ -29,6 +32,136 @@ const PatientInfo = () => {
   const [signatureUpload, setSignatureUpload] = useState("");
   const token = getAccessToken();
   const [hook, setHook] = useState("");
+  const [imageData,setImageData] = useState(null);
+  const [filenameData,setFilenameData] = useState(null);
+  const [uploadButton,setUploadButton] = useState(false);
+
+  //File Upload
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      setSelectedFile(file);
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
+// update patient info
+const [
+  updatePatientInfo,
+   { isSuccess: patientUpdateSuccess, isError: patientUpdateError },
+ ] = useUpdatePatientMutation();
+
+useEffect(() => {
+  if (patientUpdateSuccess) {
+    toast.success("Patient info updated successfully", {
+      position: "top-center",
+      autoClose: 5000,
+      theme: "dark",
+      style: { fontSize: "12px" },
+    });
+  } else if (patientUpdateError) {
+    toast.error("Some Error Occured", {
+      position: "top-center",
+      autoClose: 5000,
+      theme: "dark",
+      style: { fontSize: "12px" },
+    });
+  }
+}, [patientUpdateSuccess, patientUpdateError]);
+
+// update signature
+  const [
+    updateSignature,
+     { isSuccess: signUpdateSuccess, isError: signUpdateError },
+   ] = useUpdateSignatureMutation();
+  const uploadSignature = () => {
+    const signData = imageData.split(',');
+    updateSignature({
+      token,
+      payload:{patient_id:id,signature_file_name:filenameData,signature_file:signData[1]},
+    });
+    
+  }
+
+  useEffect(() => {
+    if (signUpdateSuccess) {
+      toast.success("Signature updated successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else if (signUpdateError) {
+      toast.error("Some Error Occured", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [signUpdateSuccess, signUpdateError]);
+
+  // delete signature
+  const [
+    deleteSignature,
+     { isSuccess: signDeleteSuccess, isError: signDeleteError },
+   ] = useDeleteSignatureMutation();
+  const deletePreview = () => {
+    setPreviewUrl(null);
+    setSelectedFile(null);
+    setUploadButton(false);
+    deleteSignature({
+      token,
+      payload:{patient_id:id},
+    });
+  };
+  useEffect(() => {
+    if (signDeleteSuccess) {
+      toast.success("Signature deleted successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else if (signDeleteError) {
+      toast.error("Some Error Occured", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [signDeleteSuccess, signDeleteError]);
+  const convertBase64 =  (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file)
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      }
+      fileReader.onerror = (error) => {
+        reject(error);
+      }
+    })
+  }
+
+const handleFileRead = async (event) => {
+  const file = event.target.files[0];
+  setFilenameData(file.name);
+  const base64 =  await convertBase64(file);
+  setImageData(base64);
+  setUploadButton(true);
+}
 
   //! Id get
   const router = useRouter();
@@ -36,19 +169,22 @@ const PatientInfo = () => {
   const id = query.patientInfo;
   console.log(id);
 
-  //! fetch Patient's info
-  // const data = useSelector(
-  //   (state) => state?.patientInfo?.patientDetails?.data?.client_info || {}
-  // );
-  // console.log("data", data);
-  const data = useSelector((state) => state.patientInfo);
+  const { data: PatienInfoData, isLoading: patientinfoloading } =
+  useGetPatientInfoQuery({
+    token,
+    id
+  });
 
-  console.log("Initial Data Coming from database", data);
+
+const data = id > 0 ? PatienInfoData?.patient_info[0] : [];
+
+
+console.log('data -- ',data);
   const patient_details = data?.patientDetails?.data?.client_info;
   const patientOtherDetails = data?.patientDetails?.data?.client_other_info;
   const loading = data?.loading;
-  const primaryPhone = patient_details?.phone_number;
-  const primaryEmail = patient_details?.email;
+  const primaryPhone = data?.patient_phone_number;
+  const primaryEmail = data?.patient_email;
 
   console.log("patient details", patient_details);
   console.log("patient other details", patientOtherDetails);
@@ -57,8 +193,8 @@ const PatientInfo = () => {
   console.log("dob", dob);
   //for showing default date in real time
   useEffect(() => {
-    setDob(patient_details?.client_dob);
-  }, [patient_details?.client_dob]);
+    setDob(data?.patient_dob);
+  }, [data?.patient_dob]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -66,40 +202,31 @@ const PatientInfo = () => {
     }, 1000);
   }, [patient_details]);
 
-  console.log(
+  /*console.log(
     "data?.patientDetails?.data?.address-",
     data?.patientDetails?.data?.address
-  );
+  );*/
 
   const { register, control, handleSubmit, reset, setValue, getValues } =
     useForm({
       defaultValues: {
-        // address: patient_details?.client_address,
-        // number: patient_details?.client_phone,
-        // Email: patient_details?.client_email,
-        // new code added
-        address: data?.patientDetails?.data?.address,
-        number: data?.patientDetails?.data?.phones,
-        // number: patient_details?.client_phone,
-        Email: data?.patientDetails?.data?.emails,
+        address: data?.patient_other_addresses,
+        number: data?.patient_other_phone_number,
+        Email: data?.patient_other_email,
       },
     });
 
   // this code very important
   useEffect(() => {
     reset({
-      number: data?.patientDetails?.data?.phones,
-      address: data?.patientDetails?.data?.address,
-      Email: data?.patientDetails?.data?.emails,
-
-      // address: patient_details?.client_address,
-      // number: patient_details?.client_phone,
-      // Email: patient_details?.client_email,
+      address: data?.patient_other_addresses,
+      number: data?.patient_other_phone_number,
+      Email: data?.patient_other_email,
     });
   }, [
-    data?.patientDetails?.data?.address,
-    data?.patientDetails?.data?.emails,
-    data?.patientDetails?.data?.phones,
+    data?.patient_other_addresses,
+    data?.patient_other_phone_number,
+    data?.patient_other_email,
     reset,
   ]);
   // patient_details?.client_address, patient_details?.client_email, patient_details?.client_phone, reset
@@ -107,7 +234,7 @@ const PatientInfo = () => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "address",
-    // name: "number",
+    keyName: "addressId"
   });
 
   const {
@@ -116,8 +243,8 @@ const PatientInfo = () => {
     remove: phoneRemove,
   } = useFieldArray({
     control,
-    // name: "address",
     name: "number",
+    keyName: "phoneId"
   });
 
   const {
@@ -127,65 +254,113 @@ const PatientInfo = () => {
   } = useFieldArray({
     control,
     name: "Email",
+    keyName: "emailId"
   });
 
   useEffect(() => {
     // you can do async server request and fill up form
     setTimeout(() => {
       reset({
-        first_name: patient_details?.client_first_name,
-        middle_name: patient_details?.client_middle
-          ? patient_details?.client_middle
-          : null,
-        last_name: patient_details?.client_last_name,
-        login_email: patient_details?.login_email,
-        zone: patient_details?.zone,
-        gender: patient_details?.client_gender,
-        fruit: patient_details?.client_gender,
-        checkedActive: patient_details?.is_active_client,
+        first_name: data?.patient_first_name,
+        middle_name: data?.patient_middle_name ? patient_details?.patient_middle_name : null,
+        last_name: data?.patient_last_name,
+        login_email: data?.patient_email,
+        zone: data?.zone,
+        gender: data?.patient_gender,
+        race_details: data?.race_ethnicity,
+        language: data?.preferred_language,
+        first_date: data?.patient_date_first_seen,
+        assignment: data?.asignment,
+        group2: data?.patient_email_type,
+        email_ok:data?.patient_email_reminder==1 ? true : false,
+        patient_parent_first_name: data?.patient_parent_first_name,
+        patient_parent_last_name:data?.patient_parent_last_name,
+        //checkedActive: patient_details?.is_active_client,
         // address
-        client_street: patient_details?.client_street,
-        client_city: patient_details?.client_city,
-        client_state: patient_details?.client_state,
-        client_zip: patient_details?.client_zip,
+        client_street: data?.patient_main_address?.street,
+        client_city: data?.patient_main_address?.city,
+        client_state: data?.patient_main_address?.state,
+        client_zip: data?.patient_main_address?.zip,
         // all gurantor
-        guarantor_first_name:
-          patient_details?.client_granter?.guarantor_first_name,
-        guarantor_last_name:
-          patient_details?.client_granter?.guarantor_last_name,
-        guarantor_first_name:
-          patient_details?.client_granter?.guarantor_first_name,
-        guarantor_last_name:
-          patient_details?.client_granter?.guarantor_last_name,
-        guarantor_check_Date: patient_details?.client_granter?.guarantor_dob,
-        GuaratorStreet: patient_details?.client_granter?.g_street,
-        GuaratorCity: patient_details?.client_granter?.g_city,
-        GuratorCountry: patient_details?.client_granter?.g_state,
-        GuratorZip: patient_details?.client_granter?.g_zip,
-        relationship: patientOtherDetails?.relationship,
+        guarantor_first_name: data?.patient_guarantor_info?.guarantor_first_name,
+        guarantor_last_name:data?.patient_guarantor_info?.guarantor_last_name,
+        guarantor_check_Date: data?.patient_guarantor_info?.guarantor_dob,
+        GuaratorStreet: data?.patient_guarantor_info?.guarantor_street,
+        GuaratorCity: data?.patient_guarantor_info?.guarantor_city,
+        GuratorCountry: data?.patient_guarantor_info?.guarantor_state,
+        GuratorZip: data?.patient_guarantor_info?.guarantor_zip,
+        notes:data?.patient_notes,
+        background_color:data?.background_color,
+        //relationship: data?.patient_relationship,
       });
-      if (patientOtherDetails?.relationship !== "Self") {
+      setPreviewUrl(null);
+      if(data?.patient_signature !='')
+      {
+        setPreviewUrl('data:image/png;base64,'+data?.patient_signature);
+      }
+   
+      if (data?.patient_relationship !== "Self") {
         setGuarantor(true);
-        setRelation(patientOtherDetails?.relationship);
+        setRelation(data?.patient_relationship);
       } else {
         setGuarantor(false);
-        setRelation(patientOtherDetails?.relationship);
+        setRelation(data?.patient_relationship);
       }
     }, 0);
-  }, [patientOtherDetails?.relationship, patient_details, reset]);
-
+  }, [data?.patient_relationship, data, reset]);
   const onSubmit = (data) => {
-    console.log(data);
-    const is_client_active = data?.checkedActive ? 1 : 0;
-    const formData = {
-      is_client_active,
-    };
-    console.log(formData);
-    //console.log(file);
+    console.log('Full Data', data);
+    const payload = {
+      "patient_id": id,
+      "patient_first_name": data.first_name,
+      "patient_middle_name": data.middle_name,
+      "patient_last_name": data.last_name,
+      "patient_dob": data.guarantor_check_Date,
+      "patient_gender": data.gender,
+      "patient_relationship": data.relationship,
+      "patient_parent_first_name": data.patient_parent_first_name,
+      "patient_parent_last_name": data.patient_parent_last_name,
+      "patient_main_address": {
+        "street": data.client_street,
+        "city": data.client_city,
+        "state": data.client_state,
+        "zip": data.client_zip,
+      },
+      "patient_other_addresses": data.address,
+      "patient_email":  data.login_email,
+      "patient_email_type":  data.group2,
+      "patient_email_reminder":  data.send_mail,
+      "patient_other_email": data.Email,
+      "patient_phone_number":  data.phone_number,
+      "patient_phone_is_send_sms":  data.phonecheck,
+      "patient_other_phone_number": data.number,
+      "pos": data.pos,
+      "zone": data.zone,
+      "race_ethnicity": data.race_details,
+      "preferred_language": data.language,
+      "patient_date_first_seen": data.first_date,
+      "asignment": data.phonecheck,
+      "patient_guarantor_info": {
+        "guarantor_first_name": data.guarantor_first_name,
+        "guarantor_last_name": data.guarantor_last_name,
+        "guarantor_dob": data.guarantor_check_Date,
+        "guarantor_street": data.GuaratorStreet,
+        "guarantor_city": data.GuaratorCity,
+        "guarantor_state": data.GuratorCountry,
+        "guarantor_zip": data.GuratorZip,
+      },
+      "patient_notes": data.notes,
+      "background_color": data.background_color,
+    }
+    console.log('payload - ', payload);
+    updatePatientInfo({
+      token,
+      payload
+    });
   };
 
   ///relation value handle
-  const [relation, setRelation] = useState(patientOtherDetails?.relationship);
+  const [relation, setRelation] = useState(data?.patient_relationship );
   const settingRelation = (e) => {
     console.log("e value", e.target.value);
     if (e.target.value === "Self") {
@@ -279,7 +454,7 @@ const PatientInfo = () => {
             <div className="pr-6">
               <PrimaryAddress append={append} rg={register} />
               <br></br>
-              {patient_details?.admin_id && (
+              {/* {patient_details?.admin_id && (
                 <DynamicAddress
                   adData={{
                     fields,
@@ -287,7 +462,15 @@ const PatientInfo = () => {
                     remove,
                   }}
                 />
-              )}
+              )} */}
+              <DynamicAddress
+                adData={{
+                  fields,
+                  register,
+                  remove,
+                }}
+                patientId={id}
+              />
 
               {/* <div className=" grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 my-1 gap-x-4 gap-y-2"> */}
               <div className=" flex items-center justify-between my-1 gap-x-4 gap-y-2">
@@ -350,6 +533,7 @@ const PatientInfo = () => {
                     phoneRemove,
                     register,
                   }}
+                  patientId={id}
                 />
               </motion.div>
             </div>
@@ -374,12 +558,13 @@ const PatientInfo = () => {
                     emailFields,
                     emailRemove,
                   }}
+                  patientId={id}
                 />
               </motion.div>
             </div>
           </div>
 
-          <AboutPatient register={register}></AboutPatient>
+          <AboutPatient register={register} patientData={data} setValue={setValue} getValues={getValues}></AboutPatient>
           <Divider></Divider>
           <div className="flex ml-1 mt-1 items-center">
             <input
@@ -424,7 +609,7 @@ const PatientInfo = () => {
           )}
 
           <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6  mr-2 gap-x-3 gap-y-1 my-5">
-            <div className="w-full">
+            {/* <div className="w-full">
               <label className="label">
                 <span className=" label-font">Insurance:</span>
               </label>
@@ -436,19 +621,82 @@ const PatientInfo = () => {
                 <option value="Telehealth">Telehealth</option>
                 <option value="Home">Home</option>
               </select>
+            </div> */}
+            <div className="w-full sm:col-span-2">
+              <div className="label mb-2">
+                <span className=" label-font">Patient Notes</span>
+              </div>
+              <textarea
+                className="input-border input-font py-[1px] w-full focus:outline-none"
+                {...register("notes")}
+                rows={4}
+                cols={40}
+              />
             </div>
             <div className="w-full sm:col-span-2">
               <div className="label mb-2">
-                <span className=" label-font">Patient Notes:</span>
+                <span className=" label-font">Upload Signature</span>
               </div>
-              <TextArea rows={4} placeholder=" Notes" size="large" />
+              <div
+                class="flex items-center justify-center w-full"
+                onChange={handleFileChange}
+              >
+                <label
+                  for="dropzone-file"
+                  class="flex flex-col items-center justify-center w-full h-[100px] border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                >
+                  <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg
+                      class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 16"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                      />
+                    </svg>
+                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                      <span class="font-semibold">Select your Signature</span>
+                    </p>
+                  </div>
+                  <input id="dropzone-file" type="file" class="hidden"               
+                  onChange={handleFileRead}/>
+                </label>
+              </div>
             </div>
-            <div className="w-full sm:col-span-2">
+            {previewUrl && (
+              <div className="w-full sm:col-span-2">
+                <div className="label mb-2">
+                  <span className="label-font">Preview</span>
+                </div>
+                <div className="h-[100px] border border-gray-600 rounded p-2 flex">
+                  <img src={previewUrl} alt="Preview" className="w-[95%]" /> 
+                  <button
+                    id="delete-btn"
+                    onClick={deletePreview}
+                    className="w-[5%] text-rose-600 font-bold text-center"
+                  >
+                    X
+                  </button>
+                </div>
+                <div class="text-center">
+                  {uploadButton && (<span  className="dtm-button" onClick={uploadSignature}>Upload Signature</span>) }
+                </div>
+              </div>
+            )}
+
+            {/* <div className="w-full sm:col-span-2">
               <div className="label mb-2">
                 <span className=" label-font">Additional Information:</span>
               </div>
               <TextArea rows={4} placeholder="Notes" size="large" />
-            </div>
+            </div> */}
 
             {/* <div className="ml-2 mt-[12px] ">
               <CustomFileUploader
@@ -459,8 +707,8 @@ const PatientInfo = () => {
             </div> */}
           </div>
 
-          <div className="my-10">
-            <div className="flex items-center justify-around gap-2 mb-4 ">
+          {/* <div className="my-10"> */}
+          {/* <div className="flex items-center justify-around gap-2 mb-4 ">
               <h3 className="text-sm font-semibold w-80">Treatment </h3>
               <h3 className="text-sm font-semibold w-80 text-center">
                 Physician Type
@@ -480,8 +728,8 @@ const PatientInfo = () => {
               <h3 className="text-sm font-semibold w-80 text-center">
                 Diagnosis4
               </h3>
-            </div>
-            <div className="flex items-center justify-around gap-5 mb-4 ">
+            </div> */}
+          {/* <div className="flex items-center justify-around gap-5 mb-4 ">
               <h3 className="text-sm font-medium w-80">Behavioral therapy </h3>
               <h3 className="text-sm font-medium w-80 text-center">
                 <select
@@ -535,8 +783,8 @@ const PatientInfo = () => {
                   {...register("provider_level")}
                 />
               </h3>
-            </div>
-            <div className="flex items-center justify-around gap-5 mb-4 ">
+            </div> */}
+          {/* <div className="flex items-center justify-around gap-5 mb-4 ">
               <h3 className="text-sm font-medium w-80">Mental Health </h3>
               <h3 className="text-sm font-medium w-80 text-center">
                 <select
@@ -590,8 +838,8 @@ const PatientInfo = () => {
                   {...register("provider_level")}
                 />
               </h3>
-            </div>
-            <div className="flex items-center justify-around gap-5 mb-4 ">
+            </div> */}
+          {/* <div className="flex items-center justify-around gap-5 mb-4 ">
               <h3 className="text-sm font-medium w-80">Mucsic Therapy</h3>
               <h3 className="text-sm font-medium w-80 text-center">
                 <select
@@ -645,12 +893,12 @@ const PatientInfo = () => {
                   {...register("provider_level")}
                 />
               </h3>
-            </div>
+            </div> */}
 
-            {/* {!otherSetupLoading ? (
+          {/* {!otherSetupLoading ? (
             <Loading />
           ) : ( */}
-            {/* {loading ? (
+          {/* {loading ? (
               <p>loading</p>
             ) : (
               <OtherSetUpBottom
@@ -658,8 +906,8 @@ const PatientInfo = () => {
                 propdata={{ register, txTypedata, loading }}
               />
             )} */}
-            {/* )} */}
-          </div>
+          {/* )} */}
+          {/* </div> */}
           <div className="mb-24">
             {/* submit  */}
             <button className="dtm-button my-3" type="submit">

@@ -7,10 +7,10 @@ const MultiSelectGlobal = ({ allData, setId }) => {
     let processedData = [];
     if (allData) {
       for (let x of allData) {
-        if (x?.ledger_patient?.client_full_name !== null) {
+        if (x?.id !== null) {
           processedData.push({
-            label: x?.ledger_patient?.client_full_name,
-            value: x?.ledger_patient?.client_full_name,
+            label: x?.name,
+            value: x?.name,
             id: x?.id,
           });
         }
@@ -32,7 +32,7 @@ const MultiSelectGlobal = ({ allData, setId }) => {
   useEffect(() => {
     const getSelectedClients = async () => {
       const getId = selected.map((item) => item.id);
-      //   setId(getId);
+      setId(getId);
       // setSortBy1("");
     };
     getSelectedClients();

@@ -13,8 +13,8 @@ const PatientStatusAction = ({ s }) => {
         onChange={(e) => handleStatus(e)}
         className="border w-full rounded-md lg:px-5 py-[4px]"
       >
-        <option value="1">Active</option>
-        <option value="2">In-Active</option>
+        <option value="active">Active</option>
+        <option value="in_active">In-Active</option>
       </select>
     </div>
   );

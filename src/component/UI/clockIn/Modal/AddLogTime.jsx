@@ -2,15 +2,57 @@ import { Input, Modal } from "antd";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { IoMdCloseCircleOutline } from "react-icons/io";
+import { useEffect } from "react";
+import { useManualPunchMutation } from "@/Redux/features/clockin/clockinApi";
+import { getAccessToken } from "@/Redux/api/apiSlice";
+import { toast } from "react-toastify";
 
 const { TextArea } = Input;
 
-const AddLogTime = ({ handleClose, open }) => {
-  const { register, handleSubmit, reset } = useForm();
-  const onChange = (e) => {
-    console.log("Change:", e.target.value);
+const AddLogTime = ({ handleClose, open, selectedRecord,getRecords }) => {
+  
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const token = getAccessToken();
+  useEffect(()=>{
+    reset({ punch_date: selectedRecord.punch_date});
+  },[])
+
+  const [
+    manualPunch,
+    { isSuccess: manualPunchSuccess, isError: manualPunchError },
+  ] = useManualPunchMutation();
+
+  useEffect(() => {
+    if (manualPunchSuccess) {
+      getRecords();
+      handleClose();
+      toast.success("Successfully Added", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+      });
+    } else if (manualPunchError) {
+      toast.error("Some Error Occured", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+      });
+    }
+    //handleClose dependency tey na dileo choley cuz aita change hoy na
+  }, [manualPunchSuccess, manualPunchError, handleClose]);
+
+  const onSubmit = (data) => {    
+    const payload = {
+      punch_date:data?.punch_date,
+      time_in:data?.time_in,
+      time_out:data?.time_out,
+      note:data?.note,
+    }
+    manualPunch({
+      token,
+      payload
+    })
   };
-  const onSubmit = (data) => {};
   return (
     <div>
       <Modal
@@ -43,10 +85,11 @@ const AddLogTime = ({ handleClose, open }) => {
                   <div className="modal-label-name">Date</div>
                 </label>
                 <input
-                  type="text"
+                  type="date"
                   name="clear_type"
                   className="modal-input-field ml-1 w-full"
-                  {...register("clear_type")}
+                  {...register("punch_date")}
+                  readOnly
                 />
               </div>
 
@@ -57,8 +100,20 @@ const AddLogTime = ({ handleClose, open }) => {
                 <input
                   type="time"
                   className="modal-input-field ml-1 w-full"
-                  {...register("date_issue")}
+                  {...register("time_in", {
+                    required: {
+                      value: true,
+                      message: "Please select the clock in",
+                    }
+                  })}
                 />
+                <span className="label-text-alt">
+                  {errors.time_in?.type === "required" && (
+                    <p className=" text-xs text-red-500 pl-1 pt-[1px]">
+                      {errors.time_in.message}
+                    </p>
+                  )}
+                </span>
               </div>
               <div>
                 {" "}
@@ -68,21 +123,43 @@ const AddLogTime = ({ handleClose, open }) => {
                 <input
                   type="time"
                   className="modal-input-field ml-1 w-full"
-                  {...register("date_expire")}
+                  {...register("time_out", {
+                    required: {
+                      value: true,
+                      message: "Please select the clock out",
+                    }
+                  })}
                 />
+                <span className="label-text-alt">
+                  {errors.time_out?.type === "required" && (
+                    <p className=" text-xs text-red-500 pl-1 pt-[1px]">
+                      {errors.time_out.message}
+                    </p>
+                  )}
+                </span>
               </div>
               <div className="sm:col-span-2">
                 <label className="label">
                   <div className="modal-label-name">Write Note Here:</div>
                 </label>
-                <TextArea
-                  showCount
-                  // style={{ height: 120, marginBottom: 24 }}
-                  rows={3}
-                  onChange={onChange}
-                  className=""
-                  placeholder="can resize"
+                <textarea
+                  className="input-border input-font py-[1px] w-full focus:outline-none"
+                  {...register("note", {
+                    required: {
+                      value: true,
+                      message: "Please enter the note",
+                    }
+                  })}
+                  rows={4}
+                  cols={40}
                 />
+                <span className="label-text-alt">
+                  {errors.note?.type === "required" && (
+                    <p className=" text-xs text-red-500 pl-1 pt-[1px]">
+                      {errors.note.message}
+                    </p>
+                  )}
+                </span>
               </div>
             </div>
             <div className="bg-gray-200 py-[1px] mt-10"></div>

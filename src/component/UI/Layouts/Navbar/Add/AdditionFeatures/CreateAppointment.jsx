@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CreateAppointmentAvailability from "./CreateAppointmentAvailability/CreateAppointmentAvailability";
 import { Modal, Switch, TimePicker } from "antd";
 import { useForm } from "react-hook-form";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { getAccessToken } from "@/Redux/api/apiSlice";
+import axios from "axios";
 
 const CreateAppointment = ({ handleClose, clicked }) => {
   // console.log(handleClose, clicked);
@@ -16,6 +18,38 @@ const CreateAppointment = ({ handleClose, clicked }) => {
   const [authId, setAuthId] = useState(0);
   const [fromtime, setFromTime] = useState(null);
   const [toTime, setToTime] = useState(null);
+  const token = getAccessToken();
+  const [patients, setPatients] = useState([]);
+
+  //! fetch all patients using InfiniteScrolling
+  const fetchPatients = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_ADMIN_URL}/patient/list`,
+        {
+          page:1,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            method: "POST",
+            "Authorization": token || null,
+          },
+        }
+      );
+      const data = response?.data?.patients?.data;
+      setPatients(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    fetchPatients(); // Fetch initial data
+  }, []);
+  console.log('patients - ',patients);
 
   // For Non-billable appointment create=>provider select
   const [seletedProvider, setSelectedProvider] = useState([]);
@@ -51,22 +85,10 @@ const CreateAppointment = ({ handleClose, clicked }) => {
     "Saturday",
   ];
 
-  // // testing single calendar
-  // const [date, setDate] = useState(new Date());
-  // const [openCalendar, setOpenCalendar] = useState(false);
-  // const changeDate = (date) => {
-  //   setDate(date);
-  // };
-  // console.log(date);
+const getActiveAuth = (id) => {
+  
+}
 
-  // const month = date ? date.getMonth() + 1 : null;
-  // const day = date ? date.getDate() : null;
-  // const year = date ? date.getFullYear() : null;
-
-  // const handleCancelDate = () => {
-  //   // setOpenCalendar(false);
-  //   setDate(null);
-  // };
   const month = date ? date.toLocaleString("en-us", { month: "long" }) : null;
   const currentDate = date ? date.getDate() : null;
   const year = date ? date.getFullYear() : null;
@@ -207,7 +229,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                 // disabled={patientsNameLoading || !billable ? true : false}
                 className="col-span-2 modal-input-field ml-1 w-full"
                 {...register("client_id")}
-                onChange={(e) => setClientId(e.target.value)}
+                onChange={(e) => getActiveAuth(e.target.value)}
               >
                 {!billable ? (
                   <option disabled value={1}>
@@ -215,14 +237,14 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                   </option>
                 ) : (
                   <>
-                    <option value="0">Select Patient</option>
-                    {/* {patientsName?.claims?.map((patient) => {
+                    <option value="">Select Patient</option>
+                    {patients?.map((patient) => {
                       return (
-                        <option key={patient?.id} value={patient?.id}>
-                          {patient?.client_full_name}
+                        <option key={patient?.patient_id} value={patient?.patient_id}>
+                          {patient?.patient_full_name}
                         </option>
                       );
-                    })} */}
+                    })}
                   </>
                 )}
               </select>
@@ -230,11 +252,6 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                 <span className="modal-label-name">Auth</span>
               </label>
               <select
-                // disabled={
-                //   patientAuthLoading || patientAuthError || !billable
-                //     ? true
-                //     : false
-                // }
                 className="col-span-2 modal-input-field ml-1 w-full"
                 {...register("authorization_id")}
                 onChange={(e) => setAuthId(e.target.value)}
@@ -246,24 +263,6 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                 ) : (
                   <>
                     <option value="0">Select Auth</option>
-                    {/* {patientAuthData?.claims?.map((auth) => {
-                      return (
-                        <option key={auth?.id} value={auth?.id}>
-                          {auth?.description +
-                            `(${
-                              auth?.onset_date +
-                              " " +
-                              "to" +
-                              " " +
-                              auth?.end_date
-                            })` +
-                            " " +
-                            "|" +
-                            " " +
-                            auth?.authorization_number}
-                        </option>
-                      );
-                    })} */}
                   </>
                 )}
               </select>

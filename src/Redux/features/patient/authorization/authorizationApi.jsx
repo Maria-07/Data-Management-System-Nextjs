@@ -5,14 +5,15 @@ export const patientAuthorizationApi = api.injectEndpoints({
     //handle auth endpoint here
     //get patient authorization api
     getPatientAuthorization: builder.query({
-      query: ({ token, payload }) => ({
-        url: `inadmin/patient/authorization/list`,
-        method: "POST",
+      query: ({ token, id }) => ({
+        url: `patient/authorization/${id}`,
+        method: "GET",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
-        body: JSON.stringify(payload),
+        //body: JSON.stringify(payload), 
       }),
       providesTags: ["PatientAuthorizationTable"],
     }),
@@ -32,7 +33,8 @@ export const patientAuthorizationApi = api.injectEndpoints({
     //get patient single authorization info
     getPatientAuthorizationInfo: builder.query({
       query: ({ token, id }) => ({
-        url: `inadmin/patient/authorization/single/${id}`,
+        //url: `inadmin/patient/authorization/single/${id}`,
+        url: `patient/authorization/details/${id}`,
         method: "GET",
         headers: {
           "content-type": "Application/json",
@@ -60,7 +62,8 @@ export const patientAuthorizationApi = api.injectEndpoints({
     //update Authorization Info
     patientAuthorizationUpdate: builder.mutation({
       query: ({ token, payload }) => ({
-        url: `inadmin/patient/authorization/update`,
+        //url: `inadmin/patient/authorization/update`,
+        url: `patient/authorization/update`,
         method: "POST",
         headers: {
           "content-type": "Application/json",
@@ -88,14 +91,16 @@ export const patientAuthorizationApi = api.injectEndpoints({
     //---------Patient Authorization Activity---------------
     //Get Patient Authorization Activity api
     getPatientAuthorizationActivity: builder.query({
-      query: ({ token, payload }) => ({
-        url: `inadmin/patient/authorization/activity/list`,
-        method: "POST",
+      query: ({ token, id }) => ({
+        //url: `inadmin/patient/authorization/activity/list`,
+        url: `patient/authorization/service/list/${id}`,
+        method: "GET",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
-        body: JSON.stringify(payload),
+        //body: JSON.stringify(payload),
       }),
       providesTags: ["PatientAuthorizationActivity"],
     }),
@@ -217,7 +222,7 @@ export const {
   usePatientAuthorizationUpdateMutation,
   usePatientAuthorizationDeleteMutation,
   useGetPatientAuthorizationActivityQuery,
-  usePatientAuthorizationActivityInfoQuery,
+  usePatientAuthorizationActivityInfoQuery, 
   usePatientAuthorizationActivityCreateMutation,
   usePatientAuthorizationActivityUpdateMutation,
   usePatientAuthorizationActivityDeleteMutation,

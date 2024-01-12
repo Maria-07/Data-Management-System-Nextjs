@@ -54,9 +54,9 @@ const AuthorizationActivityNestedTable = ({
   const columns = [
     {
       title: "Service",
-      dataIndex: "activity_name",
-      key: "activity_name",
-      width: 150,
+      dataIndex: "service_name",
+      key: "service_name",
+      /*width: 150,
       render: (_, record) => {
         return (
           <h1>
@@ -68,83 +68,83 @@ const AuthorizationActivityNestedTable = ({
         return a.service > b.service ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "service" ? sortedInfo.order : null,
-      ellipsis: false,
+      ellipsis: false,*/
     },
     {
       title: "Max By",
-      dataIndex: "billed_type",
-      key: "billed_type",
+      dataIndex: "max_by",
+      key: "max_by",
       width: 100,
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.billed_type > b.billed_type ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "max_by" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
 
     {
       title: "Frequency",
-      dataIndex: "hours_max_per_one",
-      key: "hours_max_per_one",
+      dataIndex: "frequency",
+      key: "frequency",
       width: 100,
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.hours_max_per_one > b.hours_max_per_one ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder:
         sortedInfo.columnKey === "hours_max_per_one" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Auth",
-      dataIndex: "hours_max_is_one",
-      key: "hours_max_is_one",
+      dataIndex: "auth",
+      key: "auth",
       width: 100,
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.hours_max_is_one > b.hours_max_is_one ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder:
         sortedInfo.columnKey === "hours_max_is_one" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Scheduled",
       dataIndex: "scheduled",
       key: "scheduled",
       width: 100,
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.scheduled > b.scheduled ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "scheduled" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Rendered",
-      dataIndex: "Rendered",
-      key: "Rendered",
+      dataIndex: "rendered",
+      key: "rendered",
       width: 100,
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.Rendered > b.Rendered ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "Rendered" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Remaining",
       dataIndex: "remaining",
       key: "remaining",
       width: 100,
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.remaining > b.remaining ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "remaining" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Start Date",
-      dataIndex: "onset_date",
-      key: "onset_date",
+      dataIndex: "start_date",
+      key: "start_date",
       width: 100,
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.onset_date > b.onset_date ? -1 : 1; //sorting problem solved using this logic
       },
       render: (_, { onset_date }) => {
@@ -152,23 +152,23 @@ const AuthorizationActivityNestedTable = ({
       },
       sortOrder:
         sortedInfo.columnKey === "onset_date" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "End Date",
       dataIndex: "end_date",
       key: "end_date",
       width: 100,
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.end_date > b.end_date ? -1 : 1; //sorting problem solved using this logic
       },
       render: (_, { end_date }) => {
         return <h1 className="font-bold">{end_date}</h1>;
       },
       sortOrder: sortedInfo.columnKey === "end_date" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
-    {
+    /*{
       title: "Action",
       dataIndex: "operation",
       key: "operation",
@@ -180,7 +180,7 @@ const AuthorizationActivityNestedTable = ({
             <div className="flex justify-center gap-1 text-primary">
               {/* <Link to={`/billing/deposit-apply/${row.original.id}`}>
                     <MdOutlineDashboard title="Deposit" />
-                  </Link> */}
+                  </Link> *//*}
 
               <button
                 onClick={() => {
@@ -202,7 +202,7 @@ const AuthorizationActivityNestedTable = ({
           </div>
         </div>
       ),
-    },
+    },*/
   ];
 
   useEffect(() => {

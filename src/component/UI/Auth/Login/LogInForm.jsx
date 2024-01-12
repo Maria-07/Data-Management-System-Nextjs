@@ -46,10 +46,15 @@ const LogInForm = () => {
       }
 
       const accessToken = response?.data?.access_token;
+      const loginuserFullname = response?.data?.user?.full_name;
+      const loginuserEmail = response?.data?.user?.login_email;
+
       console.log("accessToken ", accessToken);
 
       if (accessToken) {
         Cookies.set("accessToken", accessToken); // Store the access token in a cookie
+        Cookies.set("loginuserFullname", loginuserFullname);
+        Cookies.set("loginuserEmail", loginuserEmail);
       }
     } catch (error) {
       console.log("error", error);

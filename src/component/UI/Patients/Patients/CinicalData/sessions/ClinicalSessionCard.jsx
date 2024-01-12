@@ -2,6 +2,11 @@ import { Image } from "antd";
 import React, { useState } from "react";
 import { List } from "antd";
 import SessionProgramModal from "../Modal/SessionProgramModal";
+import { TbCards } from "react-icons/tb";
+import { IoLayers } from "react-icons/io5";
+import { CgMoreVerticalO } from "react-icons/cg";
+import { FaCircleNotch } from "react-icons/fa";
+import Link from "next/link";
 
 function ClinicalSessionCard() {
   const data = [
@@ -18,32 +23,30 @@ function ClinicalSessionCard() {
   };
 
   return (
-    <div className="pb-10 card shadow-md relative ">
-      <div>
-        <div className="h-[270px]">
-          <Image
-            src={
-              "https://firebasestorage.googleapis.com/v0/b/hi-rasmus-341a9.appspot.com/o/programs%2FutdQJO8COXFxjSIz3ubE%2Fcoverphoto.jpg?alt=media&token=280f6513-6489-4510-adbd-d0ad1983065e"
-            }
-            width={"100%"}
-            height={"100%"}
-            alt="Picture of the author"
-          ></Image>
-        </div>
-      </div>
-      <div className="absolute top-[41%] bg-gray-700 bg-opacity-60 w-full py-3 px-4 text-white text-[16px]">
-        <h1>Social/Play: Initiates Peer Interaction</h1>
-      </div>
-      <div
-        onClick={handleSessionProgram}
-        className="p-4 h-[230px] overflow-hidden"
-      >
-        <div className="text-[14px] my-5 text-black font-semibold hover:text-primary">
+    <div className=" w-full card shadow-md ">
+      <Link href={"/provider/library/dataRecording"}>
+        {" "}
+        <div
+          // onClick={handleSessionProgram}
+          className="p-4"
+        >
+          <div className="flex items-center gap-2">
+            <div className="bg-teal-500 p-2 rounded-full">
+              <TbCards className="text-white text-lg" />
+            </div>
+            <div>
+              <h1 className="font-semibold text-sm text-indigo-600">
+                Washing Hands - baseline
+              </h1>
+              <h2 className="text-xs">skill | Trial by Trial</h2>
+            </div>
+          </div>
+          {/* <div className="text-[14px] my-5 text-black font-semibold hover:text-primary">
           Abdullah will be able to initiate a socially appropriate physical
           interaction with a same aged peer in 80% of opportunties across 2
           peers.
-        </div>
-        <div>
+        </div> */}
+          {/* <div>
           <h1>
             <span className="font-semibold">Materials : </span>
           </h1>
@@ -52,8 +55,20 @@ function ClinicalSessionCard() {
             dataSource={data}
             renderItem={(item) => <List.Item>{item}</List.Item>}
           />
+        </div> */}
+          <div className="my-5">
+            <h1 className="font-semibold text-sm mb-1">Created At : </h1>
+            <h1 className="text-xs">System - 08/29/23</h1>
+          </div>
+          <div className="flex items-center justify-around pt-4 border-t-[2px]">
+            <CgMoreVerticalO />
+            <IoLayers />
+            <FaCircleNotch />
+          </div>
+          <div></div>
         </div>
-      </div>
+      </Link>
+
       {sessionProgram && (
         <SessionProgramModal
           title={"Social/Play: Initiates Peer Interaction"}

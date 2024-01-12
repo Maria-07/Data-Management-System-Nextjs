@@ -33,7 +33,7 @@ const menuItem = [
     icon: <BiSolidDashboard />,
   },
   {
-    path: "/library",
+    path: "/provider/library",
     name: "Library",
     icon: <BiLibrary />,
   },

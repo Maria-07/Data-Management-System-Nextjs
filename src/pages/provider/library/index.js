@@ -156,7 +156,7 @@ const libraryPage = () => {
       render: (_, record) => {
         if (record?.type == "folder") {
           return (
-            <Link href={"/library/treatment"}>
+            <Link href={"/provider/library/treatment"}>
               <div className=" flex items-center gap-2 ">
                 <BiSolidFolderOpen className="text-xl text-dark hover:text-primary" />
 
@@ -166,7 +166,7 @@ const libraryPage = () => {
           );
         } else {
           return (
-            <Link href={"/library/treatment"}>
+            <Link href={"/provider/library/treatment"}>
               <div className=" flex items-center gap-2 ">
                 <BiFileBlank className="text-xl text-dark hover:text-primary" />
 
@@ -297,7 +297,7 @@ const libraryPage = () => {
                   className="text-xl text-dark hover:text-primary"
                 />
               </Tooltip>
-              <Link href={"/library/treatment"}>
+              <Link href={"/provider/library/treatment"}>
                 <Tooltip placement="top" color={"#0C356A"} title="Edit">
                   <BiSolidEdit className="text-xl text-dark hover:text-primary" />
                 </Tooltip>

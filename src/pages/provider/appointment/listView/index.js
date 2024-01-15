@@ -11,6 +11,7 @@ import { useGetAppointmentPOSQuery } from "@/Redux/features/Appointment/appointm
 import RootLayout from "@/component/Layouts/RootLayout";
 import Clients from "@/component/UI/Appointment/MultiSelectComponents/Clients";
 import Providers from "@/component/UI/Appointment/MultiSelectComponents/Providers";
+import CardShimmer from "@/component/UI/Layouts/Shimmer/CardShimmer";
 import SessionCard from "@/component/UI/Patients/Patients/CinicalData/SessionsCard";
 import CustomDateRange from "@/shared/CustomDateRange/CustomDateRange";
 import { Switch } from "antd";
@@ -553,18 +554,7 @@ const listViewPage = () => {
           <SessionCard> </SessionCard>
           <SessionCard> </SessionCard>
           <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
+          <CardShimmer></CardShimmer>
         </div>
       </div>
     </div>

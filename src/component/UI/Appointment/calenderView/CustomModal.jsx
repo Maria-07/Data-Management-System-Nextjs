@@ -288,9 +288,11 @@ const CustomModal = ({
                   <option value="Duck duck">Duck duck</option>
                   <option value="Ashni Soni">Ashni Soni</option>
                 </select>
-                <label className="label">
-                  <span className="modal-label-name">Auth</span>
-                </label>
+                {
+                  <label className="label">
+                    <span className="modal-label-name">Auth</span>
+                  </label>
+                }
                 <select
                   className="modal-input-field col-span-2"
                   {...register("auth")}

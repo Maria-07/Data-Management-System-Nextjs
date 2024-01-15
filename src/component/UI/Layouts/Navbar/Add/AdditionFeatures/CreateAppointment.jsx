@@ -16,6 +16,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
   const [authId, setAuthId] = useState(0);
   const [fromtime, setFromTime] = useState(null);
   const [toTime, setToTime] = useState(null);
+  const [therapy, setTherapy] = useState(true);
 
   // For Non-billable appointment create=>provider select
   const [seletedProvider, setSelectedProvider] = useState([]);
@@ -26,6 +27,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
   const availabilityHandler = () => {
     setAvailability(true);
   };
+
   const availabilityHandleClose = () => {
     setAvailability(false);
   };
@@ -183,7 +185,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className=" grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 my-5 mr-2 gap-1 md:gap-2">
               <span className="modal-label-name ml-1 mb-2">App Type</span>
-              <div className="col-span-2 ml-1">
+              <div className="col-span-2 ml-1 mb-1">
                 <Switch
                   defaultChecked
                   size="small"
@@ -198,7 +200,23 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                 >
                   {billable ? "Billable" : "Non-Billable"}
                 </label>
+                <Switch
+                  className="ml-5"
+                  defaultChecked
+                  size="small"
+                  onClick={() => {
+                    setTherapy(!therapy);
+                    reset();
+                  }}
+                />
+                <div
+                  className="form-check-label  inline-block font-medium ml-2 text-[12px] text-gray-600"
+                  htmlFor="flesmwitchCheckDefault"
+                >
+                  {therapy ? "Individual Therapy" : "Group Therapy"}
+                </div>
               </div>
+
               <label className="label">
                 <span className="modal-label-name">Patient Name</span>
               </label>
@@ -226,27 +244,50 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                   </>
                 )}
               </select>
-              <label className="label">
-                <span className="modal-label-name">Auth</span>
-              </label>
-              <select
-                // disabled={
-                //   patientAuthLoading || patientAuthError || !billable
-                //     ? true
-                //     : false
-                // }
-                className="col-span-2 modal-input-field ml-1 w-full"
-                {...register("authorization_id")}
-                onChange={(e) => setAuthId(e.target.value)}
-              >
-                {!billable ? (
-                  <option disabled value={1}>
-                    NONCLI01323_AUTH249
-                  </option>
-                ) : (
-                  <>
-                    <option value="0">Select Auth</option>
-                    {/* {patientAuthData?.claims?.map((auth) => {
+              {!therapy && (
+                <>
+                  <label className="label">
+                    <span className="modal-label-name">Service</span>
+                  </label>
+                </>
+              )}
+              {!therapy && (
+                <>
+                  <div className="col-span-2 flex item-center ml-1">
+                    <Switch defaultChecked size="small" onClick={() => {}} />
+                    <label
+                      className="form-check-label inline-block font-medium ml-2 text-[12px] text-gray-600"
+                      htmlFor="flesmwitchCheckDefault"
+                    >
+                      1232
+                    </label>
+                  </div>
+                </>
+              )}
+              {therapy && (
+                <label className="label">
+                  <span className="modal-label-name">Auth</span>
+                </label>
+              )}
+              {therapy && (
+                <select
+                  // disabled={
+                  //   patientAuthLoading || patientAuthError || !billable
+                  //     ? true
+                  //     : false
+                  // }
+                  className="col-span-2 modal-input-field ml-1 w-full"
+                  {...register("authorization_id")}
+                  onChange={(e) => setAuthId(e.target.value)}
+                >
+                  {!billable ? (
+                    <option disabled value={1}>
+                      NONCLI01323_AUTH249
+                    </option>
+                  ) : (
+                    <>
+                      <option value="0">Select Auth</option>
+                      {/* {patientAuthData?.claims?.map((auth) => {
                       return (
                         <option key={auth?.id} value={auth?.id}>
                           {auth?.description +
@@ -264,44 +305,49 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                         </option>
                       );
                     })} */}
-                  </>
-                )}
-              </select>
-              <label className="label">
-                <span className="modal-label-name">Service</span>
-              </label>
-              <select
-                // disabled={
-                //   authorizationActivityLoading || authorizationActivityError
-                //     ? true
-                //     : false
-                // }
-                className="col-span-2 modal-input-field ml-1 w-full"
-                {...register("activity_id")}
-              >
-                {!billable ? (
-                  <>
-                    <option value={1}>Regular Time</option>
-                    <option value={2}>Training & Admin</option>
-                    <option value={3}>Fill-In</option>
-                    <option value={4}>Other</option>
-                    <option value={5}>Public Holiday</option>
-                    <option value={6}>Paid Time Off</option>
-                    <option value={7}>Unpaid</option>
-                  </>
-                ) : (
-                  <>
-                    <option value="0">Select Activity</option>
-                    {/* {authorizationActivityData?.claims?.map((activity) => {
+                    </>
+                  )}
+                </select>
+              )}
+              {therapy && (
+                <label className="label">
+                  <span className="modal-label-name">Service</span>
+                </label>
+              )}
+              {therapy && (
+                <select
+                  // disabled={
+                  //   authorizationActivityLoading || authorizationActivityError
+                  //     ? true
+                  //     : false
+                  // }
+                  className="col-span-2 modal-input-field ml-1 w-full"
+                  {...register("activity_id")}
+                >
+                  {!billable ? (
+                    <>
+                      <option value={1}>Regular Time</option>
+                      <option value={2}>Training & Admin</option>
+                      <option value={3}>Fill-In</option>
+                      <option value={4}>Other</option>
+                      <option value={5}>Public Holiday</option>
+                      <option value={6}>Paid Time Off</option>
+                      <option value={7}>Unpaid</option>
+                    </>
+                  ) : (
+                    <>
+                      <option value="0">Select Activity</option>
+                      {/* {authorizationActivityData?.claims?.map((activity) => {
                       return (
                         <option key={activity?.id} value={activity?.id}>
                           {activity?.activity_name}
                         </option>
                       );
                     })} */}
-                  </>
-                )}
-              </select>
+                    </>
+                  )}
+                </select>
+              )}
               <label className="label">
                 <span className="modal-label-name">Provider Name</span>
               </label>

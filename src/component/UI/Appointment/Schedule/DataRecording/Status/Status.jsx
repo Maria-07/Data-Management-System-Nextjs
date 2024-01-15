@@ -115,7 +115,7 @@ const Status = ({ s }) => {
           >
             {/* <IoMdNotificationsOutline className="hover:text-primary" />/ */}
             <div className="my-3 flex items-center gap-2  justify-center">
-              <Badge count={count >= 0 ? count : 0} size="small" color="lime">
+              <Badge count={count >= 0 ? count : 0} size="small" color="blue">
                 <button
                   // onClick={handleIncrement}
                   className="px-2 py-3 bg-secondary text-white rounded-md min-w-[100px] max-w-[105px] text-center"

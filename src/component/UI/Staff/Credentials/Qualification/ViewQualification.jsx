@@ -1,12 +1,12 @@
-import { Modal } from "antd";
+import { Image, Modal } from "antd";
 import React from "react";
 import { useState, useEffect } from "react";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import axios from "axios";
 
 const ViewQualification = ({ handleClose, open, token, qualificationlId }) => {
-  console.log('qualificationlId',qualificationlId)
-  const[imageData,setImageData] = useState([]);
+  console.log("qualificationlId", qualificationlId);
+  const [imageData, setImageData] = useState([]);
   useEffect(() => {
     const getImageData = async () => {
       const res = await axios({
@@ -15,19 +15,18 @@ const ViewQualification = ({ handleClose, open, token, qualificationlId }) => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          "Authorization": token || null,
+          Authorization: token || null,
         },
-        data: {qualification_id:qualificationlId}
+        data: { qualification_id: qualificationlId },
       });
       const data = res?.data?.qualification;
       setImageData(data);
     };
     getImageData();
-  }, [qualificationlId]);
+  }, [qualificationlId, token]);
 
-  
-  let imgData ='';
-  if (imageData?.file !== undefined) { 
+  let imgData = "";
+  if (imageData?.file !== undefined) {
     imgData = imageData?.file;
   }
   const onSubmit = (data) => {
@@ -59,9 +58,19 @@ const ViewQualification = ({ handleClose, open, token, qualificationlId }) => {
 
             <div className="bg-gray-200 py-[1px] mt-3"></div>
             <div>
-              <p className="my-5"> 
-              { imgData ? (<img src={"data:image/jpeg;base64," + imgData.replace('dataimage/jpegbase64','')} alt="Preview" className="w-[95%]"  />) : ('Loading')}
-
+              <p className="my-5">
+                {imgData ? (
+                  <Image
+                    src={
+                      "data:image/jpeg;base64," +
+                      imgData.replace("dataimage/jpegbase64", "")
+                    }
+                    alt="Preview"
+                    className="w-[95%]"
+                  />
+                ) : (
+                  "Loading"
+                )}
               </p>
               <div className="bg-gray-200 py-[1px] mt-3"></div>
               <div className="flex gap-3 items-end justify-end mb-2 mt-4">

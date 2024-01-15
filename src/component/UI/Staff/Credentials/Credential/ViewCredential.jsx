@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Image, Modal } from "antd";
 import React from "react";
 import { useState, useEffect } from "react";
 import { IoCloseCircleOutline } from "react-icons/io5";
@@ -23,7 +23,7 @@ const ViewCredential = ({ handleClose, open, token, credentialId }) => {
       setImageData(data);
     };
     getImageData();
-  }, [credentialId]);
+  }, [credentialId,token]);
 
   
   let imgData ='';
@@ -60,7 +60,7 @@ const ViewCredential = ({ handleClose, open, token, credentialId }) => {
             <div className="bg-gray-200 py-[1px] mt-3"></div>
             <div>
               <p className="my-5"> 
-              { imgData ? (<img src={"data:image/jpeg;base64," + imgData.replace('dataimage/jpegbase64','')} alt="Preview" className="w-[95%]"  />) : ('Loading')}
+              { imgData ? (<Image src={"data:image/jpeg;base64," + imgData.replace('dataimage/jpegbase64','')} alt="Preview" className="w-[95%]"  />) : ('Loading')}
 
               </p>
               <div className="bg-gray-200 py-[1px] mt-3"></div>

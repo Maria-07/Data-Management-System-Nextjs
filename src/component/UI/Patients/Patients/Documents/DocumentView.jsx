@@ -4,9 +4,9 @@ import { useForm, useEffect } from "react-hook-form";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 const DocumentView = ({ handleClose, open, imageData }) => {
-  console.log('imageData',imageData)
+  console.log("imageData", imageData);
   const { register, handleSubmit } = useForm();
-  
+
   const onSubmit = (data) => {
     console.log(data);
   };
@@ -37,7 +37,7 @@ const DocumentView = ({ handleClose, open, imageData }) => {
             <div className="bg-gray-200 py-[1px] mt-3"></div>
             <div>
               <p className="my-5">
-                <img src={"data:image/jpeg;base64," + imageData.file.replace('dataimage/jpegbase64','')}  />
+                {/* <img src={"data:image/jpeg;base64," + imageData.file.replace('dataimage/jpegbase64','')}  /> */}
               </p>
               <div className="bg-gray-200 py-[1px] mt-3"></div>
               <div className="flex gap-3 items-end justify-end mb-2 mt-4">

@@ -18,7 +18,33 @@ const patientApi = api.injectEndpoints({
     //   }),
     //   invalidatesTags: [],
     // }),
+    getInsuranceData: builder.query({
+      query: ({ token }) => ({
+        url: `/patient/create/insurance/list`,
+        method: "GET",
+        headers: {
+          "content-type": "Application/json",
+          "Authorization": token || null,
+        },
+        //body: JSON.stringify(payload),
+      }),
+      providesTags: ["insuranceData"],
+    }),
+
+    createPatient: builder.mutation({
+      query: ({ token, payload }) => ({
+        url: "patient/create",
+        method: "POST",
+        headers: {
+          "content-type": "Application/json",
+          "Authorization": token || null,
+        },
+        body: JSON.stringify(payload),
+      }),
+      invalidatesTags: ["patientData"],
+    }),
+
   }),
 });
 
-export const { useGetPatientMutation, useGetPatientInfoMutation } = patientApi;
+export const {  useGetInsuranceDataQuery, useCreatePatientMutation } = patientApi;

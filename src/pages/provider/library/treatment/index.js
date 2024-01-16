@@ -20,7 +20,6 @@ const { TextArea } = Input;
 
 const treatmentPage = () => {
   const [value, setValue] = useState("");
-  const [status, setStatus] = useState("active");
   const [treatment, setTreatment] = useState("");
   const [treatmentArray, setTreatmentArray] = useState([
     "JavaScript",
@@ -34,10 +33,6 @@ const treatmentPage = () => {
 
   console.log("New treatment", treatment);
 
-  const onChange = (value) => {
-    console.log(`selected ${value}`);
-    setValue(value);
-  };
   const items2 = ["JavaScript", "Python", "Java", "C++"];
 
   const {
@@ -53,20 +48,20 @@ const treatmentPage = () => {
   //! Theme system
   const { theme } = useTheme();
   return (
-    <div className="m-5 min-h-[80vh]">
+    <div className=" min-h-[80vh] w-full">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex gap-5">
           <div
             className={`${
               theme === "dark" ? "bg-dark-primary border-none" : "bg-white"
-            } lg:p-5 p-2 w-[80%] border rounded-lg shadow-md min-h-[100vh]`}
+            } lg:p-5 p-2 w-[100%] border rounded-lg shadow-md min-h-[100vh]`}
           >
             <div className="grid grid-cols-1 gap-8">
               <div>
                 <h1
                   className={`${
                     theme === "dark" ? "text-dark-secondary" : "text-secondary"
-                  }text-sm  mb-2 font-semibold`}
+                  }text-sm mb-2 font-semibold`}
                 >
                   Treatment Area
                 </h1>
@@ -186,125 +181,6 @@ const treatmentPage = () => {
                 </button>
                 <button className="shadow-md font-semibold text-base bg-gray-100  text-black hover:bg-gray-200 transition-all px-2 py-1 border border-gray-300 rounded-md">
                   Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-          <div
-            className={`${
-              theme === "dark" ? "bg-dark-primary border-none" : ""
-            }  w-[20%] px-5 py-5 border rounded-lg shadow-md`}
-          >
-            <h1 className="text-base font-semibold text-primary text-center text-gray mb-5">
-              Program Status
-            </h1>
-            <div className="">
-              {/* <ProgramStatus theme={theme}></ProgramStatus> */}
-
-              <div className="flex items-center justify-center my-2">
-                <button
-                  onClick={() => setStatus("waiting")}
-                  className={
-                    status === "waiting"
-                      ? `mx-auto  rounded-md p-3 border-primary border  text-primary transition-all h-[90px] w-[120px]`
-                      : `mx-auto  rounded-md p-3 ${
-                          theme === "dark"
-                            ? " hover:text-dark-secondary"
-                            : "hover:border-secondary hover:text-secondary"
-                        }  transition-all h-[90px] w-[120px]`
-                  }
-                >
-                  <BiSolidWatch className="text-2xl mx-auto" />
-                  <h1 className="text-sm font-semibold mt-2">Waiting</h1>
-                </button>
-              </div>
-              <div className="flex items-center justify-center my-2">
-                <button
-                  onClick={() => setStatus("BaseLine")}
-                  className={
-                    status === "BaseLine"
-                      ? `mx-auto  rounded-md p-3 border-primary border  text-primary transition-all h-[90px] w-[120px]`
-                      : `mx-auto  rounded-md p-3 ${
-                          theme === "dark"
-                            ? " hover:text-dark-secondary"
-                            : "hover:border-secondary hover:text-secondary"
-                        }  transition-all h-[90px] w-[120px]`
-                  }
-                >
-                  <AlignCenterOutlined className="text-2xl mx-auto" />
-                  <h1 className="text-sm font-semibold mt-2">BaseLine</h1>
-                </button>
-              </div>
-              <div className="flex items-center justify-center my-2">
-                {" "}
-                <button
-                  onClick={() => setStatus("active")}
-                  className={
-                    status === "active"
-                      ? `mx-auto  rounded-md p-3 border-primary border  text-primary transition-all h-[90px] w-[120px]`
-                      : `mx-auto  rounded-md p-3 ${
-                          theme === "dark"
-                            ? " hover:text-dark-secondary"
-                            : "hover:border-secondary hover:text-secondary"
-                        }  transition-all h-[90px] w-[120px]`
-                  }
-                >
-                  <BiRun className="text-2xl mx-auto" />
-                  <h1 className="text-sm font-semibold mt-2">Active</h1>
-                </button>
-              </div>
-              <div className="flex items-center justify-center my-2">
-                {" "}
-                <button
-                  onClick={() => setStatus("hold")}
-                  className={
-                    status === "hold"
-                      ? `mx-auto  rounded-md p-3 border-primary border  text-primary transition-all h-[90px] w-[120px]`
-                      : `mx-auto  rounded-md p-3 ${
-                          theme === "dark"
-                            ? " hover:text-dark-secondary"
-                            : "hover:border-secondary hover:text-secondary"
-                        }  transition-all h-[90px] w-[120px]`
-                  }
-                >
-                  <BiSolidHand className="text-2xl mx-auto" />
-                  <h1 className="text-sm font-semibold mt-2">Hold</h1>
-                </button>
-              </div>
-              <div className="flex items-center justify-center my-2">
-                {" "}
-                <button
-                  onClick={() => setStatus("close")}
-                  className={
-                    status === "close"
-                      ? `mx-auto  rounded-md p-3 border-primary border  text-primary transition-all h-[90px] w-[120px]`
-                      : `mx-auto  rounded-md p-3 ${
-                          theme === "dark"
-                            ? " hover:text-dark-secondary"
-                            : "hover:border-secondary hover:text-secondary"
-                        }  transition-all h-[90px] w-[120px]`
-                  }
-                >
-                  <BiWindowClose className="text-2xl mx-auto" />
-                  <h1 className="text-sm font-semibold mt-2">Closed</h1>
-                </button>
-              </div>
-              <div className="flex items-center justify-center my-2">
-                {" "}
-                <button
-                  onClick={() => setStatus("disconnect")}
-                  className={
-                    status === "disconnect"
-                      ? `mx-auto  rounded-md p-3 border-primary border  text-primary transition-all h-[90px] w-[120px]`
-                      : `mx-auto  rounded-md p-3 ${
-                          theme === "dark"
-                            ? " hover:text-dark-secondary"
-                            : "hover:border-secondary hover:text-secondary"
-                        }  transition-all h-[90px] w-[120px]`
-                  }
-                >
-                  <BiCut className="text-2xl mx-auto" />
-                  <h1 className="text-sm font-semibold mt-2">Disconnect</h1>
                 </button>
               </div>
             </div>

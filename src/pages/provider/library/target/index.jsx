@@ -165,12 +165,12 @@ const targetPage = () => {
               </button>
             </Tooltip>
 
-            <button
+            {/* <button
               onClick={handleImportTarget}
               className="text-xs flex items-center gap-2 shadow-md bg-secondary text-white px-3 py-1 rounded-md"
             >
               <BiImport className="text-lg" /> IMPORTS
-            </button>
+            </button> */}
 
             <div className="">
               <Dropdown

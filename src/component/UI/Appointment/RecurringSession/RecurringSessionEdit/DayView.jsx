@@ -33,7 +33,7 @@ const DayView = ({token, id}) => {
 
 
   const dayWiseData = dayViewData?.sessions_unlocked;
-  console.log('dayViewData - ',dayViewData)
+  
   const handleClose = () => {
     setDeleteModal(false);
   };

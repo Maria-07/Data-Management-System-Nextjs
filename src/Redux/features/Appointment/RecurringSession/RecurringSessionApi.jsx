@@ -83,6 +83,31 @@ export const recurringSessionApi = api.injectEndpoints({
       providesTags: ["dayData"],
     }),
 
+    getStatusList: builder.query({
+      query: ({ token }) => ({
+        url: `appointment/status`,
+        method: "GET",
+        headers: {
+          "content-type": "Application/json",
+          "Authorization": token || null,
+        },
+        //body: JSON.stringify(payload),
+      }),
+      providesTags: ["statusData"],
+    }),
+
+    deleteBulkSession: builder.mutation({
+      query: ({ token, payload }) => ({
+        url: "appointment/recurring/session/delete/bulk",
+        method: "POST",
+        headers: {
+          "content-type": "Application/json",
+          "Authorization": token || null,
+        },
+        body: JSON.stringify(payload),
+      }),
+      invalidatesTags: ["deleteSessionData"],
+    }),
 
   }),
 });
@@ -93,5 +118,7 @@ export const {
   useGetDayViewListQuery,
   useGetDayListQuery,
   useDeleteSessionIdMutation,
-  useGetProvidersListQuery
+  useGetProvidersListQuery,
+  useGetStatusListQuery,
+  useDeleteBulkSessionMutation
 } = recurringSessionApi;

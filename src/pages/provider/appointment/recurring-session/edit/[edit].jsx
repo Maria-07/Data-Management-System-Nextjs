@@ -12,8 +12,8 @@ import { useTheme } from "next-themes";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import { useRouter } from "next/router";
 import axios from "axios";
-import MultiSelectGlobal from "@/shared/CustomeMultiSelect/MultiselectGlobal";
-import { useGetProvidersListQuery } from "@/Redux/features/Appointment/RecurringSession/RecurringSessionApi";
+import MultiSelectEdit from "@/shared/CustomeMultiSelect/MultiselectEdit";
+import { useGetProvidersListQuery, useGetStatusListQuery } from "@/Redux/features/Appointment/RecurringSession/RecurringSessionApi";
 
 const TextArea = Input;
 
@@ -30,9 +30,12 @@ const RecurringSessionEdit = () => {
   const [allData,setAllData] = useState([]);
   const [stuffs, setStuffs] = useState();
   const [stuffsId, setStuffsId] = useState([]);
-
+  const [selectedService, setSelectedService] = useState([]);
   const { data: providerData, isLoading: providerDataLoading } =
   useGetProvidersListQuery({token});
+
+  const { data: statusData, isLoading: statusDataLoading } =
+  useGetStatusListQuery({token});
 
   const handleClickOpen = () => {
     setOpenEditModal(true);
@@ -52,25 +55,64 @@ const RecurringSessionEdit = () => {
           "Authorization": token || null,
         },
       });
-      console.log(res);
       const data = res?.data;
       setSessionData(data);
       setStuffs(data?.services)
+
+      let serviesList = [];
+      for (let x of data?.services) {
+        serviesList[x?.id] =  {label: x?.name, value: x?.name, id: x?.id}
+      }
+      
+      let selectedServiceList = []
+      data?.selected_activities?.map((p)=>{
+        selectedServiceList.push(serviesList[p]);
+      })
+      setSelectedService(selectedServiceList);
+      console.log(selectedServiceList);
     };
     if(id>0)
     {
       getSessionData();
     }
-  }, []);
+  }, [id]);
 
 
+  const convertTime12to24 = (time12h) => {  
+    if(typeof time12h !== 'undefined') {
+        let [times, modifier] = time12h.split(' ');  
+        let [hours, minutes] = times.split(':'); 
+        if (hours === '12') {
+          hours = '00';
+        }  
+        if (modifier === 'PM' || modifier === 'pm') {
+          hours = parseInt(hours, 10) + 12;
+        }  
+        return `${hours}:${minutes}:00`;    
+      }
+    return null;
+  }
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
     console.log(data);
     reset();
   };
   //console.log(errors);
-
+  useEffect(() => {
+    // you can do async server request and fill up form
+    setTimeout(() => {
+      reset({
+        client_id:sessionData?.client_details?.id,
+        Auth:sessionData?.session_data?.authorization_id,
+        Provider_name:sessionData?.session_data?.provider_id,
+        location:sessionData?.session_data?.location,
+        from_time:convertTime12to24(sessionData?.session_data?.from_time),
+        to_time:convertTime12to24(sessionData?.session_data?.to_time),
+        status:sessionData?.session_data?.status,
+        notes:sessionData?.session_data?.notes
+      })
+    })
+  },[sessionData,reset])
   const tabItems = [
     {
       label: (
@@ -117,7 +159,6 @@ const RecurringSessionEdit = () => {
       children: <SingleView token={token} id={id}></SingleView>,
     },
   ];
-
   return (
     <div className="sm:min-h-[100vh]">
       <div className="flex items-start flex-wrap gap-2 justify-between">
@@ -149,7 +190,7 @@ const RecurringSessionEdit = () => {
               </label>
               <select
                     className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
-                {...register("patient_name")}
+                {...register("client_id")}
               >
                 <option value={sessionData?.client_details?.id}>{sessionData?.client_details?.client_full_name}</option>
               </select>
@@ -175,9 +216,10 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">Service</span>
               </label>
                 <div className="py-[2px]  mt-2">
-                  <MultiSelectGlobal
+                  <MultiSelectEdit
                     allData={stuffs}
                     setId={setStuffsId}
+                    selectedService={selectedService}
                   />
                 </div>
             </div>
@@ -203,7 +245,7 @@ const RecurringSessionEdit = () => {
               </label>
               <select
                     className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
-                {...register("Pos")}
+                {...register("location")}
               >
               <option value=""></option>
               <option value="03">School (03)</option>
@@ -245,7 +287,7 @@ const RecurringSessionEdit = () => {
                   <span className=" label-font">From Time</span>
                 </label>
                 <input
-                  className="input-border input-font w-full focus:outline-none"
+                  className="border rounded-sm px-2 py-[5px] mx-1 text-xs w-[105px]"
                   type="time"
                   {...register("from_time")}
                 />
@@ -255,9 +297,9 @@ const RecurringSessionEdit = () => {
                   <span className=" label-font">To Time</span>
                 </label>
                 <input
-                  className="input-border input-font w-full focus:outline-none"
+                  className="border rounded-sm px-2 py-[5px] mx-1 text-xs w-[105px]"
                   type="time"
-                  {...register("To_time")}
+                  {...register("to_time")}
                 />
               </div>
             </div>
@@ -266,13 +308,15 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">Status</span>
               </label>
               <select
-                className="input-border input-font w-full focus:outline-none"
-                {...register("Status")}
+                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
+                {...register("status")}
               >
-                <option value="Rendered">Rendered</option>
-                <option value="Show">Show</option>
-                <option value="Hold">Hold</option>
-                <option value="No Show">No Show</option>
+              <option value=""></option>
+              {statusData?.status_list?.map((p) => {
+                  return(
+                    <option value={p} key={p}>{p}</option>
+                  )
+              })}
               </select>
             </div>
             {/* <div></div> */}
@@ -281,7 +325,12 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">Office Notes</span>
               </label>
               <div className="">
-                <TextArea rows={6} placeholder=" Notes" size="large" />
+              <textarea
+                className="input-border input-font py-[1px] w-full focus:outline-none"
+                {...register("notes")}
+                rows={4}
+                cols={40}
+              />
               </div>
             </div>
           </div>

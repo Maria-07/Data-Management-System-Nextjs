@@ -17,7 +17,66 @@ export const recurringSessionApi = api.injectEndpoints({
       }),
       // invalidatesTags: ["ManageSession"],
     }),
+
+    getSessionList: builder.query({
+      query: ({ token, id }) => ({
+        url: `appointment/recurring/session/list/${id}`,
+        method: "GET",
+        headers: {
+          "content-type": "Application/json",
+          "Authorization": token || null,
+        },
+        //body: JSON.stringify(payload),
+      }),
+      providesTags: ["sessionData"],
+    }),
+
+    getDayViewList: builder.query({
+      query: ({ token, id }) => ({
+        url: `appointment/recurring/session/list/day-view/${id}`,
+        method: "GET",
+        headers: {
+          "content-type": "Application/json",
+          "Authorization": token || null,
+        },
+        //body: JSON.stringify(payload),
+      }),
+      providesTags: ["sessionData"],
+    }),
+
+    getDayList: builder.query({
+      query: ({ token }) => ({
+        url: `appointment/recurring/day/list`,
+        method: "GET",
+        headers: {
+          "content-type": "Application/json",
+          "Authorization": token || null,
+        },
+        //body: JSON.stringify(payload),
+      }),
+      providesTags: ["dayData"],
+    }),
+
+    deleteSessionId: builder.mutation({
+      query: ({ token, payload }) => ({
+        url: "appointment/recurring/session/delete",
+        method: "POST",
+        headers: {
+          "content-type": "Application/json",
+          "Authorization": token || null,
+        },
+        body: JSON.stringify(payload),
+      }),
+      invalidatesTags: ["deleteSessionData"],
+    }),
+
   }),
 });
 
-export const { useRecurringGetAllInfosMutation } = recurringSessionApi;
+export const { 
+  useRecurringGetAllInfosMutation,
+  useGetSessionListQuery,
+  useGetDayViewListQuery,
+  useGetDayListQuery,
+  useDeleteSessionIdMutation
+} = recurringSessionApi;

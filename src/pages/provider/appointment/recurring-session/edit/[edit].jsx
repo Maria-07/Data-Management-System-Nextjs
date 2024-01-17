@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { IoCaretBackCircleOutline } from "react-icons/io5";
@@ -9,19 +9,59 @@ import RootLayout from "@/component/Layouts/RootLayout";
 import DayView from "@/component/UI/Appointment/RecurringSession/RecurringSessionEdit/DayView";
 import SingleView from "@/component/UI/Appointment/RecurringSession/RecurringSessionEdit/SingleView";
 import { useTheme } from "next-themes";
+import { getAccessToken } from "@/Redux/api/apiSlice";
+import { useRouter } from "next/router";
+import axios from "axios";
+import MultiSelectGlobal from "@/shared/CustomeMultiSelect/MultiselectGlobal";
+import { useGetSessionDataMutation } from "@/Redux/features/Appointment/RecurringSession/RecurringSessionApi";
 
 const TextArea = Input;
 
 const RecurringSessionEdit = () => {
   //! Theme system
+  const token = getAccessToken();
+  const router = useRouter();
+  const { query } = router;
+  const id = query.edit;
+
   const { theme } = useTheme();
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [sessionData,setSessionData] = useState([]);
+  const [allData,setAllData] = useState([]);
+  const [stuffs, setStuffs] = useState();
+  const [stuffsId, setStuffsId] = useState([]);
+
+  console.log('stuffsId - ', stuffsId);
   const handleClickOpen = () => {
     setOpenEditModal(true);
   };
   const handleClose = () => {
     setOpenEditModal(false);
   };
+
+  useEffect(() => {
+    const getSessionData = async () => {
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointment/recurring/details/${id}`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Authorization": token || null,
+        },
+      });
+      console.log(res);
+      const data = res?.data;
+      setSessionData(data);
+      setStuffs(data?.services)
+      setStuffsId(data?.selected_activities)
+    };
+    if(id>0)
+    {
+      getSessionData();
+    }
+  }, [id]);
+
 
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
@@ -53,7 +93,7 @@ const RecurringSessionEdit = () => {
             theme === "dark" ? "text-dark-secondary" : "text-fontC"
           }`}
         >
-          <DayView></DayView>
+          <DayView token={token} id={id}></DayView>
         </div>
       ),
     },
@@ -73,7 +113,7 @@ const RecurringSessionEdit = () => {
         </h1>
       ),
       key: 2,
-      children: <SingleView></SingleView>,
+      children: <SingleView token={token} id={id}></SingleView>,
     },
   ];
 
@@ -134,15 +174,12 @@ const RecurringSessionEdit = () => {
               <label className="label">
                 <span className=" label-font">Service</span>
               </label>
-              <select
-                className="input-border input-font w-full focus:outline-none"
-                {...register("Service")}
-              >
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Miss">Miss</option>
-                <option value="Dr">Dr</option>
-              </select>
+                <div className="py-[2px]  mt-2">
+                  <MultiSelectGlobal
+                    allData={stuffs}
+                    setId={setStuffsId}
+                  />
+                </div>
             </div>
             <div>
               <label className="label">

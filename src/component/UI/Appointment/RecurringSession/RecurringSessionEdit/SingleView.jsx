@@ -1,186 +1,115 @@
 import { Table } from "antd";
+import DeleteModal from "@/component/UI/Layouts/DeleteModal/DeleteModal";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
-
-const SingleView = () => {
+import { useGetSessionListQuery } from "@/Redux/features/Appointment/RecurringSession/RecurringSessionApi";
+const SingleView = ({token, id}) => {
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
   const [TimeSheetData, SetTimeSheetDate] = useState([]);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteSessionId, setDeleteSessionId] = useState(0);
 
-  // fake api call
-  useEffect(() => {
-    axios("../../../../../../All_Fake_Api/TimeSheet.json")
-      .then((response) => {
-        SetTimeSheetDate(response?.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-  console.log(TimeSheetData);
-
-  //! Optimized function to get dynamic filter value-text
-  const generateFilterValues = (data, columnKey) => {
-    const uniqueValues = [...new Set(data?.map((d) => d[columnKey]))];
-    return uniqueValues.map((value) => ({ text: value, value }));
+  const { data: singleViewData, isLoading: singleViewLoading } =
+  useGetSessionListQuery({
+      token,
+      id
+    });
+    function formatDate(inputDate){  // expects Y-m-d
+      var splitDate = inputDate.split('-');
+      if(splitDate.count == 0){
+          return null;
+      }
+  
+      var year = splitDate[0];
+      var month = splitDate[1];
+      var day = splitDate[2]; 
+  
+      return month + '/' + day + '/' + year;
+  }
+  const handleClose = () => {
+    setDeleteModal(false);
   };
-
+  const handleClickOpen = (id) => {
+    setDeleteSessionId(id)
+    setDeleteModal(true);
+  };
   const column = [
     {
       title: "Patient",
-      dataIndex: "patient",
-      key: "patient",
+      dataIndex: "patient_name",
+      key: "patient_name",
       width: 120,
-      sorter: (a, b) => {
-        return a.patient > b.patient ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "patient" ? sortedInfo.order : null,
-      ellipsis: true,
-      filters: generateFilterValues(TimeSheetData, "patient"),
-      filterSearch: true, //Filtering value search(Antd new Feature)
-      filteredValue: filteredInfo.patient || null,
-      onFilter: (value, record) => record.patient.includes(value),
-      render: (_, { record, patient }) => {
-        // console.log("tags : ", Name, id);
-        return <h1>{patient}</h1>;
-      },
-      ellipsis: true,
     },
     {
       title: "Service & Hrs",
-      dataIndex: "clearance_name",
-      key: "clearance_name",
-      width: 120,
-      // filters: [{}],
-      // filteredValue: filteredInfo.clearance_name || null,
-      // onFilter: (value, record) => record.clearance_name.includes(value),
-      sorter: (a, b) => {
-        return a.clearance_name > b.clearance_name ? -1 : 1;
-      },
-      sortOrder:
-        sortedInfo.columnKey === "clearance_name" ? sortedInfo.order : null,
-      ellipsis: true,
+      dataIndex: "service_name",
+      key: "service_name",
+      width: 200,
     },
     {
       title: "Provider",
-      dataIndex: "provider",
-      key: "provider",
+      dataIndex: "provider_name",
+      key: "provider_name",
       width: 120,
-      filters: generateFilterValues(TimeSheetData, "provider"),
-      filterSearch: true, //Filtering value search(Antd new Feature)
-      filteredValue: filteredInfo.provider || null,
-      sorter: (a, b) => {
-        return a.provider > b.provider ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "provider" ? sortedInfo.order : null,
-      ellipsis: true,
     },
     {
       title: "Pos",
       dataIndex: "pos",
       key: "pos",
-      width: 120,
-      // filters: [{}],
-      // filteredValue: filteredInfo.clearance_name || null,
-      // onFilter: (value, record) => record.clearance_name.includes(value),
-      sorter: (a, b) => {
-        return a.clearance_name > b.clearance_name ? -1 : 1;
-      },
-      sortOrder:
-        sortedInfo.columnKey === "clearance_name" ? sortedInfo.order : null,
-      ellipsis: true,
+      width: 80,
     },
     {
       title: "Start Date",
-      dataIndex: "start_date",
-      key: "start_date",
+      dataIndex: "scheduled_date",
+      key: "scheduled_date",
       width: 120,
-      // filters: [{}],
-      // filteredValue: filteredInfo.clearance_name || null,
-      // onFilter: (value, record) => record.clearance_name.includes(value),
-      sorter: (a, b) => {
-        return a.clearance_name > b.clearance_name ? -1 : 1;
-      },
-      sortOrder:
-        sortedInfo.columnKey === "clearance_name" ? sortedInfo.order : null,
-      ellipsis: true,
+      render: (_, { scheduled_date }) => {
+        return (
+          <div>{formatDate(scheduled_date)}</div>
+        )
+      }
     },
 
     {
       title: "Hour",
-      key: "clearance_date_issue",
-      dataIndex: "clearance_date_issue",
-      width: 100,
-      // filters: [{}],
-      // filteredValue: filteredInfo.clearance_date_issue || null,
-      // onFilter: (value, record) => record.clearance_date_issue.includes(value),
-      //   sorter is for sorting asc or dsc purcredential_type
-      sorter: (a, b) => {
-        return a.clearance_date_issue > b.clearance_date_issue ? -1 : 1; //sorting problem solved using this logic
-      },
-      sortOrder:
-        sortedInfo.columnKey === "clearance_date_issue"
-          ? sortedInfo.order
-          : null,
-      ellipsis: true,
+      key: "hours",
+      dataIndex: "hours",
+      width: 150,
     },
     {
       title: "Status",
       key: "status",
       dataIndex: "status",
       width: 80,
-      filters: [
-        {
-          text: "Hold",
-          value: "Hold",
-        },
-        {
-          text: "Pending",
-          value: "Pending",
-        },
-      ],
       render: (_, { status, id }) => {
         //console.log("tags : ", client_first_name, id, key);
         return (
           <div className="flex justify-center items-center">
-            {status === "approved" && (
+            {status === "Scheduled" && (
               <button className="bg-gray-500 text-white text-[10px] py-[2px]  rounded w-14">
                 {status}
               </button>
             )}
-            {status !== "approved" && (
+            {status !== "Scheduled" && (
               <button className="bg-teal-700 text-white text-[10px] py-[2px]  rounded w-14">
-                {/* {status} */}
-                pending
-              </button>
-            )}
-            {status === "Scheduled" && (
-              <button className="bg-red-700 text-white text-[10px] py-[2px]  rounded w-14">
                 {status}
               </button>
             )}
           </div>
         );
       },
-      filteredValue: filteredInfo.status || null,
-      onFilter: (value, record) => record.status.includes(value),
-      //   sorter is for sorting asc or dsc purdescription
-      sorter: (a, b) => {
-        return a.status > b.status ? -1 : 1; //sorting problem solved using this logic
-      },
-      sortOrder: sortedInfo.columnKey === "status" ? sortedInfo.order : null,
-      ellipsis: true,
     },
     {
       title: "Action",
       dataIndex: "operation",
       key: "operation",
-      width: 150,
+      width: 80,
       render: (_, record) => (
         <div className="flex justify-center gap-1 text-primary">
           <AiOutlineDelete
-            // onClick={() => handleDelete(record)}
+            onClick={() => { handleClickOpen(record.session_id) }}
             className="text-xs text-red-500 mx-2"
             title="Delete"
           />
@@ -229,13 +158,33 @@ const SingleView = () => {
             y: 400,
           }}
           // rowKey={(record) => record.id} //record is kind of whole one data object and here we are
-          dataSource={TimeSheetData}
+          dataSource={singleViewData?.sessions_unlocked}
           rowSelection={{
             ...rowSelection,
           }}
           onChange={handleChange}
         />
       </div>
+      <div className="flex items-center gap-4">
+        <div>
+          <select
+            className="input-border text-gray-600 rounded-sm text-[14px] font-medium w-full ml-1 focus:outline-none"
+          >
+            <option value=""> Select Any Action </option>
+            <option value="2"> Bulk Delete </option>
+          </select>
+        </div>
+        <button className="dtm-button" type="submit">
+          Ok
+        </button>
+      </div>      
+      {deleteModal && (
+        <DeleteModal 
+        handleClose={handleClose} 
+        open={deleteModal} 
+        deleteSessionId={deleteSessionId}
+        token={token}></DeleteModal>
+      )}
     </div>
   );
 };

@@ -32,7 +32,7 @@ const LineChart = ({token}) => {
     setGraphData(data);
   }
   getGraphData();
-}, []);
+}, [token]);
 console.log('LIne Graph',GraphData);
   return (
     // <div div className="lg:w-4/12 md:w-6/12">

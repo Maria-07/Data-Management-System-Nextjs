@@ -20,7 +20,7 @@ const BarChart = ({token}) => {
     setGraphData(data);
   }
   getGraphData();
-}, []);
+}, [token]);
 console.log('Bar Graph',GraphData);
   return (
     <div div className="bar border rounded-t-xl">

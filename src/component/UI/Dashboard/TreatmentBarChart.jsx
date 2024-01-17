@@ -41,7 +41,7 @@ const TreatmentBarChart = ({token}) => {
       setGraphData(data);
     }
     getGraphData();
-  }, []);
+  }, [token]);
 
 const dataSet1 = GraphData?.sum?.[0];
 const dataSet2 = GraphData?.sum?.[1];

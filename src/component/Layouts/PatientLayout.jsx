@@ -50,7 +50,7 @@ const PatientLayout = ({ id, children }) => {
         token,
       })
     );
-  }, [id, dispatch, token]);
+  }, [token]);
 
   useEffect(() => {
     const getPatientData = async () => {

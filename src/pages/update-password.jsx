@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useUpdatePasswordMutation } from "@/Redux/features/staff/otherSetup/otherSetupApi";
 
-const updatePassword = () => {
+const UpdatePassword = () => {
     const token = getAccessToken();
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [newPassword,setNewPassword] = useState('');
@@ -163,8 +163,8 @@ const updatePassword = () => {
     )
 }
 
-export default updatePassword;
+export default UpdatePassword;
 
-updatePassword.getLayout = function getLayout(page) {
+UpdatePassword.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
 };

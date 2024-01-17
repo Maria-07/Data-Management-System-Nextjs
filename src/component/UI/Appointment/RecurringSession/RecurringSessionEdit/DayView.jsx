@@ -122,8 +122,8 @@ const DayView = ({token, id}) => {
               {dayWiseData?.Monday.map((p)=>{
                 
                 return (                
-                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md">
-                <div className="flex items-center gap-1" key={p.session_id}>
+                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
+                <div className="flex items-center gap-1">
                   <Checkbox></Checkbox>
                       <p className="text-[13px]">
                         <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
@@ -141,8 +141,8 @@ const DayView = ({token, id}) => {
             <>
               {dayWiseData?.Tuesday.map((p)=>{
                 return (                
-                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md">
-                  <Checkbox key={p.session_id}>
+                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md" key={p.session_id}>
+                  <Checkbox>
                     <div className="flex items-center gap-1">
                       <p className="text-[13px]">
                         <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
@@ -161,8 +161,8 @@ const DayView = ({token, id}) => {
             <>
               {dayWiseData?.Wednesday.map((p)=>{
                 return (                
-                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md">
-                  <Checkbox key={p.session_id}>
+                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
+                  <Checkbox>
                     <div className="flex items-center gap-1">
                       <p className="text-[13px]">
                         <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
@@ -181,8 +181,8 @@ const DayView = ({token, id}) => {
             <>
               {dayWiseData?.Thursday.map((p)=>{
                 return (                
-                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md">
-                  <Checkbox key={p.session_id}>
+                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
+                  <Checkbox>
                     <div className="flex items-center gap-1">
                       <p className="text-[13px]">
                         <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
@@ -201,8 +201,8 @@ const DayView = ({token, id}) => {
             <>
               {dayWiseData?.Friday.map((p)=>{
                 return (                
-                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md">
-                  <Checkbox key={p.session_id}>
+                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
+                  <Checkbox>
                     <div className="flex items-center gap-1">
                       <p className="text-[13px]">
                         <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}

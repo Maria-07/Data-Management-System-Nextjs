@@ -13,7 +13,7 @@ import { getAccessToken } from "@/Redux/api/apiSlice";
 import { useRouter } from "next/router";
 import axios from "axios";
 import MultiSelectGlobal from "@/shared/CustomeMultiSelect/MultiselectGlobal";
-import { useGetSessionDataMutation } from "@/Redux/features/Appointment/RecurringSession/RecurringSessionApi";
+import { useGetProvidersListQuery } from "@/Redux/features/Appointment/RecurringSession/RecurringSessionApi";
 
 const TextArea = Input;
 
@@ -31,7 +31,9 @@ const RecurringSessionEdit = () => {
   const [stuffs, setStuffs] = useState();
   const [stuffsId, setStuffsId] = useState([]);
 
-  console.log('stuffsId - ', stuffsId);
+  const { data: providerData, isLoading: providerDataLoading } =
+  useGetProvidersListQuery({token});
+
   const handleClickOpen = () => {
     setOpenEditModal(true);
   };
@@ -54,13 +56,12 @@ const RecurringSessionEdit = () => {
       const data = res?.data;
       setSessionData(data);
       setStuffs(data?.services)
-      setStuffsId(data?.selected_activities)
     };
     if(id>0)
     {
       getSessionData();
     }
-  }, [id]);
+  }, []);
 
 
   const { register, handleSubmit, reset } = useForm();
@@ -147,13 +148,10 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">Patient Name</span>
               </label>
               <select
-                className="input-border input-font w-full focus:outline-none"
+                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
                 {...register("patient_name")}
               >
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Miss">Miss</option>
-                <option value="Dr">Dr</option>
+                <option value={sessionData?.client_details?.id}>{sessionData?.client_details?.client_full_name}</option>
               </select>
             </div>
             <div>
@@ -161,14 +159,16 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">Auth</span>
               </label>
               <select
-                className="input-border input-font w-full focus:outline-none"
-                {...register("Auth")}
-              >
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Miss">Miss</option>
-                <option value="Dr">Dr</option>
-              </select>
+                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
+                    {...register("Auth")}
+                  >
+              <option value=""></option>
+              {sessionData?.authorizations?.map((p) => {
+                  return(
+                    <option value={p.id} key={p.id}>{p.name}</option>
+                  )
+              })}
+            </select>
             </div>
             <div>
               <label className="label">
@@ -186,13 +186,15 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">Provider Name</span>
               </label>
               <select
-                className="input-border input-font w-full focus:outline-none"
+                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
                 {...register("Provider_name")}
               >
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Miss">Miss</option>
-                <option value="Dr">Dr</option>
+              <option value=""></option>
+              {providerData?.provider_data?.map((p) => {
+                  return(
+                    <option value={p.id} key={p.id}>{p.name}</option>
+                  )
+              })}
               </select>
             </div>
             <div>
@@ -200,13 +202,15 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">POS</span>
               </label>
               <select
-                className="input-border input-font w-full focus:outline-none"
+                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
                 {...register("Pos")}
               >
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Miss">Miss</option>
-                <option value="Dr">Dr</option>
+              <option value=""></option>
+              <option value="03">School (03)</option>
+              <option value="11" selected="">Office (11)</option>
+              <option value="12">Home (12)</option>
+              <option value="99">Others (99)</option>
+              <option value="02">Telehealth (02)</option>
               </select>
             </div>
 
@@ -215,9 +219,11 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">From Date</span>
               </label>
               <input
-                className="input-border input-font w-full focus:outline-none"
+                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
                 type="date"
+                defaultValue={sessionData?.start_date}
                 {...register("from_Date")}
+                readOnly
               />
             </div>
             <div>
@@ -225,9 +231,11 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">To Date</span>
               </label>
               <input
-                className="input-border input-font w-full focus:outline-none"
+                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
                 type="date"
+                defaultValue={sessionData?.end_date}
                 {...register("To_Date")}
+                readOnly
               />
             </div>
 

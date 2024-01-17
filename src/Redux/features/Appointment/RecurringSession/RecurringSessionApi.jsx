@@ -70,6 +70,20 @@ export const recurringSessionApi = api.injectEndpoints({
       invalidatesTags: ["deleteSessionData"],
     }),
 
+    getProvidersList: builder.query({
+      query: ({ token }) => ({
+        url: `appointment/recurring/filter/providers`,
+        method: "GET",
+        headers: {
+          "content-type": "Application/json",
+          "Authorization": token || null,
+        },
+        //body: JSON.stringify(payload),
+      }),
+      providesTags: ["dayData"],
+    }),
+
+
   }),
 });
 
@@ -78,5 +92,6 @@ export const {
   useGetSessionListQuery,
   useGetDayViewListQuery,
   useGetDayListQuery,
-  useDeleteSessionIdMutation
+  useDeleteSessionIdMutation,
+  useGetProvidersListQuery
 } = recurringSessionApi;

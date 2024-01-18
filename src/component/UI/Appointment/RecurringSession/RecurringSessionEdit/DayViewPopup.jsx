@@ -119,7 +119,7 @@ const DayViewPopup = ({token, id, setRecordSelected}) => {
           ))} */}
           <div className="border border-t-0 text-center py-1">
             <>
-              {dayWiseData?.Monday.map((p)=>{
+              {dayWiseData?.Monday && dayWiseData?.Monday.map((p)=>{
                 
                 return (                
                 <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
@@ -135,7 +135,7 @@ const DayViewPopup = ({token, id, setRecordSelected}) => {
           </div>
           <div className="border border-t-0 text-center py-1">
             <>
-              {dayWiseData?.Tuesday.map((p)=>{
+              {dayWiseData?.Tuesday && dayWiseData?.Tuesday.map((p)=>{
                 return (                
                 <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md" key={p.session_id}>
                     <div className="flex items-center gap-1">
@@ -150,7 +150,7 @@ const DayViewPopup = ({token, id, setRecordSelected}) => {
           </div>
           <div className="border border-t-0 text-center py-1">
             <>
-              {dayWiseData?.Wednesday.map((p)=>{
+              {dayWiseData?.Wednesday && dayWiseData?.Wednesday.map((p)=>{
                 return (                
                 <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
                     <div className="flex items-center gap-1">
@@ -165,7 +165,7 @@ const DayViewPopup = ({token, id, setRecordSelected}) => {
           </div>
           <div className="border border-t-0 text-center py-1">
             <>
-              {dayWiseData?.Thursday.map((p)=>{
+              {dayWiseData?.Thursday && dayWiseData?.Thursday.map((p)=>{
                 return (                
                 <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
                     <div className="flex items-center gap-1">
@@ -180,7 +180,7 @@ const DayViewPopup = ({token, id, setRecordSelected}) => {
           </div>
           <div className="border border-t-0 text-center py-1">
             <>
-              {dayWiseData?.Friday.map((p)=>{
+              {dayWiseData?.Friday && dayWiseData?.Friday.map((p)=>{
                 return (                
                 <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
                     <div className="flex items-center gap-1">
@@ -195,7 +195,7 @@ const DayViewPopup = ({token, id, setRecordSelected}) => {
           </div>
           <div className="border border-t-0 text-center py-1">
             <>
-              {dayWiseData?.Saturday.map((p)=>{
+              {dayWiseData?.Saturday && dayWiseData?.Saturday.map((p)=>{
                 return (                
                 <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
                     <div className="flex items-center gap-1">
@@ -210,7 +210,7 @@ const DayViewPopup = ({token, id, setRecordSelected}) => {
           </div>
           <div className="border border-t-0 text-center py-1">
             <>
-              {dayWiseData?.Sunday.map((p)=>{
+              {dayWiseData?.Sunday && dayWiseData?.Sunday.map((p)=>{
                 return (                
                 <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
                     <div className="flex items-center gap-1">

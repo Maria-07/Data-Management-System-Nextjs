@@ -12,8 +12,9 @@ import { useTheme } from "next-themes";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import { useRouter } from "next/router";
 import axios from "axios";
-import MultiSelectEdit from "@/shared/CustomeMultiSelect/MultiselectEdit";
-import { useGetProvidersListQuery, useGetStatusListQuery } from "@/Redux/features/Appointment/RecurringSession/RecurringSessionApi";
+import { MultiSelect } from "react-multi-select-component";
+import { useGetProvidersListQuery, useGetStatusListQuery, useUpdateSessionMutation } from "@/Redux/features/Appointment/RecurringSession/RecurringSessionApi";
+import { toast } from "react-toastify";
 
 const TextArea = Input;
 
@@ -31,6 +32,9 @@ const RecurringSessionEdit = () => {
   const [stuffs, setStuffs] = useState();
   const [stuffsId, setStuffsId] = useState([]);
   const [selectedService, setSelectedService] = useState([]);
+  const [serviceOptions, setServiceOptions] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const [appointmentIds, setAppointmentIds] = useState([]);
   const { data: providerData, isLoading: providerDataLoading } =
   useGetProvidersListQuery({token});
 
@@ -38,6 +42,7 @@ const RecurringSessionEdit = () => {
   useGetStatusListQuery({token});
 
   const handleClickOpen = () => {
+    setAppointmentIds([]);
     setOpenEditModal(true);
   };
   const handleClose = () => {
@@ -58,7 +63,6 @@ const RecurringSessionEdit = () => {
       const data = res?.data;
       setSessionData(data);
       setStuffs(data?.services)
-
       let serviesList = [];
       for (let x of data?.services) {
         serviesList[x?.id] =  {label: x?.name, value: x?.name, id: x?.id}
@@ -68,16 +72,41 @@ const RecurringSessionEdit = () => {
       data?.selected_activities?.map((p)=>{
         selectedServiceList.push(serviesList[p]);
       })
-      setSelectedService(selectedServiceList);
-      console.log(selectedServiceList);
+      setSelected(selectedServiceList);
+      let allData = data?.services;
+      let processedData = [];
+      if (allData) {
+        for (let x of allData) {
+          if (x?.id !== null) {
+            processedData.push({
+              label: x?.name,
+              value: x?.name,
+              id: x?.id,
+            });
+          }
+        }
+      }
+      setServiceOptions(processedData)
     };
     if(id>0)
     {
       getSessionData();
     }
   }, [id]);
-
-
+  useEffect(() => {
+    const getSelectedClients = async () => {
+      const getId = selected.map((item) => item.id);
+      setStuffsId(getId);
+    };
+    getSelectedClients();
+  }, [selected, setStuffsId]);
+  const customValueRenderer = (selected, _options) => {
+    if (selected.length) {
+      if (selected.length > 3) return `All Selected (${selected.length})`;
+      return selected.map(({ label }) => label + "," + " ");
+    }
+    return <h1 className="text-[#4b5563]">None selected</h1>;
+  };
   const convertTime12to24 = (time12h) => {  
     if(typeof time12h !== 'undefined') {
         let [times, modifier] = time12h.split(' ');  
@@ -92,11 +121,69 @@ const RecurringSessionEdit = () => {
       }
     return null;
   }
+  const [
+    updateRecurringSession,
+    { isSuccess: updateSuccess, isError: updateError, error:ApiError },
+  ] = useUpdateSessionMutation();
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
-    reset();
+    if(appointmentIds.length == 0) {
+      toast.error("Please select atleast one appointment", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      })
+    } else {
+    const payload = {
+      check_array:appointmentIds,
+      location:data?.location,
+      provider_id:data?.Provider_name,
+      from_time:data?.from_time + ':00',
+      to_time:data?.to_time + ':00',
+      status:data?.status,
+      activity_id:stuffsId,
+      rec_id:id,
+      authorization_id:data?.Auth,
+      notes:data?.notes,
+    }
+    if (payload) {
+      updateRecurringSession({
+        token,
+        payload,
+      });
+      //reset();
+    }
+    }
   };
+  useEffect(() => {
+    if (updateSuccess) {
+      toast.success("Recurring session updated successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+      setTimeout(() => {
+        window.location.reload();
+      },3000)
+    } else if (ApiError) {
+      let responseError =  Object.values(ApiError?.data?.message);
+      toast.error(responseError[0][0], {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else if (updateError) {
+      toast.error("Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [updateSuccess, updateError,ApiError]);
   //console.log(errors);
   useEffect(() => {
     // you can do async server request and fill up form
@@ -113,6 +200,7 @@ const RecurringSessionEdit = () => {
       })
     })
   },[sessionData,reset])
+
   const tabItems = [
     {
       label: (
@@ -162,7 +250,7 @@ const RecurringSessionEdit = () => {
   return (
     <div className="sm:min-h-[100vh]">
       <div className="flex items-start flex-wrap gap-2 justify-between">
-        <h1 className="text-base text-cyan-700 font-semibold">
+        <h1 className="text-lg text-left text-orange-400">
           Edit Recurring Session
         </h1>
 
@@ -216,10 +304,14 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">Service</span>
               </label>
                 <div className="py-[2px]  mt-2">
-                  <MultiSelectEdit
-                    allData={stuffs}
-                    setId={setStuffsId}
-                    selectedService={selectedService}
+                  <MultiSelect
+                    //   disabled={patientsLoading && true}
+                    className="Global"
+                    options={serviceOptions}
+                    value={selected}
+                    labelledBy="Select"
+                    onChange={setSelected}
+                    valueRenderer={customValueRenderer}
                   />
                 </div>
             </div>
@@ -244,7 +336,7 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">POS</span>
               </label>
               <select
-                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
+                className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
                 {...register("location")}
               >
               <option value=""></option>
@@ -333,13 +425,18 @@ const RecurringSessionEdit = () => {
               />
               </div>
             </div>
+            <div>
+              <div className=" dcm-button mr-2 text-center" onClick={handleClickOpen}>
+                Add Appointment 
+              <span> Selected({appointmentIds.length})</span>
+              </div>
+            </div>
           </div>
           <div className="divider"></div>
           <Divider></Divider>
           {/* submit  */}
           <div className="mt-10">
             <button
-              onClick={handleClickOpen}
               className=" dtm-button mr-2"
               type="submit"
             >
@@ -361,6 +458,9 @@ const RecurringSessionEdit = () => {
         <RecurringSessionModal
           handleClose={handleClose}
           open={openEditModal}
+          token={token} 
+          id={id}
+          setAppointmentIds = {setAppointmentIds}
         ></RecurringSessionModal>
       )}
     </div>

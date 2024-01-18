@@ -1,9 +1,11 @@
 import DeleteModal from "@/component/UI/Layouts/DeleteModal/DeleteModal";
 import { Checkbox } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { useForm } from "react-hook-form";
-import { useGetDayViewListQuery, useGetDayListQuery } from "@/Redux/features/Appointment/RecurringSession/RecurringSessionApi";
+import { toast } from "react-toastify";
+import { useGetDayViewListQuery, useGetDayListQuery, useDeleteBulkSessionMutation, useMoveSessionMutation } from "@/Redux/features/Appointment/RecurringSession/RecurringSessionApi";
+import { setMonth } from "date-fns";
 
 const DayView = ({token, id}) => {
   const [selectedDay, setSelectedDay] = useState(null);
@@ -18,7 +20,8 @@ const DayView = ({token, id}) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const { register, handleSubmit, reset } = useForm();
   const [deleteSessionId, setDeleteSessionId] = useState(0);
-
+  const [recordSelected, setRecordSelected] = useState([]);
+  const [moveDay, setMoveDay] = useState([]);
 
   const { data: dayViewData, isLoading: dayViewLoading } =
   useGetDayViewListQuery({
@@ -26,10 +29,10 @@ const DayView = ({token, id}) => {
       id
     });
 
-  const { data: dayData, isLoading: dayDataLoading } =
+ /* const { data: dayData, isLoading: dayDataLoading } =
   useGetDayListQuery({
       token
-  });
+  }); */
 
 
   const dayWiseData = dayViewData?.sessions_unlocked;
@@ -75,9 +78,122 @@ const DayView = ({token, id}) => {
     const d = new Date(start_date);
     return d.getDate() + ' ' + month[d.getMonth()];
   }
-  const onSubmit = (data) => {
-    console.log('data -- ',data)
+
+  const updateSelected = (id,day) => {
+      if(recordSelected.indexOf(id) > -1)
+      {
+        setRecordSelected((prevState) => prevState.filter(sessionId => sessionId!=id))
+        setMoveDay((prevState) => prevState.filter(sessionId => sessionId.id!=id))
+      } else {
+        setRecordSelected((prevState) => [...prevState,id])
+        setMoveDay((prevState) => [...prevState,{id:id,day:day}])
+      }
   }
+
+  const [
+    deleteSessionBulk,
+     { isSuccess: deleteSuccess, isError: deleteError },
+   ] = useDeleteBulkSessionMutation();
+
+   const [
+    moveSessionData,
+     { isSuccess: moveSuccess, isError: moveError },
+   ] = useMoveSessionMutation();
+  
+  const onSubmit = (data) => {
+    if(data?.singleViewAction === '') {
+      toast.error("Please select day view action", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      })
+    } else if(recordSelected.length == 0) {
+      toast.error("Please select atleast one option", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      })
+    } else {
+      if(data?.singleViewAction == 1)
+      {    
+        
+        let dayArray = [];
+        moveDay.map((dayChecked) => dayArray.indexOf(dayChecked.day) === -1 ? dayArray.push(dayChecked.day) : '' )
+        if(dayArray.length > 1)
+        {
+          toast.error("Only day can be selected at the same time", {
+            position: "top-center",
+            autoClose: 5000,
+            theme: "dark",
+            style: { fontSize: "12px" },
+          })
+        } else  if(dayArray[0] == data?.dayselected) {
+          toast.error("Selected date and move date are same", {
+            position: "top-center",
+            autoClose: 5000,
+            theme: "dark",
+            style: { fontSize: "12px" },
+          })
+        } else {   
+          const payload = {
+            session_ids:recordSelected,
+            current_day:dayArray[0],
+            expected_day:data?.dayselected
+          }
+          moveSessionData({token,payload})
+        }
+      }
+      if(data?.singleViewAction == 2)
+      {      
+        const payload = {
+          session_ids:recordSelected
+        }
+        deleteSessionBulk({token,payload})
+      }
+    }
+  }
+  useEffect(() => {
+    if (moveSuccess) {
+      toast.success("Moved successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+      setTimeout(()=>{
+        window.location.reload();
+      },3000)
+    } else if (moveError) {
+      toast.error("Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [moveSuccess, moveError]);
+  useEffect(() => {
+    if (deleteSuccess) {
+      toast.success("Deleted successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+      setTimeout(()=>{
+        window.location.reload();
+      },3000)
+    } else if (deleteError) {
+      toast.error("Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [deleteSuccess, deleteError]);
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -93,14 +209,14 @@ const DayView = ({token, id}) => {
             "Sunday",
           ].map((day) => (
             <div key={day} className="border text-center py-1">
-              <Checkbox
+              {/*<Checkbox
                 disabled={isDisabled(day)}
                 onChange={(e) => onChange(e, day)}
                 onClick={(e) => weekDayHandle(e, day)}
                 key={day}
               >
+          </Checkbox>*/}
                 {day}
-              </Checkbox>
             </div>
           ))}
           {/* {appointment?.map((data, i) => (
@@ -124,7 +240,7 @@ const DayView = ({token, id}) => {
                 return (                
                 <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
                 <div className="flex items-center gap-1">
-                  <Checkbox></Checkbox>
+                  <Checkbox value={p.session_id} onClick={()=>updateSelected(p.session_id,1)}></Checkbox>
                       <p className="text-[13px]">
                         <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
                       </p>
@@ -142,8 +258,8 @@ const DayView = ({token, id}) => {
               {dayWiseData?.Tuesday.map((p)=>{
                 return (                
                 <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md" key={p.session_id}>
-                  <Checkbox>
                     <div className="flex items-center gap-1">
+                      <Checkbox value={p.session_id} onClick={()=>updateSelected(p.session_id,2)}></Checkbox>
                       <p className="text-[13px]">
                         <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
                       </p>
@@ -152,7 +268,6 @@ const DayView = ({token, id}) => {
                         className="text-rose-500"
                       />
                     </div>
-                  </Checkbox>
                 </div>
               )}) }
               </>
@@ -162,8 +277,8 @@ const DayView = ({token, id}) => {
               {dayWiseData?.Wednesday.map((p)=>{
                 return (                
                 <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
-                  <Checkbox>
                     <div className="flex items-center gap-1">
+                      <Checkbox value={p.session_id} onClick={()=>updateSelected(p.session_id,3)}></Checkbox>
                       <p className="text-[13px]">
                         <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
                       </p>
@@ -172,7 +287,6 @@ const DayView = ({token, id}) => {
                         className="text-rose-500"
                       />
                     </div>
-                  </Checkbox>
                 </div>
               )}) }
             </>
@@ -182,8 +296,8 @@ const DayView = ({token, id}) => {
               {dayWiseData?.Thursday.map((p)=>{
                 return (                
                 <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
-                  <Checkbox>
                     <div className="flex items-center gap-1">
+                      <Checkbox value={p.session_id} onClick={()=>updateSelected(p.session_id,4)}></Checkbox>
                       <p className="text-[13px]">
                         <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
                       </p>
@@ -192,7 +306,6 @@ const DayView = ({token, id}) => {
                         className="text-rose-500"
                       />
                     </div>
-                  </Checkbox>
                 </div>
               )}) }
               </>
@@ -202,8 +315,8 @@ const DayView = ({token, id}) => {
               {dayWiseData?.Friday.map((p)=>{
                 return (                
                 <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
-                  <Checkbox>
                     <div className="flex items-center gap-1">
+                      <Checkbox value={p.session_id} onClick={()=>updateSelected(p.session_id,5)}></Checkbox>
                       <p className="text-[13px]">
                         <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
                       </p>
@@ -212,7 +325,6 @@ const DayView = ({token, id}) => {
                         className="text-rose-500"
                       />
                     </div>
-                  </Checkbox>
                 </div>
               )}) }
             </>
@@ -221,9 +333,9 @@ const DayView = ({token, id}) => {
             <>
               {dayWiseData?.Saturday.map((p)=>{
                 return (                
-                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md">
-                  <Checkbox key={p.session_id}>
+                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
                     <div className="flex items-center gap-1">
+                      <Checkbox value={p.session_id} onClick={()=>updateSelected(p.session_id,6)}></Checkbox>
                       <p className="text-[13px]">
                         <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
                       </p>
@@ -232,7 +344,6 @@ const DayView = ({token, id}) => {
                         className="text-rose-500"
                       />
                     </div>
-                  </Checkbox>
                 </div>
               )}) }
               </>
@@ -241,9 +352,9 @@ const DayView = ({token, id}) => {
             <>
               {dayWiseData?.Sunday.map((p)=>{
                 return (                
-                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md">
-                  <Checkbox key={p.session_id}>
+                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
                     <div className="flex items-center gap-1">
+                      <Checkbox value={p.session_id} onClick={()=>updateSelected(p.session_id,7)}></Checkbox>
                       <p className="text-[13px]">
                         <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
                       </p>
@@ -252,7 +363,6 @@ const DayView = ({token, id}) => {
                         className="text-rose-500"
                       />
                     </div>
-                  </Checkbox>
                 </div>
               )}) }
               </>
@@ -262,7 +372,9 @@ const DayView = ({token, id}) => {
       <div className="flex items-center gap-4">
         <div>
           <select
+            {...register("singleViewAction")}
             className="input-border text-gray-600 rounded-sm text-[14px] font-medium w-full ml-1 focus:outline-none"
+            onChange={(e)=>(e.target.value == 1 ? setDayListOpen(true) : setDayListOpen(false))}
           >
             <option value=""> Select Any Action </option>
             <option value="1"> Move to </option>
@@ -272,11 +384,16 @@ const DayView = ({token, id}) => {
         {dayListOpen && (
         <div>
           <select
+            {...register("dayselected")}
             className="input-border text-gray-600 rounded-sm text-[14px] font-medium w-full ml-1 focus:outline-none"
           >
-            <option value=""> Select Any Action </option>
-            <option value="1"> Move to </option>
-            <option value="2"> Bulk Delete </option>
+          <option value="1"> Monday </option>
+          <option value="2"> Tuesday </option>
+          <option value="3"> Wednesday </option>
+          <option value="4"> Thursday </option>
+          <option value="5"> Friday </option>
+          <option value="6"> Saturday </option>
+          <option value="7"> Sunday </option>
           </select>
         </div>
         )}

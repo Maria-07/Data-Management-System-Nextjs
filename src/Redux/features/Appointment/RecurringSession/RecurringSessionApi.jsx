@@ -109,6 +109,19 @@ export const recurringSessionApi = api.injectEndpoints({
       invalidatesTags: ["deleteSessionData"],
     }),
 
+    moveSession: builder.mutation({
+      query: ({ token, payload }) => ({
+        url: "appointment/recurring/move",
+        method: "POST",
+        headers: {
+          "content-type": "Application/json",
+          "Authorization": token || null,
+        },
+        body: JSON.stringify(payload),
+      }),
+      invalidatesTags: ["deleteSessionData"],
+    }),
+
   }),
 });
 
@@ -120,5 +133,6 @@ export const {
   useDeleteSessionIdMutation,
   useGetProvidersListQuery,
   useGetStatusListQuery,
-  useDeleteBulkSessionMutation
+  useDeleteBulkSessionMutation,
+  useMoveSessionMutation
 } = recurringSessionApi;

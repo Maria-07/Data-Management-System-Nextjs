@@ -71,13 +71,13 @@ const LibraryLayout = ({ children }) => {
       <hr
         className={`mt-5 ${theme === "dark" ? "border-dark-secondary" : ""} `}
       />
-      <div className="grid grid-cols-8">
+      <div className="grid grid-cols-8 gap-3">
         <div className="col-span-1">
           <LibrarySidebar></LibrarySidebar>
         </div>
 
         <div
-          className={` col-span-6 mt-[1px] w-[100%]  min-h-[80vh]  ${
+          className={` col-span-6 mt-[1px] w-[100%]   py-3 ${
             theme === "dark" ? "bg-dark-background" : ""
           }`}
         >
@@ -89,7 +89,7 @@ const LibraryLayout = ({ children }) => {
           <div
             className={`${
               theme === "dark" ? "bg-dark-primary border-none" : ""
-            } px-5 py-5 border border-t-0  shadow-md`}
+            } px-5 py-5 border border-t-0  shadow-md min-h-full`}
           >
             <h1 className="text-sm font-semibold text-primary text-center text-gray mb-1">
               Program Status

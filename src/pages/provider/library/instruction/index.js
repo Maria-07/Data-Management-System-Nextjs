@@ -31,11 +31,11 @@ const instructionPage = () => {
   };
 
   return (
-    <div className="m-5">
+    <div className="">
       <div
         className={`${
           theme === "dark" ? "bg-dark-primary border-none" : "bg-white"
-        }  min-h-[80vh] lg:p-5 p-2 w-full border rounded-lg shadow-md`}
+        }  min-h-[100vh] lg:p-5 p-2 w-full `}
       >
         {" "}
         <div className="">

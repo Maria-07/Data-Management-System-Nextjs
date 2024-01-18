@@ -126,11 +126,11 @@ const targetPage = () => {
   const { theme } = useTheme();
 
   return (
-    <div className="lg:m-5 m-2">
+    <div className="">
       <div
         className={`${
           theme === "dark" ? "bg-dark-primary border-none" : "bg-white"
-        } min-h-[80vh] lg:p-5 p-2 w-full border rounded-lg shadow-md `}
+        } min-h-[80vh] lg:p-5 p-2 w-full  `}
       >
         <div className="flex items-center justify-between flex-wrap gap-3">
           <button

@@ -1,21 +1,33 @@
 import { Dropdown, Tag, Tooltip } from "antd";
+import { useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { TbPinnedFilled } from "react-icons/tb";
-import { TfiPin2 } from "react-icons/tfi";
 
-const ProgramCard = () => {
+const ProgramCard = ({ handleSelectProgram }) => {
+  const [isSelected, setIsSelected] = useState(false);
+
+  const selectProgram = (programName) => {
+    handleSelectProgram(programName);
+    setIsSelected(!isSelected);
+  };
   return (
-    <div className="border p-2  rounded-md">
+    <div className={`border p-2 rounded-md ${isSelected && "bg-sky-200"}`}>
       <div className="flex items-center justify-between ">
-        <div>
+        <div className="flex items-center gap-1">
+          <input
+            type="checkbox"
+            onClick={() => {
+              selectProgram("maria");
+            }}
+          />
           <h1 className="text-xs ">Program</h1>
         </div>
         <div className="flex items-center">
           <Dropdown
             dropdownRender={() => (
-              <div className="bg-white  w-[240px] border shadow-md rounded-sm">
+              <div className="bg-white w-[240px] border shadow-md rounded-sm">
                 <div>
                   <button className="my-3 text-dark hover:text-primary flex items-center gap-3 text-base mx-4 font-semibold">
                     <IoIosRemoveCircleOutline className="text-xl text-rose-600 " />

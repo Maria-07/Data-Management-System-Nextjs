@@ -63,7 +63,7 @@ const Target = () => {
     onChange: (selectedRowKeys, selectedRows) => {
       //   console.log(selectedRows);
     },
-  }; 
+  };
 
   const handleChange = (pagination, filters, sorter) => {
     //console.log("Various parameters", pagination, filters, sorter);

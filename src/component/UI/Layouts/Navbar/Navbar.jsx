@@ -111,6 +111,7 @@ const Navbar = ({ handle, handleSidebar }) => {
                     <Add></Add>
                   </>
                 )}
+                trigger={["click"]}
                 placement="bottomRight"
                 arrow
               >

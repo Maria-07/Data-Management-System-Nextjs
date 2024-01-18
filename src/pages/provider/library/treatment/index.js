@@ -54,7 +54,7 @@ const treatmentPage = () => {
           <div
             className={`${
               theme === "dark" ? "bg-dark-primary border-none" : "bg-white"
-            } lg:p-5 p-2 w-[100%] border rounded-lg shadow-md min-h-[100vh]`}
+            } lg:p-5 p-2 w-[100%]  min-h-[100vh]`}
           >
             <div className="grid grid-cols-1 gap-8">
               <div>

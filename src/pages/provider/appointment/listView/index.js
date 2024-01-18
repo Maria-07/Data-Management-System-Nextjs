@@ -549,7 +549,7 @@ const listViewPage = () => {
           )}
         </div>
       </div>
-      <div className="h-[40%] mx-auto w-[100%] sm:w-[70%]">
+      <div className="h-[40%] mx-auto w-[100%] lg:w-[80%]">
         <div className="overflow-y-scroll">
           <SessionCard> </SessionCard>
           <SessionCard> </SessionCard>

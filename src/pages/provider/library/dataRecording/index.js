@@ -1,13 +1,20 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import LibraryLayout from "@/component/Layouts/LibraryLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
+import WorkFlowModal from "@/component/UI/Library/Program/DataRecording/Modal/WorkFlowModal";
 
 import { Select, Space } from "antd";
 import { useTheme } from "next-themes";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 const dataRecordingPage = () => {
+  const [workFlow, setWorkFlow] = useState(false);
+  const handleWorkFlow = () => {
+    setWorkFlow(!workFlow);
+  };
+
   const items = [
     "waiting",
     "working-on",
@@ -60,17 +67,18 @@ const dataRecordingPage = () => {
   const { theme } = useTheme();
 
   return (
-    <div className="m-5 ">
+    <div className=" ">
+      <button className="" onClick={handleWorkFlow}>
+        WorkFLow
+      </button>
       <div
         className={`${
           theme === "dark"
             ? "bg-dark-primary border-dark-background"
             : "secondary"
-        } min-h-[80vh] lg:p-5 p-2 w-full border rounded-lg shadow-md `}
+        } min-h-[80vh] lg:p-5 p-2 w-full`}
       >
-        {" "}
         <div className="grid grid-cols-1 gap-5">
-          {" "}
           <div>
             <h1
               className={`${
@@ -166,6 +174,12 @@ const dataRecordingPage = () => {
           </div>
         </div>
       </div>
+      {workFlow && (
+        <WorkFlowModal
+          handleClose={handleWorkFlow}
+          clicked={workFlow}
+        ></WorkFlowModal>
+      )}
     </div>
   );
 };

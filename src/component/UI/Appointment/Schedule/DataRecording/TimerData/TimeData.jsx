@@ -98,7 +98,7 @@ const TimeData = () => {
                 // onClick={handleIncrement}
                 className="px-2 py-3 uppercase bg-secondary text-white rounded-md min-w-[100px] max-w-[105px] text-center"
               >
-                Stemming
+                Stimming
                 <div className="time my-1">
                   {currentMinutes}
                   <span className="mx-3">:</span>

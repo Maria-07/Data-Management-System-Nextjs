@@ -1,20 +1,47 @@
 import PatientLayout from "@/component/Layouts/PatientLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
 import ClinicalSessionCards from "@/component/UI/Patients/Patients/CinicalData/sessions/ClinicalSessionCards";
+import CustomSelectAntd from "@/shared/CustomSelectAntd";
 import { Timeline } from "antd";
+import { useTheme } from "next-themes";
 import Link from "next/link";
+import { useState } from "react";
 
 const SessionDetails = () => {
+  //! Theme system
+  const { theme } = useTheme();
+
+  const [treatment, setTreatment] = useState("");
+  const [treatmentArray, setTreatmentArray] = useState([
+    "JavaScript",
+    "Python",
+    "Java",
+    "C++",
+    "Ruby",
+    "JavaScript",
+    "Python",
+  ]);
   return (
     <div className="">
       <div>
         <h1>PREPARATION</h1>
       </div>
-      <div className="py-3 px-5 my-5 shadow-lg border rounded-lg">
-        <h1 className=" text-[16px] font-semibold">
-          Message from Ciara Barkley{" "}
-        </h1>
-        <h2 className="text-xs my-2">Thank you for your patience!</h2>
+      <div className="my-5">
+        <div>
+          <h1
+            className={`${
+              theme === "dark" ? "text-dark-secondary" : "text-secondary"
+            }text-sm mb-2 font-semibold`}
+          >
+            Programs
+          </h1>
+
+          <CustomSelectAntd
+            item={treatmentArray}
+            setOption={setTreatment}
+            sName={"Programs"}
+          ></CustomSelectAntd>
+        </div>
       </div>
       <div>
         <ClinicalSessionCards></ClinicalSessionCards>

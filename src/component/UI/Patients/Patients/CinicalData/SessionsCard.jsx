@@ -338,6 +338,17 @@ const SessionCard = () => {
                         </button>
                       </div>
                     </Link>
+                    {/* <Link
+                      href={
+                        "/provider/patients/clinical-data/session-details/1212"
+                      }
+                    >
+                      <div className="px-2 mb-2  text-white">
+                        <button className="font-regular text-sm rounded-md border-green-400 hover:border-green-500 bg-green-500  w-full transition-all uppercase border py-[6px]">
+                          Resume Session
+                        </button>
+                      </div>
+                    </Link> */}
                   </div>
                 </div>
               </div>

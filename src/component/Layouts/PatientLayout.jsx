@@ -25,6 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import { FaBusinessTime, FaUsers } from "react-icons/fa";
 import { BsClipboard2Data } from "react-icons/bs";
+import { RiMiniProgramLine } from "react-icons/ri";
 
 const PatientLayout = ({ id, children }) => {
   //! Theme system
@@ -58,9 +59,14 @@ const PatientLayout = ({ id, children }) => {
       link: `/provider/patients/patient-info/${patientId}`,
     },
     {
-      icon: <BiUserCircle />,
+      icon: <BsClipboard2Data />,
       link_name: "Clinical Data",
       link: `/provider/patients/clinical-data/${patientId}`,
+    },
+    {
+      icon: <RiMiniProgramLine />,
+      link_name: "programs",
+      link: `/provider/patients/programs/${patientId}`,
     },
     {
       icon: <AiOutlineFileAdd />,

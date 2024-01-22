@@ -5,11 +5,13 @@ import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import CustomModal from "@/component/UI/Appointment/calenderView/CustomModal";
 import { useGetCalendarEventApiQuery } from "@/Redux/features/Appointment/Calendar/CalendarApi";
 import moment from "moment";
+import axios from "axios";
+import { FaCircle, FaVideo, FaMessage, FaCircleInfo } from "react-icons/fa6";
 
 const calenderView = () => {
   const tooltipRef = useRef(null);
@@ -22,7 +24,7 @@ const calenderView = () => {
   const [startdate, setStartDate] = useState("");
   const [enddate, setendDate] = useState("");
   const [dynamicID, setdynamicId] = useState("");
-
+  const [calenderEvents,setCalenderEvents] = useState([]);
   // hovering data show all funch
 
   const handleClose = () => {
@@ -30,6 +32,7 @@ const calenderView = () => {
   };
 
   const handleDatesSet = (arg) => {
+    console.log('asdgas');
     // console.log("data of hovered event", arg.view);
     // const viewStartDate = new Date(arg.view.currentStart);
     // const viewEndDate = new Date(arg.view.currentEnd);
@@ -75,7 +78,7 @@ const calenderView = () => {
   // const calander event api call
   // console.log("startdate and enddate  ", startdate, enddate);
 
-  const {
+  /*const {
     isLoading,
     data: calenderEvents,
     isSuccess,
@@ -86,11 +89,36 @@ const calenderView = () => {
       page: 1,
       // start_data: "2023-05-01",
       // end_date: "2023-05-31",
-      start_data: startdate,
+      start_date: startdate,
       end_date: enddate,
     },
-  });
+  });*/
 
+  const getCalenderData = async () => {
+    let res = await axios({
+      method: "post",
+      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/calendar`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Authorization": token || null,
+      },
+      data: {
+        page: 1,
+        start_date: startdate,
+        end_date: enddate,
+      },
+    });
+    const data = res;
+    console.log('data --',res);
+    setCalenderEvents(data);
+  };
+  useEffect(() => { 
+    if(startdate!='' && enddate!='')
+    {
+      getCalenderData();
+    }
+  }, [startdate,enddate]);
   // for showing clicked event details basedon id using same CustomModal.jsx
   const showEventDetails = (id) => {
     console.log("Clicked event id", id);
@@ -113,11 +141,14 @@ const calenderView = () => {
   //-------------------------------Showing month date(auto) -------------------
 
   console.log("api data rtk", calenderEvents);
-  const modifyDatamap = calenderEvents?.data?.data.map((item) => {
-    const title = `${item?.app_patient?.client_first_name} : ${item?.app_provider?.first_name}`;
-    const start = item?.from_time;
-    const end = item?.to_time;
+  const modifyDatamap = calenderEvents?.data?.data_all?.data.map((item) => {
+    const title = item?.title;
+    const start = item?.start;
+    const end = item?.end;
     const id = item?.id;
+    const textColor = item?.textColor;
+    const borderColor = item?.borderColor;
+    const backgroundColor = item?.backgroundColor;
     return {
       title,
       color: "#089BAB",
@@ -125,13 +156,18 @@ const calenderView = () => {
       end,
       start,
       id,
-      textColor: "white",
+      textColor,
+      borderColor,
+      backgroundColor,
+      extendedProps:item
     };
   });
-
+  const handleEventReceive = (eventInfo) => {
+    console.log('eventInfo - ',eventInfo);
+  }
   // For creating new event
   const createEvent = (selectInfo) => {
-    console.log(selectInfo);
+    console.log('adsgasdg',selectInfo);
     setOpen(!open);
     setSelectedDate(selectInfo?.startStr);
     if (eventId) {
@@ -202,7 +238,7 @@ const calenderView = () => {
               handleClose={handleClose}
               clicked={open}
               eventId={dynamicID ? dynamicID : null}
-              refetch={refetch}
+              //refetch={refetch}
               event={hoveredEvent}
             ></CustomModal>
           ) : null}
@@ -221,7 +257,7 @@ const calenderView = () => {
             events={modifyDatamap}
             // initialEvents={allData}
             // initialEvents={modifyDatamap}
-            editable={false}
+            editable={true}
             selectable={true}
             select={createEvent}
             eventClick={(arg) => {
@@ -238,23 +274,59 @@ const calenderView = () => {
             // For showing the calender month and date (autometically)(format 30 days(1-01-2023 to 31-01-2023))
             datesSet={handleDatesSet}
             // editable={false}
-            // droppable={false}
+            droppable={true}
+            eventDrop={info => {//<--- see from here
+              const { start, end } = info.oldEvent._instance.range;
+              console.log(start, end);
+              const {
+                start: newStart,
+                end: newEnd
+              } = info.event._instance.range;
+              console.log(newStart, newEnd);
+              if (new Date(start).getDate() === new Date(newStart).getDate()) {
+                info.revert();
+              }
+            }}
             // for hovering
-            // eventContent={(info) => {
-            //   return (
-            //     <div
-            //       onMouseEnter={() => handleEventHover(info)}
-            //       onMouseLeave={handleEventLeave}
-            //     >
-            //       {info.event.title}
-            //     </div>
-            //   );
-            // }}
+            eventContent={(info) => {
+              const { start, end } = info.event._instance.range;
+              const starTime = moment(start).format('hh:mm a');
+              const [provideId, patientId] = info.event.title.split(':');
+              const itemDisplay = info.event.extendedProps.display;
+              const bgcolor = itemDisplay !='list-item' ? info.event.backgroundColor : '#ffffff'
+              const isGroup = info.event.extendedProps.is_group == 1 ? 'G' : '';
+              const isRecurring = info.event.extendedProps.recurring_id != null ? 'R' : '';
+              const status = ['Cancelled by Client', 'CC more than 24 hrs', 'CC less than 24 hrs', 'Cancelled by Provider'];
+              const isDeleted = status.includes(info.event.extendedProps.status) ? 'line-through' : '';
+            return (
+                 <div className="text-xs"
+                   //onMouseEnter={() => handleEventHover(info)}
+                   //onMouseLeave={handleEventLeave}
+                 >
+                  
+                    <div style={{display:'flex',backgroundColor:`${bgcolor}`,textDecorationLine:`${isDeleted}`}}>
+                    {itemDisplay == 'list-item' && (<span><FaCircle style={{color:`${info.event.borderColor}`,fontSize:'12px',paddingTop:'5px'}} /></span>)}
+                      <span className="px-1" style={{paddingTop:'2px'}}><FaCircleInfo /></span>
+                      <span> {`${starTime} `}</span>
+                      <span className="px-1"> {provideId} :{patientId}</span>
+                       {info.event.extendedProps.icon == 'camera' && (<span style={{fontSize:'12px',paddingTop:'2px',paddingLeft:'2px'}}><FaVideo /></span>)}
+                      {info.event.extendedProps.comment == 'comment' && (<span style={{fontSize:'12px',paddingTop:'2px',paddingLeft:'2px'}}><FaMessage /></span>)}
+                      {isGroup!='' && (<span className="text-green-400  px-1"> G</span>)}
+                      {isRecurring!='' && (<span className="text-red-500 px-1"> R</span>)}
+                    </div>
+                  
+                </div>
+              );
+             }}
             // eventMouseEnter={handleEventHover}
             // eventMouseLeave={handleEventLeave}
             //
-            // eventMouseEnter={handleEventMouseEnter}
-            // eventMouseLeave={handleEventMouseLeave}
+            /*eventMouseEnter={info => {
+              console.log('MouseEnter',info.event.id)
+            }}
+            eventMouseLeave={info => {
+              console.log('MouseLeave',info.event.id)
+            }}*/
           />
         </div>
       </div>
@@ -266,3 +338,4 @@ export default calenderView;
 calenderView.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
 };
+

@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useDeleteSessionIdMutation } from "@/Redux/features/Appointment/RecurringSession/RecurringSessionApi";
 const DeleteModal = ({ handleClose, open, deleteSessionId, token }) => {
-  console.log('deleteSessionId - ', deleteSessionId);
   const [
     deleteSessionById,
      { isSuccess: deleteSuccess, isError: deleteError },

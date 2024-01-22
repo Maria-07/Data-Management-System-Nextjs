@@ -12,8 +12,9 @@ import { useTheme } from "next-themes";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import { useRouter } from "next/router";
 import axios from "axios";
-import MultiSelectGlobal from "@/shared/CustomeMultiSelect/MultiselectGlobal";
-import { useGetProvidersListQuery } from "@/Redux/features/Appointment/RecurringSession/RecurringSessionApi";
+import { MultiSelect } from "react-multi-select-component";
+import { useGetProvidersListQuery, useGetStatusListQuery, useUpdateSessionMutation } from "@/Redux/features/Appointment/RecurringSession/RecurringSessionApi";
+import { toast } from "react-toastify";
 
 const TextArea = Input;
 
@@ -30,11 +31,18 @@ const RecurringSessionEdit = () => {
   const [allData,setAllData] = useState([]);
   const [stuffs, setStuffs] = useState();
   const [stuffsId, setStuffsId] = useState([]);
-
+  const [selectedService, setSelectedService] = useState([]);
+  const [serviceOptions, setServiceOptions] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const [appointmentIds, setAppointmentIds] = useState([]);
   const { data: providerData, isLoading: providerDataLoading } =
   useGetProvidersListQuery({token});
 
+  const { data: statusData, isLoading: statusDataLoading } =
+  useGetStatusListQuery({token});
+
   const handleClickOpen = () => {
+    setAppointmentIds([]);
     setOpenEditModal(true);
   };
   const handleClose = () => {
@@ -52,24 +60,146 @@ const RecurringSessionEdit = () => {
           "Authorization": token || null,
         },
       });
-      console.log(res);
       const data = res?.data;
       setSessionData(data);
       setStuffs(data?.services)
+      let serviesList = [];
+      for (let x of data?.services) {
+        serviesList[x?.id] =  {label: x?.name, value: x?.name, id: x?.id}
+      }
+      
+      let selectedServiceList = []
+      data?.selected_activities?.map((p)=>{
+        selectedServiceList.push(serviesList[p]);
+      })
+      setSelected(selectedServiceList);
+      let allData = data?.services;
+      let processedData = [];
+      if (allData) {
+        for (let x of allData) {
+          if (x?.id !== null) {
+            processedData.push({
+              label: x?.name,
+              value: x?.name,
+              id: x?.id,
+            });
+          }
+        }
+      }
+      setServiceOptions(processedData)
     };
     if(id>0)
     {
       getSessionData();
     }
-  }, []);
-
-
+  }, [id]);
+  useEffect(() => {
+    const getSelectedClients = async () => {
+      const getId = selected.map((item) => item.id);
+      setStuffsId(getId);
+    };
+    getSelectedClients();
+  }, [selected, setStuffsId]);
+  const customValueRenderer = (selected, _options) => {
+    if (selected.length) {
+      if (selected.length > 3) return `All Selected (${selected.length})`;
+      return selected.map(({ label }) => label + "," + " ");
+    }
+    return <h1 className="text-[#4b5563]">None selected</h1>;
+  };
+  const convertTime12to24 = (time12h) => {  
+    if(typeof time12h !== 'undefined') {
+        let [times, modifier] = time12h.split(' ');  
+        let [hours, minutes] = times.split(':'); 
+        if (hours === '12') {
+          hours = '00';
+        }  
+        if (modifier === 'PM' || modifier === 'pm') {
+          hours = parseInt(hours, 10) + 12;
+        }  
+        return `${hours}:${minutes}:00`;    
+      }
+    return null;
+  }
+  const [
+    updateRecurringSession,
+    { isSuccess: updateSuccess, isError: updateError, error:ApiError },
+  ] = useUpdateSessionMutation();
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
-    reset();
+    if(appointmentIds.length == 0) {
+      toast.error("Please select atleast one appointment", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      })
+    } else {
+    const payload = {
+      check_array:appointmentIds,
+      location:data?.location,
+      provider_id:data?.Provider_name,
+      from_time:data?.from_time + ':00',
+      to_time:data?.to_time + ':00',
+      status:data?.status,
+      activity_id:stuffsId,
+      rec_id:id,
+      authorization_id:data?.Auth,
+      notes:data?.notes,
+    }
+    if (payload) {
+      updateRecurringSession({
+        token,
+        payload,
+      });
+      //reset();
+    }
+    }
   };
+  useEffect(() => {
+    if (updateSuccess) {
+      toast.success("Recurring session updated successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+      setTimeout(() => {
+        window.location.reload();
+      },3000)
+    } else if (ApiError) {
+      let responseError =  Object.values(ApiError?.data?.message);
+      toast.error(responseError[0][0], {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else if (updateError) {
+      toast.error("Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [updateSuccess, updateError,ApiError]);
   //console.log(errors);
+  useEffect(() => {
+    // you can do async server request and fill up form
+    setTimeout(() => {
+      reset({
+        client_id:sessionData?.client_details?.id,
+        Auth:sessionData?.session_data?.authorization_id,
+        Provider_name:sessionData?.session_data?.provider_id,
+        location:sessionData?.session_data?.location,
+        from_time:convertTime12to24(sessionData?.session_data?.from_time),
+        to_time:convertTime12to24(sessionData?.session_data?.to_time),
+        status:sessionData?.session_data?.status,
+        notes:sessionData?.session_data?.notes
+      })
+    })
+  },[sessionData,reset])
 
   const tabItems = [
     {
@@ -117,11 +247,10 @@ const RecurringSessionEdit = () => {
       children: <SingleView token={token} id={id}></SingleView>,
     },
   ];
-
   return (
     <div className="sm:min-h-[100vh]">
       <div className="flex items-start flex-wrap gap-2 justify-between">
-        <h1 className="text-base text-cyan-700 font-semibold">
+        <h1 className="text-lg text-left text-orange-400">
           Edit Recurring Session
         </h1>
 
@@ -149,7 +278,7 @@ const RecurringSessionEdit = () => {
               </label>
               <select
                     className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
-                {...register("patient_name")}
+                {...register("client_id")}
               >
                 <option value={sessionData?.client_details?.id}>{sessionData?.client_details?.client_full_name}</option>
               </select>
@@ -175,9 +304,14 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">Service</span>
               </label>
                 <div className="py-[2px]  mt-2">
-                  <MultiSelectGlobal
-                    allData={stuffs}
-                    setId={setStuffsId}
+                  <MultiSelect
+                    //   disabled={patientsLoading && true}
+                    className="Global"
+                    options={serviceOptions}
+                    value={selected}
+                    labelledBy="Select"
+                    onChange={setSelected}
+                    valueRenderer={customValueRenderer}
                   />
                 </div>
             </div>
@@ -202,8 +336,8 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">POS</span>
               </label>
               <select
-                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
-                {...register("Pos")}
+                className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
+                {...register("location")}
               >
               <option value=""></option>
               <option value="03">School (03)</option>
@@ -245,7 +379,7 @@ const RecurringSessionEdit = () => {
                   <span className=" label-font">From Time</span>
                 </label>
                 <input
-                  className="input-border input-font w-full focus:outline-none"
+                  className="border rounded-sm px-2 py-[5px] mx-1 text-xs w-[105px]"
                   type="time"
                   {...register("from_time")}
                 />
@@ -255,9 +389,9 @@ const RecurringSessionEdit = () => {
                   <span className=" label-font">To Time</span>
                 </label>
                 <input
-                  className="input-border input-font w-full focus:outline-none"
+                  className="border rounded-sm px-2 py-[5px] mx-1 text-xs w-[105px]"
                   type="time"
-                  {...register("To_time")}
+                  {...register("to_time")}
                 />
               </div>
             </div>
@@ -266,13 +400,15 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">Status</span>
               </label>
               <select
-                className="input-border input-font w-full focus:outline-none"
-                {...register("Status")}
+                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
+                {...register("status")}
               >
-                <option value="Rendered">Rendered</option>
-                <option value="Show">Show</option>
-                <option value="Hold">Hold</option>
-                <option value="No Show">No Show</option>
+              <option value=""></option>
+              {statusData?.status_list?.map((p) => {
+                  return(
+                    <option value={p} key={p}>{p}</option>
+                  )
+              })}
               </select>
             </div>
             {/* <div></div> */}
@@ -281,7 +417,18 @@ const RecurringSessionEdit = () => {
                 <span className=" label-font">Office Notes</span>
               </label>
               <div className="">
-                <TextArea rows={6} placeholder=" Notes" size="large" />
+              <textarea
+                className="input-border input-font py-[1px] w-full focus:outline-none"
+                {...register("notes")}
+                rows={4}
+                cols={40}
+              />
+              </div>
+            </div>
+            <div>
+              <div className=" dcm-button mr-2 text-center" onClick={handleClickOpen}>
+                Add Appointment 
+              <span> Selected({appointmentIds.length})</span>
               </div>
             </div>
           </div>
@@ -290,7 +437,6 @@ const RecurringSessionEdit = () => {
           {/* submit  */}
           <div className="mt-10">
             <button
-              onClick={handleClickOpen}
               className=" dtm-button mr-2"
               type="submit"
             >
@@ -312,6 +458,9 @@ const RecurringSessionEdit = () => {
         <RecurringSessionModal
           handleClose={handleClose}
           open={openEditModal}
+          token={token} 
+          id={id}
+          setAppointmentIds = {setAppointmentIds}
         ></RecurringSessionModal>
       )}
     </div>

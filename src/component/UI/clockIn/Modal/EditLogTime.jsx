@@ -16,7 +16,8 @@ const EditLogTime = ({ handleClose, open, selectedRecord, getRecords }) => {
 
   const convertTime12to24 = (time12h) => {  
     if(typeof time12h !== 'undefined') {
-        let [hours, minutes, modifier] = time12h.split(':');  
+      let [times, modifier] = time12h.split(' ');  
+      let [hours, minutes] = times.split(':'); 
         if (hours === '12') {
           hours = '00';
         }  

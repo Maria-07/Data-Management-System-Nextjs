@@ -236,10 +236,23 @@ const listViewPage = () => {
         "end_date": convert(current_date)
       }
     }
-    getAppointmentData(apppointmentFilter);
+    setFromData(apppointmentFilter);
+    //getAppointmentData(apppointmentFilter);
   }, [token]);
-  const getAppointmentData = async (payload) => {
+  const getAppointmentData = async () => {
     setMessage('');  
+    const from_date = convert(startDate);
+    const to_date = convert(endDate);
+    const payload = {
+      patient_ids: patientId,
+      provider_ids: stuffsId?.length > 0 ? stuffsId : "",
+      status: statusName,
+      ses_pos: location,
+      ses_app_type: 1,
+      page:page,
+      report_range:{start_date:from_date,end_date:to_date}
+    };
+    console.log("payload -- ", payload);
     const res = await axios({
       method: "POST",
       url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointments/list`,
@@ -295,9 +308,9 @@ const listViewPage = () => {
       page:1,
       report_range:{start_date:from_date,end_date:to_date}
     };
-    console.log("payload", payLoad);
+    //console.log("payload", payLoad);
     setFromData(payLoad);
-    getAppointmentData(payLoad);
+    //getAppointmentData(payLoad);
     /*if (payLoad?.to_date === "NaN-aN-aN") {
       toast.error(<h1 className="font-bold">Select Valid Date-Range</h1>, {
         position: "top-center",
@@ -309,7 +322,10 @@ const listViewPage = () => {
       setPage(1);
     }*/
     //handlePageClick({ selected: 0 });
-  };
+  };  
+  useEffect(() => { 
+    getAppointmentData();
+  }, [formData]);
 
   return (
     <div>

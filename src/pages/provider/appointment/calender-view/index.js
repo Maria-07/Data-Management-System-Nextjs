@@ -10,6 +10,9 @@ import { getAccessToken } from "@/Redux/api/apiSlice";
 import CustomModal from "@/component/UI/Appointment/calenderView/CustomModal";
 import { useGetCalendarEventApiQuery } from "@/Redux/features/Appointment/Calendar/CalendarApi";
 import moment from "moment";
+import CalenderFilter from "@/component/UI/Appointment/calenderView/CustomModalHelper/CalenderFilter";
+import { IoSettingsOutline } from "react-icons/io5";
+import SettingModal from "@/component/UI/Appointment/calenderView/CustomModalHelper/SettingModal";
 
 const calenderView = () => {
   const tooltipRef = useRef(null);
@@ -22,6 +25,12 @@ const calenderView = () => {
   const [startdate, setStartDate] = useState("");
   const [enddate, setendDate] = useState("");
   const [dynamicID, setdynamicId] = useState("");
+  const [data, setData] = useState(false);
+  const [settings, setSettings] = useState(false);
+
+  const handleSetting = () => {
+    setSettings(!settings);
+  };
 
   // hovering data show all funch
 
@@ -171,12 +180,22 @@ const calenderView = () => {
     <div>
       {" "}
       <div>
+        {data && <CalenderFilter></CalenderFilter>}
+
         <div className="flex items-center flex-wrap md:justify-between pb-4">
           <h1 className="text-lg my-2 text-orange-500">Manage Appointment</h1>
-          <div className="flex items-center justify-end">
-            <button className="py-[5px] px-3 text-[12px] font-normal bg-gradient-to-r from-red-700 to-red-400 hover:to-red-700 text-white rounded-sm">
+          <div className="flex items-center justify-end gap-2">
+            <IoSettingsOutline
+              onClick={handleSetting}
+              className="text-2xl text-primary"
+            />
+            <div
+              onClick={() => setData(true)}
+              type="button"
+              className="py-[5px] px-3 text-[12px] font-normal bg-gradient-to-r from-red-700 to-red-400 hover:to-red-700 text-white rounded-sm"
+            >
               Filter
-            </button>
+            </div>
             <Link href={"/admin"}>
               {/* <Image
                 src={googleCalendar}
@@ -258,6 +277,12 @@ const calenderView = () => {
           />
         </div>
       </div>
+      {settings && (
+        <SettingModal
+          handleClose={handleSetting}
+          clicked={settings}
+        ></SettingModal>
+      )}
     </div>
   );
 };

@@ -4,6 +4,7 @@ import "@/styles/sidebar.css";
 import "@/styles/component.css";
 import "@/styles/antd5Custom.css";
 import "@/styles/settings.css";
+import "@/styles/InsuranceMultiSelect.css";
 import "@/styles/CustomDateRange.css";
 import "@/styles/multiSelect.css";
 import "@/styles/calender.css";

@@ -52,7 +52,7 @@ const Timesheet = () => {
         style: { fontSize: "12px" },
       });
     } else {
-      const payload = { pay_period_id:payPeriodId, status:payStatus!='' ? payStatus : 1}
+      const payload = { pay_period_id:payPeriodId, status:payStatus!='' ? payStatus : ''}
       getTimesheetData(payload)
       setTableOpen(true);
       reset();
@@ -61,7 +61,7 @@ const Timesheet = () => {
 
   const getDayReport = (day) => {
     setDaySelected(day);
-    const payload = { pay_period_id:payPeriodId, status:payStatus!='' ? payStatus : 1, day_name:day}
+    const payload = { pay_period_id:payPeriodId, status:payStatus!='' ? payStatus : '', day_name:day}
     getTimesheetData(payload)
   }
   

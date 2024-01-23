@@ -26,7 +26,18 @@ const Aba = ({token, patientId, documentId, documentName}) => {
   };
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
+  function formatDate(inputDate){  // expects Y-m-d
+    var splitDate = inputDate.split('-');
+    if(splitDate.count == 0){
+        return null;
+    }
 
+    var year = splitDate[0];
+    var month = splitDate[1];
+    var day = splitDate[2]; 
+
+    return month + '/' + day + '/' + year;
+}
 
   const column = [
     {
@@ -64,7 +75,14 @@ const Aba = ({token, patientId, documentId, documentName}) => {
       title: "Uploaded On",
       key: "updated_on",
       dataIndex: "updated_on",
-      width: 100,
+      width: 100,    
+      render: (_, record) => {
+        return (
+          <div className="flex justify-center">
+            {formatDate(record.updated_on)}
+          </div>
+        );
+      },
      /*render: (_, { created_at }) => {
         console.log("render data", created_at);
         return <div>{/* <p>{DatabaseDateConverter(created_at)}</p> *//*}</div>;
@@ -100,7 +118,14 @@ const Aba = ({token, patientId, documentId, documentName}) => {
       title: "Expired Date",
       key: "document_expiration_date",
       dataIndex: "document_expiration_date",
-      width: 100,
+      width: 100,   
+      render: (_, record) => {
+        return (
+          <div className="flex justify-center">
+            {formatDate(record.document_expiration_date)}
+          </div>
+        );
+      },
       /*filters: [{}],
       filteredValue: filteredInfo.expired_date || null,
       onFilter: (value, record) => record.expired_date.includes(value),

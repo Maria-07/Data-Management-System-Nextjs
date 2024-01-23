@@ -68,6 +68,18 @@ const Qualification = ({ qualification, token, id }) => {
     setFileView(true);
   };
 
+  function formatDate(inputDate){  
+    var splitDate = inputDate.split('-');
+    if(splitDate.count == 0){
+        return null;
+    }
+
+    var year = splitDate[0];
+    var month = splitDate[1];
+    var day = splitDate[2]; 
+
+    return month + '/' + day + '/' + year;
+ }
 
   const column = [
     // Display Name Data(Exceptional)=>Static
@@ -130,7 +142,14 @@ const Qualification = ({ qualification, token, id }) => {
       title: "Date issue",
       key: "qualification_date_issue",
       dataIndex: "qualification_date_issue",
-      width: 100,
+      width: 100,     
+      render: (_, record) => {
+        return (
+          <div className="flex justify-center">
+            {formatDate(record.qualification_date_issue)}
+          </div>
+        );
+      },
       /*filters: [{}],
       filteredValue: filteredInfo.qualification_date_issue || null,
       onFilter: (value, record) =>
@@ -149,7 +168,14 @@ const Qualification = ({ qualification, token, id }) => {
       title: "Date Expire",
       key: "qualification_date_expired",
       dataIndex: "qualification_date_expired",
-      width: 100,
+      width: 100,     
+      render: (_, record) => {
+        return (
+          <div className="flex justify-center">
+            {formatDate(record.qualification_date_expired)}
+          </div>
+        );
+      },
       /*filters: [{}],
       filteredValue: filteredInfo.qualification_date_exp || null,
       onFilter: (value, record) =>

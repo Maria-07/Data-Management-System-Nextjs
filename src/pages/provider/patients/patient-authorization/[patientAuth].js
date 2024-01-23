@@ -107,7 +107,18 @@ const PatientAuth = () => {
     setOpenEditModal(false);
     setSelectContact(false);
   };
+  function formatDate(inputDate){  // expects Y-m-d
+    var splitDate = inputDate.split('-');
+    if(splitDate.count == 0){
+        return null;
+    }
 
+    var year = splitDate[0];
+    var month = splitDate[1];
+    var day = splitDate[2]; 
+
+    return month + '/' + day + '/' + year;
+}
   const columns = [
     {
       title: "Description",
@@ -125,7 +136,14 @@ const PatientAuth = () => {
       title: "Onset Date",
       dataIndex: "onset_date",
       key: "onset_date",
-      width: 130,
+      width: 130,    
+      render: (_, record) => {
+        return (
+          <div className="flex justify-center">
+            {formatDate(record.onset_date)}
+          </div>
+        );
+      },
       //   sorter is for sorting asc or dsc purstatuse
       /*sorter: (a, b) => {
         return a.onset_date > b.onset_date ? -1 : 1; //sorting problem solved using this logic
@@ -138,7 +156,14 @@ const PatientAuth = () => {
       title: "End Date",
       dataIndex: "end_date",
       key: "end_date",
-      width: 100,
+      width: 100,    
+      render: (_, record) => {
+        return (
+          <div className="flex justify-center">
+            {formatDate(record.end_date)}
+          </div>
+        );
+      },
       //   sorter is for sorting asc or dsc purstatuse
       /*sorter: (a, b) => {
         return a.end_date > b.end_date ? -1 : 1; //sorting problem solved using this logic

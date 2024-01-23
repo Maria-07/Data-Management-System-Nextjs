@@ -67,7 +67,18 @@ const Credential = ({ credentials, token, id }) => {
     setCredentialId(record?.credential_id)
     setFileView(true);
   };
+  function formatDate(inputDate){  
+      var splitDate = inputDate.split('-');
+      if(splitDate.count == 0){
+          return null;
+      }
 
+      var year = splitDate[0];
+      var month = splitDate[1];
+      var day = splitDate[2]; 
+
+      return month + '/' + day + '/' + year;
+  }
 
   const column = [
     {
@@ -93,7 +104,14 @@ const Credential = ({ credentials, token, id }) => {
       title: "Date issue",
       key: "credential_date_expired",
       dataIndex: "credential_date_expired",
-      width: 100,
+      width: 100,     
+      render: (_, record) => {
+        return (
+          <div className="flex justify-center">
+            {formatDate(record.credential_date_expired)}
+          </div>
+        );
+      },
       // filters: [{}],
       // filteredValue: filteredInfo.credential_date_expired || null,
       // onFilter: (value, record) =>
@@ -112,7 +130,14 @@ const Credential = ({ credentials, token, id }) => {
       title: "Expired Date",
       key: "credential_date_issue",
       dataIndex: "credential_date_issue",
-      width: 100,
+      width: 100,     
+      render: (_, record) => {
+        return (
+          <div className="flex justify-center">
+            {formatDate(record.credential_date_issue)}
+          </div>
+        );
+      },
       // filters: [{}],
       // filteredValue: filteredInfo.credential_date_issue || null,
       // onFilter: (value, record) => record.credential_date_issue.includes(value),

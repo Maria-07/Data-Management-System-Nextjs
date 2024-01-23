@@ -79,13 +79,32 @@ const LeaveTracking = () => {
       payload: deleteTrackPayload,
     });
   };
+  
+function formatDate(inputDate){  // expects Y-m-d
+    var splitDate = inputDate.split('-');
+    if(splitDate.count == 0){
+        return null;
+    }
 
+    var year = splitDate[0];
+    var month = splitDate[1];
+    var day = splitDate[2]; 
+
+    return month + '/' + day + '/' + year;
+}
   const column = [
     {
       title: "Date of Holiday",
       dataIndex: "leave_date",
       key: "leave_date",
-      width: 120,
+      width: 120,      
+      render: (_, record) => {
+        return (
+          <div className="flex justify-center">
+            {formatDate(record.leave_date)}
+          </div>
+        );
+      },
       /*filters: [{}],
       filteredValue: filteredInfo.history_date || null,
       onFilter: (value, record) => record.history_date.includes(value),
@@ -132,18 +151,18 @@ const LeaveTracking = () => {
         //console.log("tags : ", client_first_name, id, key);
         return (
           <div className="flex justify-center items-center">
-            {status === "approved" && (
-              <button className="bg-secondary text-white text-[10px] py-[2px]  rounded w-14">
+            {status == "approved" && (
+              <button className="bg-gray-500 text-white text-[10px] py-[2px]  rounded w-14">
                 {status}
               </button>
             )}
-            {status !== "pending" && (
-              <button className="bg-primary text-white text-[10px] py-[2px]  rounded w-14">
+            {status != "approved" && (
+              <button className="bg-teal-700 text-white text-[10px] py-[2px]  rounded w-14">
                 {/* {status} */}
                 pending
               </button>
             )}
-            {status === "rejected" && (
+            {status == "Scheduled" && (
               <button className="bg-red-700 text-white text-[10px] py-[2px]  rounded w-14">
                 {status}
               </button>

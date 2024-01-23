@@ -174,7 +174,18 @@ const PatientSessionNote = () => {
       console.log(selected, selectedRows, changeRows);
     },
   };
+  function formatDate(inputDate){  // expects Y-m-d
+    var splitDate = inputDate.split('-');
+    if(splitDate.count == 0){
+        return null;
+    }
 
+    var year = splitDate[0];
+    var month = splitDate[1];
+    var day = splitDate[2]; 
+
+    return month + '/' + day + '/' + year;
+  }
   const column = [
     {
       title: "Service & Hrs.",
@@ -242,7 +253,14 @@ const PatientSessionNote = () => {
       title: "Scheduled Date",
       key: "scheduled_date",
       dataIndex: "scheduled_date",
-      width: 120,
+      width: 120,   
+      render: (_, record) => {
+        return (
+          <div className="flex justify-center">
+            {formatDate(record.scheduled_date)}
+          </div>
+        );
+      },
     },
     {
       title: "Hours",
@@ -284,7 +302,7 @@ const PatientSessionNote = () => {
       title: "Notes",
       dataIndex: "notes",
       key: "notes",
-      width: 200,
+      width: 150,
       /*render: (_, { nt }) => {
         return (
           <div className="px-3">

@@ -39,14 +39,32 @@ const PatientCallLog = () => {
     setOpenEditModal(true);
   };
 
-  console.log(allData);
+function formatDate(inputDate){  // expects Y-m-d
+    var splitDate = inputDate.split('-');
+    if(splitDate.count == 0){
+        return null;
+    }
+
+    var year = splitDate[0];
+    var month = splitDate[1];
+    var day = splitDate[2]; 
+
+    return month + '/' + day + '/' + year;
+}
 
   const column = [
     {
       title: "Date",
       dataIndex: "log_date",
       key: "log_date",
-      width: 120,
+      width: 120,     
+      render: (_, record) => {
+        return (
+          <div>
+            {formatDate(record.log_date)}
+          </div>
+        );
+      },
       /*filters: [{}],
       filteredValue: filteredInfo.Document || null,
       onFilter: (value, record) => record.Document.includes(value),

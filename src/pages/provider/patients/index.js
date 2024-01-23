@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import RootLayout from "@/component/Layouts/RootLayout";
+import Loading from "@/component/UI/Layouts/Loading";
 import TableShimmer from "@/component/UI/Layouts/Shimmer/TableShimmer";
 import PatientAuthorizationsTableModal from "@/component/UI/Patients/PatientAuthorizationsTableModal";
 import PatientStatusAction from "@/component/UI/Patients/PatientStatusAction";
@@ -21,6 +22,7 @@ const PatientPage = () => {
   const [patients, setPatients] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
+  const [searchLoading, setSearchLoading] = useState(true);
 
   //! fetch all patients using InfiniteScrolling
   const fetchPatients = async () => {
@@ -40,6 +42,7 @@ const PatientPage = () => {
           },
         }
       );
+      setSearchLoading(false);
       const data = response?.data?.patients?.data;
       //console.log('patients-data',data);
       return data;
@@ -98,7 +101,22 @@ const PatientPage = () => {
       router.push(`/provider/patients/patient-info/${id}`);
     }
   };
+  function formatDate(inputDate){  // expects Y-m-d
+    var splitDate = inputDate.split('-');
+    if(splitDate.count == 0){
+        return null;
+    }
 
+    var year = splitDate[0];
+    var month = splitDate[1];
+    var day = splitDate[2]; 
+
+    return month + '/' + day + '/' + year;
+}
+if(searchLoading)
+{
+  return <Loading></Loading>
+}
   const columns = [
     {
       title: "Patient",
@@ -200,7 +218,7 @@ const PatientPage = () => {
           <div>
             <h1>
               {patient_dob ? (
-                patient_dob
+                formatDate(patient_dob)
               ) : (
                 <h1 className="text-red-600">-</h1>
               )}

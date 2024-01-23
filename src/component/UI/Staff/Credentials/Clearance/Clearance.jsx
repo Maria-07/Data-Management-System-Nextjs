@@ -64,6 +64,18 @@ const Clearance = ({ clearences, token, id }) => {
       }
     }
   }, [deleteSuccess]);
+  function formatDate(inputDate){  
+      var splitDate = inputDate.split('-');
+      if(splitDate.count == 0){
+          return null;
+      }
+
+      var year = splitDate[0];
+      var month = splitDate[1];
+      var day = splitDate[2]; 
+
+      return month + '/' + day + '/' + year;
+  }
   const column = [
     {
       title: "Name",
@@ -91,7 +103,14 @@ const Clearance = ({ clearences, token, id }) => {
       title: "Date issue",
       key: "clearance_date_issue",
       dataIndex: "clearance_date_issue",
-      width: 100,
+      width: 100,     
+      render: (_, record) => {
+        return (
+          <div className="flex justify-center">
+            {formatDate(record.clearance_date_issue)}
+          </div>
+        );
+      },
       // filters: [{}],
       // filteredValue: filteredInfo.clearance_date_issue || null,
       // onFilter: (value, record) => record.clearance_date_issue.includes(value),
@@ -109,7 +128,14 @@ const Clearance = ({ clearences, token, id }) => {
       title: "Expired Date",
       key: "clearance_date_expired",
       dataIndex: "clearance_date_expired",
-      width: 100,
+      width: 100,     
+      render: (_, record) => {
+        return (
+          <div className="flex justify-center">
+            {formatDate(record.clearance_date_expired)}
+          </div>
+        );
+      },
       // filters: [{}],
       // filteredValue: filteredInfo.clearance_date_exp || null,
       // onFilter: (value, record) => record.clearance_date_exp.includes(value),

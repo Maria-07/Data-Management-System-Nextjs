@@ -88,6 +88,22 @@ const ProgramCards = () => {
         selectProgram={selectProgram}
         handleSelectProgram={handleSelectProgram}
       ></ProgramCard>
+      <ProgramCard
+        selectProgram={selectProgram}
+        handleSelectProgram={handleSelectProgram}
+      ></ProgramCard>
+      <ProgramCard
+        selectProgram={selectProgram}
+        handleSelectProgram={handleSelectProgram}
+      ></ProgramCard>
+      <ProgramCard
+        selectProgram={selectProgram}
+        handleSelectProgram={handleSelectProgram}
+      ></ProgramCard>
+      <ProgramCard
+        selectProgram={selectProgram}
+        handleSelectProgram={handleSelectProgram}
+      ></ProgramCard>
     </div>
   );
 };

@@ -3,3 +3,44 @@ const { theme } = useTheme();
 
 className={`${theme === "dark" ? "" : ""
             }`}
+
+
+               {therapy && (
+                <label className="label">
+                  <span className="modal-label-name">Service</span>
+                </label>
+              )}
+              {therapy && (
+                <select
+                  // disabled={
+                  //   authorizationActivityLoading || authorizationActivityError
+                  //     ? true
+                  //     : false
+                  // }
+                  className="col-span-2 modal-input-field ml-1 w-full"
+                  {...register("activity_id")}
+                >
+                  {!billable ? (
+                    <>
+                      <option value={1}>Regular Time</option>
+                      <option value={2}>Training & Admin</option>
+                      <option value={3}>Fill-In</option>
+                      <option value={4}>Other</option>
+                      <option value={5}>Public Holiday</option>
+                      <option value={6}>Paid Time Off</option>
+                      <option value={7}>Unpaid</option>
+                    </>
+                  ) : (
+                    <>
+                      <option value="0">Select Activity</option>
+                      {/* {authorizationActivityData?.claims?.map((activity) => {
+                      return (
+                        <option key={activity?.id} value={activity?.id}>
+                          {activity?.activity_name}
+                        </option>
+                      );
+                    })} */}
+                    </>
+                  )}
+                </select>
+              )}

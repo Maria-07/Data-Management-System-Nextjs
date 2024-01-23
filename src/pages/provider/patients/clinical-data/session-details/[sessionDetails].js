@@ -23,24 +23,35 @@ const SessionDetails = () => {
   ]);
   return (
     <div className="">
-      <div>
-        <h1>PREPARATION</h1>
+      <div className="flex items-center justify-between">
+        <h1
+          className={`${
+            theme === "dark" ? "text-dark-secondary" : "text-secondary"
+          }text-sm mb-2 font-semibold`}
+        >
+          Programs
+        </h1>
+        <div className="flex items-center gap-2">
+          {/* <button
+            //  className="border rounded bg-blue-500 hover:bg-blue-600 transition-all text-white px-2 py-2 text-xs font-semibold"
+            className="dcm-button"
+          > 
+            START VIDEO SESSION
+          </button> */}
+          <Link href={"/provider/data-recording"}>
+            <button className="border rounded bg-green-300 hover:bg-green-600 hover:text-white transition-all  px-2 py-2 text-xs font-semibold">
+              START SESSION
+            </button>
+          </Link>
+        </div>
       </div>
       <div className="my-5">
         <div>
-          <h1
-            className={`${
-              theme === "dark" ? "text-dark-secondary" : "text-secondary"
-            }text-sm mb-2 font-semibold`}
-          >
-            Programs
-          </h1>
-
-          <CustomSelectAntd
+          {/* <CustomSelectAntd
             item={treatmentArray}
             setOption={setTreatment}
             sName={"Programs"}
-          ></CustomSelectAntd>
+          ></CustomSelectAntd> */}
         </div>
       </div>
       <div>
@@ -126,16 +137,6 @@ const SessionDetails = () => {
 
         <div className="flex items-center justify-between gap-2">
           <button className="dtm-button">CANCEL</button>
-          <div className="flex items-center gap-2">
-            <button className="border rounded bg-blue-500 hover:bg-blue-600 transition-all text-white px-2 py-2 text-xs font-semibold">
-              START VIDEO SESSION
-            </button>
-            <Link href={"/provider/data-recording"}>
-              <button className="border rounded bg-green-300 hover:bg-green-600 transition-all  px-2 py-2 text-xs font-semibold">
-                START SESSION
-              </button>
-            </Link>
-          </div>
         </div>
       </div>
     </div>

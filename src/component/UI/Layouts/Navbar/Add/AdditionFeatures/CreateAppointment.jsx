@@ -1,8 +1,12 @@
 import { useState } from "react";
 import CreateAppointmentAvailability from "./CreateAppointmentAvailability/CreateAppointmentAvailability";
-import { Modal, Switch, TimePicker } from "antd";
+import { Modal, Radio, Space, Switch, TimePicker } from "antd";
 import { useForm } from "react-hook-form";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import Billable from "./Auth/BIllable/Billable";
+import NonBillable from "./Auth/NonBillable/NonBillable";
+import GroupTherapy from "./Auth/GroupTherapy/GroupTherapy";
+import NoAuth from "./NoAuth/NoAuth";
 
 const CreateAppointment = ({ handleClose, clicked }) => {
   // console.log(handleClose, clicked);
@@ -17,6 +21,14 @@ const CreateAppointment = ({ handleClose, clicked }) => {
   const [fromtime, setFromTime] = useState(null);
   const [toTime, setToTime] = useState(null);
   const [therapy, setTherapy] = useState(true);
+  const [option, setOption] = useState(false);
+  const [value, setValue] = useState(1);
+  const [noAuth, setNoAuth] = useState(false);
+
+  const onChange = (e) => {
+    console.log("radio checked", e.target.value);
+    setValue(e.target.value);
+  };
 
   // For Non-billable appointment create=>provider select
   const [seletedProvider, setSelectedProvider] = useState([]);
@@ -159,16 +171,35 @@ const CreateAppointment = ({ handleClose, clicked }) => {
         // onClose={handleClose}
         // aria-labelledby="responsive-dialog-title"
       >
-        <div className="px-5 py-2">
+        <div className=" py-2">
           <div className="flex items-center justify-between">
             <h1 className="text-lg text-left text-orange-400 ">
               Add Appointment
             </h1>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <Switch
+                  disabled={!billable}
+                  size="small"
+                  onClick={() => {
+                    setNoAuth(!noAuth);
+                    setBillable(true);
+                    setTherapy(true);
+                  }}
+                />
+                <label
+                  className="form-check-label inline-block font-medium  text-[12px] text-gray-600"
+                  htmlFor="flesmwitchCheckDefault"
+                >
+                  No Auth
+                </label>
+              </div>
 
-            <IoCloseCircleOutline
-              onClick={handleClose}
-              className="text-gray-600 text-2xl hover:text-primary"
-            />
+              <IoCloseCircleOutline
+                onClick={handleClose}
+                className="text-gray-600 text-2xl hover:text-primary"
+              />
+            </div>
           </div>
           <div className="h-4 py-1">
             {/* 
@@ -187,8 +218,9 @@ const CreateAppointment = ({ handleClose, clicked }) => {
               <span className="modal-label-name ml-1 mb-2">App Type</span>
               <div className="col-span-2 ml-1 mb-1">
                 <Switch
-                  defaultChecked
+                  checked={billable}
                   size="small"
+                  disabled={!therapy || noAuth}
                   onClick={() => {
                     setBillable(!billable);
                     reset();
@@ -201,11 +233,13 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                   {billable ? "Billable" : "Non-Billable"}
                 </label>
                 <Switch
-                  className="ml-5"
-                  defaultChecked
+                  className={`ml-5`}
+                  checked={therapy}
                   size="small"
+                  disabled={noAuth || !billable}
                   onClick={() => {
                     setTherapy(!therapy);
+                    setBillable(true);
                     reset();
                   }}
                 />
@@ -216,176 +250,25 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                   {therapy ? "Individual Therapy" : "Group Therapy"}
                 </div>
               </div>
+            </div>
+            {billable && therapy && !noAuth && (
+              <Billable
+                register={register}
+                setClientId={setClientId}
+                billable={billable}
+              ></Billable>
+            )}
+            {!billable && (
+              <NonBillable
+                register={register}
+                setClientId={setClientId}
+                billable={billable}
+              ></NonBillable>
+            )}
+            {noAuth && <NoAuth register={register}></NoAuth>}
+            {!therapy && <GroupTherapy register={register}></GroupTherapy>}
 
-              <label className="label">
-                <span className="modal-label-name">Patient Name</span>
-              </label>
-
-              <select
-                // disabled={patientsNameLoading || !billable ? true : false}
-                className="col-span-2 modal-input-field ml-1 w-full"
-                {...register("client_id")}
-                onChange={(e) => setClientId(e.target.value)}
-              >
-                {!billable ? (
-                  <option disabled value={1}>
-                    Non-Billable Client
-                  </option>
-                ) : (
-                  <>
-                    <option value="0">Select Patient</option>
-                    {/* {patientsName?.claims?.map((patient) => {
-                      return (
-                        <option key={patient?.id} value={patient?.id}>
-                          {patient?.client_full_name}
-                        </option>
-                      );
-                    })} */}
-                  </>
-                )}
-              </select>
-              {!therapy && (
-                <>
-                  <label className="label">
-                    <span className="modal-label-name">Service</span>
-                  </label>
-                </>
-              )}
-              {!therapy && (
-                <>
-                  <div className="col-span-2 flex item-center ml-1">
-                    <Switch defaultChecked size="small" onClick={() => {}} />
-                    <label
-                      className="form-check-label inline-block font-medium ml-2 text-[12px] text-gray-600"
-                      htmlFor="flesmwitchCheckDefault"
-                    >
-                      1232
-                    </label>
-                  </div>
-                </>
-              )}
-              {therapy && (
-                <label className="label">
-                  <span className="modal-label-name">Auth</span>
-                </label>
-              )}
-              {therapy && (
-                <select
-                  // disabled={
-                  //   patientAuthLoading || patientAuthError || !billable
-                  //     ? true
-                  //     : false
-                  // }
-                  className="col-span-2 modal-input-field ml-1 w-full"
-                  {...register("authorization_id")}
-                  onChange={(e) => setAuthId(e.target.value)}
-                >
-                  {!billable ? (
-                    <option disabled value={1}>
-                      NONCLI01323_AUTH249
-                    </option>
-                  ) : (
-                    <>
-                      <option value="0">Select Auth</option>
-                      {/* {patientAuthData?.claims?.map((auth) => {
-                      return (
-                        <option key={auth?.id} value={auth?.id}>
-                          {auth?.description +
-                            `(${
-                              auth?.onset_date +
-                              " " +
-                              "to" +
-                              " " +
-                              auth?.end_date
-                            })` +
-                            " " +
-                            "|" +
-                            " " +
-                            auth?.authorization_number}
-                        </option>
-                      );
-                    })} */}
-                    </>
-                  )}
-                </select>
-              )}
-              {therapy && (
-                <label className="label">
-                  <span className="modal-label-name">Service</span>
-                </label>
-              )}
-              {therapy && (
-                <select
-                  // disabled={
-                  //   authorizationActivityLoading || authorizationActivityError
-                  //     ? true
-                  //     : false
-                  // }
-                  className="col-span-2 modal-input-field ml-1 w-full"
-                  {...register("activity_id")}
-                >
-                  {!billable ? (
-                    <>
-                      <option value={1}>Regular Time</option>
-                      <option value={2}>Training & Admin</option>
-                      <option value={3}>Fill-In</option>
-                      <option value={4}>Other</option>
-                      <option value={5}>Public Holiday</option>
-                      <option value={6}>Paid Time Off</option>
-                      <option value={7}>Unpaid</option>
-                    </>
-                  ) : (
-                    <>
-                      <option value="0">Select Activity</option>
-                      {/* {authorizationActivityData?.claims?.map((activity) => {
-                      return (
-                        <option key={activity?.id} value={activity?.id}>
-                          {activity?.activity_name}
-                        </option>
-                      );
-                    })} */}
-                    </>
-                  )}
-                </select>
-              )}
-              <label className="label">
-                <span className="modal-label-name">Provider Name</span>
-              </label>
-              {billable ? (
-                <div className="col-span-2 flex item-center">
-                  <select
-                    className=" modal-input-field ml-1 w-2/3"
-                    {...register("provider_id")}
-                  >
-                    <option value="0">Select Provider</option>
-                    {/* {providersName?.claims?.map((provider) => {
-                      return (
-                        <option key={provider?.id} value={provider?.id}>
-                          {provider?.full_name}
-                        </option>
-                      );
-                    })} */}
-                  </select>
-                  <button
-                    type="button"
-                    onClick={() => availabilityHandler()}
-                    className="dcm-input-button ml-2"
-                  >
-                    Availability
-                  </button>
-                </div>
-              ) : (
-                // Non-billable Appointment creation part provider multi select
-                <div className="col-span-2 ml-1">
-                  {/* 
-                  <ProviderMultiSelect
-                    providers={providersName?.claims}
-                    seletedProvider={seletedProvider}
-                    setSelectedProvider={setSelectedProvider}
-                  />
-                  */}
-                </div>
-              )}
+            <div className=" grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 mb-5 mt-2 mr-2 gap-1 md:gap-2">
               <label className="label">
                 <span className="modal-label-name">POS</span>
               </label>
@@ -506,7 +389,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                   format="h:mm A"
                   onChange={from_Time}
                 />
-                <div className="modal-label-name mt-2 mx-auto">To Time</div>
+                <h1 className="modal-label-name mt-2 text-center">To Time</h1>
                 <TimePicker
                   className="modal-input-field"
                   use12Hours
@@ -514,7 +397,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                   onChange={to_Time}
                 />
               </div>
-              <label className="label">
+              {/* <label className="label">
                 <span className="modal-label-name">Status</span>
               </label>
               <select
@@ -531,10 +414,129 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                   Cancelled by Provider
                 </option>
                 <option value="Rendered">Rendered</option>
-              </select>
+              </select> */}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 my-5 mr-2 gap-1">
+              <div className="">
+                <Switch
+                  size="small"
+                  onClick={() => {
+                    setRecurrence(!recurrence);
+                  }}
+                />
+                <label
+                  className="modal-label-name ml-2"
+                  htmlFor="flesmwitchCheckDefault"
+                >
+                  Recurrence Pattern?
+                </label>
+              </div>
+
+              {recurrence && (
+                <div className="">
+                  <div>
+                    <Radio.Group onChange={onChange} value={value}>
+                      <Space direction="vertical">
+                        <Radio value={1}>
+                          <div className="flex items-center gap-2">
+                            <p>till</p>
+                            <input
+                              className="px-2 modal-input-field ml-1 w-full"
+                              type="date"
+                              {...register("check_Date")}
+                            />
+                          </div>
+                        </Radio>
+                        <Radio value={2}>
+                          <div className="flex items-center gap-2">
+                            <p>After</p>
+                            <div className="flex items-center ">
+                              {" "}
+                              <input
+                                className="px-1 border py-1 ml-1 w-[50px]"
+                                type="number"
+                                {...register("check_Date")}
+                              />
+                              <button
+                                className="text-sm bg-primary text-white px-2 py-[5px]"
+                                type="button"
+                              >
+                                Occurrences
+                              </button>
+                            </div>
+                          </div>
+                        </Radio>
+                      </Space>
+                    </Radio.Group>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="">
+              <Switch
+                size="small"
+                onClick={() => {
+                  setOption(!option);
+                }}
+              />
+              <label
+                className="modal-label-name ml-2"
+                htmlFor="flesmwitchCheckDefault"
+              >
+                Options
+              </label>
+            </div>
+            {option && (
+              <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 my-5 mr-2 gap-3">
+                <div>
+                  <p className=" font-semibold">Repeat Every</p>
+                </div>
+
+                <input
+                  className="modal-input-field "
+                  type="number"
+                  {...register("to_time")}
+                />
+
+                <select
+                  className=" modal-input-field ml-1 w-full"
+                  {...register("provider_id")}
+                >
+                  <option value="0">Day</option>
+                  <option value="1">Week</option>
+                  <option value="2">Month</option>
+                </select>
+                <div>
+                  <p className=" font-semibold">Repeat On</p>
+                </div>
+                <div className="col-span-2 flex gap-2">
+                  <button className="py-2 px-[15px] font-medium text-sm hover:text-white hover:bg-secondary border-primary transition-all rounded-full border">
+                    S
+                  </button>
+                  <button className="py-2 px-[12px] font-medium text-sm hover:text-white hover:bg-secondary border-primary transition-all rounded-full border">
+                    M
+                  </button>
+                  <button className="py-2 px-[15px] font-medium text-sm hover:text-white hover:bg-secondary border-primary transition-all rounded-full border">
+                    T
+                  </button>
+                  <button className="py-2 px-[12px] font-medium text-sm hover:text-white hover:bg-secondary border-primary transition-all rounded-full border">
+                    W
+                  </button>
+                  <button className="py-2 px-[15px] font-medium text-sm hover:text-white hover:bg-secondary border-primary transition-all rounded-full border">
+                    T
+                  </button>
+                  <button className="py-2 px-[15px] font-medium text-sm hover:text-white hover:bg-secondary border-primary transition-all rounded-full border">
+                    F
+                  </button>
+                  <button className="py-2 px-[15px] font-medium text-sm hover:text-white hover:bg-secondary border-primary transition-all rounded-full border">
+                    S
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 my-5 mr-2 gap-1">
               <div className="">
                 <Switch
                   size="small"
@@ -671,17 +673,34 @@ const CreateAppointment = ({ handleClose, clicked }) => {
                   )}
                 </>
               )}
-            </div>
+            </div> */}
 
             <div className="bg-gray-200 py-[1px] mt-3"></div>
-            <div className=" flex items-end justify-end mt-2">
-              <button className="dcm-button mr-2" type="submit">
-                Add Appointment
-              </button>
+            <div className="flex items-center justify-between">
+              <select
+                className=" modal-input-field ml-1 mt-2"
+                {...register("status")}
+              >
+                <option value="0">Status</option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="Hold">Hold</option>
+                <option value="Cancelled by Client">Cancelled by Client</option>
+                <option value="CC more than 24 hrs">CC more than 24 hrs</option>
+                <option value="CC less than 24 hrs">CC less than 24 hrs</option>
+                <option value="Cancelled by Provider">
+                  Cancelled by Provider
+                </option>
+                <option value="Rendered">Rendered</option>
+              </select>
+              <div className=" flex items-end justify-end mt-2">
+                <button className="dcm-button mr-2" type="submit">
+                  Add Appointment
+                </button>
 
-              <button className="dcm-close-button" onClick={handleClose}>
-                Close
-              </button>
+                <button className="dcm-close-button" onClick={handleClose}>
+                  Close
+                </button>
+              </div>
             </div>
           </form>
         </div>

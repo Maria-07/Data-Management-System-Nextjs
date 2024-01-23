@@ -1,12 +1,14 @@
 import { Dropdown, Tag, Tooltip } from "antd";
 import { useState } from "react";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { FaCheck } from "react-icons/fa";
+import { BsFillPinFill, BsPin, BsThreeDotsVertical } from "react-icons/bs";
+import { FaCheck, FaGraduationCap, FaTrophy } from "react-icons/fa";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
+import { PiNotepadBold } from "react-icons/pi";
 import { TbPinnedFilled } from "react-icons/tb";
 
 const ProgramCard = ({ handleSelectProgram }) => {
   const [isSelected, setIsSelected] = useState(false);
+  const [pin, setPin] = useState(false);
 
   const selectProgram = (programName) => {
     handleSelectProgram(programName);
@@ -18,11 +20,12 @@ const ProgramCard = ({ handleSelectProgram }) => {
         <div className="flex items-center gap-1">
           <input
             type="checkbox"
+            className="mt-[2px]"
             onClick={() => {
               selectProgram("maria");
             }}
           />
-          <h1 className="text-xs ">Program</h1>
+          <h2 className="text-xs text-primary">Skill | Trial by Trial</h2>
         </div>
         <div className="flex items-center">
           <Dropdown
@@ -41,23 +44,46 @@ const ProgramCard = ({ handleSelectProgram }) => {
           >
             <BsThreeDotsVertical />
           </Dropdown>
-
-          <TbPinnedFilled className="text-red-600 text-lg" />
+          {pin ? (
+            <BsFillPinFill
+              onClick={() => {
+                setPin(!pin);
+              }}
+              className="text-red-600 text-lg"
+            />
+          ) : (
+            <BsPin
+              onClick={() => {
+                setPin(!pin);
+              }}
+            />
+          )}
         </div>
       </div>
       <div>
         <h1 className="text-sm font-semibold my-4">Behavior Reduction </h1>
       </div>
       <div className="flex">
-        <Tag color="red" className="flex items-center gap-1">
-          <FaCheck /> 0
-        </Tag>
-        <Tag color="green" className="flex items-center gap-1">
-          <FaCheck /> 10
-        </Tag>
-        <Tag color="blue" className="flex items-center gap-1">
-          <FaCheck /> 30
-        </Tag>
+        <div className="flex items-center gap-2 mr-3">
+          <div
+            title="0 targets being probed"
+            className="border-orange-500 text-orange-600 px-2 border-[1px] rounded-xl flex items-center gap-2"
+          >
+            <PiNotepadBold className="" /> 0
+          </div>
+          <div
+            title="1 targets being acquisition"
+            className="border-blue-500 text-blue-600 px-2 border-[1px] rounded-xl flex items-center gap-2"
+          >
+            <FaGraduationCap /> 1
+          </div>
+          <div
+            title="0 targets already mastered of these 0 are closed and not taught anymore"
+            className="border-green-500 text-green-600 px-2 border-[1px] rounded-xl flex items-center gap-2"
+          >
+            <FaTrophy /> 0
+          </div>
+        </div>
       </div>
     </div>
   );

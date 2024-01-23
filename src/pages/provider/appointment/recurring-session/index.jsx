@@ -416,6 +416,7 @@ console.log(recurringGetAllInfos);*/
     setFetchQuery(true);
     setTable(true);
     getRecurringSessionData();
+    setClicked(!clicked);
   };
 
   //test design

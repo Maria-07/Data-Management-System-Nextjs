@@ -22,6 +22,9 @@ const AddCallLog = ({ handleClose, open, patientId }) => {
             autoClose: 2000,
             theme: "dark",
           });
+          setTimeout(()=>{
+            window.location.reload();
+          },3000)         
         } else if (updateError) {
           toast.error("Some Error Occured", {
             position: "top-center",

@@ -44,7 +44,7 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
       parent_last_name: data?.pos,
       email: data?.email,
       email_type: data?.email_type,
-      email_reminder: Number(data?.email_reminder),
+      email_reminder: data?.email_reminder,
       phone_number: `+${data?.phone}`,
       phone_type: data?.phone_type,
       is_send_sms: data?.is_send_sms,

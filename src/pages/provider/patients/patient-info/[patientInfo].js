@@ -25,6 +25,11 @@ import { useGetPatientInfoQuery, useDeleteSignatureMutation, useUpdateSignatureM
 const { TextArea } = Input;
 
 const PatientInfo = () => {
+    //! Id get
+  const router = useRouter();
+  const { query } = router;
+  const id = query.patientInfo;
+  console.log(id);
   const [active, setActive] = useState(false);
   const [Guarantor, setGuarantor] = useState(false);
   const [checkLocation, setLocation] = useState(false);
@@ -162,12 +167,6 @@ const handleFileRead = async (event) => {
   setImageData(base64);
   setUploadButton(true);
 }
-
-  //! Id get
-  const router = useRouter();
-  const { query } = router;
-  const id = query.patientInfo;
-  console.log(id);
 
   const { data: PatienInfoData, isLoading: patientinfoloading } =
   useGetPatientInfoQuery({

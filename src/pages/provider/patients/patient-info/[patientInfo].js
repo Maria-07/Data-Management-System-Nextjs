@@ -176,7 +176,7 @@ const handleFileRead = async (event) => {
   });
 
 
-const data = id > 0 ? PatienInfoData?.patient_info[0] : [];
+const data = id > 0 && PatienInfoData?.patient_info[0] ? PatienInfoData?.patient_info[0] : [];
 
 
 console.log('data -- ',data);

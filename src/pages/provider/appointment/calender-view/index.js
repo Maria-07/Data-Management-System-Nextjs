@@ -203,6 +203,22 @@ const calenderView = () => {
 
     //Events.push(event);
   };
+  function format12hours(inputTime){
+    const [hours, minutes, seconds] = inputTime.split(':');
+    let hour = ''
+    let merdian = ''
+    if(hours=='00' || hours=='00') { 
+      hour = 12;  
+      merdian = 'am';
+    } else if(hours >= 12) {
+      hour = hours > 12 ? hours-12 : hours;  
+      merdian = 'pm';
+    } else {
+      hour = hours;  
+      merdian = 'am';
+    }
+    return `${hour}:${minutes} ${merdian}`
+  }
   return (
     <div>
       {" "}
@@ -244,6 +260,7 @@ const calenderView = () => {
           ) : null}
 
           <FullCalendar
+            timeZone='America/New_York'
             ref={calendarRef}
             initialView="dayGridMonth"
             headerToolbar={{
@@ -289,9 +306,11 @@ const calenderView = () => {
             }}
             // for hovering
             eventContent={(info) => {
-              const { start, end } = info.event._instance.range;
-              const starTime = moment(start).format('hh:mm a');
-              const [provideId, patientId] = info.event.title.split(':');
+              const startDateTime = info.event.extendedProps.start.substring(11,19);
+              const starTime = format12hours(startDateTime);
+              const titleHtmlSplit = info.event.extendedProps.title_html.split('</a>');
+              const [provideIdRemoval, provideId] = titleHtmlSplit[0].split('>');
+              const [patientIdRemoval, patientId] = titleHtmlSplit[1].split('>');
               const itemDisplay = info.event.extendedProps.display;
               const bgcolor = itemDisplay !='list-item' ? info.event.backgroundColor : '#ffffff'
               const isGroup = info.event.extendedProps.is_group == 1 ? 'G' : '';

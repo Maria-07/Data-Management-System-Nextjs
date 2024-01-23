@@ -12,6 +12,7 @@ import Providers from "@/component/UI/Appointment/MultiSelectComponents/Provider
 import Clients from "@/component/UI/Appointment/MultiSelectComponents/Clients";
 import RootLayout from "@/component/Layouts/RootLayout";
 import { dateConverter } from "@/shared/Dateconverter/DateConverter";
+import Loading from "@/component/UI/Layouts/Loading";
 
 const RecurringSession = () => {
   const token = getAccessToken();
@@ -24,7 +25,8 @@ const RecurringSession = () => {
   const [fetchQuery, setFetchQuery] = useState(false);
   const [patientId, setPatientId] = useState([]);
   const [providerId, setProviderId] = useState([]);
-  const [allProvider, setAllProvider] = useState([]);
+  const [allProvider, setAllProvider] = useState([]);  
+  const [searchLoading, setSearchLoading] = useState(false);
 
   
   const [patientList, setPatientList] = useState([]);
@@ -45,7 +47,6 @@ const RecurringSession = () => {
         },
       });
       const data = res?.data?.patient_data;
-      
       setPatientList(data);
     };
     getPatientData();
@@ -91,12 +92,11 @@ const getRecurringSessionData = async () => {
       provider_ids: providerId,
     },
   });
+  setSearchLoading(false)
   const data = res?.data?.recurring_sessions;
   console.log('data --',res?.data);
   setSessionData(data);
 };
-
-
 //console.log('sessionData',sessionData);
  /* const fetchData = async (payload) => {
     const response = await axios({
@@ -411,6 +411,7 @@ console.log(recurringGetAllInfos);*/
     },
   });
   const onSubmit = (data) => {
+    setSearchLoading(true)
     console.log('submittedData',data);
     setFetchQuery(true);
     setTable(true);
@@ -427,7 +428,7 @@ console.log(recurringGetAllInfos);*/
   };
 
   // console.log(selectedFlatRows);
-
+  
   return (
     <div className={!table ? "h-[100vh]" : ""}>
       <div className="cursor-pointer">
@@ -533,17 +534,18 @@ console.log(recurringGetAllInfos);*/
               </form>
             </div>
           )}
-        </div>
+        </div>              
+        {searchLoading && (<Loading></Loading>)}
       </div>
 
       {/* table  */}
-      {table && (
+      {!searchLoading && table && (
         <div className="my-3">
           <div className="flex items-center justify-between gap-2 my-2">
             <h1 className="text-lg text-orange-500 text-left font-semibold ">
               Recurring Session
             </h1>
-          </div>
+          </div>    
           <div className="overflow-scroll">
             <Table
               rowKey="id"

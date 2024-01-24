@@ -12,6 +12,8 @@ import { useGetCalendarEventApiQuery } from "@/Redux/features/Appointment/Calend
 import moment from "moment";
 import axios from "axios";
 import { FaCircle, FaVideo, FaMessage, FaCircleInfo } from "react-icons/fa6";
+import CalenderFilter from "@/component/UI/Appointment/calenderView/CustomModalHelper/CalenderFilter";
+import { IoSettingsOutline } from "react-icons/io5";
 
 const calenderView = () => {
   const tooltipRef = useRef(null);
@@ -25,12 +27,17 @@ const calenderView = () => {
   const [enddate, setendDate] = useState("");
   const [dynamicID, setdynamicId] = useState("");
   const [calenderEvents,setCalenderEvents] = useState([]);
+  const [data, setData] = useState(false);
+  const [settings, setSettings] = useState(false);
+  const [filterValue,setFilterValue] = useState([]);
   // hovering data show all funch
 
   const handleClose = () => {
     setOpen(false);
   };
-
+  const handleSetting = () => {
+    setSettings(!settings);
+  };
   const handleDatesSet = (arg) => {
     console.log('asdgas');
     // console.log("data of hovered event", arg.view);
@@ -118,7 +125,7 @@ const calenderView = () => {
     {
       getCalenderData();
     }
-  }, [startdate,enddate]);
+  }, [startdate,enddate,filterValue]);
   // for showing clicked event details basedon id using same CustomModal.jsx
   const showEventDetails = (id) => {
     console.log("Clicked event id", id);
@@ -223,12 +230,22 @@ const calenderView = () => {
     <div>
       {" "}
       <div>
+      {data && <CalenderFilter token={token} startdate={startdate} enddate={enddate} setFilterValue={setFilterValue}></CalenderFilter>}
+
         <div className="flex items-center flex-wrap md:justify-between pb-4">
           <h1 className="text-lg my-2 text-orange-500">Manage Appointment</h1>
-          <div className="flex items-center justify-end">
-            <button className="py-[5px] px-3 text-[12px] font-normal bg-gradient-to-r from-red-700 to-red-400 hover:to-red-700 text-white rounded-sm">
+          <div className="flex items-center justify-end gap-2">
+            <IoSettingsOutline
+              onClick={handleSetting}
+              className="text-2xl text-primary"
+            />
+            <div
+              onClick={() => setData(true)}
+              type="button"
+              className="py-[5px] px-3 text-[12px] font-normal bg-gradient-to-r from-red-700 to-red-400 hover:to-red-700 text-white rounded-sm"
+            >
               Filter
-            </button>
+            </div>
             <Link href={"/admin"}>
               {/* <Image
                 src={googleCalendar}

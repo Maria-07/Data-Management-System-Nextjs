@@ -13,6 +13,8 @@ import moment from "moment";
 import CalenderFilter from "@/component/UI/Appointment/calenderView/CustomModalHelper/CalenderFilter";
 import { IoSettingsOutline } from "react-icons/io5";
 import SettingModal from "@/component/UI/Appointment/calenderView/CustomModalHelper/SettingModal";
+import { FaFilter } from "react-icons/fa";
+import { FiPrinter } from "react-icons/fi";
 
 const calenderView = () => {
   const tooltipRef = useRef(null);
@@ -182,31 +184,21 @@ const calenderView = () => {
       <div>
         {data && <CalenderFilter></CalenderFilter>}
 
-        <div className="flex items-center flex-wrap md:justify-between pb-4">
+        <div className="flex items-center flex-wrap md:justify-between pb-4 px-1">
           <h1 className="text-lg my-2 text-orange-500">Manage Appointment</h1>
           <div className="flex items-center justify-end gap-2">
             <IoSettingsOutline
               onClick={handleSetting}
               className="text-2xl text-primary"
             />
-            <div
-              onClick={() => setData(true)}
-              type="button"
-              className="py-[5px] px-3 text-[12px] font-normal bg-gradient-to-r from-red-700 to-red-400 hover:to-red-700 text-white rounded-sm"
-            >
-              Filter
-            </div>
-            <Link href={"/admin"}>
-              {/* <Image
-                src={googleCalendar}
-                alt="Google Calendar"
-                style={{ width: "32px" }}
-              /> */}
-              rtrtr
-            </Link>
-            <button className=" py-[5px] font-normal px-3 mr-1 text-[12px]  bg-gradient-to-r from-secondary to-primary  hover:to-secondary text-white rounded-sm">
-              Print
-            </button>
+            <FaFilter
+              onClick={() => setData(!data)}
+              className="text-xl text-rose-500"
+            />
+            <FiPrinter
+              // onClick={() => setData(!data)}
+              className="text-xl text-secondary"
+            />
           </div>
         </div>
         <div className="border border-[#089bab] rounded-2xl p-2">

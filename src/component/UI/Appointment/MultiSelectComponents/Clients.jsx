@@ -39,7 +39,7 @@ const Clients = ({ patients, setPatientId, setFetchQuery }) => {
   useEffect(() => {
     const getClientsId = async () => {
       const getId = selected.map((item) => item.id);
-      setPatientId(getId);
+      // setPatientId(getId);
       // setFetchQuery(false);
     };
     getClientsId();

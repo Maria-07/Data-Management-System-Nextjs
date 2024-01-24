@@ -6,8 +6,12 @@ import { FaArrowsAltH } from "react-icons/fa";
 import { MultiSelect } from "react-multi-select-component";
 import Clients from "../../MultiSelectComponents/Clients";
 import PatientMultiSelectGlobal from "@/shared/CustomeMultiSelect/PatientMultiSelectGlobal";
+import Providers from "../../MultiSelectComponents/Providers";
+import { RiArrowLeftRightLine } from "react-icons/ri";
+import { useSelector } from "react-redux";
 
 const CalenderFilter = () => {
+  const isToggled = useSelector((state) => state.sideBarInfo);
   const { handleSubmit, register, reset } = useForm({
     defaultValues: {
       filters: [],
@@ -78,18 +82,22 @@ const CalenderFilter = () => {
     }
   };
   return (
-    <div>
+    <div className="bg-gradient-to-r from-secondary to-primary rounded-lg px-4 py-2 mb-5">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex justify-between items-center my-2">
           <div className=" flex flex-wrap items-center gap-3">
-            <div className="w-[250px]">
+            <div className="w-[200px]">
               <label className="label">
-                <span className="label-font text-[17px] font-medium text-[#9b9b9b] text-left">
+                <span className="label-text  text-[14px] text-gray-100 text-left">
                   Selected date
                 </span>
               </label>
-              <div className="ml-1">
-                <div className="flex flex-wrap justify-between items-center text-gray-600 input-border-bottom rounded-sm px-1 mx-1 w-full">
+              {/* Date Range calender will be set here */}
+              <div className="">
+                <div
+                  onClick={() => setOpenCalendar(true)}
+                  className="flex  justify-center items-center border-b-[2px] border-[#ffffff] px-1 py-[3px] text-[14px] w-full"
+                >
                   <input
                     value={
                       startDate
@@ -97,27 +105,31 @@ const CalenderFilter = () => {
                         : "Start Date"
                     }
                     readOnly
-                    onClick={() => setOpenCalendar(true)}
-                    className="focus:outline-none font-medium text-center pb-[1.8px] text-[14px] text-gray-600 bg-transparent w-1/3 cursor-pointer"
+                    className="focus:outline-none py-[1px] font-medium text-center bg-transparent text-white w-2/5 cursor-pointer"
+                    {...register("start_date")}
                   />
-                  <FaArrowsAltH
-                    onClick={() => setOpenCalendar(true)}
-                    className="w-1/3 cursor-pointer text-gray-600 text-[14px] font-medium"
-                  ></FaArrowsAltH>
+                  <RiArrowLeftRightLine className="w-1/5 text-white"></RiArrowLeftRightLine>
+
                   <input
                     value={
                       endDate ? `${endMonth} ${endDay}, ${endYear}` : "End Date"
                     }
                     readOnly
-                    onClick={() => setOpenCalendar(true)}
-                    className="focus:outline-none font-medium text-center bg-transparent text-[14px] text-gray-600 w-1/3 cursor-pointer"
+                    className="focus:outline-none font-medium text-center bg-transparent text-white w-2/5 cursor-pointer"
+                    {...register("end_date")}
                   />
                 </div>
-
-                {/* Multi date picker component called */}
+              </div>
+              {/* Multi date picker component called */}
+              <div>
                 <div
                   ref={refClose}
-                  className="absolute z-10 md:ml-[-15%] lg:ml-0 xl:ml-0 2xl:ml-[35%]s"
+                  // className="absolute z-10 2xl:ml-[0%] xl:ml-[0%] lg:ml-[0%] md:ml-[0%] md:mr-[5%] sm:mr-[14%] mt-1 "
+                  className={
+                    !isToggled
+                      ? "absolute z-10 2xl:ml-[0%] xl:ml-[-17%] lg:ml-[0%] md:ml-[0%] md:mr-[5%] ml-[-4%] mr-[8%] mt-1 "
+                      : "absolute z-10 2xl:ml-[0%] xl:ml-[-45%] lg:ml-[0%] md:ml-[0%] md:mr-[5%] ml-[-4%] mr-[8%] mt-1  "
+                  }
                 >
                   {openCalendar && (
                     <CustomDateRange
@@ -130,91 +142,99 @@ const CalenderFilter = () => {
                 </div>
               </div>
             </div>
-            <div>
+            <div className="sm:w-[240px] w-[200px]">
               <label className="label">
-                <span className="label-font text-[17px] font-medium text-[#9b9b9b] text-left">
-                  Treatment Type
+                <span className="label-text text-[14px] text-gray-100 text-left">
+                  Treatment
                 </span>
               </label>
-              <select
-                className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1  w-full focus:outline-none"
-                {...register("patient")}
-              >
-                <option value="name"> </option>
-                <option value="name"> Abcgfdgfdgdrtdrtfd </option>
-                <option value="name"> abcd </option>
-              </select>
+              <div>
+                <select
+                  className=" bg-transparent border-b-[2px] border-[#ffffff] text-white py-[4px]  px-1  font-medium  text-[14px] w-full focus:outline-none"
+                  {...register("pos")}
+                  onChange={(e) => setLocation(e.target.value)}
+                >
+                  <option value="" className="text-black">
+                    Select
+                  </option>
+                  {[]?.pos?.map((p) => {
+                    return (
+                      <option
+                        className="text-black"
+                        key={p?.id}
+                        value={p?.pos_code}
+                      >
+                        {p?.pos_name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
             </div>
             <div>
-              <label className="label">
-                <span className="label-font text-[17px] font-medium text-[#9b9b9b] text-left">
+              <h1 className="label pb-1">
+                <span className="label-text  text-[14px] text-gray-100 text-left">
                   Patients
                 </span>
-              </label>
+              </h1>
 
-              <div className="mt-1">
-                <PatientMultiSelectGlobal
-                  patients={[]}
-                  setPatientId={123}
-                ></PatientMultiSelectGlobal>
-              </div>
+              <Clients patients={[]} setPatientId={123}></Clients>
             </div>
-            <div>
-              <label className="label">
-                <span className="label-font text-[17px] font-medium text-[#9b9b9b] text-left">
+            <div className="">
+              <h1 className="pb-1">
+                <span className="label-text mb-[2px] text-[14px] text-gray-100 text-left">
                   Provider
                 </span>
-              </label>
+              </h1>
 
-              <div className="mt-1">
-                <PatientMultiSelectGlobal
-                  patients={[]}
-                  setPatientId={123}
-                ></PatientMultiSelectGlobal>
+              <Providers stuffs={[]} setStuffsId={123}></Providers>
+            </div>
+            <div className="sm:w-[240px] w-[200px]">
+              <label className="label">
+                <span className="label-text text-[14px] text-gray-100 text-left">
+                  Place of Services
+                </span>
+              </label>
+              <div>
+                <select
+                  className=" bg-transparent border-b-[2px] border-[#ffffff] text-white py-[4px]  px-1  font-medium  text-[14px] w-full focus:outline-none"
+                  {...register("pos")}
+                  onChange={(e) => setLocation(e.target.value)}
+                >
+                  <option value="" className="text-black">
+                    Select
+                  </option>
+                  {[]?.pos?.map((p) => {
+                    return (
+                      <option
+                        className="text-black"
+                        key={p?.id}
+                        value={p?.pos_code}
+                      >
+                        {p?.pos_name}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
             </div>
             <div>
-              <label className="label">
-                <span className="label-font text-[17px] font-medium text-[#9b9b9b] text-left">
-                  Place Of Service
+              <h1 className="label pb-1">
+                <span className="label-text  text-[14px] text-gray-100 text-left">
+                  Services
                 </span>
-              </label>
-              <select
-                className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1  w-full focus:outline-none"
-                {...register("patient")}
-              >
-                <option value="name"> </option>
-                <option value="name"> Abcgfdgfdgdrtdrtfd </option>
-                <option value="name"> abcd </option>
-              </select>
-            </div>
-            <div>
-              <label className="label">
-                <span className="label-font text-[17px] font-medium text-[#9b9b9b] text-left">
-                  Service
-                </span>
-              </label>
+              </h1>
 
-              <div className="mt-1">
-                <PatientMultiSelectGlobal
-                  patients={[]}
-                  setPatientId={123}
-                ></PatientMultiSelectGlobal>
-              </div>
+              <Clients patients={[]} setPatientId={123}></Clients>
             </div>
             <div>
-              <label className="label">
-                <span className="label-font text-[17px] font-medium text-[#9b9b9b] text-left">
+              <h1 className="label pb-1">
+                <span className="label-text  text-[14px] text-gray-100 text-left">
                   Status
                 </span>
-              </label>
+              </h1>
 
-              <div className="mt-1">
-                <PatientMultiSelectGlobal
-                  patients={[]}
-                  setPatientId={123}
-                ></PatientMultiSelectGlobal>
-              </div>
+              <Clients patients={[]} setPatientId={123}></Clients>
             </div>
             <div className="mt-[26px] flex items-center sm:col-span-2">
               <div>

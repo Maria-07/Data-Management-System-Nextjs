@@ -35,7 +35,7 @@ const Providers = ({ stuffs, setStuffsId, setFetchQuery }) => {
   useEffect(() => {
     const getProvidersId = async () => {
       const getId = selected.map((item) => item.id);
-      setStuffsId(getId);
+      // setStuffsId(getId);
       // setFetchQuery(false); //for recurring session purpose only
     };
     getProvidersId();

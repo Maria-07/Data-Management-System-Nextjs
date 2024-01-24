@@ -15,7 +15,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
   const [daily, setDaily] = useState(false);
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(new Date());
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, control } = useForm();
   const [clientId, setClientId] = useState(0);
   const [authId, setAuthId] = useState(0);
   const [fromtime, setFromTime] = useState(null);
@@ -266,7 +266,12 @@ const CreateAppointment = ({ handleClose, clicked }) => {
               ></NonBillable>
             )}
             {noAuth && <NoAuth register={register}></NoAuth>}
-            {!therapy && <GroupTherapy register={register}></GroupTherapy>}
+            {!therapy && (
+              <GroupTherapy
+                control={control}
+                register={register}
+              ></GroupTherapy>
+            )}
 
             <div className=" grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 mb-5 mt-2 mr-2 gap-1 md:gap-2">
               <label className="label">

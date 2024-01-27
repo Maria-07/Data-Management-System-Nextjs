@@ -6,6 +6,7 @@ import "@/styles/antd5Custom.css";
 import "@/styles/settings.css";
 import "@/styles/InsuranceMultiSelect.css";
 import "@/styles/CustomDateRange.css";
+import "@/styles/SingleCalendar.css";
 import "@/styles/multiSelect.css";
 import "@/styles/calender.css";
 import "react-date-range/dist/styles.css";

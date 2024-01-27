@@ -22,7 +22,7 @@ const DynamicService = ({ register, fields, remove, setClientId }) => {
               </option>
             </select>
             <label className="label">
-              <span className="modal-label-name">Service</span>
+              ~<span className="modal-label-name">Service</span>
             </label>
             <div className="col-span-2">
               <div className="flex items-center ml-1 gap-2">

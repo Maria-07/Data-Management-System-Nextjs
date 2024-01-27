@@ -31,8 +31,8 @@ function ClinicalSessionCards() {
     <div>
       {/* <ClinicalSessionCard></ClinicalSessionCard> */}
 
-      <div className="grid md:grid-cols-6 sm:grid-cols-3 gap-3">
-        <div className="col-span-4 py-3 px-5 my-5 shadow-lg border rounded-lg">
+      <div className="grid grid-col-1 md:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div className="md:col-span-4 py-3 px-5 my-5 shadow-lg border rounded-lg">
           <Collapse
             // defaultActiveKey={["1"]}
             onChange={onChange}
@@ -43,9 +43,9 @@ function ClinicalSessionCards() {
                 key: "1",
                 label: (
                   <>
-                    <div className="flex  justify-between">
+                    <div className="flex  justify-between flex-wrap gap-2">
                       <div className="font-medium uppercase">
-                        Washing Hand&apos;s baseLine{" "}
+                        Washing Hand&apos;s baseLine
                         <h2 className="text-xs text-primary">
                           skill | Trial by Trial
                         </h2>
@@ -75,10 +75,9 @@ function ClinicalSessionCards() {
                 ),
                 children: (
                   <div>
-                    {" "}
                     <div className="my-5">
                       <h1 className="font-semibold text-sm mb-1">
-                        Created At :{" "}
+                        Created At :
                       </h1>
                       <h1 className="text-xs">System - 08/29/23</h1>
                     </div>
@@ -98,9 +97,9 @@ function ClinicalSessionCards() {
                 key: "1",
                 label: (
                   <>
-                    <div className="flex  justify-between">
+                    <div className="flex  justify-between flex-wrap gap-2">
                       <div className="font-medium uppercase">
-                        Washing Hand&apos;s baseLine{" "}
+                        Washing Hand&apos;s baseLine
                         <h2 className="text-xs text-primary">
                           skill | Trial by Trial
                         </h2>
@@ -130,10 +129,9 @@ function ClinicalSessionCards() {
                 ),
                 children: (
                   <div>
-                    {" "}
                     <div className="my-5">
                       <h1 className="font-semibold text-sm mb-1">
-                        Created At :{" "}
+                        Created At :
                       </h1>
                       <h1 className="text-xs">System - 08/29/23</h1>
                     </div>
@@ -153,9 +151,9 @@ function ClinicalSessionCards() {
                 key: "1",
                 label: (
                   <>
-                    <div className="flex  justify-between">
+                    <div className="flex  justify-between flex-wrap gap-2">
                       <div className="font-medium uppercase">
-                        Washing Hand&apos;s baseLine{" "}
+                        Washing Hand&apos;s baseLine
                         <h2 className="text-xs text-primary">
                           skill | Trial by Trial
                         </h2>
@@ -185,10 +183,9 @@ function ClinicalSessionCards() {
                 ),
                 children: (
                   <div>
-                    {" "}
                     <div className="my-5">
                       <h1 className="font-semibold text-sm mb-1">
-                        Created At :{" "}
+                        Created At :
                       </h1>
                       <h1 className="text-xs">System - 08/29/23</h1>
                     </div>
@@ -199,13 +196,12 @@ function ClinicalSessionCards() {
             ]}
           />
         </div>
-        <div className="col-span-2   py-3 px-5 my-5 shadow-lg border rounded-lg">
+        <div className="sm:col-span-2  py-3 px-5 my-5 shadow-lg border rounded-lg">
           <h1 className="my-5 text-sm font-semibold">
             LATEST PROGRAM MODIFICATIONS
           </h1>
 
           <div>
-            {" "}
             <div className="my-5">
               <h1 className="text-xl text-primary font-semibold mb-7">
                 Thursday, November 23, 2023

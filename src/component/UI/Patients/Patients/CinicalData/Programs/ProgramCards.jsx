@@ -11,7 +11,7 @@ const ProgramCards = () => {
   };
 
   return (
-    <div className="grid grid-cols-5 gap-3">
+    <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-3">
       <ProgramCard
         selectProgram={selectProgram}
         handleSelectProgram={handleSelectProgram}

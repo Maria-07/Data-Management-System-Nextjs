@@ -56,11 +56,10 @@ const DataRecording = () => {
     <div>
       {/* heading part  */}
       <div>
-        <div className="grid grid-cols-8 ">
-          <div className="col-span-8 ">
-            <div className="bg-gray-800 grid grid-cols-7 p-2 rounded-t-lg">
-              <div className="col-span-6 flex items-center gap-2 justify-between">
-                {" "}
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 ">
+          <div className="sm:col-span-8 ">
+            <div className="bg-gray-800 grid grid-cols-1 lg:grid-cols-7 p-2 rounded-t-lg">
+              <div className="sm:col-span-1 md:col-span-5 lg:col-span-6 flex items-center flex-wrap gap-2 justify-between">
                 <div className="text-sm p-1 text-white pl-2">
                   <p>Kyle Scibelli</p>
                   <h1 className="text-xs text-gray-200">8:00 PM to 11:00 PM</h1>
@@ -75,7 +74,7 @@ const DataRecording = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-end gap-2">
                 <div className="text-white  p-3 text-xl">
                   <FaPerson />
                 </div>
@@ -93,13 +92,13 @@ const DataRecording = () => {
             </div>
           </div>
           {/* left part  */}
-          <div className="  border-gray-600  bg-gray-200 h-[100vh]">
+          <div className="  border-gray-600  bg-gray-200 sm:h-[100vh]">
             {status?.map((s, i) => (
               <Status key={i} s={s}></Status>
             ))}
           </div>
           {/* programs  */}
-          <div className="col-span-6">
+          <div className="md:col-span-3  lg:col-span-6">
             <div className=" px-3">
               <div className="flex items-center justify-between mt-5 mb-8">
                 <h1 className="text-base font-semibold">1:1 ABA Session</h1>
@@ -145,7 +144,7 @@ const DataRecording = () => {
             </div>
           </div>
           {/* Right part  */}
-          <div className="  border-gray-600  bg-gray-200 h-[100vh]">
+          <div className="  border-gray-600  bg-gray-200 sm:h-[100vh]">
             {trials?.map((s, i) => (
               <Trial key={i} s={s}></Trial>
             ))}

@@ -53,7 +53,7 @@ const Records = () => {
             key: "1",
             label: <div className="font-medium uppercase">Ecoics Simple</div>,
             children: (
-              <div className="flex gap-3  ">
+              <div className="flex gap-3  overflow-scroll">
                 <div className="">
                   <Badge count={" "} size="small" color="#B1C381">
                     <p
@@ -151,7 +151,7 @@ const Records = () => {
               </div>
             ),
             children: (
-              <div className="flex gap-3  ">
+              <div className="flex gap-3 overflow-scroll ">
                 <div className="">
                   <Badge count={" "} size="small" color="#B1C381">
                     <p
@@ -252,7 +252,7 @@ const Records = () => {
               </div>
             ),
             children: (
-              <div className="flex gap-3  ">
+              <div className="flex gap-3  overflow-scroll">
                 <div className="">
                   <Badge count={" "} size="small" color="#B1C381">
                     <p
@@ -328,7 +328,7 @@ const Records = () => {
             key: "1",
             label: <div className="font-medium uppercase">Brushing tooth</div>,
             children: (
-              <div className="flex gap-3  ">
+              <div className="flex gap-3  overflow-scroll">
                 <div className="">
                   <Badge count={" "} size="small" color="#B1C381">
                     <p

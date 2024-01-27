@@ -81,7 +81,7 @@ const TimeData = () => {
   return (
     <div className=" text-sm mt-1 p-2">
       <div>
-        <div className="flex items-center gap-2 ml-1">
+        <div className="flex items-center justify-center gap-2 ml-1">
           <div>
             <IoMdInformationCircleOutline onClick={handleSessionProgram} />
 

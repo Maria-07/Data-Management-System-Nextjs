@@ -1,20 +1,18 @@
-import { Modal } from "antd";
+import { Modal, Switch } from "antd";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
-const DeleteModal = ({ handleClose, open, message }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
+const AddNewPhaseModal = ({ handleClose, clicked }) => {
+  const { register, handleSubmit, reset } = useForm();
 
-  const onSubmit = async (data) => {};
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   return (
     <div>
       <Modal
-        open={open}
+        open={clicked}
         centered
         footer={null}
         bodyStyle={{ padding: "0" }}
@@ -22,9 +20,11 @@ const DeleteModal = ({ handleClose, open, message }) => {
         closable={false}
         className="box"
       >
-        <div className="px-0 py-2 font-[poppins,sans-serif]">
+        <div className="">
           <div className="flex items-center justify-between">
-            <h1 className="text-base text-left text-orange-400 ">{message}</h1>
+            <label className="text-lg text-left text-orange-400 ">
+              Add New Phase
+            </label>
 
             <div className="flex items-center gap-2">
               <IoCloseCircleOutline
@@ -34,23 +34,32 @@ const DeleteModal = ({ handleClose, open, message }) => {
             </div>
           </div>
           <div className="bg-gray-200 py-[1px] mt-3"></div>
+          <form onSubmit={handleSubmit(onSubmit)} className="">
+            <h1 className="label my-2">
+              <span className="modal-label-name ">Add new phase</span>
+            </h1>
+            <input
+              className="modal-input-field w-full"
+              type="text"
+              {...register("new_phase")}
+            />
 
-          <form onSubmit={handleSubmit(onSubmit)} className=" px-3 py-2">
-            <div className="text-center my-4">Do you want to delete this ?</div>
+            <div className="bg-gray-200 py-[1px] mt-3"></div>
             <div className=" flex items-end justify-end mt-2">
               <button className="dcm-button mr-2" type="submit">
-                DELETE
+                Ok
               </button>
 
               <button className="dcm-close-button" onClick={handleClose}>
-                CLOSE
+                Close
               </button>
             </div>
           </form>
         </div>
       </Modal>
+      add new phase
     </div>
   );
 };
 
-export default DeleteModal;
+export default AddNewPhaseModal;

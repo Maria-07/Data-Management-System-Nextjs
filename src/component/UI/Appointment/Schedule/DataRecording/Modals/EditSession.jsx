@@ -2,7 +2,7 @@ import { TimePicker } from "antd";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import Calendar from "react-calendar";
+// import Calendar from "react-calendar";
 import { Modal } from "antd";
 import moment from "moment";
 import {
@@ -14,6 +14,7 @@ import {
   useGetAppointmentProviderNameQuery,
 } from "@/Redux/features/Appointment/appointmentApi";
 import Loading from "@/component/UI/Layouts/Loading";
+import Calendar from "react-calendar";
 
 //To Convert Date YY/MM/DD(2022-10-21) to MM/DD/YY
 const dateConverter = (date) => {

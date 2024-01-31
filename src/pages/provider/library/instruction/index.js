@@ -2,7 +2,7 @@
 import LibraryLayout from "@/component/Layouts/LibraryLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
 import { Editor } from "@tinymce/tinymce-react";
-import { Select } from "antd";
+import { Select, Upload } from "antd";
 import { useTheme } from "next-themes";
 import { useState } from "react";
 import { BiVideo } from "react-icons/bi";
@@ -30,6 +30,24 @@ const instructionPage = () => {
     console.log(`Selected: ${value}`);
   };
 
+  const props = {
+    // name: "file",
+    // action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
+    // headers: {
+    //   authorization: "authorization-text",
+    // },
+    // onChange(info) {
+    //   if (info.file.status !== "uploading") {
+    //     console.log(info.file, info.fileList);
+    //   }
+    //   if (info.file.status === "done") {
+    //     message.success(`${info.file.name} file uploaded successfully`);
+    //   } else if (info.file.status === "error") {
+    //     message.error(`${info.file.name} file upload failed.`);
+    //   }
+    // },
+  };
+
   return (
     <div className="">
       <div
@@ -40,11 +58,25 @@ const instructionPage = () => {
         {" "}
         <div className="">
           <div className="flex items-center justify-end flex-wrap gap-3">
-            <button className="bg-primary text-sm  w-[265px] transition-all hover:bg-secondary flex items-center gap-2 text-white px-3 py-1 rounded-md shadow-md">
-              <BiVideo className="text-xl" /> UPLOAD INSTRUCTION VIDEO
+            <button className="bg-gray-500 text-sm transition-all hover:bg-dark flex items-center gap-2 text-white px-3 pt-1 rounded-md shadow-md">
+              <Upload {...props}>
+                <div
+                  className="flex items-center gap-2 text-white"
+                  icon={<BiVideo className="" />}
+                >
+                  <BiVideo className="text-xl" /> UPLOAD INSTRUCTION VIDEO
+                </div>
+              </Upload>
             </button>
-            <button className="bg-gray-500 text-sm transition-all hover:bg-dark flex items-center gap-2 text-white px-3 py-1 rounded-md shadow-md">
-              <BiVideo className="text-xl" /> UPLOAD LEARNING MATERIALS
+            <button className="bg-gray-500 text-sm transition-all hover:bg-dark flex items-center gap-2 text-white px-3 pt-1 rounded-md shadow-md">
+              <Upload {...props}>
+                <div
+                  className="flex items-center gap-2 text-white"
+                  icon={<BiVideo className="" />}
+                >
+                  <BiVideo className="text-xl" /> UPLOAD LEARNING MATERIALS
+                </div>
+              </Upload>
             </button>
           </div>
           <div className="min-w-[40%] my-5">

@@ -71,13 +71,13 @@ const LibraryLayout = ({ children }) => {
       <hr
         className={`mt-5 ${theme === "dark" ? "border-dark-secondary" : ""} `}
       />
-      <div className="grid grid-cols-8 gap-3">
+      <div className="grid md:grid-cols-6 lg:grid-cols-8 gap-3">
         <div className="col-span-1">
           <LibrarySidebar></LibrarySidebar>
         </div>
 
         <div
-          className={` col-span-6 mt-[1px] w-[100%]   py-3 ${
+          className={`lg:col-span-6 md:col-span-4 mt-[1px] w-[100%]   py-3 ${
             theme === "dark" ? "bg-dark-background" : ""
           }`}
         >

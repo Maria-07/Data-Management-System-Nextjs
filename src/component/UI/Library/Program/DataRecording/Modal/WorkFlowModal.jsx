@@ -80,7 +80,7 @@ const WorkFlowModal = ({ handleClose, clicked }) => {
         bodyStyle={{ padding: "0" }}
         width={900}
         closable={false}
-        className="box"
+        className="box z-20"
       >
         <div className="">
           <div className="flex items-center justify-between">

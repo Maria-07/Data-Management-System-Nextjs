@@ -23,7 +23,6 @@ import { MdOutlineCancel } from "react-icons/md";
 import { RiArrowLeftRightLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import CardShimmer from "@/component/UI/Layouts/Shimmer/CardShimmer";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const listViewPage = () => {
@@ -643,8 +642,12 @@ const listViewPage = () => {
             hasMore={hasMore}
             loader={<CardShimmer></CardShimmer>}
           >
-            {appointmentData.map((p) => {
-              return <SessionCard appointment={p}> </SessionCard>;
+            {appointmentData.map((p, i) => {
+              return (
+                <SessionCard key={i} appointment={p}>
+                  {" "}
+                </SessionCard>
+              );
             })}
           </InfiniteScroll>
         </div>

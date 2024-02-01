@@ -5,15 +5,16 @@ import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Link from "next/link";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import CustomModal from "@/component/UI/Appointment/calenderView/CustomModal";
 import { useGetCalendarEventApiQuery } from "@/Redux/features/Appointment/Calendar/CalendarApi";
 import moment from "moment";
-import axios from "axios";
-import { FaCircle, FaVideo, FaMessage, FaCircleInfo } from "react-icons/fa6";
 import CalenderFilter from "@/component/UI/Appointment/calenderView/CustomModalHelper/CalenderFilter";
 import { IoSettingsOutline } from "react-icons/io5";
+import SettingModal from "@/component/UI/Appointment/calenderView/CustomModalHelper/SettingModal";
+import { FaFilter } from "react-icons/fa";
+import { FiPrinter } from "react-icons/fi";
 
 const calenderView = () => {
   const tooltipRef = useRef(null);
@@ -26,20 +27,20 @@ const calenderView = () => {
   const [startdate, setStartDate] = useState("");
   const [enddate, setendDate] = useState("");
   const [dynamicID, setdynamicId] = useState("");
-  const [calenderEvents, setCalenderEvents] = useState([]);
   const [data, setData] = useState(false);
   const [settings, setSettings] = useState(false);
-  const [filterValue, setFilterValue] = useState([]);
+
+  const handleSetting = () => {
+    setSettings(!settings);
+  };
+
   // hovering data show all funch
 
   const handleClose = () => {
     setOpen(false);
   };
-  const handleSetting = () => {
-    setSettings(!settings);
-  };
+
   const handleDatesSet = (arg) => {
-    console.log("asdgas");
     // console.log("data of hovered event", arg.view);
     // const viewStartDate = new Date(arg.view.currentStart);
     // const viewEndDate = new Date(arg.view.currentEnd);
@@ -85,7 +86,7 @@ const calenderView = () => {
   // const calander event api call
   // console.log("startdate and enddate  ", startdate, enddate);
 
-  /*const {
+  const {
     isLoading,
     data: calenderEvents,
     isSuccess,
@@ -96,35 +97,11 @@ const calenderView = () => {
       page: 1,
       // start_data: "2023-05-01",
       // end_date: "2023-05-31",
-      start_date: startdate,
+      start_data: startdate,
       end_date: enddate,
     },
-  });*/
+  });
 
-  const getCalenderData = async () => {
-    let res = await axios({
-      method: "post",
-      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/calendar`,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: token || null,
-      },
-      data: {
-        page: 1,
-        start_date: startdate,
-        end_date: enddate,
-      },
-    });
-    const data = res;
-    console.log("data --", res);
-    setCalenderEvents(data);
-  };
-  useEffect(() => {
-    if (startdate != "" && enddate != "") {
-      getCalenderData();
-    }
-  }, [startdate, enddate, filterValue]);
   // for showing clicked event details basedon id using same CustomModal.jsx
   const showEventDetails = (id) => {
     console.log("Clicked event id", id);
@@ -147,14 +124,11 @@ const calenderView = () => {
   //-------------------------------Showing month date(auto) -------------------
 
   console.log("api data rtk", calenderEvents);
-  const modifyDatamap = calenderEvents?.data?.data_all?.data.map((item) => {
-    const title = item?.title;
-    const start = item?.start;
-    const end = item?.end;
+  const modifyDatamap = calenderEvents?.data?.data.map((item) => {
+    const title = `${item?.app_patient?.client_first_name} : ${item?.app_provider?.first_name}`;
+    const start = item?.from_time;
+    const end = item?.to_time;
     const id = item?.id;
-    const textColor = item?.textColor;
-    const borderColor = item?.borderColor;
-    const backgroundColor = item?.backgroundColor;
     return {
       title,
       color: "#089BAB",
@@ -162,18 +136,13 @@ const calenderView = () => {
       end,
       start,
       id,
-      textColor,
-      borderColor,
-      backgroundColor,
-      extendedProps: item,
+      textColor: "white",
     };
   });
-  const handleEventReceive = (eventInfo) => {
-    console.log("eventInfo - ", eventInfo);
-  };
+
   // For creating new event
   const createEvent = (selectInfo) => {
-    console.log("adsgasdg", selectInfo);
+    console.log(selectInfo);
     setOpen(!open);
     setSelectedDate(selectInfo?.startStr);
     if (eventId) {
@@ -209,60 +178,27 @@ const calenderView = () => {
 
     //Events.push(event);
   };
-  function format12hours(inputTime) {
-    const [hours, minutes, seconds] = inputTime.split(":");
-    let hour = "";
-    let merdian = "";
-    if (hours == "00" || hours == "00") {
-      hour = 12;
-      merdian = "am";
-    } else if (hours >= 12) {
-      hour = hours > 12 ? hours - 12 : hours;
-      merdian = "pm";
-    } else {
-      hour = hours;
-      merdian = "am";
-    }
-    return `${hour}:${minutes} ${merdian}`;
-  }
   return (
     <div>
       {" "}
       <div>
-        {data && (
-          <CalenderFilter
-            token={token}
-            startdate={startdate}
-            enddate={enddate}
-            setFilterValue={setFilterValue}
-          ></CalenderFilter>
-        )}
+        {data && <CalenderFilter></CalenderFilter>}
 
-        <div className="flex items-center flex-wrap md:justify-between pb-4">
+        <div className="flex items-center flex-wrap md:justify-between pb-4 px-1">
           <h1 className="text-lg my-2 text-orange-500">Manage Appointment</h1>
           <div className="flex items-center justify-end gap-2">
             <IoSettingsOutline
               onClick={handleSetting}
               className="text-2xl text-primary"
             />
-            <div
-              onClick={() => setData(true)}
-              type="button"
-              className="py-[5px] px-3 text-[12px] font-normal bg-gradient-to-r from-red-700 to-red-400 hover:to-red-700 text-white rounded-sm"
-            >
-              Filter
-            </div>
-            <Link href={"/admin"}>
-              {/* <Image
-                src={googleCalendar}
-                alt="Google Calendar"
-                style={{ width: "32px" }}
-              /> */}
-              rtrtr
-            </Link>
-            <button className=" py-[5px] font-normal px-3 mr-1 text-[12px]  bg-gradient-to-r from-secondary to-primary  hover:to-secondary text-white rounded-sm">
-              Print
-            </button>
+            <FaFilter
+              onClick={() => setData(!data)}
+              className="text-xl text-rose-500"
+            />
+            <FiPrinter
+              // onClick={() => setData(!data)}
+              className="text-xl text-secondary"
+            />
           </div>
         </div>
         <div className="border border-[#089bab] rounded-2xl p-2">
@@ -277,13 +213,12 @@ const calenderView = () => {
               handleClose={handleClose}
               clicked={open}
               eventId={dynamicID ? dynamicID : null}
-              //refetch={refetch}
+              refetch={refetch}
               event={hoveredEvent}
             ></CustomModal>
           ) : null}
 
           <FullCalendar
-            timeZone="America/New_York"
             ref={calendarRef}
             initialView="dayGridMonth"
             headerToolbar={{
@@ -297,7 +232,7 @@ const calenderView = () => {
             events={modifyDatamap}
             // initialEvents={allData}
             // initialEvents={modifyDatamap}
-            editable={true}
+            editable={false}
             selectable={true}
             select={createEvent}
             eventClick={(arg) => {
@@ -314,121 +249,23 @@ const calenderView = () => {
             // For showing the calender month and date (autometically)(format 30 days(1-01-2023 to 31-01-2023))
             datesSet={handleDatesSet}
             // editable={false}
-            droppable={true}
-            eventDrop={(info) => {
-              //<--- see from here
-              const { start, end } = info.oldEvent._instance.range;
-              console.log(start, end);
-              const { start: newStart, end: newEnd } =
-                info.event._instance.range;
-              console.log(newStart, newEnd);
-              if (new Date(start).getDate() === new Date(newStart).getDate()) {
-                info.revert();
-              }
-            }}
+            // droppable={false}
             // for hovering
-            eventContent={(info) => {
-              const startDateTime = info.event.extendedProps.start.substring(
-                11,
-                19
-              );
-              const starTime = format12hours(startDateTime);
-              const titleHtmlSplit =
-                info.event.extendedProps.title_html.split("</a>");
-              const [provideIdRemoval, provideId] =
-                titleHtmlSplit[0].split(">");
-              const [patientIdRemoval, patientId] =
-                titleHtmlSplit[1].split(">");
-              const itemDisplay = info.event.extendedProps.display;
-              const bgcolor =
-                itemDisplay != "list-item"
-                  ? info.event.backgroundColor
-                  : "#ffffff";
-              const isGroup = info.event.extendedProps.is_group == 1 ? "G" : "";
-              const isRecurring =
-                info.event.extendedProps.recurring_id != null ? "R" : "";
-              const status = [
-                "Cancelled by Client",
-                "CC more than 24 hrs",
-                "CC less than 24 hrs",
-                "Cancelled by Provider",
-              ];
-              const isDeleted = status.includes(info.event.extendedProps.status)
-                ? "line-through"
-                : "";
-              return (
-                <div
-                  className="text-xs"
-                  //onMouseEnter={() => handleEventHover(info)}
-                  //onMouseLeave={handleEventLeave}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      backgroundColor: `${bgcolor}`,
-                      textDecorationLine: `${isDeleted}`,
-                    }}
-                  >
-                    {itemDisplay == "list-item" && (
-                      <span>
-                        <FaCircle
-                          style={{
-                            color: `${info.event.borderColor}`,
-                            fontSize: "12px",
-                            paddingTop: "5px",
-                          }}
-                        />
-                      </span>
-                    )}
-                    <span className="px-1" style={{ paddingTop: "2px" }}>
-                      <FaCircleInfo />
-                    </span>
-                    <span> {`${starTime} `}</span>
-                    <span className="px-1">
-                      {" "}
-                      {provideId} :{patientId}
-                    </span>
-                    {info.event.extendedProps.icon == "camera" && (
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          paddingTop: "2px",
-                          paddingLeft: "2px",
-                        }}
-                      >
-                        <FaVideo />
-                      </span>
-                    )}
-                    {info.event.extendedProps.comment == "comment" && (
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          paddingTop: "2px",
-                          paddingLeft: "2px",
-                        }}
-                      >
-                        <FaMessage />
-                      </span>
-                    )}
-                    {isGroup != "" && (
-                      <span className="text-green-400  px-1"> G</span>
-                    )}
-                    {isRecurring != "" && (
-                      <span className="text-red-500 px-1"> R</span>
-                    )}
-                  </div>
-                </div>
-              );
-            }}
+            // eventContent={(info) => {
+            //   return (
+            //     <div
+            //       onMouseEnter={() => handleEventHover(info)}
+            //       onMouseLeave={handleEventLeave}
+            //     >
+            //       {info.event.title}
+            //     </div>
+            //   );
+            // }}
             // eventMouseEnter={handleEventHover}
             // eventMouseLeave={handleEventLeave}
             //
-            /*eventMouseEnter={info => {
-              console.log('MouseEnter',info.event.id)
-            }}
-            eventMouseLeave={info => {
-              console.log('MouseLeave',info.event.id)
-            }}*/
+            // eventMouseEnter={handleEventMouseEnter}
+            // eventMouseLeave={handleEventMouseLeave}
           />
         </div>
       </div>

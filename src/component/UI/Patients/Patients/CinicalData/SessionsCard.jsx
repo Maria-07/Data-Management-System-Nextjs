@@ -20,7 +20,7 @@ import ManageTableAction from "@/component/UI/Appointment/Schedule/DataRecording
 import { PiSignatureBold } from "react-icons/pi";
 import SignatureModal from "@/shared/SignatureManage/SignatureModal";
 
-const SessionCard = () => {
+const SessionCard = ({ appointment }) => {
   const [cardExpend, setCardExpend] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [sessionVisibility, setSessionVisibility] = useState(false);
@@ -116,7 +116,7 @@ const SessionCard = () => {
                             )}
                           </label>
                         </div>
-                        1:1 ABA Session
+                        {appointment.service_name}
                       </h1>
                     </div>
 
@@ -125,7 +125,7 @@ const SessionCard = () => {
                         {" "}
                         <div>
                           <div className="font-semibold flex items-center gap-2">
-                            Kyle Scibelli{" "}
+                            {appointment.patient_name}
                             <PiSignatureBold
                               title="Patient Signature"
                               className=" text-primary hover:text-secondary"

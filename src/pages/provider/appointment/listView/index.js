@@ -8,6 +8,7 @@
 // import CustomDateRange from "@/shared/CustomDateRange/CustomDateRange";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import { useGetAppointmentPOSQuery } from "@/Redux/features/Appointment/appointmentApi";
+import { useAppointmentInfoQuery } from "@/Redux/features/Appointment/appointmentApi";
 import RootLayout from "@/component/Layouts/RootLayout";
 import Clients from "@/component/UI/Appointment/MultiSelectComponents/Clients";
 import Providers from "@/component/UI/Appointment/MultiSelectComponents/Providers";
@@ -22,6 +23,8 @@ import { MdOutlineCancel } from "react-icons/md";
 import { RiArrowLeftRightLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import CardShimmer from "@/component/UI/Layouts/Shimmer/CardShimmer";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const listViewPage = () => {
   const token = getAccessToken();
@@ -35,7 +38,6 @@ const listViewPage = () => {
   const [stuffs, setStuffs] = useState();
   const [patientId, setPatientId] = useState();
   const [stuffsId, setStuffsId] = useState([]);
-  const [formData, setFromData] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const [responseError, setResponseError] = useState(null);
@@ -49,6 +51,7 @@ const listViewPage = () => {
   const [sessionlist, setSessionlist] = useState([]);
   const [listLoading, setListLoading] = useState(false);
   const [paginateActive, setPaginateActive] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   // For Non-Billable Manage Sessions
   const [nonBillablePage, setNonBillablePage] = useState(1);
@@ -58,6 +61,8 @@ const listViewPage = () => {
   const [procceed, setprocceed] = useState(false);
   const [nonBillableData, setNonBillableData] = useState([]);
   const [hide, setHide] = useState(false);
+  const [appointmentData, setAppointmentData] = useState([]);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     const getPatientsData = async () => {
@@ -71,39 +76,50 @@ const listViewPage = () => {
         },
       });
       const data = res?.data;*/
-      // const res = await axios({
-      //   method: "GET",
-      //   url: "https://app.therapypms.com/api/v1/dcm/appointment/filter/patients",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Accept: "application/json",
-      //     Authorization: token || null,
-      //   },
-      // });
-      // const data = res?.data?.patient_data;
-      //console.log(data);
-      // setPatients(data);
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointment/filter/patients`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: token || null,
+        },
+      });
+      const data = res?.data?.patient_data;
+      setPatients(data);
     };
     getPatientsData();
   }, [token]);
 
   //Provider multi select data from server(Provider=>Staff)
-  // useEffect(() => {
-  //   const getProviderData = async () => {
-  //     const res = await axios({
-  //       method: "POST",
-  //       url: `${process.env.NEXT_PUBLIC_BASE_URL}/manage/session/get/all/provider`,
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Accept: "application/json",
-  //         "x-auth-token": token || null,
-  //       },
-  //     });
-  //     const data = res?.data;
-  //     setStuffs(data);
-  //   };
-  //   getProviderData();
-  // }, [token]);
+  useEffect(() => {
+    const getProviderData = async () => {
+      /*const res = await axios({
+        method: "POST",
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/manage/session/get/all/provider`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "x-auth-token": token || null,
+        },
+      });
+      const data = res?.data;*/
+
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointment/filter/providers`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: token || null,
+        },
+      });
+      const data = res?.data?.provider_data;
+      setStuffs(data);
+    };
+    getProviderData();
+  }, [token]);
+
   // console.log("selected stuffs", stuffsId);
 
   // is fixed toggle
@@ -162,11 +178,13 @@ const listViewPage = () => {
     return [date.getFullYear(), mnth, day].join("-");
   }
   //Date Range Picker
+  var prev_date = new Date();
+  prev_date.setDate(prev_date.getDate() - 1);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [range, setRange] = useState([
     {
-      startDate: new Date(),
-      endDate: null,
+      startDate: prev_date,
+      endDate: new Date(),
       key: "selection",
     },
   ]);
@@ -184,6 +202,7 @@ const listViewPage = () => {
 
   // date range picker calendar
   const startDate = range ? range[0]?.startDate : null;
+
   const endDate = range ? range[0]?.endDate : null;
   const startMonth = startDate
     ? startDate.toLocaleString("en-us", { month: "short" })
@@ -203,8 +222,62 @@ const listViewPage = () => {
   //Appointment Pos get API
   const { data: posData, isLoading: posDataLoading } =
     useGetAppointmentPOSQuery(token);
-  // console.log("pos data", posData?.pos);
+  //console.log("pos data", posData?.point_of_service);
 
+  const [formData, setFromData] = useState([]);
+  useEffect(() => {
+    var current_date = new Date();
+    var prev_date = new Date();
+    prev_date.setDate(prev_date.getDate() - 1);
+    const apppointmentFilter = {
+      page: 1,
+      report_range: {
+        start_date: convert(prev_date),
+        end_date: convert(current_date),
+      },
+    };
+    setFromData(apppointmentFilter);
+    //getAppointmentData(apppointmentFilter);
+  }, [token]);
+  const getAppointmentData = async () => {
+    setMessage("");
+    const from_date = convert(startDate);
+    const to_date = convert(endDate);
+    const payload = {
+      patient_ids: patientId,
+      provider_ids: stuffsId?.length > 0 ? stuffsId : "",
+      status: statusName,
+      ses_pos: location,
+      ses_app_type: 1,
+      page: page,
+      report_range: { start_date: from_date, end_date: to_date },
+    };
+    console.log("payload -- ", payload);
+    const res = await axios({
+      method: "POST",
+      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointments/list`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: token || null,
+      },
+      data: payload,
+    });
+    const result = res?.data?.appointments;
+    if (result.total == 0) {
+      setMessage("No Results Found");
+    }
+    if (result?.data?.length > 0) {
+      setAppointmentData([...appointmentData, ...result?.data]);
+      setPage(page + 1);
+      if (result?.data?.length < result.per_page) {
+        setHasMore(false);
+      }
+    } else {
+      setHasMore(false); // No more data to load
+    }
+    //setAppointmentData(data);
+  };
   // -----------------------------------------------Form-------------------------------
   const { handleSubmit, register, reset } = useForm({
     defaultValues: {
@@ -215,19 +288,28 @@ const listViewPage = () => {
   const onSubmit = async (data) => {
     setCheck(true);
     setFilteredInfo({}); //When Go btn is pressed
-    // console.log("form-data", data);
-    const from_date = convert(data?.start_date);
-    const to_date = convert(data?.end_date);
+    setAppointmentData([]);
+    setPage(1);
+    setFromData({});
+    setHasMore(true);
+    console.log("form-data", data);
+    //const from_date = convert(data?.start_date);
+    //const to_date = convert(data?.end_date);
+    const from_date = convert(startDate);
+    const to_date = convert(endDate);
     const payLoad = {
       patient_ids: patientId,
       provider_ids: stuffsId?.length > 0 ? stuffsId : "",
-      status: data?.status,
+      status: statusName,
       ses_pos: location,
       ses_app_type: 1,
-      from_date: from_date,
-      to_date: to_date,
+      page: 1,
+      report_range: { start_date: from_date, end_date: to_date },
     };
-    if (payLoad?.to_date === "NaN-aN-aN") {
+    //console.log("payload", payLoad);
+    setFromData(payLoad);
+    //getAppointmentData(payLoad);
+    /*if (payLoad?.to_date === "NaN-aN-aN") {
       toast.error(<h1 className="font-bold">Select Valid Date-Range</h1>, {
         position: "top-center",
         autoClose: 5000,
@@ -236,9 +318,12 @@ const listViewPage = () => {
     } else {
       setFromData(payLoad);
       setPage(1);
-    }
-    handlePageClick({ selected: 0 });
+    }*/
+    //handlePageClick({ selected: 0 });
   };
+  useEffect(() => {
+    getAppointmentData();
+  }, [formData]);
 
   return (
     <div>
@@ -369,7 +454,7 @@ const listViewPage = () => {
                             <option value="" className="text-black">
                               Select
                             </option>
-                            {posData?.pos?.map((p) => {
+                            {posData?.point_of_service?.map((p) => {
                               return (
                                 <option
                                   className="text-black"
@@ -452,6 +537,7 @@ const listViewPage = () => {
                             <select
                               className="bg-transparent border-b-[2px] border-[#ffffff] px-1 py-[4px] font-medium text-white  text-[14px] w-full focus:outline-none"
                               {...register("status")}
+                              onChange={(e) => setStatusName(e.target.value)}
                             >
                               <option value="" className="text-black">
                                 Select
@@ -551,12 +637,19 @@ const listViewPage = () => {
       </div>
       <div className="h-[40%] mx-auto w-[100%] lg:w-[80%]">
         <div className="overflow-y-scroll">
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <SessionCard> </SessionCard>
-          <CardShimmer></CardShimmer>
+          <InfiniteScroll
+            dataLength={appointmentData.length} //items is basically all data here
+            next={appointmentData.length > 0 && getAppointmentData} //This condition is mendatory for perfectly working with infinite scrolling
+            hasMore={hasMore}
+            loader={<CardShimmer></CardShimmer>}
+          >
+            {appointmentData.map((p) => {
+              return <SessionCard appointment={p}> </SessionCard>;
+            })}
+          </InfiniteScroll>
         </div>
       </div>
+      <h4 className="text-center">{message}</h4>
     </div>
   );
 };

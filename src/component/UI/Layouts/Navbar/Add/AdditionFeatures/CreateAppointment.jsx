@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CreateAppointmentAvailability from "./CreateAppointmentAvailability/CreateAppointmentAvailability";
 import { Modal, Radio, Space, Switch, TimePicker } from "antd";
 import { useForm } from "react-hook-form";
@@ -65,22 +65,8 @@ const CreateAppointment = ({ handleClose, clicked }) => {
     "Saturday",
   ];
 
-  // // testing single calendar
-  // const [date, setDate] = useState(new Date());
-  // const [openCalendar, setOpenCalendar] = useState(false);
-  // const changeDate = (date) => {
-  //   setDate(date);
-  // };
-  // console.log(date);
+  const getActiveAuth = (id) => {};
 
-  // const month = date ? date.getMonth() + 1 : null;
-  // const day = date ? date.getDate() : null;
-  // const year = date ? date.getFullYear() : null;
-
-  // const handleCancelDate = () => {
-  //   // setOpenCalendar(false);
-  //   setDate(null);
-  // };
   const month = date ? date.toLocaleString("en-us", { month: "long" }) : null;
   const currentDate = date ? date.getDate() : null;
   const year = date ? date.getFullYear() : null;

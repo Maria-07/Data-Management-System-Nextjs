@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaPlusSquare } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import PhoneInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
@@ -8,6 +8,8 @@ import "react-phone-number-input/style.css";
 const PrimaryPhone = ({ adData }) => {
   const { phoneAppend, register, primaryPhone } = adData;
   const [value, setValue] = useState(primaryPhone);
+
+  const setCountry = () => {}
   console.log("primaryPhone", value);
   return (
     <>
@@ -17,7 +19,7 @@ const PrimaryPhone = ({ adData }) => {
       <div className="flex gap-1 items-center gap-x-2 gap-y-2">
         <div className=" ml-1">
           {/* package input field */}
-          <PhoneInput
+          {/*<PhoneInput
             flags={flags}
             international
             initialValueFormat="national"
@@ -25,15 +27,16 @@ const PrimaryPhone = ({ adData }) => {
             defaultCountry="US"
             value={primaryPhone}
             {...register("phone_number")}
-          />
+            onChange = {setCountry}
+          />*/}
 
-          {/* <input
+          <input
             type="text"
             placeholder="Phone"
             defaultValue={primaryPhone}
             className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
             {...register("phone_number")}
-          /> */}
+          />
         </div>
         <div>
           <select
@@ -45,12 +48,13 @@ const PrimaryPhone = ({ adData }) => {
             <option value="Home">Home</option>
           </select>
         </div>
-        <button
+        <FaPlusSquare onClick={() => phoneAppend()} size={30}/>
+        {/*<button
           onClick={() => phoneAppend()}
           className="bg-secondary text-white p-[4px]"
         >
           <FaPlus />
-        </button>
+        </button>*/}
       </div>
 
       <div className="flex ml-1 mt-2 items-center">

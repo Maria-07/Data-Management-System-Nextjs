@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import RootLayout from "@/component/Layouts/RootLayout";
+import Loading from "@/component/UI/Layouts/Loading";
 import TableShimmer from "@/component/UI/Layouts/Shimmer/TableShimmer";
 import PatientAuthorizationsTableModal from "@/component/UI/Patients/PatientAuthorizationsTableModal";
 import PatientStatusAction from "@/component/UI/Patients/PatientStatusAction";
@@ -21,12 +22,13 @@ const PatientPage = () => {
   const [patients, setPatients] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
+  const [searchLoading, setSearchLoading] = useState(true);
 
   //! fetch all patients using InfiniteScrolling
   const fetchPatients = async () => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/patient/list`,
+        `${process.env.NEXT_PUBLIC_ADMIN_URL}/patient/list`,
         {
           page,
         },
@@ -34,11 +36,15 @@ const PatientPage = () => {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
-            "x-auth-token": token,
+            method: "POST",
+            //"x-auth-token": token,
+            Authorization: token || null,
           },
         }
       );
-      const data = response?.data?.data?.data;
+      setSearchLoading(false);
+      const data = response?.data?.patients?.data;
+      //console.log('patients-data',data);
       return data;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -48,6 +54,7 @@ const PatientPage = () => {
 
   const fetchData = async () => {
     const patientsFromServer = await fetchPatients();
+    console.log("patients - data", patientsFromServer);
 
     if (patientsFromServer.length > 0) {
       setPatients([...patients, ...patientsFromServer]);
@@ -61,10 +68,8 @@ const PatientPage = () => {
     fetchData(); // Fetch initial data
   }, []);
   //! fetch all patients using InfiniteScrolling END
-
   //! Auth click event handler
   const handleAuthClick = (id) => {
-    console.log(id);
     setModalOpen(true);
     setPatientId(id);
   };
@@ -93,44 +98,59 @@ const PatientPage = () => {
     console.log(id, "iddddddddddd");
     if (id) {
       localStorage.setItem("PId", id);
-      router.push(`/admin/patients/patient-info/${id}`);
+      router.push(`/provider/patients/patient-info/${id}`);
     }
   };
+  function formatDate(inputDate) {
+    // expects Y-m-d
+    var splitDate = inputDate.split("-");
+    if (splitDate.count == 0) {
+      return null;
+    }
 
+    var year = splitDate[0];
+    var month = splitDate[1];
+    var day = splitDate[2];
+
+    return month + "/" + day + "/" + year;
+  }
+  if (searchLoading) {
+    return <Loading></Loading>;
+  }
   const columns = [
     {
       title: "Patient",
-      dataIndex: "client_full_name",
-      key: "client_full_name",
+      dataIndex: "patient_full_name",
+      key: "patient_full_name",
       width: 150,
-      filters: generateFilterValues(patients, "client_full_name"),
+      /*filters: generateFilterValues(patients, "patient_first_name"),
       filterSearch: true, //Filtering value search(Antd new Feature)
-      filteredValue: filteredInfo.client_full_name || null,
-      onFilter: (value, record) => record.client_full_name.includes(value),
+      filteredValue: filteredInfo.patient_first_name || null,
+      onFilter: (value, record) => record.patient_first_name.includes(value),
       sorter: (a, b) => {
-        return a.client_full_name > b.client_full_name ? -1 : 1;
+        return a.patient_first_name > b.patient_first_name ? -1 : 1;
       },
       sortOrder:
-        sortedInfo.columnKey === "client_full_name" ? sortedInfo.order : null,
+        sortedInfo.columnKey === "patient_first_name" ? sortedInfo.order : null,*/
 
       // render contains what we want to reflect as our data
       // client_full_name, id, key=>each row data(object) property value can be accessed.
-      render: (_, { client_full_name, id, key }) => {
-        //console.log("tags : ", client_full_name, id, key);
+      render: (_, record) => {
+        //console.log("tags : ", record);
         return (
-          <Link href={`/provider/patients/patient-info/${id}`} className="">
-            <button
-              onClick={() => PIdHandler(id)}
-              className="text-secondary font-medium"
-            >
-              {client_full_name}
-            </button>
-          </Link>
+          // <Link href={`/admin/patients/patient-info/${id}`} className="">
+          <button
+            onClick={() => PIdHandler(record.patient_id)}
+            className="text-secondary font-medium"
+          >
+            {record.patient_last_name}, {record.patient_first_name}
+          </button>
+          // </Link>
         );
       },
       // ellipsis: true,
     },
-    {
+    /*{
       title: "Wait List",
       key: "wait_list",
       dataIndex: "wait_list",
@@ -150,63 +170,63 @@ const PatientPage = () => {
           </div>
         );
       },
-    },
+    },*/
     {
       title: "Contact Info",
-      dataIndex: "phone_number",
-      key: "phone_number",
+      dataIndex: "patient_phone_number",
+      key: "patient_phone_number",
       width: 130,
-      filters: generateFilterValues(patients, "phone_number"),
-      filterSearch: true,
+      //filters: generateFilterValues(patients, "patient_phone_number"),
+      //filterSearch: true,
       //render contains what we want to reflect as our data
-      render: (_, { phone_number }) => {
+      render: (_, { patient_phone_number }) => {
         return (
           <div>
             <h1>
-              {phone_number ? (
-                phone_number
+              {patient_phone_number ? (
+                patient_phone_number
               ) : (
-                <h1 className="text-red-600">No Data</h1>
+                <h1 className="text-red-600">-</h1>
               )}
             </h1>
           </div>
         );
       },
-      filteredValue: filteredInfo.phone_number || null,
+      /*filteredValue: filteredInfo.patient_phone_number || null,
       onFilter: (value, record) => {
-        if (record?.phone_number !== null) {
-          return record.phone_number.includes(value);
+        if (record?.patient_phone_number !== null) {
+          return record.patient_phone_number.includes(value);
         }
       },
       sorter: (a, b) => {
-        return a.phone_number > b.phone_number ? -1 : 1;
+        return a.patient_phone_number > b.patient_phone_number ? -1 : 1;
       },
       sortOrder:
-        sortedInfo.columnKey === "phone_number" ? sortedInfo.order : null,
-      ellipsis: true,
+        sortedInfo.columnKey === "patient_phone_number" ? sortedInfo.order : null,
+      ellipsis: true,*/
     },
     {
       title: "DOB",
-      dataIndex: "client_dob",
-      key: "client_dob",
+      dataIndex: "patient_dob",
+      key: "patient_dob",
       width: 100,
-      filters: generateFilterValues(patients, "client_dob"),
-      filterSearch: true,
+      //filters: generateFilterValues(patients, "patient_dob"),
+      //filterSearch: true,
       //render contains what we want to reflect as our data
-      render: (_, { client_dob }) => {
+      render: (_, { patient_dob }) => {
         return (
           <div>
             <h1>
-              {client_dob ? (
-                client_dob
+              {patient_dob ? (
+                formatDate(patient_dob)
               ) : (
-                <h1 className="text-red-600">No Data</h1>
+                <h1 className="text-red-600">-</h1>
               )}
             </h1>
           </div>
         );
       },
-      filteredValue: filteredInfo.client_dob || null,
+      /*filteredValue: filteredInfo.client_dob || null,
       onFilter: (value, record) => {
         if (record?.client_dob !== null) {
           return record.client_dob.includes(value);
@@ -218,31 +238,31 @@ const PatientPage = () => {
       },
       sortOrder:
         sortedInfo.columnKey === "client_dob" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Gender",
-      dataIndex: "client_gender",
-      key: "client_gender",
+      dataIndex: "patient_gender",
+      key: "patient_gender",
       width: 100,
-      filters: generateFilterValues(patients, "client_gender"),
+      /*filters: generateFilterValues(patients, "patient_gender"),
       filterSearch: true,
       filteredValue: filteredInfo.client_gender || null,
       onFilter: (value, record) => record.client_gender.includes(value),
       //   sorter is for sorting asc or dsc purpose
       sorter: (a, b) => {
-        return a.client_gender > b.client_gender ? -1 : 1; //sorting problem solved using this logic
+        return a.patient_gender > b.patient_gender ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder:
-        sortedInfo.columnKey === "client_gender" ? sortedInfo.order : null,
-      ellipsis: true,
+        sortedInfo.columnKey === "patient_gender" ? sortedInfo.order : null,
+      ellipsis: true,*/
     },
     {
       title: "POS",
-      dataIndex: "location",
-      key: "location",
+      dataIndex: "patient_POS",
+      key: "patient_POS",
       width: 100,
-      filters: generateFilterValues(patients, "location"),
+      /*filters: generateFilterValues(patients, "location"),
       filterSearch: true,
       render: (_, { location }) => {
         return (
@@ -265,14 +285,14 @@ const PatientPage = () => {
         return a.location > b.location ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "location" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Insurance",
-      dataIndex: "insurance",
-      key: "insurance",
+      dataIndex: "patient_payor",
+      key: "patient_payor",
       width: 100,
-      filters: generateFilterValues(patients, "insurance"),
+      /*filters: generateFilterValues(patients, "insurance"),
       filterSearch: true,
       render: (_, { insurance }) => {
         return <div className="flex justify-end px-1">{insurance}</div>;
@@ -284,19 +304,19 @@ const PatientPage = () => {
         return a.insurance > b.insurance ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "insurance" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Auth",
       key: "id",
       dataIndex: "id",
       width: 50,
-      render: (_, { id }) => {
+      render: (_, record) => {
         return (
           <div className="flex justify-center">
             <button
               onClick={() => {
-                handleAuthClick(id);
+                handleAuthClick(record.patient_id);
               }}
               className="flex justify-center"
             >
@@ -308,14 +328,16 @@ const PatientPage = () => {
     },
     {
       title: "Status",
-      key: "is_active_client",
-      dataIndex: "is_active_client",
+      key: "patient_active_status",
+      dataIndex: "patient_active_status",
       width: 100,
-      render: (_, { is_active_client }) => {
+      render: (_, { patient_active_status }) => {
         //console.log("Status : ", Status);
         return (
           <div className="flex justify-center">
-            <PatientStatusAction s={is_active_client}></PatientStatusAction>
+            <PatientStatusAction
+              s={patient_active_status}
+            ></PatientStatusAction>
           </div>
         );
       },
@@ -327,22 +349,8 @@ const PatientPage = () => {
       <div className="flex items-center flex-wrap justify-between gap-2 mt-2 mb-5">
         <div className="flex items-center gap-3">
           <h1 className="text-lg text-orange-500 text-left font-semibold ">
-            Patient
+            All Patients
           </h1>
-          <div>
-            <button className="text-[11px]  bg-green-700 font-semibold px-2 py-[2px] rounded-md text-white shadow-sm">
-              Active 5
-            </button>
-            <button className="text-[11px] ml-2 bg-gray-200 font-semibold px-2 py-[2px] rounded-md text-fontC shadow-sm">
-              In-Active 5
-            </button>
-          </div>
-        </div>
-
-        <div>
-          <button onClick={clearFilters} className="dtm-button">
-            Clear filters
-          </button>
         </div>
       </div>
       <InfiniteScroll

@@ -31,8 +31,24 @@ export const FullCalendarApi = api.injectEndpoints({
       }),
       //   providesTags: ["PatientAuthorizationTable"],
     }),
+
+    getTreamentType: builder.query({
+      query: ({ token }) => ({
+        url: `calendar/treatment-type`,
+        method: "GET",
+        headers: {
+          "content-type": "Application/json",
+          "Authorization": token,
+        },
+      }),
+      //   providesTags: ["PatientAuthorizationTable"],
+    }),
   }),
 });
 
-export const { useGetCalendarEventApiQuery, useSingleAppointmentApiQuery } =
+export const { 
+  useGetCalendarEventApiQuery, 
+  useSingleAppointmentApiQuery,
+  useGetTreamentTypeQuery
+ } =
   FullCalendarApi;

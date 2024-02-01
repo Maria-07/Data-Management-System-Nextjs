@@ -5,13 +5,16 @@ export const clearenceApi = api.injectEndpoints({
     //Get clearence api
     getClearence: builder.query({
       query: ({ token, page, id }) => ({
-        url: `inadmin/provider/clearance/list`,
-        method: "POST",
+        //url: `inadmin/provider/clearance/list`,
+        method: "GET",
+        url: `clearance`,
+        //method: "GET",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
-        body: JSON.stringify({ page, id }),
+        //body: JSON.stringify({ page, id }),
       }),
       providesTags: ["Clearence"],
     }),
@@ -30,11 +33,12 @@ export const clearenceApi = api.injectEndpoints({
     //Add staff clearence
     addClearence: builder.mutation({
       query: ({ token, payload }) => ({
-        url: "inadmin/provider/clearance/save",
+        url: "clearance/create",
         method: "POST",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
         body: JSON.stringify(payload),
       }),
@@ -44,11 +48,12 @@ export const clearenceApi = api.injectEndpoints({
     //Update staff clearence info
     updateClearence: builder.mutation({
       query: ({ token, payload }) => ({
-        url: "inadmin/provider/clearance/update",
+        url: "clearance/update",
         method: "POST",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
         body: JSON.stringify(payload),
       }),
@@ -57,11 +62,12 @@ export const clearenceApi = api.injectEndpoints({
     //delete staff clearence
     deleteClearance: builder.mutation({
       query: ({ token, payload }) => ({
-        url: "inadmin/provider/clearance/delete",
+        url: "clearance/delete",
         method: "POST",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
         body: JSON.stringify(payload),
       }),

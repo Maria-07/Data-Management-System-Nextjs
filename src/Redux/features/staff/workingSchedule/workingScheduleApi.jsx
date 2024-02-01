@@ -5,11 +5,13 @@ export const workingScheduleApi = api.injectEndpoints({
     //dept. supervisor list
     getWorkingSchedule: builder.query({
       query: ({ id, token }) => ({
-        url: `inadmin/provider/get/working/schedule/${id}`,
+        //url: `inadmin/provider/get/working/schedule/${id}`,
+        url: `work-schedule`,
         method: "GET",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
       }),
       providesTags: ["workingSchedule"],
@@ -18,11 +20,13 @@ export const workingScheduleApi = api.injectEndpoints({
     //update staff supervisor
     updateWorkingSchedule: builder.mutation({
       query: ({ token, payload }) => ({
-        url: "inadmin/provider/create/working/schedule",
+        //url: "inadmin/provider/create/working/schedule",
+        url: "work-schedule/update",
         method: "POST",
         headers: {
           "content-type": "Application/json",
-          "x-auth-token": token,
+          //"x-auth-token": token,
+          "Authorization": token || null,
         },
         body: JSON.stringify(payload),
       }),

@@ -12,6 +12,7 @@ import Providers from "@/component/UI/Appointment/MultiSelectComponents/Provider
 import Clients from "@/component/UI/Appointment/MultiSelectComponents/Clients";
 import RootLayout from "@/component/Layouts/RootLayout";
 import { dateConverter } from "@/shared/Dateconverter/DateConverter";
+import Loading from "@/component/UI/Layouts/Loading";
 
 const RecurringSession = () => {
   const token = getAccessToken();
@@ -24,32 +25,109 @@ const RecurringSession = () => {
   const [fetchQuery, setFetchQuery] = useState(false);
   const [patientId, setPatientId] = useState([]);
   const [providerId, setProviderId] = useState([]);
+  const [allProvider, setAllProvider] = useState([]);  
+  const [searchLoading, setSearchLoading] = useState(false);
 
-  console.log(patientId, providerId);
-  //Patient Data get api
-  const [recurringGetAllInfos, { data: allData, isLoading: dataLoading }] =
-    useRecurringGetAllInfosMutation();
+  
+  const [patientList, setPatientList] = useState([]);
+  const [providerList, setProviderList] = useState([]);
+  const [page, setPage] = useState(1);
+
+  //console.log(patientId, providerId);
 
   useEffect(() => {
-    if (select === "Patients") {
-      recurringGetAllInfos({
-        url: "inadmin/recurring/session/get/all/info",
-        token,
-        payload: { sortBy: 2 },
+    const getPatientData = async () => {
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointment/recurring/filter/patients`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Authorization": token || null,
+        },
       });
-    }
-    if (select === "Provider") {
-      recurringGetAllInfos({
-        url: "inadmin/recurring/session/get/all/info",
-        token,
-        payload: { sortBy: 3 },
+      const data = res?.data?.patient_data;
+      setPatientList(data);
+    };
+    getPatientData();
+  }, [token]);
+
+  useEffect(() => {
+    const getProviderData = async () => {
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointment/recurring/filter/providers`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Authorization": token || null,
+        },
       });
-    }
-  }, [select, token, recurringGetAllInfos]);
+      const data = res?.data?.provider_data;
+      let pdata = [];
+      for(let x of data)
+      {
+        pdata.push(x?.id)
+      }
+      setProviderList(data);
+      setAllProvider(pdata);
+      setProviderId(pdata);
+    };
+    getProviderData();
+  }, [token]);
+
+ 
+const getRecurringSessionData = async () => {
+  let res = await axios({
+    method: "post",
+    url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointment/recurring/list`,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Authorization": token || null,
+    },
+    data: {
+      sort_by: select === "Patients" ? 2 : select === "Provider" ? 3 : 3,
+      patient_ids: patientId,
+      provider_ids: providerId,
+    },
+  });
+  setSearchLoading(false)
+  const data = res?.data?.recurring_sessions;
+  console.log('data --',res?.data);
+  setSessionData(data);
+};
+//console.log('sessionData',sessionData);
+ /* const fetchData = async (payload) => {
+    const response = await axios({
+      method: "POST",
+      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointment/recurring/list`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Authorization": token || null,
+      },
+      body: payload,
+    });
+    
+    console.log(response);
+  };*/
+
+  //Patient Data get api
+  /*const [recurringGetAllInfos, { data: allData, isLoading: dataLoading }] =
+    useRecurringGetAllInfosMutation();
+console.log(recurringGetAllInfos);*/
+  /*useEffect(() => {
+      //console.log('allProvider',allProvider);
+      recurringGetAllInfos({
+        token,
+        payload: { sortBy: 2,provider_ids:allProvider},
+      });
+  }, [token]);*/
 
   //Get Recurring Session Data
   //get data from API + data fetch from api while scrolling[Important]
-  useEffect(() => {
+ /*useEffect(() => {
     const getRecurringSessionData = async () => {
       let res = await axios({
         method: "post",
@@ -71,7 +149,7 @@ const RecurringSession = () => {
     if (fetchQuery) {
       getRecurringSessionData();
     }
-  }, [token, fetchQuery, select, patientId, providerId]);
+  }, [token, fetchQuery, select, patientId, providerId]);*/
   // console.log("This is satff data of first page", staffData);
 
   // const fetchProviders = async () => {
@@ -107,10 +185,11 @@ const RecurringSession = () => {
   // console.log("final total staffs", staffData);
 
   const handleOptionChange = (val) => {
+   
     setSelect(val);
     setFetchQuery(false);
     setPatientId([]);
-    setProviderId([]);
+    val == 'all' ? setProviderId(allProvider): setProviderId([]);
   };
 
   const handleChange = (pagination, filters, sorter) => {
@@ -122,10 +201,10 @@ const RecurringSession = () => {
   const columns = [
     {
       title: "Patients",
-      dataIndex: "client_name",
-      key: "client_name",
+      dataIndex: "patient_name",
+      key: "patient_name",
       width: 120,
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.client_name > b.client_name ? -1 : 1;
       },
       sortOrder:
@@ -137,15 +216,15 @@ const RecurringSession = () => {
           </div>
         );
       },
-      ellipsis: false,
+      ellipsis: false,*/
     },
     {
       title: "Service & Hrs.",
-      dataIndex: "activity_name",
-      key: "activity_name",
+      dataIndex: "service_hour",
+      key: "service_hour",
       width: 120,
       // render contains what we want to reflect as our data
-      render: (_, { activity_name }) => {
+      /*render: (_, { activity_name }) => {
         return (
           <div className="flex justify-start px-2">
             <h1 className="text-center">
@@ -153,7 +232,7 @@ const RecurringSession = () => {
             </h1>
           </div>
         );
-      },
+      },*/
       // filters: [
       //   { text: "Milissent", value: "Milissent" },
       //   { text: "Timmy", value: "Timmy" },
@@ -168,12 +247,12 @@ const RecurringSession = () => {
       // ],
       // filteredValue: filteredInfo.Service_hrs || null,
       // onFilter: (value, record) => record.Service_hrs.includes(value),
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.activity_name > b.activity_name ? -1 : 1;
       },
       sortOrder:
         sortedInfo.columnKey === "activity_name" ? sortedInfo.order : null,
-      ellipsis: false,
+      ellipsis: false,*/
     },
     {
       title: "Provider",
@@ -181,19 +260,19 @@ const RecurringSession = () => {
       key: "provider_name",
       width: 100,
       //   sorter is for sorting asc or dsc purpose
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.provider_name > b.provider_name ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder:
         sortedInfo.columnKey === "provider_name" ? sortedInfo.order : null,
-      ellipsis: false,
+      ellipsis: false,*/
     },
     {
       title: "Pos",
       key: "pos",
       dataIndex: "pos",
       width: 80,
-      render: (_, { pos }) => {
+      /*render: (_, { pos }) => {
         //console.log("pos : ", pos);
         return (
           <>
@@ -231,14 +310,14 @@ const RecurringSession = () => {
         return a.pos > b.pos ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder: sortedInfo.columnKey === "pos" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Start Date",
-      dataIndex: "schedule_date_start",
-      key: "schedule_date_start",
+      dataIndex: "start_date",
+      key: "start_date",
       width: 80,
-      render: (_, { schedule_date_start }) => {
+      /*render: (_, { schedule_date_start }) => {
         return (
           <div className="flex justify-start px-2">
             <h1>
@@ -257,14 +336,14 @@ const RecurringSession = () => {
         sortedInfo.columnKey === "schedule_date_start"
           ? sortedInfo.order
           : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "End Date",
-      dataIndex: "schedule_date_end",
-      key: "schedule_date_end",
+      dataIndex: "end_date",
+      key: "end_date",
       width: 80,
-      render: (_, { schedule_date_end }) => {
+      /*render: (_, { schedule_date_end }) => {
         return (
           <div className="flex justify-start px-2">
             <h1>
@@ -279,14 +358,14 @@ const RecurringSession = () => {
       },
       sortOrder:
         sortedInfo.columnKey === "schedule_date_end" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Hours",
-      dataIndex: "Hours",
-      key: "Hours",
+      dataIndex: "hours",
+      key: "hours",
       width: 100,
-      filters: [
+      /*filters: [
         {
           text: `9:57 PM`,
           value: "9:57 PM",
@@ -305,16 +384,16 @@ const RecurringSession = () => {
         // a.Hours - b.Hours,
       },
       sortOrder: sortedInfo.columnKey === "Hours" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Action",
       dataIndex: "id",
       key: "id",
       width: 60,
-      render: (_, { id }) => (
+      render: (_, { session_id }) => (
         <div className="flex justify-center">
-          <Link href={`/provider/appointment/recurring-session/edit/${id}`}>
+          <Link href={`/provider/appointment/recurring-session/edit/${session_id}`}>
             <BiEdit className="text-[#34A6B7] text-lg" />
           </Link>
         </div>
@@ -331,9 +410,13 @@ const RecurringSession = () => {
       filters: [],
     },
   });
-  const onSubmit = () => {
+  const onSubmit = (data) => {
+    setSearchLoading(true)
+    console.log('submittedData',data);
     setFetchQuery(true);
     setTable(true);
+    getRecurringSessionData();
+    setClicked(!clicked);
   };
 
   //test design
@@ -346,7 +429,7 @@ const RecurringSession = () => {
   };
 
   // console.log(selectedFlatRows);
-
+  
   return (
     <div className={!table ? "h-[100vh]" : ""}>
       <div className="cursor-pointer">
@@ -424,7 +507,7 @@ const RecurringSession = () => {
                         </div>
                       </label>
                       <Clients
-                        patients={allData?.allClients}
+                        patients={patientList}
                         setPatientId={setPatientId}
                         setFetchQuery={setFetchQuery}
                       ></Clients>
@@ -437,7 +520,7 @@ const RecurringSession = () => {
                         </div>
                       </label>
                       <Providers
-                        stuffs={allData?.allEmployees}
+                        stuffs={providerList}
                         setStuffsId={setProviderId}
                         setFetchQuery={setFetchQuery}
                       ></Providers>
@@ -452,23 +535,18 @@ const RecurringSession = () => {
               </form>
             </div>
           )}
-        </div>
+        </div>              
+        {searchLoading && (<Loading></Loading>)}
       </div>
 
       {/* table  */}
-      {table && (
+      {!searchLoading && table && (
         <div className="my-3">
           <div className="flex items-center justify-between gap-2 my-2">
             <h1 className="text-lg text-orange-500 text-left font-semibold ">
               Recurring Session
             </h1>
-            <button
-              onClick={clearFilters}
-              className="px-2 py-2 bg-white from-primary text-xs  hover:to-secondary text-secondary border border-secondary rounded-sm flex items-center"
-            >
-              Clear Filters
-            </button>
-          </div>
+          </div>    
           <div className="overflow-scroll">
             <Table
               rowKey="id"

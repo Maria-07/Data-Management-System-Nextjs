@@ -6,7 +6,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import { useAddLeaveTrackingMutation } from "@/Redux/features/staff/leaveTracking/leaveTrackingApi";
 
 const LeaveTrackingAdd = ({ handleClose, open, id, token }) => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
   // Add new leave api
   const [
@@ -20,10 +20,11 @@ const LeaveTrackingAdd = ({ handleClose, open, id, token }) => {
 
   const onSubmit = (data) => {
     const addTrackPaylod = {
-      employee_id: id,
+      //employee_id: id,
       leave_date: data.date,
-      desc: data.desc,
+      description: data.desc,
     };
+    console.log(addTrackPaylod);
     addLeaveTracking({
       token,
       payload: addTrackPaylod,
@@ -32,7 +33,7 @@ const LeaveTrackingAdd = ({ handleClose, open, id, token }) => {
   //Success/Error message show
   useEffect(() => {
     if (addleaveTrackSuccess) {
-      toast.success(addleaveTrackdata?.message, {
+      toast.success('Added Successfully', {
         position: "top-center",
         autoClose: 5000,
         theme: "dark",
@@ -88,8 +89,18 @@ const LeaveTrackingAdd = ({ handleClose, open, id, token }) => {
                   type="date"
                   name="date"
                   className="border rounded-sm px-2 py-[5px] mx-1 text-xs w-full"
-                  {...register("date")}
-                />
+                  {...register("date", {
+                    required: {
+                      value: true,
+                      message: "Please select the date",
+                    },
+                  })}
+                />                
+                {errors.date?.type === "required" && (
+                      <p className=" pl-1 text-red-500">
+                        {errors.date.message}
+                      </p>
+                    )}
               </div>
               <div>
                 <label className="label">
@@ -101,8 +112,18 @@ const LeaveTrackingAdd = ({ handleClose, open, id, token }) => {
                   placeholder="maxLength is 6"
                   size="middle"
                   className="w-full border bottom-2 ml-1 p-1"
-                  {...register("desc")}
-                />
+                  {...register("desc", {
+                    required: {
+                      value: true,
+                      message: "Please select the description",
+                    },
+                  })}
+                />                
+                {errors.desc?.type === "required" && (
+                      <p className=" pl-1 text-red-500">
+                        {errors.desc.message}
+                      </p>
+                    )}
               </div>
               <div className="bg-gray-200 py-[1px] mt-3"></div>
               <div className=" flex item-center justify-end gap-4 flex-wrap">

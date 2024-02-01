@@ -23,10 +23,13 @@ import { useEffect, useState } from "react";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Navbar = ({ handle, handleSidebar }) => {
   const [accessToken, setAccessToken] = useState("");
   const token = getAccessToken();
+  const [punch, setPunch] = useState(false);
 
   useEffect(() => {
     setAccessToken(token);
@@ -40,10 +43,50 @@ const Navbar = ({ handle, handleSidebar }) => {
     // setUserInfo(null);
     router.push("/");
   };
-
+  const loginuserFullname = Cookies.get("loginuserFullname");
+  const loginuserEmail = Cookies.get("loginuserEmail");
   //! Theme system
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const getPunchStatus = async () => {
+    let res = await axios({
+      method: "GET",
+      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/punch-status`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Authorization": token || null,
+      }
+    });
+    const data = res?.data;
+    setPunch(data?.punch_status);
+  }
+  
+  useEffect(() => {
+    getPunchStatus();
+  }, []);
+  const  openChatUrl = async () => {
+    let res = await axios({
+      method: "GET",
+      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/chat-token`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Authorization": token || null,
+      }
+    });
+    const chatUrl = res?.data?.messenger_url;
+    if(chatUrl != '' && typeof chatUrl !== "undefined") {
+      window.open(chatUrl,'_blank');
+    } else {
+      toast.error("Error in Chat Communication", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -86,6 +129,17 @@ const Navbar = ({ handle, handleSidebar }) => {
             </button>
           </div>
           <div className="flex items-center gap-6 text-[25px] text-dark">
+            <div className="h-11">
+            {!punch ? (
+            <span className="text-xs px-2 py-1 bg-orange-400 text-white rounded-xl">
+              OUT
+            </span>
+            ) : (
+              <span className="text-xs px-2 py-1 bg-green-400 text-white rounded-xl">
+              IN
+              </span>
+            ) }
+            </div>
             <div>
               {!handle.active ? (
                 <div>
@@ -153,9 +207,9 @@ const Navbar = ({ handle, handleSidebar }) => {
               </Dropdown>
             </div>
             <div title="Chat">
-              <Link href="https://realtime-chat-system-nextjs.vercel.app/">
+              <span onClick={openChatUrl}>
                 <IoChatboxEllipsesOutline className="hover:text-primary" />
-              </Link>
+              </span>
             </div>
             <div>
               <Dropdown
@@ -186,20 +240,20 @@ const Navbar = ({ handle, handleSidebar }) => {
                           width={"auto"}
                           height={"auto"}
                           alt="Picture of the author"
-                          className="rounded-full"
+                          className="rounded-full" 
                         />
                       </div>
                       <div>
                         <h5 className=" text-sm text-white font-bold text-end">
-                          Hello admin
+                          Hello {loginuserFullname}
                         </h5>
-                        <p className="text-xs text-white">admin@admin.com</p>
+                        <p className="text-xs text-white">{loginuserEmail}</p>
                       </div>
                     </div>
                     <div className="shadow-md bg-white">
                       <div>
                         <Link
-                          href={"/"}
+                          href={"/provider/biographic/info"}
                           className="flex gap-4 hover:bg-slate-100 bg-opacity-10 p-3"
                         >
                           <div className=" rounded-full p-3 bg-primary ">
@@ -217,7 +271,7 @@ const Navbar = ({ handle, handleSidebar }) => {
                       </div>
                       <div>
                         <Link
-                          href={"/"}
+                          href={"/update-password"}
                           className="flex gap-4 hover:bg-slate-100 bg-opacity-10 p-3"
                         >
                           <div className=" rounded-full p-3 bg-primary ">
@@ -261,13 +315,13 @@ const Navbar = ({ handle, handleSidebar }) => {
                     />
                   </div>
                   <div>
-                    <h4 className="font-medium text-lg">Admin</h4>
+                    <h4 className="font-medium text-lg">{loginuserFullname}</h4>
                     <h5
                       className={`${
                         theme === "dark" ? "" : "text-secondary"
                       }  font-medium text-xs`}
                     >
-                      admin@admin.com
+                      {loginuserEmail}
                     </h5>
                   </div>
                 </label>

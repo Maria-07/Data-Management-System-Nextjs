@@ -6,7 +6,7 @@ import DocumentsAction from "../DocumentsAction";
 import { Table } from "antd";
 import { useState } from "react";
 import Image from "next/image";
-import checkImage from "@/assets/i";
+//import checkImage from "@/assets/i";
 
 const Therapy = () => {
   // const { id } = useParams();
@@ -238,7 +238,6 @@ const Therapy = () => {
   return (
     <div className="h-[100vh]">
       <div className="mt-10">
-        <Image className="mx-auto" src={check} alt="" />
         <p className="text-xs font-light text-gray-600 flex items-center justify-center my-2">
           admin admin has no document
         </p>

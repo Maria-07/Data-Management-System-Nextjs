@@ -2,19 +2,23 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Table } from "antd";
 import { FiEdit } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai";
 import AddCredential from "./AddCredentialModal/AddCredential";
 import EditCredential from "./EditCredentialModal/EditCredential";
+import ViewCredential from "./ViewCredential";
 import { toast } from "react-toastify";
 import { useDeleteCredentialMutation } from "@/Redux/features/staff/credentials/credentialsApi";
 
 const Credential = ({ credentials, token, id }) => {
+  console.log('credentials',credentials);
   const [display, setDisplay] = useState(true);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
   const [editModal, setEditModal] = useState(false);
   const [credentialRecord, setCredentialRecord] = useState();
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [fileView, setFileView] = useState(false);
+  const [credentialId, setCredentialId] = useState(false);
 
   const [deleteCredential, { isSuccess: deleteSuccess }] =
     useDeleteCredentialMutation();
@@ -37,7 +41,7 @@ const Credential = ({ credentials, token, id }) => {
 
   const handleDelete = (record) => {
     const payload = {
-      cred_id: record?.id,
+      credential_id: record?.credential_id,
     };
     deleteCredential({
       token,
@@ -56,67 +60,96 @@ const Credential = ({ credentials, token, id }) => {
     }
   }, [deleteSuccess]);
 
+  const handleViewClose = () => {
+    setFileView(false);
+  };
+  const handleViewOpen = (record) => {
+    setCredentialId(record?.credential_id)
+    setFileView(true);
+  };
+  function formatDate(inputDate){  
+      var splitDate = inputDate.split('-');
+      if(splitDate.count == 0){
+          return null;
+      }
+
+      var year = splitDate[0];
+      var month = splitDate[1];
+      var day = splitDate[2]; 
+
+      return month + '/' + day + '/' + year;
+  }
+
   const column = [
     {
       title: "Name",
-      dataIndex: "Test",
-      key: "Test",
+      dataIndex: "employee_name",
+      key: "employee_name",
       width: 120,
-      render: (_, {}) => {
-        // console.log("tags : ", Name, id);
-        return <h1>{credentials?.employee?.first_name}</h1>;
-      },
-      ellipsis: true,
     },
     {
       title: "Credential Type",
       dataIndex: "credential_name",
       key: "credential_name",
       width: 120,
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.credential_name > b.credential_name ? -1 : 1;
       },
       sortOrder:
         sortedInfo.columnKey === "credential_name" ? sortedInfo.order : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
 
     {
       title: "Date issue",
       key: "credential_date_expired",
       dataIndex: "credential_date_expired",
-      width: 100,
+      width: 100,     
+      render: (_, record) => {
+        return (
+          <div className="flex justify-center">
+            {formatDate(record.credential_date_expired)}
+          </div>
+        );
+      },
       // filters: [{}],
       // filteredValue: filteredInfo.credential_date_expired || null,
       // onFilter: (value, record) =>
       //   record.credential_date_expired.includes(value),
       //   sorter is for sorting asc or dsc purcredential_type
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.credential_date_expired > b.credential_date_expired ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder:
         sortedInfo.columnKey === "credential_date_expired"
           ? sortedInfo.order
           : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Expired Date",
       key: "credential_date_issue",
       dataIndex: "credential_date_issue",
-      width: 100,
+      width: 100,     
+      render: (_, record) => {
+        return (
+          <div className="flex justify-center">
+            {formatDate(record.credential_date_issue)}
+          </div>
+        );
+      },
       // filters: [{}],
       // filteredValue: filteredInfo.credential_date_issue || null,
       // onFilter: (value, record) => record.credential_date_issue.includes(value),
       //   sorter is for sorting asc or dsc purcredential_type
-      sorter: (a, b) => {
+      /*sorter: (a, b) => {
         return a.credential_date_issue > b.credential_date_issue ? -1 : 1; //sorting problem solved using this logic
       },
       sortOrder:
         sortedInfo.columnKey === "credential_date_issue"
           ? sortedInfo.order
           : null,
-      ellipsis: true,
+      ellipsis: true,*/
     },
     {
       title: "Action",
@@ -125,6 +158,14 @@ const Credential = ({ credentials, token, id }) => {
       width: 150,
       render: (_, record) => (
         <div className="flex justify-center gap-1 text-primary cursor-pointer">
+        { record.credential_file ?
+        (<AiOutlineEye
+          onClick={() => handleViewOpen(record)}
+          className="text-xs mx-2  text-lime-700"
+          title="Edit"
+        />
+        ) : null }
+        { record.credential_file ? (<span>|</span>) : null}
           <FiEdit
             onClick={() => handleEditModal(record)}
             className="text-xs mx-2  text-lime-700"
@@ -188,7 +229,7 @@ const Credential = ({ credentials, token, id }) => {
                 columns={column}
                 bordered
                 rowKey={(record) => record.id} //record is kind of whole one data object and here we are
-                dataSource={credentials?.credentialsList?.data}
+                dataSource={credentials?.credentials?.data}
                 onChange={handleChange}
               />
             </div>
@@ -199,9 +240,6 @@ const Credential = ({ credentials, token, id }) => {
               Add Credential
             </button>
 
-            <button onClick={clearFilters} className="dcm-close-button mt-2">
-              Clear filters
-            </button>
           </div>
         </motion.div>
       </div>
@@ -222,6 +260,14 @@ const Credential = ({ credentials, token, id }) => {
           token={token}
           id={id}
         ></EditCredential>
+      )}
+      {fileView && (
+        <ViewCredential
+          handleClose={handleViewClose}
+          open={fileView}
+          token={token}
+          credentialId={credentialId}
+        ></ViewCredential>
       )}
     </div>
   );

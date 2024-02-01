@@ -1,13 +1,51 @@
 import { Modal } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { toast } from "react-toastify";
+import { getAccessToken } from "@/Redux/api/apiSlice";
+import { useCreateCalllogMutation } from "@/Redux/features/patient/calllog/calllogApi";
+import { useEffect } from "react";
 
-const AddCallLog = ({ handleClose, open }) => {
+const AddCallLog = ({ handleClose, open, patientId }) => {
+  const token = getAccessToken();
   const { register, handleSubmit } = useForm();
-
+  const [textNotes, setTextNotes] = useState();
+  const [createCalllog, { isSuccess: updateSuccess, isError: updateError }] =
+  useCreateCalllogMutation();
+      //To show Toast
+      useEffect(() => {
+        if (updateSuccess) {
+          handleClose();
+          toast.success("Successfully Added", {
+            position: "top-center",
+            autoClose: 2000,
+            theme: "dark",
+          });
+          setTimeout(()=>{
+            window.location.reload();
+          },3000)         
+        } else if (updateError) {
+          toast.error("Some Error Occured", {
+            position: "top-center",
+            autoClose: 2000,
+            theme: "dark",
+          });
+        }
+      }, [updateSuccess, updateError, handleClose]);
   const onSubmit = (data) => {
-    console.log(data);
+    const payload = {
+      patient_id: patientId,
+      log_date: data?.expiry_Date,
+      call_log: textNotes
+    };
+    console.log(payload);
+    if (payload) {
+      createCalllog({
+        token,
+        payload,
+      });
+    }
   };
   return (
     <div>
@@ -42,7 +80,7 @@ const AddCallLog = ({ handleClose, open }) => {
                   </label>
                   <textarea
                     {...register("notes")}
-                    // onChange={(e) => setTextNotes(e.target.value)}
+                    onChange={(e) => setTextNotes(e.target.value)}
                     name="comment"
                     className="border border-gray-300 text-sm p-2  ml-1 h-24 w-full"
                   ></textarea>

@@ -4,10 +4,12 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaTimes } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
 import { IoCaretBackCircleOutline } from "react-icons/io5";
-
+import { getAccessToken } from "@/Redux/api/apiSlice";
+import { toast } from "react-toastify";
+import { useUpdateTimesheetMutation, useSubmitTimesheetMutation } from "@/Redux/features/timesheet/timesheetApi";
 const Timesheet = () => {
   const [tableOpen, setTableOpen] = useState(false);
   const [active, setActive] = useState(false);
@@ -15,12 +17,151 @@ const Timesheet = () => {
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
   const { register, handleSubmit, reset } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
-    setTableOpen(true);
-    reset();
+  const [timeSheetList, SetTimeSheetList] = useState([]);
+  const token = getAccessToken();
+  const [payPeriodId,setPayPeriodId] = useState('');
+  const [payStatus,setPayStatus] = useState('');
+  const [recordSelected, setRecordSelected] = useState([]);
+  const [dayselected, setDaySelected] = useState('');
+
+  const getTimesheetData = async (payload) => {
+    let res = await axios({
+      method: "post",
+      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/timesheet`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Authorization": token || null,
+      },
+      data: payload,
+    });
+    const data = res?.data?.timesheet;
+    SetTimeSheetList(data);
   };
 
+  const getRecords = () => {
+    console.log('payPeriodId -- ', payPeriodId)
+    console.log('payStatus -- ', payStatus)
+    setDaySelected('');
+    if(payPeriodId == '')
+    {
+      toast.error("Please select payroll period", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else {
+      const payload = { pay_period_id:payPeriodId, status:payStatus!='' ? payStatus : ''}
+      getTimesheetData(payload)
+      setTableOpen(true);
+      reset();
+    }
+  }
+
+  const getDayReport = (day) => {
+    setDaySelected(day);
+    const payload = { pay_period_id:payPeriodId, status:payStatus!='' ? payStatus : '', day_name:day}
+    getTimesheetData(payload)
+  }
+  
+  const [
+    updateTimesheet,
+     { isSuccess: updateSuccess, isError: updateError },
+   ] = useUpdateTimesheetMutation();
+
+   const [
+    submitTimesheet,
+     { isSuccess: submitSuccess, isError: submitError },
+   ] = useSubmitTimesheetMutation();
+
+  const onSubmit = (data) => {
+    console.log('data -- ',data)
+    if(recordSelected.length == 0)
+    {
+      toast.error("Please select any one of the record", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else if(data?.action_type=='') 
+    {
+      toast.error("Date is greater than last date to submit timesheet.", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else {
+       const timesheet_data = [];
+       let milesCheckError = false;
+       for(let x of recordSelected)
+       {
+          timesheet_data.push(data[x]);
+          if(data[x]['miles']=='')
+          {
+            milesCheckError = true;
+          }
+       }
+       if(milesCheckError) {
+        toast.error("Please enter the miles", {
+          position: "top-center",
+          autoClose: 5000,
+          theme: "dark",
+          style: { fontSize: "12px" },
+        });
+       } else {
+          if(data?.action_type==1)
+          {
+            const payload = {
+                pay_period_id:payPeriodId,
+                timesheet_data: timesheet_data
+            }
+            updateTimesheet({token,payload})
+          } else {
+            const payload = {
+                timesheet_ids:recordSelected
+            }
+            submitTimesheet({token,payload})
+          }
+       }
+    }
+  };
+  useEffect(() => {
+    if (updateSuccess) {
+      toast.success("Timesheet updated successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else if (updateError) {
+      toast.error("Date is greater than last date to submit timesheet.", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [updateSuccess, updateError]);
+  useEffect(() => {
+    if (submitSuccess) {
+      toast.success("Timesheet submitted successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else if (submitError) {
+      toast.error("Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [submitSuccess, submitError]);
   // ----------------------------------------Multi-Select---------------------------------
   const [selected, setSelected] = useState([]);
 
@@ -35,15 +176,18 @@ const Timesheet = () => {
 
   // fake api call
   useEffect(() => {
-    axios("../../All_Fake_Api/TimeSheet.json")
-      .then((response) => {
+    axios(`${process.env.NEXT_PUBLIC_ADMIN_URL}/pay-period`,{
+        headers: {
+          "Authorization": token || null,
+        },
+      }).then((response) => {
         SetTimeSheetDate(response?.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
-  console.log(TimeSheetData);
+  console.log('TimeSheetData',TimeSheetData);
 
   const inputHandle = (e) => {
     console.log(e.target.value);
@@ -59,259 +203,70 @@ const Timesheet = () => {
   const clearFilters = () => {
     setFilteredInfo({});
   };
+  function formatDate(inputDate){  // expects Y-m-d
+    var splitDate = inputDate.split('-');
+    if(splitDate.count == 0){
+        return null;
+    }
 
+    var year = splitDate[0];
+    var month = splitDate[1];
+    var day = splitDate[2]; 
+
+    return month + '/' + day + '/' + year;
+}
   const columns = [
     {
       title: "Date",
-      dataIndex: "date",
-      key: "date",
+      dataIndex: "schedule_date",
+      key: "schedule_date",
       width: 80,
-      filters: [
-        { text: "Celestine", value: "Celestine" },
-        { text: "Annaliese", value: "Annaliese" },
-        {
-          text: `Maude`,
-          value: "Maude",
-        },
-        {
-          text: `Molly`,
-          value: "Molly",
-        },
-        {
-          text: "Karla",
-          value: "Karla",
-        },
-        {
-          text: "Marcellus",
-          value: "Marcellus",
-        },
-        {
-          text: "Hilton",
-          value: "Hilton",
-        },
-      ],
-      filteredValue: filteredInfo.date || null,
-      onFilter: (value, record) => record.date.includes(value),
-      sorter: (a, b) => {
-        return a.date > b.date ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "date" ? sortedInfo.order : null,
-
-      // render contains what we want to reflect as our data
-      // patient, id, key=>each row data(object) property value can be accessed.
-      render: (_, { date, id, key }) => {
-        //console.log("tags : ", client_first_name, id, key);
-        return (
-          <div>
-            <h1>{date}</h1>
-          </div>
-        );
-      },
-      ellipsis: true,
     },
     {
       title: "Provider",
-      dataIndex: "provider",
-      key: "provider",
+      dataIndex: "provider_name",
+      key: "provider_name",
       width: 100,
-      filters: [
-        { text: "Celestine", value: "Celestine" },
-        { text: "Annaliese", value: "Annaliese" },
-        {
-          text: `Maude`,
-          value: "Maude",
-        },
-        {
-          text: `Molly`,
-          value: "Molly",
-        },
-        {
-          text: "Karla",
-          value: "Karla",
-        },
-        {
-          text: "Marcellus",
-          value: "Marcellus",
-        },
-        {
-          text: "Hilton",
-          value: "Hilton",
-        },
-      ],
-      filteredValue: filteredInfo.provider || null,
-      onFilter: (value, record) => record.provider.includes(value),
-      sorter: (a, b) => {
-        return a.provider > b.provider ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "provider" ? sortedInfo.order : null,
-
-      // render contains what we want to reflect as our data
-      // patient, id, key=>each row data(object) property value can be accessed.
-      render: (_, { provider, id, key }) => {
-        //console.log("tags : ", client_first_name, id, key);
-        return (
-          <div>
-            <h1>{provider}</h1>
-          </div>
-        );
-      },
-      ellipsis: false,
     },
     {
       title: "Patient",
-      dataIndex: "patient",
-      key: "patient",
-      width: 100,
-      filters: [
-        { text: "Celestine", value: "Celestine" },
-        { text: "Annaliese", value: "Annaliese" },
-        {
-          text: `Maude`,
-          value: "Maude",
-        },
-        {
-          text: `Molly`,
-          value: "Molly",
-        },
-        {
-          text: "Karla",
-          value: "Karla",
-        },
-        {
-          text: "Marcellus",
-          value: "Marcellus",
-        },
-        {
-          text: "Hilton",
-          value: "Hilton",
-        },
-      ],
-      filteredValue: filteredInfo.patient || null,
-      onFilter: (value, record) => record.patient.includes(value),
-      sorter: (a, b) => {
-        return a.patient > b.patient ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "patient" ? sortedInfo.order : null,
-
-      // render contains what we want to reflect as our data
-      // patient, id, key=>each row data(object) property value can be accessed.
-      render: (_, { patient, id, key }) => {
-        //console.log("tags : ", client_first_name, id, key);
-        return (
-          <div>
-            <h1>{patient}</h1>
-          </div>
-        );
-      },
-      ellipsis: false,
+      dataIndex: "client_name",
+      key: "client_name",
+      width: 100
     },
     {
       title: "Activity",
       dataIndex: "activity",
       key: "activity",
-      width: 120,
-      filters: [
-        { text: "Celestine", value: "Celestine" },
-        { text: "Annaliese", value: "Annaliese" },
-        {
-          text: `Maude`,
-          value: "Maude",
-        },
-        {
-          text: `Molly`,
-          value: "Molly",
-        },
-        {
-          text: "Karla",
-          value: "Karla",
-        },
-        {
-          text: "Marcellus",
-          value: "Marcellus",
-        },
-        {
-          text: "Hilton",
-          value: "Hilton",
-        },
-      ],
-      filteredValue: filteredInfo.activity || null,
-      onFilter: (value, record) => record.activity.includes(value),
-      sorter: (a, b) => {
-        return a.activity > b.activity ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "activity" ? sortedInfo.order : null,
-
-      // render contains what we want to reflect as our data
-      // patient, id, key=>each row data(object) property value can be accessed.
-      render: (_, { activity, id, key }) => {
-        //console.log("tags : ", client_first_name, id, key);
-        return (
-          <div>
-            <h1>{activity}</h1>
-          </div>
-        );
-      },
-      ellipsis: false,
+      width: 120
     },
     {
       title: "Time In",
-      dataIndex: "timeIn",
-      key: "timeIn",
+      dataIndex: "time_in",
+      key: "time_in",
       width: 150,
-      filters: [
-        { text: "Celestine", value: "Celestine" },
-        { text: "Annaliese", value: "Annaliese" },
-        {
-          text: `Maude`,
-          value: "Maude",
-        },
-        {
-          text: `Molly`,
-          value: "Molly",
-        },
-        {
-          text: "Karla",
-          value: "Karla",
-        },
-        {
-          text: "Marcellus",
-          value: "Marcellus",
-        },
-        {
-          text: "Hilton",
-          value: "Hilton",
-        },
-      ],
-      filteredValue: filteredInfo.timeIn || null,
-      onFilter: (value, record) => record.timeIn.includes(value),
-      sorter: (a, b) => {
-        return a.timeIn > b.timeIn ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "timeIn" ? sortedInfo.order : null,
-
-      // render contains what we want to reflect as our data
-      // patient, id, key=>each row data(object) property value can be accessed.
-      render: (_, { timeIn, id, key }) => {
-        //console.log("tags : ", client_first_name, id, key);
+      render: (_, {  time_in_hour, time_in_minute, time_in_meridiem, timesheet_id, key }) => {
         return (
           <div className="flex justify-center">
             {" "}
             <div className="flex items-center gap-1">
+              <input type="hidden" {...register(`${timesheet_id}.id`)} defaultValue={timesheet_id}/>
               <input
                 type="text"
-                name=""
-                value="10"
+                {...register(`${timesheet_id}.time_in_hour`)}
+                defaultValue={time_in_hour}
                 className="timesheet-time-box py-[3px] text-center focus:outline-none"
               />
               <input
                 type="text"
-                name=""
-                value="20"
+                {...register(`${timesheet_id}.time_in_minute`)}
+                defaultValue={time_in_minute}
                 className="timesheet-time-box py-[3px] text-center focus:outline-none"
               />
               <select
-                name="post"
+                {...register(`${timesheet_id}.time_in_meridiem`)}
                 className="timesheet-time-box py-[3px] text-center focus:outline-none"
+                defaultValue={time_in_meridiem.toUpperCase()}
               >
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
@@ -324,47 +279,36 @@ const Timesheet = () => {
     },
     {
       title: "Time Out",
-      dataIndex: "timeOut",
-      key: "timeOut",
-      width: 80,
-      filters: [
-        { text: "Celestine", value: "Celestine" },
-        { text: "Annaliese", value: "Annaliese" },
-        {
-          text: `Maude`,
-          value: "Maude",
-        },
-        {
-          text: `Molly`,
-          value: "Molly",
-        },
-        {
-          text: "Karla",
-          value: "Karla",
-        },
-        {
-          text: "Marcellus",
-          value: "Marcellus",
-        },
-        {
-          text: "Hilton",
-          value: "Hilton",
-        },
-      ],
-      filteredValue: filteredInfo.timeOut || null,
-      onFilter: (value, record) => record.timeOut.includes(value),
-      sorter: (a, b) => {
-        return a.timeOut > b.timeOut ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "timeOut" ? sortedInfo.order : null,
-
-      // render contains what we want to reflect as our data
-      // patient, id, key=>each row data(object) property value can be accessed.
-      render: (_, { timeOut, id, key }) => {
+      dataIndex: "time_out",
+      key: "time_out",
+      width: 150,
+      render: (_, { time_out_hour, time_out_minute, time_out_meridiem, timesheet_id, key }) => {
         //console.log("tags : ", client_first_name, id, key);
         return (
-          <div>
-            <h1>{timeOut}</h1>
+          <div className="flex justify-center">
+            {" "}
+            <div className="flex items-center gap-1">
+              <input
+                type="text"
+                {...register(`${timesheet_id}.time_out_hour`)}
+                defaultValue={time_out_hour}
+                className="timesheet-time-box py-[3px] text-center focus:outline-none"
+              />
+              <input
+                type="text"
+                {...register(`${timesheet_id}.time_out_minute`)}
+                defaultValue={time_out_minute}
+                className="timesheet-time-box py-[3px] text-center focus:outline-none"
+              />
+              <select
+                {...register(`${timesheet_id}.time_out_meridiem`)}
+                className="timesheet-time-box py-[3px] text-center focus:outline-none"
+                defaultValue={time_out_meridiem.toUpperCase()}
+              >
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
+            </div>
           </div>
         );
       },
@@ -374,151 +318,21 @@ const Timesheet = () => {
       title: "Hours",
       dataIndex: "hours",
       key: "hours",
-      width: 60,
-      // filters: [
-      //   { text: "Celestine", value: "Celestine" },
-      //   { text: "Annaliese", value: "Annaliese" },
-      //   {
-      //     text: `Maude`,
-      //     value: "Maude",
-      //   },
-      //   {
-      //     text: `Molly`,
-      //     value: "Molly",
-      //   },
-      //   {
-      //     text: "Karla",
-      //     value: "Karla",
-      //   },
-      //   {
-      //     text: "Marcellus",
-      //     value: "Marcellus",
-      //   },
-      //   {
-      //     text: "Hilton",
-      //     value: "Hilton",
-      //   },
-      // ],
-      filteredValue: filteredInfo.hours || null,
-      onFilter: (value, record) => record.hours.includes(value),
-      sorter: (a, b) => {
-        return a.hours > b.hours ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "hours" ? sortedInfo.order : null,
-
-      // render contains what we want to reflect as our data
-      // patient, id, key=>each row data(object) property value can be accessed.
-      render: (_, { hours, id, key }) => {
-        //console.log("tags : ", client_first_name, id, key);
-        return (
-          <div>
-            <h1>{hours}</h1>
-          </div>
-        );
-      },
-      ellipsis: true,
+      width: 60
     },
     {
       title: "Miles",
       dataIndex: "miles",
       key: "miles",
       width: 80,
-      // filters: [
-      //   { text: "Celestine", value: "Celestine" },
-      //   { text: "Annaliese", value: "Annaliese" },
-      //   {
-      //     text: `Maude`,
-      //     value: "Maude",
-      //   },
-      //   {
-      //     text: `Molly`,
-      //     value: "Molly",
-      //   },
-      //   {
-      //     text: "Karla",
-      //     value: "Karla",
-      //   },
-      //   {
-      //     text: "Marcellus",
-      //     value: "Marcellus",
-      //   },
-      //   {
-      //     text: "Hilton",
-      //     value: "Hilton",
-      //   },
-      // ],
-      filteredValue: filteredInfo.miles || null,
-      onFilter: (value, record) => record.miles.includes(value),
-      sorter: (a, b) => {
-        return a.miles > b.miles ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "miles" ? sortedInfo.order : null,
-
-      // render contains what we want to reflect as our data
-      // patient, id, key=>each row data(object) property value can be accessed.
-      render: (_, { miles, id, key }) => {
+      render: (_, { miles, timesheet_id, key }) => {
         //console.log("tags : ", client_first_name, id, key);
         return (
           <div>
             <input
-              name="cms"
+              {...register(`${timesheet_id}.miles`)}
               defaultValue={miles}
               className="page py-[3px] text-center focus:outline-none"
-              onChange={inputHandle}
-              type="text"
-            ></input>
-          </div>
-        );
-      },
-      ellipsis: true,
-    },
-    {
-      title: "Mileage Rate",
-      dataIndex: "miles",
-      key: "miles",
-      width: 80,
-      // filters: [
-      //   { text: "Celestine", value: "Celestine" },
-      //   { text: "Annaliese", value: "Annaliese" },
-      //   {
-      //     text: `Maude`,
-      //     value: "Maude",
-      //   },
-      //   {
-      //     text: `Molly`,
-      //     value: "Molly",
-      //   },
-      //   {
-      //     text: "Karla",
-      //     value: "Karla",
-      //   },
-      //   {
-      //     text: "Marcellus",
-      //     value: "Marcellus",
-      //   },
-      //   {
-      //     text: "Hilton",
-      //     value: "Hilton",
-      //   },
-      // ],
-      filteredValue: filteredInfo.miles || null,
-      onFilter: (value, record) => record.miles.includes(value),
-      sorter: (a, b) => {
-        return a.miles > b.miles ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "miles" ? sortedInfo.order : null,
-
-      // render contains what we want to reflect as our data
-      // patient, id, key=>each row data(object) property value can be accessed.
-      render: (_, { miles, id, key }) => {
-        //console.log("tags : ", client_first_name, id, key);
-        return (
-          <div>
-            <input
-              name="cms"
-              defaultValue={miles}
-              className="page py-[3px] text-center focus:outline-none"
-              onChange={inputHandle}
               type="text"
             ></input>
           </div>
@@ -531,44 +345,11 @@ const Timesheet = () => {
       dataIndex: "submitted",
       key: "submitted",
       width: 60,
-      // filters: [
-      //   { text: "Celestine", value: "Celestine" },
-      //   { text: "Annaliese", value: "Annaliese" },
-      //   {
-      //     text: `Maude`,
-      //     value: "Maude",
-      //   },
-      //   {
-      //     text: `Molly`,
-      //     value: "Molly",
-      //   },
-      //   {
-      //     text: "Karla",
-      //     value: "Karla",
-      //   },
-      //   {
-      //     text: "Marcellus",
-      //     value: "Marcellus",
-      //   },
-      //   {
-      //     text: "Hilton",
-      //     value: "Hilton",
-      //   },
-      // ],
-      filteredValue: filteredInfo.submitted || null,
-      onFilter: (value, record) => record.submitted.includes(value),
-      sorter: (a, b) => {
-        return a.submitted > b.submitted ? -1 : 1;
-      },
-      sortOrder: sortedInfo.columnKey === "submitted" ? sortedInfo.order : null,
-
-      // render contains what we want to reflect as our data
-      // patient, id, key=>each row data(object) property value can be accessed.
       render: (_, { submitted, id, key }) => {
         //console.log("tags : ", client_first_name, id, key);
         return (
           <div className="">
-            <FaCheck className="text-[15px] text-green-500 mx-auto" />
+            {submitted ? (<FaCheck className="text-[15px] text-green-500 mx-auto" />) : (<FaTimes className="text-[15px] text-red-500 mx-auto" />)}
           </div>
         );
       },
@@ -583,6 +364,7 @@ const Timesheet = () => {
         "selectedRows: ",
         selectedRows
       );
+      setRecordSelected(selectedRowKeys);
     },
     onSelect: (record, selected, selectedRows) => {
       console.log(record, selected, selectedRows);
@@ -599,15 +381,8 @@ const Timesheet = () => {
         </h1>
         <div className="flex items-center gap-3">
           <FiDownload className="text-secondary font-medium" />
-          <Link
-            href={"/admin"}
-            className="py-[6px] flex items-center  px-4  text-xs font-normal bg-gradient-to-r from-secondary to-primary  hover:to-secondary text-white rounded-md"
-          >
-            <IoCaretBackCircleOutline className="mr-1 text-sm" /> Back
-          </Link>
         </div>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-center flex-wrap mb-5 mr-2 gap-x-2 gap-y-4 my-3">
           <div>
             <div className="label">
@@ -617,22 +392,16 @@ const Timesheet = () => {
               name="type"
               className="input-border-bottom input-font  focus:outline-none py-[1px]"
               {...register("payroll")}
-              onChange={() => setActive(true)}
+              onChange={(e) => { setPayPeriodId(e.target.value); setActive(true)}}
             >
-              <option value="name"> Select Payroll Period(s) </option>
-              <option value="01-12-2021">01/12/2021-07/12/2021</option>
-              <option value="01-12-2021">01/12/2021-07/12/2021</option>
-              <option value="01-12-2021">01/12/2021-07/12/2021</option>
-              <option value="01-12-2021">01/12/2021-07/12/2021</option>
-              <option value="01-12-2021">01/12/2021-07/12/2021</option>
-              <option value="01-12-2021">01/12/2021-07/12/2021</option>
-              <option value="01-12-2021">01/12/2021-07/12/2021</option>
-              <option value="01-12-2021">01/12/2021-07/12/2021</option>
-              <option value="01-12-2021">01/12/2021-07/12/2021</option>
-              <option value="01-12-2021">01/12/2021-07/12/2021</option>
-              <option value="01-12-2021">01/12/2021-07/12/2021</option>
-              <option value="01-12-2021">01/12/2021-07/12/2021</option>
-              <option value="01-12-2021">01/12/2021-07/12/2021</option>
+              <option value=""> Select Payroll Period(s) </option>
+                  {TimeSheetData?.pay_period?.map((timeSheet) => {
+                    return (
+                      <option key={timeSheet?.id} value={timeSheet?.id}>
+                        {formatDate(timeSheet?.start_date)} - {formatDate(timeSheet?.end_date)}
+                      </option>
+                    );
+                  })}
             </select>
           </div>
 
@@ -657,60 +426,55 @@ const Timesheet = () => {
                 <select
                   name="type"
                   className="input-border-bottom input-font w-full focus:outline-none py-[1px]"
-                  {...register("status")}
+                  {...register("status")} onChange={(e)=>{setPayStatus(e.target.value)}}
                 >
-                  <option value="name"></option>
-                  <option value="name"> Submitted </option>
-                  <option value="name"> Not Submitted </option>
+                  <option value=""></option>
+                  <option value="1"> Submitted </option>
+                  <option value="2"> Not Submitted </option>
                 </select>
               </div>
             </>
           )}
-          <button className="dtm-button  mt-5">Go</button>
+          <button className="dtm-button  mt-5" onClick={getRecords}>Go</button>
         </div>
-      </form>
       {tableOpen && (
         <div className="my-8">
           <div className="flex flex-wrap justify-between items-center gap-2 mr-2">
             <div className="flex flex-wrap items-center gap-2">
-              <button className="px-2  py-[7px] bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm">
+              <button className="px-2  py-[7px] bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm" onClick={()=>{getDayReport('Monday')}}>
                 Monday
               </button>
-              <button className="px-2  py-[7px] bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm">
+              <button className="px-2  py-[7px] bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm" onClick={()=>{getDayReport('Tuesday')}}>
                 Tuesday
               </button>
-              <button className="px-2  py-[7px] bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm">
+              <button className="px-2  py-[7px] bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm" onClick={()=>{getDayReport('Wednesday')}}>
                 Wednesday
               </button>
-              <button className="px-2  py-[7px] bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm">
+              <button className="px-2  py-[7px] bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm" onClick={()=>{getDayReport('Thursday')}}>
                 Thursday
               </button>
-              <button className="px-2  py-[7px] bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm">
+              <button className="px-2  py-[7px] bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm" onClick={()=>{getDayReport('Friday')}}>
                 Friday
               </button>
-              <button className="px-2  py-[7px] bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm">
+              <button className="px-2  py-[7px] bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm" onClick={()=>{getDayReport('Saturday')}}>
                 Saturday
               </button>
-              <button className="px-2  py-[7px] bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm">
+              <button className="px-2  py-[7px] bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm" onClick={()=>{getDayReport('Sunday')}}>
                 Sunday
               </button>
             </div>
-            <button
-              onClick={clearFilters}
-              className="px-2  py-[7px] bg-white from-bg-primary text-xs  hover:bg-secondary text-secondary hover:text-white border border-secondary rounded-sm"
-            >
-              Clear filters
-            </button>
           </div>
+          
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className=" overflow-scroll py-3">
             <Table
-              rowKey="id" //warning issue solve ar jnno unique id rowKey hisabey use hobey
+              rowKey={(record) => record.timesheet_id} //warning issue solve ar jnno unique id rowKey hisabey use hobey
               pagination={false} //pagination dekhatey chailey just 'true' korey dilei hobey
               size="small"
               className=" text-xs font-normal"
               columns={columns}
               bordered
-              dataSource={TimeSheetData} //Which data chunk you want to show in table
+              dataSource={timeSheetList} //Which data chunk you want to show in table
               // For fixed header table at top
               rowSelection={{
                 ...rowSelection,
@@ -721,19 +485,19 @@ const Timesheet = () => {
           <div className="flex items-center gap-4">
             <div>
               <select
-                name="type"
+                 {...register("action_type")}
                 className="input-border text-gray-600 rounded-sm text-[14px] font-medium w-full ml-1 focus:outline-none"
               >
-                <option value="name"> Select Any Action </option>
-                <option value="Save Changes"> Save Changes </option>
-                <option value="02/01/2022"> Delete Timesheet Statement </option>
-                <option value="Submit Timesheet"> Submit Timesheet </option>
+                <option value=""> Select Any Action </option>
+                <option value="1"> Save Changes </option>
+                <option value="3"> Submit Timesheet </option>
               </select>
             </div>
             <button className="dtm-button" type="submit">
               Ok
             </button>
           </div>
+          </form>
         </div>
       )}
     </div>

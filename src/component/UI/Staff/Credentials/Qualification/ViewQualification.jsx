@@ -1,4 +1,4 @@
-import { Image, Modal } from "antd";
+import { Modal } from "antd";
 import React from "react";
 import { useState, useEffect } from "react";
 import { IoCloseCircleOutline } from "react-icons/io5";
@@ -23,7 +23,7 @@ const ViewQualification = ({ handleClose, open, token, qualificationlId }) => {
       setImageData(data);
     };
     getImageData();
-  }, [qualificationlId, token]);
+  }, [qualificationlId]);
 
   let imgData = "";
   if (imageData?.file !== undefined) {
@@ -60,7 +60,7 @@ const ViewQualification = ({ handleClose, open, token, qualificationlId }) => {
             <div>
               <p className="my-5">
                 {imgData ? (
-                  <Image
+                  <img
                     src={
                       "data:image/jpeg;base64," +
                       imgData.replace("dataimage/jpegbase64", "")

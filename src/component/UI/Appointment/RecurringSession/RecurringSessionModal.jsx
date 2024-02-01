@@ -1,15 +1,44 @@
 import { Modal, Tabs } from "antd";
-import React from "react";
+import React, { useState } from "react";
 
 import { IoCloseCircleOutline } from "react-icons/io5";
-import SingleView from "./RecurringSessionEdit/SingleView";
-import DayView from "./RecurringSessionEdit/DayView";
+import SingleViewPopup from "./RecurringSessionEdit/SingleViewPopup";
+import DayViewPopup from "./RecurringSessionEdit/DayViewPopup";
 import { useTheme } from "next-themes";
+import { toast } from "react-toastify";
 
-const RecurringSessionModal = ({ handleClose, open }) => {
+const RecurringSessionModal = ({
+  handleClose,
+  open,
+  token,
+  id,
+  setAppointmentIds,
+}) => {
   //! Theme system
   const { theme } = useTheme();
-
+  const [recordSelected, setRecordSelected] = useState([]);
+  const [dayViewRecord, setDayViewRecord] = useState([]);
+  const [singleViewRecord, setSingleViewRecord] = useState([]);
+  const addAppointment = () => {
+    if (dayViewRecord.length == 0 && singleViewRecord.length == 0) {
+      toast.error("Please select atleast one option", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else {
+      let selectedRecords = [];
+      dayViewRecord.map((id) =>
+        selectedRecords.indexOf(id) === -1 ? selectedRecords.push(id) : ""
+      );
+      singleViewRecord.map((id) =>
+        selectedRecords.indexOf(id) === -1 ? selectedRecords.push(id) : ""
+      );
+      setAppointmentIds(selectedRecords);
+      handleClose();
+    }
+  };
   const tabItems = [
     {
       label: (
@@ -33,7 +62,11 @@ const RecurringSessionModal = ({ handleClose, open }) => {
             theme === "dark" ? "text-dark-secondary" : "text-fontC"
           }`}
         >
-          <DayView></DayView>
+          <DayViewPopup
+            token={token}
+            id={id}
+            setRecordSelected={setDayViewRecord}
+          ></DayViewPopup>
         </div>
       ),
     },
@@ -53,7 +86,13 @@ const RecurringSessionModal = ({ handleClose, open }) => {
         </h1>
       ),
       key: 2,
-      children: <SingleView></SingleView>,
+      children: (
+        <SingleViewPopup
+          token={token}
+          id={id}
+          setRecordSelected={setSingleViewRecord}
+        ></SingleViewPopup>
+      ),
     },
   ];
 
@@ -81,27 +120,17 @@ const RecurringSessionModal = ({ handleClose, open }) => {
 
             <div className="bg-gray-200 py-[1px] mt-3"></div>
 
-            <div className=" flex items-end justify-start gap-2 mt-2">
-              <button className=" text-secondary font-semibold mr-2">
-                Updation will affect selected ones out of 14 Sessions given
-                below:
-              </button>
-            </div>
-
             <div className="my-5">
               <Tabs type="card" items={tabItems} />
             </div>
           </div>
           <div className="bg-gray-200 py-[1px] "></div>
           <div className=" flex items-end justify-end mt-2">
-            <button className=" dcm-button mr-2" type="submit">
+            <button className=" dcm-button mr-2" onClick={addAppointment}>
               Add Appointment
             </button>
 
-            <button
-              className="dcm-close-button"
-              onClick={() => setSessionOpen(false)}
-            >
+            <button className="dcm-close-button" onClick={handleClose}>
               Close
             </button>
           </div>

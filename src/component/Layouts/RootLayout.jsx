@@ -90,11 +90,11 @@ const menuItem = [
   //   name: "Report",
   //   icon: <BiSolidReport />,
   // },
-  {
+  /*{
     path: "/settings/program-data",
     name: "Settings",
     icon: <SettingOutlined />,
-  },
+  },*/
 ];
 
 const initialDropState = {};

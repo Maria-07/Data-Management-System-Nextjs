@@ -115,16 +115,6 @@ const BiographyLayout = ({ children }) => {
         <Link href={"/patients"} className="text-primary text-lg">
           <IoCaretBackCircleOutline />
         </Link>
-        <div className="text-xs font-normal">
-          <span className="text-sm font-semibold text-primary">
-            Full Name |
-          </span>
-          <span className="text-orange-400 font-semibold">DOB :</span>
-          Dob |<span className="text-orange-400 font-semibold">Phone : </span>
-          1231212312 |
-          <span className="text-orange-400 font-semibold">Address : </span>
-          street, city, state zip
-        </div>
       </div>
       <div className="grid sm:grid-cols-12 grid-cols-1">
         <motion.div

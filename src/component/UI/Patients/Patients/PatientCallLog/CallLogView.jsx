@@ -3,7 +3,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
-const CallLogView = ({ handleClose, open }) => {
+const CallLogView = ({ handleClose, open, logdata }) => {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
@@ -25,7 +25,7 @@ const CallLogView = ({ handleClose, open }) => {
           <div className="">
             <div className="flex items-center justify-between">
               <h1 className="text-lg text-left text-orange-400 ">
-                View Call Log - 03/15/2023
+                View Call Log
               </h1>
               <IoCloseCircleOutline
                 onClick={handleClose}
@@ -35,7 +35,7 @@ const CallLogView = ({ handleClose, open }) => {
 
             <div className="bg-gray-200 py-[1px] mt-3"></div>
             <div>
-              <p className="my-5">This is program</p>
+              <p className="my-5">{logdata}</p>
               <div className="bg-gray-200 py-[1px] mt-3"></div>
               <div className="flex gap-3 items-end justify-end mb-2 mt-4">
                 <button

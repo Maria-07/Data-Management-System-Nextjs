@@ -5,29 +5,66 @@ import {
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { useStateInfoQuery } from "@/Redux/features/staff/contactInfo/contactInfoApi";
 
 const EmergencyContactDetails = ({ token, emergencyApiData }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [addEmergencyContactInfo, { data: emResData, isLoading, isError }] =
     useAddEmergencyContactInfoMutation();
+    const cdata = {
+      address_one: emergencyApiData?.employee_emergency_address_one,
+      address_two: emergencyApiData?.employee_emergency_address_two,
+      city: emergencyApiData?.employee_emergency_contact_city,
+      state: emergencyApiData?.employee_emergency_contact_state,
+      zip: emergencyApiData?.employee_emergency_contact_zip,
+      mobile: emergencyApiData?.employee_emergency_contact_mobile,
+      fax: emergencyApiData?.employee_emergency_contact_fax,
+      main_phone: emergencyApiData?.employee_emergency_contact_main_phone,
+      address_note: emergencyApiData?.employee_emergency_contact_note,
+      contact_name: emergencyApiData?.employee_emergency_contact_name,
+  }
 
+const { address_one, address_two, city, state, zip, mobile, fax, main_phone, address_note, contact_name } = cdata || {};
+useEffect(() => {
+  // you can do async server request and fill up form
+  setTimeout(() => {
+    reset({
+      address_one:address_one, 
+      address_two:address_two, 
+      city:city, 
+      state:state, 
+      zip:zip, 
+      mobile:mobile,
+      fax:fax, 
+      main_phone:main_phone, 
+      address_note:address_note,
+      contact_name:contact_name
+    });
+  }, 0);
+}, [
+  reset,
+  address_one, address_two, city, state, zip, mobile, fax, main_phone, address_note
+]);
   console.log("emergencyApiData em", emergencyApiData);
-
+  const { data: stateData, isSuccess: stateDetailsSucess } =
+  useStateInfoQuery({ token });
+  const stateList = {...stateData?.states};
   const onSubmit = (data) => {
     console.log(emergencyApiData);
-    const payload = {
-      employee_contact_edit: emergencyApiData?.employee_id,
-      em_address_one: data?.address_one,
-      em_address_two: data?.address_two,
-      em_contact_name: data?.contact_name,
-      em_city: data?.city,
-      em_state: data?.state,
-      em_zip: data?.zip,
-      em_mobile: data?.mobile,
-      em_fax: data?.fax,
-      em_main_phone: data?.main_phone,
-      em_address_note: data?.address_note,
+    const payloadData = {
+      //employee_contact_edit: emergencyApiData?.employee_id,
+      employee_emergency_address_one: data?.address_one,
+      employee_emergency_address_two: data?.address_two,
+      employee_emergency_contact_name: data?.contact_name,
+      employee_emergency_contact_city: data?.city,
+      employee_emergency_contact_state: data?.state,
+      employee_emergency_contact_zip: data?.zip,
+      employee_emergency_contact_mobile: data?.mobile,
+      employee_emergency_contact_fax: data?.fax,
+      employee_emergency_contact_main_phone: data?.main_phone,
+      employee_emergency_contact_note: data?.address_note,
     };
+    const payload = {emergency_contact_details:payloadData}
     console.log("payload", payload);
     const res = addEmergencyContactInfo({ token, payload });
     console.log("res -------------->", res);
@@ -59,6 +96,18 @@ const EmergencyContactDetails = ({ token, emergencyApiData }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-5 my-3 mr-2 gap-x-4 gap-y-5">
           {/* name  */}
+          <div>
+            <label className="label">
+              <span className="label-font">Contact Name</span>
+            </label>
+            <input
+              type="text"
+              name="address2"
+              defaultValue={emergencyApiData?.contact_name}
+              className="input-border-bottom mt-1 input-font w-full focus:outline-none"
+              {...register("contact_name")}
+            />
+          </div>
           <div>
             <label className="label">
               <span className="label-font">Address1</span>
@@ -105,22 +154,17 @@ const EmergencyContactDetails = ({ token, emergencyApiData }) => {
               className="input-border-bottom mt-1 input-font w-full focus:outline-none"
               {...register("state")}
             >
-              <option value="Speech Therapist">Speech Therapist</option>
-              <option value="female">Female</option>
-              <option value="AK">Alaska</option>
-
-              <option value="AL">Alabama</option>
-              <option value="jm">jamaica</option>
-              <option value="AS">American Samoa</option>
-              <option value="AZ">Arizona</option>
-              <option value="AR">Arkansas</option>
-              <option value="CA">California</option>
-              <option value="CO">Colorado</option>
-              <option value="DE">Delaware</option>
-              <option value="DC">District of Columbia</option>
-              <option value="FM">Federated States of Micronesia</option>
-              <option value="FL">Florida</option>
-              <option value="GA">Georgia</option>
+            {Object.entries(stateList).map((v,k) => {
+              return (
+                <option
+                  className="text-black"
+                  key={v[0]}
+                  value={v[0]}
+                >
+                  {v[1]}
+                </option>
+              );
+            } )}
             </select>
           </div>
 

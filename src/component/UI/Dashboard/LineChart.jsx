@@ -4,9 +4,10 @@ import { Chart, registerables } from "chart.js";
 import axios from "axios";
 Chart.register(...registerables);
 
-const LineChart = () => {
-  const [LineChartGraph, SetLineChartGraph] = useState([]);
-  useEffect(() => {
+const LineChart = ({token}) => {
+  //const [LineChartGraph, SetLineChartGraph] = useState([]);
+  const [GraphData, setGraphData] = useState([]);
+  /*useEffect(() => {
     axios
       .get(`https://jsonplaceholder.typicode.com/users`)
       .then((response) => {
@@ -15,8 +16,24 @@ const LineChart = () => {
       .catch((error) => {
         // console.log(error);
       });
-  }, []);
-
+  }, []);*/
+  useEffect(() => {
+    const getGraphData = async () => {
+    const res = await axios({
+      method: "GET",
+      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/cancelled-session-chart`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Authorization": token || null,
+      }
+    });
+    const data = res?.data;
+    setGraphData(data);
+  }
+  getGraphData();
+}, [token]);
+console.log('LIne Graph',GraphData);
   return (
     // <div div className="lg:w-4/12 md:w-6/12">
     <div className="border rounded-t-xl">
@@ -24,15 +41,15 @@ const LineChart = () => {
         {/* Charge Analysis by Service Date */}
         Cancelled Sessions
       </h1>
-      {LineChartGraph.length > 0 ? (
+      {GraphData?.months ? (
         <Line
           className=" chart p-2"
           data={{
-            labels: LineChartGraph.map((x) => x.name.slice(1, 8)),
+            labels: GraphData?.months,
             datasets: [
               {
                 label: "Cancelled Sessions",
-                data: [3328, 1800, 940, 0, 0, 0],
+                data: GraphData?.sum,
                 backgroundColor: "#56BBF1",
                 barThickness: 35,
               },

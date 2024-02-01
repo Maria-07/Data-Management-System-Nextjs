@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import RootLayout from "@/component/Layouts/RootLayout";
 import { useForm } from "react-hook-form";
 import { getAccessToken } from "@/Redux/api/apiSlice";
@@ -6,7 +5,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useUpdatePasswordMutation } from "@/Redux/features/staff/otherSetup/otherSetupApi";
 
-const updatePassword = () => {
+const UpdatePassword = () => {
   const token = getAccessToken();
   const {
     register,
@@ -170,8 +169,8 @@ const updatePassword = () => {
   );
 };
 
-export default updatePassword;
+export default UpdatePassword;
 
-updatePassword.getLayout = function getLayout(page) {
+UpdatePassword.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
 };

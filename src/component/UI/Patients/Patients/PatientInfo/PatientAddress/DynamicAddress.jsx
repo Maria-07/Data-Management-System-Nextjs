@@ -1,8 +1,41 @@
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
-
-const DynamicAddress = ({ adData }) => {
+import { getAccessToken } from "@/Redux/api/apiSlice";
+import { useEffect } from "react";
+import { useDeleteAddressMutation } from "@/Redux/features/patient/patient-info/patientInfoApi";
+import { toast } from "react-toastify";
+const DynamicAddress = ({ adData, patientId }) => {
   const { fields, register, remove } = adData;
+  const token = getAccessToken();
+  const [
+   updateAddres,
+    { isSuccess: updateSuccess, isError: updateError },
+  ] = useDeleteAddressMutation();
+  const deleteAddress = (id, index) => {
+    remove(index);
+    updateAddres({
+      token,
+      payload:{patient_id:patientId,address_id:id},
+    });
+
+  }
+  useEffect(() => {
+    if (updateSuccess) {
+      toast.success("Address deleted successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else if (updateError) {
+      toast.error("Some Error Occured", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [updateSuccess, updateError]);
   return (
     <div>
       {fields.map((field, index) => {
@@ -16,6 +49,7 @@ const DynamicAddress = ({ adData }) => {
               </span>
             </label>
             <div className="mb-2 flex items-center gap-2">
+              <input type="hidden" {...register(`address.${index}.id`)} defaultValue={field.id}/>
               <input
                 type="text"
                 placeholder="Street"
@@ -26,7 +60,7 @@ const DynamicAddress = ({ adData }) => {
                 defaultValue={field.street}
               />
               <button
-                onClick={() => remove(index)}
+                onClick={() => deleteAddress(field.id,index)}
                 className="bg-red-500 text-white p-[4px] "
               >
                 <RiDeleteBin6Line />

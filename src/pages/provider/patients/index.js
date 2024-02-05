@@ -115,7 +115,7 @@ const PatientPage = () => {
     return month + "/" + day + "/" + year;
   }
   if (searchLoading) {
-    return <Loading></Loading>;
+    return <TableShimmer></TableShimmer>;
   }
   const columns = [
     {

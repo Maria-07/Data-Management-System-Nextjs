@@ -383,29 +383,27 @@ const RecurringSessionEdit = () => {
                 readOnly
               />
             </div>
-
-            <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-3">
-              <div>
-                <label className="label">
-                  <span className=" label-font">From Time</span>
-                </label>
-                <input
-                  className="border rounded-sm px-2 py-[5px] mx-1 text-xs w-[105px]"
-                  type="time"
-                  {...register("from_time")}
-                />
-              </div>
-              <div>
-                <label className="label">
-                  <span className=" label-font">To Time</span>
-                </label>
-                <input
-                  className="border rounded-sm px-2 py-[5px] mx-1 text-xs w-[105px]"
-                  type="time"
-                  {...register("to_time")}
-                />
-              </div>
+            <div>
+              <label className="label">
+                <span className=" label-font">From Time</span>
+              </label>
+              <input
+                className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
+                type="time"
+                {...register("from_time")}
+              />
             </div>
+            <div>
+              <label className="label">
+                <span className=" label-font">To Time</span>
+              </label>
+              <input
+                className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
+                type="time"
+                {...register("to_time")}
+              />
+            </div>
+
             <div>
               <label className="label">
                 <span className=" label-font">Status</span>
@@ -425,7 +423,7 @@ const RecurringSessionEdit = () => {
               </select>
             </div>
             {/* <div></div> */}
-            <div className="md:col-span-2">
+            <div className="md:col-span-3">
               <label className="label">
                 <span className=" label-font">Office Notes</span>
               </label>
@@ -438,14 +436,14 @@ const RecurringSessionEdit = () => {
                 />
               </div>
             </div>
-            <div>
-              <div
-                className=" dcm-button mr-2 text-center"
-                onClick={handleClickOpen}
-              >
-                Add Appointment
-                <span> Selected({appointmentIds.length})</span>
-              </div>
+          </div>
+          <div>
+            <div
+              className=" dcm-button mr-2 w-full text-center"
+              onClick={handleClickOpen}
+            >
+              Add Appointment
+              <span> Selected({appointmentIds.length})</span>
             </div>
           </div>
           <div className="divider"></div>

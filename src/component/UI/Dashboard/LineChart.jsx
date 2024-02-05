@@ -4,7 +4,7 @@ import { Chart, registerables } from "chart.js";
 import axios from "axios";
 Chart.register(...registerables);
 
-const LineChart = ({token}) => {
+const LineChart = ({ token }) => {
   //const [LineChartGraph, SetLineChartGraph] = useState([]);
   const [GraphData, setGraphData] = useState([]);
   /*useEffect(() => {
@@ -19,21 +19,21 @@ const LineChart = ({token}) => {
   }, []);*/
   useEffect(() => {
     const getGraphData = async () => {
-    const res = await axios({
-      method: "GET",
-      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/cancelled-session-chart`,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Authorization": token || null,
-      }
-    });
-    const data = res?.data;
-    setGraphData(data);
-  }
-  getGraphData();
-}, [token]);
-console.log('LIne Graph',GraphData);
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/cancelled-session-chart`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: token || null,
+        },
+      });
+      const data = res?.data;
+      setGraphData(data);
+    };
+    getGraphData();
+  }, [token]);
+  // console.log('LIne Graph',GraphData);
   return (
     // <div div className="lg:w-4/12 md:w-6/12">
     <div className="border rounded-t-xl">

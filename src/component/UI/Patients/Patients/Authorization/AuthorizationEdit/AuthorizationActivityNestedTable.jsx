@@ -47,7 +47,7 @@ const AuthorizationActivityNestedTable = ({
     setOpenEditModal(false);
   };
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setSortedInfo(sorter);
   };
 
@@ -167,7 +167,7 @@ const AuthorizationActivityNestedTable = ({
       },
       sortOrder: sortedInfo.columnKey === "end_date" ? sortedInfo.order : null,
       ellipsis: true,*/
-    },
+    } /*}
     /*{
       title: "Action",
       dataIndex: "operation",
@@ -178,9 +178,9 @@ const AuthorizationActivityNestedTable = ({
           {" "}
           <div>
             <div className="flex justify-center gap-1 text-primary">
-              {/* <Link to={`/billing/deposit-apply/${row.original.id}`}>
+               <Link to={`/billing/deposit-apply/${row.original.id}`}>
                     <MdOutlineDashboard title="Deposit" />
-                  </Link> *//*}
+                  </Link> 
 
               <button
                 onClick={() => {
@@ -202,7 +202,7 @@ const AuthorizationActivityNestedTable = ({
           </div>
         </div>
       ),
-    },*/
+    },*/,
   ];
 
   useEffect(() => {

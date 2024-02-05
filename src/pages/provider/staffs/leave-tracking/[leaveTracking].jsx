@@ -127,7 +127,7 @@ const LeaveTracking = () => {
         },
       ],
       render: (_, { status, id }) => {
-        //console.log("tags : ", client_first_name, id, key);
+        //// console.log("tags : ", client_first_name, id, key);
         return (
           <div className="flex justify-center items-center">
             {status === "approved" && (

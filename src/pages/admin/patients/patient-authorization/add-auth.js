@@ -22,7 +22,7 @@ const AddAuthorization = () => {
   const { query } = router;
   const id = query.authEdit;
   const patientId = localStorage.getItem("PId");
-  console.log(id, patientId);
+  // console.log(id, patientId);
   const token = getAccessToken();
 
   //console.log(patientId);
@@ -53,7 +53,7 @@ const AddAuthorization = () => {
   const allPayors = createInfo?.allPayors;
   const allSupervisor = createInfo?.supervisors;
   const allTreatmentTypes = createInfo?.treatmentTypes;
-  console.log("dropdown data", allPayors);
+  // console.log("dropdown data", allPayors);
 
   //String Date to [mm/dd/yy] converter function
   function convert(str) {
@@ -166,7 +166,7 @@ const AddAuthorization = () => {
         payload,
       });
     }
-    console.log(payload);
+    // console.log(payload);
   };
 
   const handleClose = () => {

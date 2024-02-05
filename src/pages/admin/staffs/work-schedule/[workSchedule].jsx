@@ -46,7 +46,7 @@ const workSchedule = () => {
   const router = useRouter();
   const { query } = router;
   const id = query.workSchedule;
-  console.log(id);
+  // console.log(id);
   const token = getAccessToken();
 
   const { handleSubmit, register, reset } = useForm({
@@ -126,7 +126,7 @@ const workSchedule = () => {
   ]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     const payload = {
       ...data,
       employee_id: id,

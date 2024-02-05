@@ -12,11 +12,11 @@ const AddProgramDataModal = ({ handleClose, clicked }) => {
 
   const items = ["", "Text", "Date", "Selection", "Yes/No (Checkbox)", "User"];
   const onChange = (value) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
     setValue(value);
   };
 
-  console.log("options are", options);
+  // console.log("options are", options);
 
   return (
     <div>

@@ -13,7 +13,7 @@ const InsuranceMultiSelect = ({
   setPage,
   setSelectedSortOptionOne,
 }) => {
-  console.log("payorData", payorData);
+  // console.log("payorData", payorData);
   const insuranceDataProcess = () => {
     let processedData = [];
     if (payorData) {
@@ -50,7 +50,7 @@ const InsuranceMultiSelect = ({
     getSelectedInsurance();
   }, [selected, setInsuranceSelect]);
 
-  console.log("selected", selected);
+  // console.log("selected", selected);
   return (
     <MultiSelect
       disabled={payorLoading && true}

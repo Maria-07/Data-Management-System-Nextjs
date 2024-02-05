@@ -91,7 +91,7 @@ const OtherSetUp = () => {
     signature_valid_to,
     updated_at,
   } = otherSetup?.providerOtherSetup || {};
-  console.log("other setup data", otherSetup);
+  // console.log("other setup data", otherSetup);
 
   useEffect(() => {
     // you can do async server request and fill up form
@@ -180,7 +180,7 @@ const OtherSetUp = () => {
     paid_time_off,
   ]);
 
-  console.log("single input", singleInput);
+  // console.log("single input", singleInput);
 
   const txTypeStore =
     (txTypedata &&
@@ -188,7 +188,7 @@ const OtherSetUp = () => {
       txTypedata.map((item) => store.push(item.id))) ||
     [];
 
-  console.log("store", store);
+  // console.log("store", store);
 
   const onSubmit = (data) => {
     // console.log("from data", data);
@@ -203,7 +203,7 @@ const OtherSetUp = () => {
       provider_render_without: BoolConverter(providerWithoutNote),
       edit_tx_id: store,
     };
-    console.log("payload", payload);
+    // console.log("payload", payload);
     addOtherSetup({ token, payload });
   };
 

@@ -14,7 +14,7 @@ export const defaultCalenderDate = (p) => {
 };
 
 export const dbtimeconverter = (s) => {
-  console.log("sb", s);
+  // console.log("sb", s);
   const clone = s?.slice(11, 19)?.split(":");
   // return `${clone[0]}:${clone[1]}:${clone[2]}`;
   return `${clone[0]}:${clone[1]}}`;

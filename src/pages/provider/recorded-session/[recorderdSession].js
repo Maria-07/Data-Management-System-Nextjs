@@ -127,11 +127,11 @@ const RecordedSession = () => {
   };
 
   const onChange = (key) => {
-    console.log(key);
+    // console.log(key);
   };
 
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
   };
 
   const props = {
@@ -156,7 +156,7 @@ const RecordedSession = () => {
   const [content, setContent] = useState(""); // State to hold the content
   const handleEditorChange = (content, editor) => {
     setContent(content); // Update the state with the new content
-    console.log(content); // Log the content to the console
+    // console.log(content); // Log the content to the console
   };
 
   return (

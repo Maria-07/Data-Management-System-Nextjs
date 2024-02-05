@@ -9,10 +9,10 @@ const PatientLedgerActionModal = ({ handleClose, open, row }) => {
   const [notes, setNotes] = useState("");
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     reset();
   };
-  console.log(row);
+  // console.log(row);
   useEffect(() => {
     setTimeout(() => {
       reset({

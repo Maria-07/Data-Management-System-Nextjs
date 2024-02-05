@@ -2,7 +2,7 @@ import { Checkbox } from "antd";
 import React, { useState, useEffect } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { useGetDayViewListQuery } from "@/Redux/features/Appointment/RecurringSession/RecurringSessionApi";
-const DayViewPopup = ({token, id, setRecordSelected}) => {
+const DayViewPopup = ({ token, id, setRecordSelected }) => {
   const [selectedDay, setSelectedDay] = useState(null);
   const [Monday, setMonday] = useState(false);
   const [Tuesday, setTuesday] = useState(false);
@@ -14,9 +14,9 @@ const DayViewPopup = ({token, id, setRecordSelected}) => {
   const [selectedSession, setSelectedRecord] = useState([]);
 
   const { data: dayViewData, isLoading: dayViewLoading } =
-  useGetDayViewListQuery({
+    useGetDayViewListQuery({
       token,
-      id
+      id,
     });
 
   const dayWiseData = dayViewData?.sessions_unlocked;
@@ -37,7 +37,7 @@ const DayViewPopup = ({token, id, setRecordSelected}) => {
   };
 
   const weekDayHandle = (e, day) => {
-    console.log(day);
+    // console.log(day);
     if (day === "Monday") {
       setMonday(!Monday);
     } else if (day === "Tuesday") {
@@ -55,23 +55,34 @@ const DayViewPopup = ({token, id, setRecordSelected}) => {
     }
   };
   const isDisabled = (day) => selectedDay && selectedDay !== day;
-  function dateDisplay(start_date)
-  {
-    const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  function dateDisplay(start_date) {
+    const month = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
     const d = new Date(start_date);
-    return d.getDate() + ' ' + month[d.getMonth()];
+    return d.getDate() + " " + month[d.getMonth()];
   }
-  const updateSeletedId = (id) => {
-
-  }
-  const updateSelected = (id,day) => {
-    if(selectedSession.indexOf(id) > -1)
-    {
-      setSelectedRecord((prevState) => prevState.filter(sessionId => sessionId!=id))
-    } else {   
-      setSelectedRecord((prevState) => [...prevState,id])
+  const updateSeletedId = (id) => {};
+  const updateSelected = (id, day) => {
+    if (selectedSession.indexOf(id) > -1) {
+      setSelectedRecord((prevState) =>
+        prevState.filter((sessionId) => sessionId != id)
+      );
+    } else {
+      setSelectedRecord((prevState) => [...prevState, id]);
     }
-  }
+  };
   useEffect(() => {
     const getSessionId = async () => {
       const getId = selectedSession.map((item) => item);
@@ -79,7 +90,7 @@ const DayViewPopup = ({token, id, setRecordSelected}) => {
     };
     getSessionId();
   }, [selectedSession, setRecordSelected]);
-  
+
   return (
     <div>
       <div>
@@ -94,7 +105,7 @@ const DayViewPopup = ({token, id, setRecordSelected}) => {
             "Sunday",
           ].map((day) => (
             <div key={day} className="border text-center py-1">
-            {/*<Checkbox
+              {/*<Checkbox
                     disabled={isDisabled(day)}
                     onChange={(e) => onChange(e, day)}
                     onClick={(e) => weekDayHandle(e, day)}
@@ -119,109 +130,185 @@ const DayViewPopup = ({token, id, setRecordSelected}) => {
           ))} */}
           <div className="border border-t-0 text-center py-1">
             <>
-              {dayWiseData?.Monday && dayWiseData?.Monday.map((p)=>{
-                
-                return (                
-                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
-                <div className="flex items-center gap-1">
-                  <Checkbox value={p.session_id} onClick={()=>updateSelected(p.session_id,1)}></Checkbox>
-                      <p className="text-[13px]">
-                        <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
-                      </p>
+              {dayWiseData?.Monday &&
+                dayWiseData?.Monday.map((p) => {
+                  return (
+                    <div
+                      className="bg-cyan-200 m-2 px-1 py-1 rounded-md"
+                      key={p.session_id}
+                    >
+                      <div className="flex items-center gap-1">
+                        <Checkbox
+                          value={p.session_id}
+                          onClick={() => updateSelected(p.session_id, 1)}
+                        ></Checkbox>
+                        <p className="text-[13px]">
+                          <span className=" font-normal ">
+                            {dateDisplay(p.scheduled_date)}
+                          </span>{" "}
+                          {p.start_time.toUpperCase()}
+                        </p>
+                      </div>
                     </div>
-                </div>
-              )}) }
+                  );
+                })}
             </>
           </div>
           <div className="border border-t-0 text-center py-1">
             <>
-              {dayWiseData?.Tuesday && dayWiseData?.Tuesday.map((p)=>{
-                return (                
-                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md" key={p.session_id}>
-                    <div className="flex items-center gap-1">
-                      <Checkbox value={p.session_id} onClick={()=>updateSelected(p.session_id,2)}></Checkbox>
-                      <p className="text-[13px]">
-                        <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
-                      </p>
+              {dayWiseData?.Tuesday &&
+                dayWiseData?.Tuesday.map((p) => {
+                  return (
+                    <div
+                      className="bg-cyan-200 m-2 px-1 py-1 rounded-md"
+                      key={p.session_id}
+                    >
+                      <div className="flex items-center gap-1">
+                        <Checkbox
+                          value={p.session_id}
+                          onClick={() => updateSelected(p.session_id, 2)}
+                        ></Checkbox>
+                        <p className="text-[13px]">
+                          <span className=" font-normal ">
+                            {dateDisplay(p.scheduled_date)}
+                          </span>{" "}
+                          {p.start_time.toUpperCase()}
+                        </p>
+                      </div>
                     </div>
-                </div>
-              )}) }
-              </>
-          </div>
-          <div className="border border-t-0 text-center py-1">
-            <>
-              {dayWiseData?.Wednesday && dayWiseData?.Wednesday.map((p)=>{
-                return (                
-                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
-                    <div className="flex items-center gap-1">
-                      <Checkbox value={p.session_id} onClick={()=>updateSelected(p.session_id,3)}></Checkbox>
-                      <p className="text-[13px]">
-                        <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
-                      </p>
-                    </div>
-                </div>
-              )}) }
+                  );
+                })}
             </>
           </div>
           <div className="border border-t-0 text-center py-1">
             <>
-              {dayWiseData?.Thursday && dayWiseData?.Thursday.map((p)=>{
-                return (                
-                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
-                    <div className="flex items-center gap-1">
-                      <Checkbox value={p.session_id} onClick={()=>updateSelected(p.session_id,4)}></Checkbox>
-                      <p className="text-[13px]">
-                        <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
-                      </p>
+              {dayWiseData?.Wednesday &&
+                dayWiseData?.Wednesday.map((p) => {
+                  return (
+                    <div
+                      className="bg-cyan-200 m-2 px-1 py-1 rounded-md"
+                      key={p.session_id}
+                    >
+                      <div className="flex items-center gap-1">
+                        <Checkbox
+                          value={p.session_id}
+                          onClick={() => updateSelected(p.session_id, 3)}
+                        ></Checkbox>
+                        <p className="text-[13px]">
+                          <span className=" font-normal ">
+                            {dateDisplay(p.scheduled_date)}
+                          </span>{" "}
+                          {p.start_time.toUpperCase()}
+                        </p>
+                      </div>
                     </div>
-                </div>
-              )}) }
-              </>
-          </div>
-          <div className="border border-t-0 text-center py-1">
-            <>
-              {dayWiseData?.Friday && dayWiseData?.Friday.map((p)=>{
-                return (                
-                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
-                    <div className="flex items-center gap-1">
-                      <Checkbox value={p.session_id} onClick={()=>updateSelected(p.session_id,5)}></Checkbox>
-                      <p className="text-[13px]">
-                        <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
-                      </p>
-                    </div>
-                </div>
-              )}) }
+                  );
+                })}
             </>
           </div>
           <div className="border border-t-0 text-center py-1">
             <>
-              {dayWiseData?.Saturday && dayWiseData?.Saturday.map((p)=>{
-                return (                
-                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
-                    <div className="flex items-center gap-1">
-                      <Checkbox value={p.session_id} onClick={()=>updateSelected(p.session_id,6)}></Checkbox>
-                      <p className="text-[13px]">
-                        <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
-                      </p>
+              {dayWiseData?.Thursday &&
+                dayWiseData?.Thursday.map((p) => {
+                  return (
+                    <div
+                      className="bg-cyan-200 m-2 px-1 py-1 rounded-md"
+                      key={p.session_id}
+                    >
+                      <div className="flex items-center gap-1">
+                        <Checkbox
+                          value={p.session_id}
+                          onClick={() => updateSelected(p.session_id, 4)}
+                        ></Checkbox>
+                        <p className="text-[13px]">
+                          <span className=" font-normal ">
+                            {dateDisplay(p.scheduled_date)}
+                          </span>{" "}
+                          {p.start_time.toUpperCase()}
+                        </p>
+                      </div>
                     </div>
-                </div>
-              )}) }
-              </>
+                  );
+                })}
+            </>
           </div>
           <div className="border border-t-0 text-center py-1">
             <>
-              {dayWiseData?.Sunday && dayWiseData?.Sunday.map((p)=>{
-                return (                
-                <div className="bg-cyan-200 m-2 px-1 py-1 rounded-md"  key={p.session_id}>
-                    <div className="flex items-center gap-1">
-                      <Checkbox value={p.session_id} onClick={()=>updateSelected(p.session_id,7)}></Checkbox>
-                      <p className="text-[13px]">
-                        <span className=" font-normal ">{dateDisplay(p.scheduled_date)}</span> {p.start_time.toUpperCase()}
-                      </p>
+              {dayWiseData?.Friday &&
+                dayWiseData?.Friday.map((p) => {
+                  return (
+                    <div
+                      className="bg-cyan-200 m-2 px-1 py-1 rounded-md"
+                      key={p.session_id}
+                    >
+                      <div className="flex items-center gap-1">
+                        <Checkbox
+                          value={p.session_id}
+                          onClick={() => updateSelected(p.session_id, 5)}
+                        ></Checkbox>
+                        <p className="text-[13px]">
+                          <span className=" font-normal ">
+                            {dateDisplay(p.scheduled_date)}
+                          </span>{" "}
+                          {p.start_time.toUpperCase()}
+                        </p>
+                      </div>
                     </div>
-                </div>
-              )}) }
-              </>
+                  );
+                })}
+            </>
+          </div>
+          <div className="border border-t-0 text-center py-1">
+            <>
+              {dayWiseData?.Saturday &&
+                dayWiseData?.Saturday.map((p) => {
+                  return (
+                    <div
+                      className="bg-cyan-200 m-2 px-1 py-1 rounded-md"
+                      key={p.session_id}
+                    >
+                      <div className="flex items-center gap-1">
+                        <Checkbox
+                          value={p.session_id}
+                          onClick={() => updateSelected(p.session_id, 6)}
+                        ></Checkbox>
+                        <p className="text-[13px]">
+                          <span className=" font-normal ">
+                            {dateDisplay(p.scheduled_date)}
+                          </span>{" "}
+                          {p.start_time.toUpperCase()}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+            </>
+          </div>
+          <div className="border border-t-0 text-center py-1">
+            <>
+              {dayWiseData?.Sunday &&
+                dayWiseData?.Sunday.map((p) => {
+                  return (
+                    <div
+                      className="bg-cyan-200 m-2 px-1 py-1 rounded-md"
+                      key={p.session_id}
+                    >
+                      <div className="flex items-center gap-1">
+                        <Checkbox
+                          value={p.session_id}
+                          onClick={() => updateSelected(p.session_id, 7)}
+                        ></Checkbox>
+                        <p className="text-[13px]">
+                          <span className=" font-normal ">
+                            {dateDisplay(p.scheduled_date)}
+                          </span>{" "}
+                          {p.start_time.toUpperCase()}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+            </>
           </div>
         </div>
       </div>

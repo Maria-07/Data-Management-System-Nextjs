@@ -10,7 +10,7 @@ import { useTheme } from "next-themes";
 function Session() {
   const [expandIconPosition, setExpandIconPosition] = useState("start");
   const onChange = (key) => {
-    console.log(key);
+    // console.log(key);
   };
 
   //! Theme system

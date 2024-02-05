@@ -65,8 +65,8 @@ const calenderView = () => {
     // const formattedDate = date.format('YYYY-MM-DD');
     setStartDate(moment(start).format("YYYY-MM-DD"));
     setendDate(moment(end).format("YYYY-MM-DD"));
-    console.log("View Start Date:", moment(start).format("YYYY-MM-DD"));
-    console.log("View End Date:", moment(end).format("YYYY-MM-DD"));
+    // console.log("View Start Date:", moment(start).format("YYYY-MM-DD"));
+    // console.log("View End Date:", moment(end).format("YYYY-MM-DD"));
 
     // You can perform additional actions or render the view start and end dates as needed
 
@@ -104,7 +104,7 @@ const calenderView = () => {
 
   // for showing clicked event details basedon id using same CustomModal.jsx
   const showEventDetails = (id) => {
-    console.log("Clicked event id", id);
+    // console.log("Clicked event id", id);
     setEventId(id);
     setSelectedDate();
     setOpen(!open);
@@ -114,7 +114,7 @@ const calenderView = () => {
   const [hoveredEvent, setHoveredEvent] = useState(null);
 
   const handleEventHover = (event) => {
-    console.log("data of hovered event", event.event.title);
+    // console.log("data of hovered event", event.event.title);
     setHoveredEvent(event.event);
   };
 
@@ -123,7 +123,7 @@ const calenderView = () => {
   };
   //-------------------------------Showing month date(auto) -------------------
 
-  console.log("api data rtk", calenderEvents);
+  // console.log("api data rtk", calenderEvents);
   const modifyDatamap = calenderEvents?.data?.data.map((item) => {
     const title = `${item?.app_patient?.client_first_name} : ${item?.app_provider?.first_name}`;
     const start = item?.from_time;
@@ -142,7 +142,7 @@ const calenderView = () => {
 
   // For creating new event
   const createEvent = (selectInfo) => {
-    console.log(selectInfo);
+    // console.log(selectInfo);
     setOpen(!open);
     setSelectedDate(selectInfo?.startStr);
     if (eventId) {
@@ -236,7 +236,7 @@ const calenderView = () => {
             selectable={true}
             select={createEvent}
             eventClick={(arg) => {
-              console.log(arg.event.extendedProps._id);
+              // console.log(arg.event.extendedProps._id);
               showEventDetails(arg.event.extendedProps._id); //jei event a click korbo tar id showEvent func a pass[callback method]
             }}
             // eventClick={()=>showEvent(arg)}

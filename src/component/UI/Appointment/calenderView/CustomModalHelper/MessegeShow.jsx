@@ -9,8 +9,8 @@ const MessegeShow = ({ messege, setMessege }) => {
 
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
-    console.log(notes);
+    // console.log(data);
+    // console.log(notes);
   };
   return (
     <Modal
@@ -36,13 +36,13 @@ const MessegeShow = ({ messege, setMessege }) => {
           </div>
         </div>
         <div className="bg-gray-200 py-[1px] mt-3"></div>
- 
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-2 ">
             <div>
               <h1 className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
                 Session Sticky Notes:
-                </h1>
+              </h1>
               <div className="mt-3 mb-3">
                 <TextArea
                   onChange={(e) => setNotes(e.target.value)}
@@ -66,10 +66,10 @@ const MessegeShow = ({ messege, setMessege }) => {
                   rows={5}
                   placeholder=" Notes"
                   size="large"
-                   className="border-2 border-blue-600"
+                  className="border-2 border-blue-600"
                 />
               </div>
-            </div>  
+            </div>
           </div>
 
           <div className="bg-gray-200 py-[1px] mt-3"></div>

@@ -6,45 +6,50 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 const AddClearence = ({ handleClose, open, token, id }) => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const [imageData,setImageData] = useState(null);
-  const [filenameData,setFilenameData] = useState(null);
-  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const [imageData, setImageData] = useState(null);
+  const [filenameData, setFilenameData] = useState(null);
+
   // Add credential Api
   const [
     addClearence,
     { isSuccess: addClearenceSuccess, isError: addClearenceError },
   ] = useAddClearenceMutation();
 
-  const convertBase64 =  (file) => {
+  const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
-      fileReader.readAsDataURL(file)
+      fileReader.readAsDataURL(file);
       fileReader.onload = () => {
         resolve(fileReader.result);
-      }
+      };
       fileReader.onerror = (error) => {
         reject(error);
-      }
-    })
-  }
+      };
+    });
+  };
 
-const handleFileRead = async (event) => {
-  const file = event.target.files[0];
-  setFilenameData(file.name);
-  const base64 =  await convertBase64(file);
-  setImageData(base64);
-}
+  const handleFileRead = async (event) => {
+    const file = event.target.files[0];
+    setFilenameData(file.name);
+    const base64 = await convertBase64(file);
+    setImageData(base64);
+  };
 
   const onSubmit = (data) => {
-    console.log(data);
-    console.log('file name',data?.fileName?.FileList);
+    // console.log(data);
+    // console.log("file name", data?.fileName?.FileList);
     const payload = {
       //employee_id: id,
       clearance_name: data?.clear_type,
       clearance_date_issue: data?.date_issue,
       clearance_date_expired: data?.date_expire,
-      file_name:filenameData,
+      file_name: filenameData,
       clearance_applicable: data?.clear_apply,
       file: imageData,
     };
@@ -54,7 +59,7 @@ const handleFileRead = async (event) => {
         payload,
       });
     }
-    console.log(payload);
+    // console.log(payload);
   };
 
   useEffect(() => {
@@ -88,7 +93,9 @@ const handleFileRead = async (event) => {
       >
         <div className="px-2 py-2">
           <div className="flex items-center justify-between">
-            <h1 className="text-lg text-left text-orange-400 ">Add Clearence</h1>
+            <h1 className="text-lg text-left text-orange-400 ">
+              Add Clearence
+            </h1>
             <IoCloseCircleOutline
               onClick={handleClose}
               className="text-gray-600 text-2xl hover:text-primary"
@@ -114,17 +121,18 @@ const handleFileRead = async (event) => {
                       message: "Please enter the clearence",
                     },
                   })}
-                />                
+                />
                 {errors.clear_type?.type === "required" && (
-                      <p className=" pl-1 text-red-500">
-                        {errors.clear_type.message}
-                      </p>
-                    )}
+                  <p className=" pl-1 text-red-500">
+                    {errors.clear_type.message}
+                  </p>
+                )}
               </div>
 
               <div>
                 <label className="label">
-                  <span className="modal-label-name">Date Issued</span> <span className="text-red-500">*</span>
+                  <span className="modal-label-name">Date Issued</span>{" "}
+                  <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="date"
@@ -135,17 +143,18 @@ const handleFileRead = async (event) => {
                       message: "Please enter the date of issued",
                     },
                   })}
-                />             
+                />
                 {errors.date_issue?.type === "required" && (
-                    <p className=" pl-1 text-red-500">
-                      {errors.date_issue.message}
-                    </p>
-                  )}
+                  <p className=" pl-1 text-red-500">
+                    {errors.date_issue.message}
+                  </p>
+                )}
               </div>
               <div>
                 {" "}
                 <label className="label">
-                  <span className="modal-label-name">Date Expired</span> <span className="text-red-500">*</span>
+                  <span className="modal-label-name">Date Expired</span>{" "}
+                  <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="date"
@@ -156,7 +165,7 @@ const handleFileRead = async (event) => {
                       message: "Please enter the date expired",
                     },
                   })}
-                />                             
+                />
                 {errors.date_expire?.type === "required" && (
                   <p className=" pl-1 text-red-500">
                     {errors.date_expire.message}
@@ -165,7 +174,8 @@ const handleFileRead = async (event) => {
               </div>
               <div>
                 <label className="label">
-                  <span className="modal-label-name">Upload File</span> <span className="text-red-500">*</span>
+                  <span className="modal-label-name">Upload File</span>{" "}
+                  <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="file"
@@ -177,7 +187,7 @@ const handleFileRead = async (event) => {
                     },
                   })}
                   onChange={handleFileRead}
-                />        
+                />
                 {errors.fileName?.type === "required" && (
                   <p className=" pl-1 text-red-500">
                     {errors.fileName.message}

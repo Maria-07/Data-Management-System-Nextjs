@@ -49,14 +49,15 @@ const AuthorizationEdit = () => {
     token,
     id,
   });
-//console.log('authorizationInfo',authorizationInfo?.authorization_details[0]);
+  //console.log('authorizationInfo',authorizationInfo?.authorization_details[0]);
   //! Patient Authorization Activity nested table data api
   const {
     data: allActivityData,
     isLoading: activityLoading,
     isError: activityError,
   } = useGetPatientAuthorizationActivityQuery({
-    token, id
+    token,
+    id,
     /*payload: {
       authorization_id: id,
     },*/
@@ -68,34 +69,37 @@ const AuthorizationEdit = () => {
     { isSuccess: updateSuccess, isError: updateError },
   ] = usePatientAuthorizationUpdateMutation();
 
-  const allAuthorizationActivity = allActivityData?.authorization_service_list || [];
+  const allAuthorizationActivity =
+    allActivityData?.authorization_service_list || [];
 
   //! API date Data Destructring
   let selectedDate =
     authorizationInfo?.client_authorization_info?.selected_date || null;
-    const authData = {
-      description : authorizationInfo?.authorization_details[0]?.description,
-      authorization_name : '',
-      payor_id : authorizationInfo?.authorization_details[0]?.insurance_id,
-      authorization_number : authorizationInfo?.authorization_details[0]?.authorization_number,
-      uci_id : authorizationInfo?.authorization_details[0]?.insurance_id,
-      treatment_type : authorizationInfo?.authorization_details[0]?.tx_type,
-      treatment_type_id : '',
-      supervisor_id : '',
-      diagnosis_one : authorizationInfo?.authorization_details[0]?.diagnosis_one,
-      diagnosis_two : authorizationInfo?.authorization_details[0]?.diagnosis_two,
-      diagnosis_three : authorizationInfo?.authorization_details[0]?.diagnosis_three,
-      diagnosis_four : authorizationInfo?.authorization_details[0]?.diagnosis_four,
-      deductible : authorizationInfo?.authorization_details[0]?.deductible,
-      in_network : authorizationInfo?.authorization_details[0]?.in_network,
-      copay : authorizationInfo?.authorization_details[0]?.copay,
-      cms_four : authorizationInfo?.authorization_details[0]?.cms_four,
-      cms_eleven : authorizationInfo?.authorization_details[0]?.cms_eleven,
-      is_valid : authorizationInfo?.authorization_details[0]?.is_active,
-      is_placeholder : authorizationInfo?.authorization_details[0]?.is_placeholder,
-      is_primary : false,
-      notes : authorizationInfo?.authorization_details[0]?.notes,
-    };
+  const authData = {
+    description: authorizationInfo?.authorization_details[0]?.description,
+    authorization_name: "",
+    payor_id: authorizationInfo?.authorization_details[0]?.insurance_id,
+    authorization_number:
+      authorizationInfo?.authorization_details[0]?.authorization_number,
+    uci_id: authorizationInfo?.authorization_details[0]?.insurance_id,
+    treatment_type: authorizationInfo?.authorization_details[0]?.tx_type,
+    treatment_type_id: "",
+    supervisor_id: "",
+    diagnosis_one: authorizationInfo?.authorization_details[0]?.diagnosis_one,
+    diagnosis_two: authorizationInfo?.authorization_details[0]?.diagnosis_two,
+    diagnosis_three:
+      authorizationInfo?.authorization_details[0]?.diagnosis_three,
+    diagnosis_four: authorizationInfo?.authorization_details[0]?.diagnosis_four,
+    deductible: authorizationInfo?.authorization_details[0]?.deductible,
+    in_network: authorizationInfo?.authorization_details[0]?.in_network,
+    copay: authorizationInfo?.authorization_details[0]?.copay,
+    cms_four: authorizationInfo?.authorization_details[0]?.cms_four,
+    cms_eleven: authorizationInfo?.authorization_details[0]?.cms_eleven,
+    is_valid: authorizationInfo?.authorization_details[0]?.is_active,
+    is_placeholder: authorizationInfo?.authorization_details[0]?.is_placeholder,
+    is_primary: false,
+    notes: authorizationInfo?.authorization_details[0]?.notes,
+  };
 
   // API Destructuring
   const {
@@ -300,7 +304,7 @@ const AuthorizationEdit = () => {
   ]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     /*const payload = {
       edit_authorization_id: id,
       ...data,
@@ -311,17 +315,17 @@ const AuthorizationEdit = () => {
       notes: textNotes,
     };*/
     const payload = {
-      "authorization_id": id,
-      "diagnosis_one": data.diagnosis_one,
-      "diagnosis_two": data.diagnosis_two,
-      "diagnosis_three": data.diagnosis_three,
-      "diagnosis_four": data.diagnosis_four,
-    }
+      authorization_id: id,
+      diagnosis_one: data.diagnosis_one,
+      diagnosis_two: data.diagnosis_two,
+      diagnosis_three: data.diagnosis_three,
+      diagnosis_four: data.diagnosis_four,
+    };
     patientAuthorizationUpdate({
       token,
       payload,
     });
-    console.log(payload);
+    // console.log(payload);
   };
 
   useEffect(() => {
@@ -396,7 +400,9 @@ const AuthorizationEdit = () => {
                   type="text"
                   name="description"
                   className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
-                  defaultValue={authorizationInfo?.authorization_details[0]?.description}
+                  defaultValue={
+                    authorizationInfo?.authorization_details[0]?.description
+                  }
                   disabled
                 />
               </div>
@@ -411,10 +417,11 @@ const AuthorizationEdit = () => {
                   type="text"
                   name="insurance_name"
                   className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
-                  defaultValue={authorizationInfo?.authorization_details[0]?.insurance_name}
+                  defaultValue={
+                    authorizationInfo?.authorization_details[0]?.insurance_name
+                  }
                   disabled
                 />
-                  
               </div>
               <div>
                 <label className="label">
@@ -427,7 +434,9 @@ const AuthorizationEdit = () => {
                   type="text"
                   name="tx_type"
                   className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
-                  defaultValue={authorizationInfo?.authorization_details[0]?.tx_type}
+                  defaultValue={
+                    authorizationInfo?.authorization_details[0]?.tx_type
+                  }
                   disabled
                 />
               </div>
@@ -442,7 +451,10 @@ const AuthorizationEdit = () => {
                   type="text"
                   name="supervisor_provider"
                   className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
-                  defaultValue={authorizationInfo?.authorization_details[0]?.supervisor_provider}
+                  defaultValue={
+                    authorizationInfo?.authorization_details[0]
+                      ?.supervisor_provider
+                  }
                   disabled
                 />
               </div>
@@ -450,12 +462,14 @@ const AuthorizationEdit = () => {
                 <label className="label">
                   <h1 className="label-font mb-1 mt-3  ml-1">Selected date</h1>
                 </label>
-                
+
                 <input
                   type="text"
                   name="selected_date"
                   className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
-                  defaultValue={authorizationInfo?.authorization_details[0]?.selected_date}
+                  defaultValue={
+                    authorizationInfo?.authorization_details[0]?.selected_date
+                  }
                   disabled
                 />
               </div>
@@ -485,7 +499,9 @@ const AuthorizationEdit = () => {
                   type="text"
                   name="insurance_id"
                   className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
-                  defaultValue={authorizationInfo?.authorization_details[0]?.insurance_id}
+                  defaultValue={
+                    authorizationInfo?.authorization_details[0]?.insurance_id
+                  }
                   disabled
                 />
               </div>
@@ -501,7 +517,9 @@ const AuthorizationEdit = () => {
                   type="text"
                   name="cob"
                   className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 py-[1px] w-full focus:outline-none"
-                  defaultValue={authorizationInfo?.authorization_details[0]?.cob}
+                  defaultValue={
+                    authorizationInfo?.authorization_details[0]?.cob
+                  }
                   disabled
                 />
               </div>
@@ -591,7 +609,7 @@ const AuthorizationEdit = () => {
                 <div className="mt-[30px]">
                   <div className="flex ml-1 mt-1 items-center">
                     <Switch
-                      checked={in_network !==false ? in_network : ''}
+                      checked={in_network !== false ? in_network : ""}
                       size="small"
                     />
                     <span className="text-[14px] ml-1 text-gray-600 font-medium">
@@ -644,7 +662,7 @@ const AuthorizationEdit = () => {
               <div className="ml-2 mt-5 flex gap-3 items-center">
                 <div className="flex items-center">
                   <Switch
-                    checked={is_valid !==false ? is_valid : ''}
+                    checked={is_valid !== false ? is_valid : ""}
                     size="small"
                   />
                   <span className="text-[14px] ml-2 font-medium text-gray-500">
@@ -653,7 +671,7 @@ const AuthorizationEdit = () => {
                 </div>
                 <div className="flex items-center">
                   <Switch
-                    checked={is_placeholder !== false ? is_placeholder : ''}
+                    checked={is_placeholder !== false ? is_placeholder : ""}
                     size="small"
                   />
                   <span className="text-[14px] ml-2 font-medium text-gray-500">

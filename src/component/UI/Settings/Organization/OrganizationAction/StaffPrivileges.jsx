@@ -21,7 +21,7 @@ const StaffPrivileges = ({ handleClose, clicked, role }) => {
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
   };
   return (
     <div>

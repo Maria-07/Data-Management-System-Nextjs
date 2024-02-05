@@ -10,7 +10,7 @@ import { MdOutlineNotes } from "react-icons/md";
 import ProgramInfoModal from "../Modals/ProgramInfoModal";
 
 const Status = ({ s }) => {
-  console.log(s);
+  // console.log(s);
   const [undo, setUndo] = useState(0);
   const [count, setCount] = useState(0);
 

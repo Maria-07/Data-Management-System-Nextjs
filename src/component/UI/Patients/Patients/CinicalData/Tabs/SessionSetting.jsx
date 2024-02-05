@@ -7,10 +7,10 @@ const SessionSetting = () => {
   const [limitSessionVisibility, setLimitSessionVisibility] = useState(false);
   const [sessionType, setSessionType] = useState("");
 
-  console.log("sessionType", sessionType);
+  // console.log("sessionType", sessionType);
 
   const onChange = (e) => {
-    console.log(e);
+    // console.log(e);
   };
 
   const items = [

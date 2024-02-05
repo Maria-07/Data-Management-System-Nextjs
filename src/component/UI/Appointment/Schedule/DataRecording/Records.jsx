@@ -19,7 +19,7 @@ const Records = () => {
     setExpandIconPosition(newExpandIconPosition);
   };
   const onChange = (key) => {
-    console.log(key);
+    // console.log(key);
   };
   const genExtra = () => (
     <div className="flex items-center gap-2 text-lg">

@@ -19,7 +19,7 @@ import Calendar from "react-calendar";
 //To Convert Date YY/MM/DD(2022-10-21) to MM/DD/YY
 const dateConverter = (date) => {
   const afterSplit = date?.split("-");
-  console.log(afterSplit);
+  // console.log(afterSplit);
   if (afterSplit?.length > 0) {
     return `${afterSplit[1]}/${afterSplit[2]}/${afterSplit[0]}`;
   }
@@ -28,7 +28,7 @@ const dateConverter = (date) => {
 const timeConverter = (s) => {
   if (s) {
     const clone = s.slice(11, 22).split(":");
-    console.log("clone", clone);
+    // console.log("clone", clone);
     return `${clone[0]}:${clone[1]}`;
   }
   return s;
@@ -58,12 +58,12 @@ function stringDateConverter(str) {
 }
 
 const EditSession = ({ handleClose, openEdit, appointmentId }) => {
-  console.log("managesession row id", appointmentId);
+  // console.log("managesession row id", appointmentId);
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState();
   const [fromtime, setFromTime] = useState();
   const [toTime, setToTime] = useState();
-  console.log("selected date", stringDateConverter(date));
+  // console.log("selected date", stringDateConverter(date));
   const { register, handleSubmit, reset } = useForm();
   const [clientId, setClientId] = useState();
   const [authId, setAuthId] = useState(null);
@@ -91,19 +91,19 @@ const EditSession = ({ handleClose, openEdit, appointmentId }) => {
     to_time,
   } = appointmentInfo?.appointments || {};
 
-  console.log("Patient Info", appointmentInfo?.appointments);
+  // console.log("Patient Info", appointmentInfo?.appointments);
   let dateConverted = dateConverter(schedule_date);
   let TOtimeConverted = timeConverter(to_time);
   let timeConverted = timeConverter(from_time);
 
-  console.log("timeConverted", timeConverted);
-  console.log("TOtimeConverted", TOtimeConverted, "main time", to_time);
-  console.log("timeConverted", timeConverted?.length);
+  // console.log("timeConverted", timeConverted);
+  // console.log("TOtimeConverted", TOtimeConverted, "main time", to_time);
+  // console.log("timeConverted", timeConverted?.length);
 
   // useEffect(() => {
   //   if (from_time && from_Time.split("").length > 0) {
   //     let tp = timeConverter(from_Time);
-  //     console.log("from_time", tp);
+  // console.log("from_time", tp);
   //   }
   // }, []);
 
@@ -179,12 +179,12 @@ const EditSession = ({ handleClose, openEdit, appointmentId }) => {
   };
 
   const from_Time = (time, timeString) => {
-    console.log("From-Time", timeString);
+    // console.log("From-Time", timeString);
     setFromTime(timeString);
   };
 
   const to_Time = (time, timeString) => {
-    console.log("To-Time", timeString);
+    // console.log("To-Time", timeString);
     setToTime(timeString);
   };
   // console.log("after selecting time", fromtime, toTime);
@@ -250,11 +250,11 @@ const EditSession = ({ handleClose, openEdit, appointmentId }) => {
       to_time_session: toTime ? toTime : tConvert(TOtimeConverted),
     };
 
-    console.log(payload, tConvert(TOtimeConverted));
+    // console.log(payload, tConvert(TOtimeConverted));
   };
 
   // const formtimeOne = (time: Dayjs, timeString: string) => {
-  //   console.log(time, timeString);
+  // console.log(time, timeString);
   // };
 
   // if (timeConverted && timeConverted.length < 0) {
@@ -275,7 +275,7 @@ const EditSession = ({ handleClose, openEdit, appointmentId }) => {
         closable={false}
         className="box rounded-xl"
         // onClose={handleClose}
-        // aria-labelledby="responsive-dialog-title"
+        aria-labelledby="responsive-dialog-title"
       >
         <div className="px-5 py-2">
           <div className="flex items-center justify-between">

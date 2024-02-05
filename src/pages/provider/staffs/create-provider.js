@@ -19,12 +19,12 @@ const createProvider = () => {
   //! selected treatments data get api
   const { data: selectedTreatmentData, isLoading: selectedTreatmentLoading } =
     useGetAllSelectedTreatmentsQuery({ token: token });
-  console.log("Selected Treatment", selectedTreatmentData?.data);
+  // console.log("Selected Treatment", selectedTreatmentData?.data);
 
   //! selected employee type data get api
   const { data: credentialType, isLoading: typeLoading } =
     useGetSelectedStaffQuery({ token: token });
-  console.log("Selected credential_type", credentialType?.data);
+  // console.log("Selected credential_type", credentialType?.data);
 
   //! create staff api
   const [createStuff, { isSuccess: createSuccess, isError: createError }] =
@@ -70,7 +70,7 @@ const createProvider = () => {
   const handlegender = (e) => {
     setGender(e.target.value);
   };
-  console.log(gender);
+  // console.log(gender);
 
   const {
     register,
@@ -85,16 +85,16 @@ const createProvider = () => {
       gender,
       employee_type: "provider",
     };
-    console.log("create staff data ", payload);
+    // console.log("create staff data ", payload);
     if (payload) {
       const response = await createStuff({
         token,
         payload,
       });
 
-      console.log("response", response);
+      // console.log("response", response);
     }
-    console.log(payload);
+    // console.log(payload);
   };
 
   useEffect(() => {

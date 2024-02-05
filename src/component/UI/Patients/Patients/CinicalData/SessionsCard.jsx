@@ -31,11 +31,11 @@ const SessionCard = ({ appointment }) => {
   const [providerSignature, setProviderSignature] = useState(false);
   const [ProviderImageURL, setProviderImageURL] = useState(null);
   const [patientImageURL, setPatientImageURL] = useState(null);
-  console.log("ProviderImageURL", ProviderImageURL);
-  console.log("imageURL", patientImageURL);
+  // console.log("ProviderImageURL", ProviderImageURL);
+  // console.log("imageURL", patientImageURL);
   const [file, setFile] = useState();
 
-  console.log("file", file);
+  // console.log("file", file);
 
   const handleSignatureProvider = () => {
     setProviderSignature(true);

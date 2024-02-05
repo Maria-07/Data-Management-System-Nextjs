@@ -7,8 +7,13 @@ import DocumentView from "./DocumentView";
 import axios from "axios";
 import { useDeleteDocumentMutation } from "@/Redux/features/patient/patient-documents/patientDocumentApi";
 
-const DocumentsAction = ({ documentData, token, patientId, documentTypeId }) => {
-  console.log('documentData',documentData.id)
+const DocumentsAction = ({
+  documentData,
+  token,
+  patientId,
+  documentTypeId,
+}) => {
+  // console.log('documentData',documentData.id)
   const [openEditModal, setOpenEditModal] = useState(false);
   const [viewDocument, setViewDocument] = useState(false);
   const [imageData, setImageData] = useState([]);
@@ -23,9 +28,9 @@ const DocumentsAction = ({ documentData, token, patientId, documentTypeId }) => 
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          "Authorization": token || null,
+          Authorization: token || null,
         },
-        data : { patient_id: patientId, document_id:documentData.id}
+        data: { patient_id: patientId, document_id: documentData.id },
       });
       const data = res?.data?.document;
       setImageData(data);
@@ -35,7 +40,7 @@ const DocumentsAction = ({ documentData, token, patientId, documentTypeId }) => 
   // const { token } = useToken();
   const handleClose = () => {
     setOpenEditModal(false);
-  };  
+  };
   const handleDocumentView = () => {
     setViewDocument(true);
   };
@@ -44,11 +49,11 @@ const DocumentsAction = ({ documentData, token, patientId, documentTypeId }) => 
     setViewDocument(false);
   };
   const [deleteDocument, { isSuccess: deleteSuccess }] =
-  useDeleteDocumentMutation();
+    useDeleteDocumentMutation();
   const handleDelete = (record) => {
     const payload = {
       patient_id: patientId,
-      document_id: documentData.id
+      document_id: documentData.id,
     };
     deleteDocument({
       token,
@@ -63,10 +68,9 @@ const DocumentsAction = ({ documentData, token, patientId, documentTypeId }) => 
         theme: "dark",
         style: { fontSize: "12px" },
       });
-      window.location.reload(); 
+      window.location.reload();
     }
   }, [deleteSuccess]);
-
 
   return (
     <div>
@@ -85,7 +89,7 @@ const DocumentsAction = ({ documentData, token, patientId, documentTypeId }) => 
           // onClick={() => handleDelete(id)}
           className="text-sm mx-1 text-rose-600"
         >
-          <AiOutlineDelete  onClick={handleDelete}/>
+          <AiOutlineDelete onClick={handleDelete} />
         </button>
       </div>
       {openEditModal && (
@@ -94,11 +98,11 @@ const DocumentsAction = ({ documentData, token, patientId, documentTypeId }) => 
           open={openEditModal}
           documentData={documentData}
           token={token}
-          patientId={patientId} 
+          patientId={patientId}
           documentTypeId={documentTypeId}
         ></DocumentsActionModal>
       )}
-      
+
       {viewDocument && (
         <DocumentView
           handleClose={handleViewClose}

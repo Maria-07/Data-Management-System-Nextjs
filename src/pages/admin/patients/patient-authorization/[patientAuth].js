@@ -22,7 +22,7 @@ const PatientAuth = () => {
   const router = useRouter();
   const { query } = router;
   const id = query.patientAuth;
-  console.log(id);
+  // console.log(id);
   const token = getAccessToken();
 
   //! get patient authorization api
@@ -37,8 +37,8 @@ const PatientAuth = () => {
   const clientAuthorizationData = authorizationData?.allAuthorization || [];
   const clientSelectedPayors = authorizationData?.selectedPayors || [];
 
-  console.log("Patient Auth = ", clientAuthorizationData);
-  console.log("Patient clientSelectedPayors = ", clientSelectedPayors);
+  // console.log("Patient Auth = ", clientAuthorizationData);
+  // console.log("Patient clientSelectedPayors = ", clientSelectedPayors);
 
   const editAuth = (record) => {
     //console.log("editdata edit", record);
@@ -52,7 +52,7 @@ const PatientAuth = () => {
   ] = usePatientAuthorizationDeleteMutation();
 
   const handleDelete = (record) => {
-    console.log("delete record", record?.id);
+    // console.log("delete record", record?.id);
     if (record?.id) {
       const res = patientAuthorizationDelete({
         token,
@@ -61,7 +61,7 @@ const PatientAuth = () => {
         },
       });
 
-      console.log("res delete", res);
+      // console.log("res delete", res);
     }
   };
 
@@ -75,7 +75,7 @@ const PatientAuth = () => {
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };

@@ -1,5 +1,5 @@
 import { Modal, Switch } from "antd";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { IoCloseCircleOutline } from "react-icons/io5";
@@ -8,7 +8,10 @@ import "react-phone-input-2/lib/style.css";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { getAccessToken } from "@/Redux/api/apiSlice";
-import { useGetInsuranceDataQuery, useCreatePatientMutation } from "@/Redux/features/patient/patientApi";
+import {
+  useGetInsuranceDataQuery,
+  useCreatePatientMutation,
+} from "@/Redux/features/patient/patientApi";
 
 const CreatePatient = ({ handleClose, patientClicked }) => {
   const token = getAccessToken();
@@ -17,11 +20,11 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
   const [addtionalInfoOpen, setAddtionalInfoOpen] = useState(false);
 
   const { data: insuranceStatusData, isLoading: insuranceStatusLoading } =
-  useGetInsuranceDataQuery({ token });
- 
+    useGetInsuranceDataQuery({ token });
+
   const [
     createPatient,
-    { isSuccess: createSuccess, isError: createError, error:ApiError },
+    { isSuccess: createSuccess, isError: createError, error: ApiError },
   ] = useCreatePatientMutation();
 
   const {
@@ -33,7 +36,7 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
     const payload = {
       client_first_name: data?.client_first_name,
       client_last_name: data?.client_last_name,
@@ -51,9 +54,9 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
       active_status: data?.status,
       payor_id: data?.insurance,
       other_details: data?.additionalInfo,
-      email_invaitation:data?.email_invaitation
-    }
-    console.log(payload);
+      email_invaitation: data?.email_invaitation,
+    };
+    // console.log(payload);
     if (payload) {
       createPatient({
         token,
@@ -61,33 +64,33 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
       });
       //reset();
     }
-  }
+  };
   useEffect(() => {
-      if (createSuccess) {
-        toast.success("Patient created successfully", {
-          position: "top-center",
-          autoClose: 5000,
-          theme: "dark",
-          style: { fontSize: "12px" },
-        });
-        handleClose();
-      } else if (ApiError) {
-        let responseError =  Object.values(ApiError?.data?.message);
-        toast.error(responseError[0][0], {
-          position: "top-center",
-          autoClose: 5000,
-          theme: "dark",
-          style: { fontSize: "12px" },
-        });
-      } else if (createError) {
-        toast.error("Something went wrong", {
-          position: "top-center",
-          autoClose: 5000,
-          theme: "dark",
-          style: { fontSize: "12px" },
-        });
-      }
-    }, [createSuccess, createError,ApiError]);
+    if (createSuccess) {
+      toast.success("Patient created successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+      handleClose();
+    } else if (ApiError) {
+      let responseError = Object.values(ApiError?.data?.message);
+      toast.error(responseError[0][0], {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else if (createError) {
+      toast.error("Something went wrong", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [createSuccess, createError, ApiError]);
   return (
     <div>
       <Modal
@@ -99,43 +102,43 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
         closable={false}
         className="box rounded-xl "
       >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="px-5 py-2">
-          <div className="flex items-center justify-between">
-            <h1 className="text-lg text-left text-orange-400">
-              Create Patient
-            </h1>
-            <div className="flex item-center gap-2">
-              <div className="flex items-center gap-2">
-                {/*<Switch
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="px-5 py-2">
+            <div className="flex items-center justify-between">
+              <h1 className="text-lg text-left text-orange-400">
+                Create Patient
+              </h1>
+              <div className="flex item-center gap-2">
+                <div className="flex items-center gap-2">
+                  {/*<Switch
                   color="default"
                   defaultChecked
                   size="small"
                   name="email_invaitation"
                 />*/}
-                <label className="inline-flex relative items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    {...register(`email_invaitation`)}
-                    defaultChecked={true}
-                    className="sr-only peer"
-                  />
-                  <div className="w-[30px] h-[17px] bg-gray-200 rounded-full dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-[13px] after:w-[13px] after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
-                </label>
-                <label
-                  className="form-check-label inline-block mt-[2px] text-sm"
-                  htmlFor="flexSwitchCheckDefault"
-                >
-                  Portal invaitation
-                </label>
+                  <label className="inline-flex relative items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      {...register(`email_invaitation`)}
+                      defaultChecked={true}
+                      className="sr-only peer"
+                    />
+                    <div className="w-[30px] h-[17px] bg-gray-200 rounded-full dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-[13px] after:w-[13px] after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                  </label>
+                  <label
+                    className="form-check-label inline-block mt-[2px] text-sm"
+                    htmlFor="flexSwitchCheckDefault"
+                  >
+                    Portal invaitation
+                  </label>
+                </div>
+                <IoCloseCircleOutline
+                  onClick={handleClose}
+                  className="text-gray-500 text-2xl hover:text-primary"
+                />
               </div>
-              <IoCloseCircleOutline
-                onClick={handleClose}
-                className="text-gray-500 text-2xl hover:text-primary"
-              />
             </div>
-          </div>
-          <div className="bg-gray-200 py-[1px] mt-3"></div>
+            <div className="bg-gray-200 py-[1px] mt-3"></div>
             <div className="my-3">
               <div className=" grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 mb-1 mr-2 gap-2">
                 <div>
@@ -301,13 +304,13 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
                           <option value="Home">Home</option>
                         </select>
                       </div>
-                  <div className="label-text-alt m-1">
-                    {errors.email_type?.type === "required" && (
-                      <p className=" pl-1 text-red-500">
-                        {errors.email_type.message}
-                      </p>
-                    )}
-                  </div>
+                      <div className="label-text-alt m-1">
+                        {errors.email_type?.type === "required" && (
+                          <p className=" pl-1 text-red-500">
+                            {errors.email_type.message}
+                          </p>
+                        )}
+                      </div>
                     </>
                   </div>
                   <div className="label-text-alt m-1">
@@ -407,59 +410,64 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
                 </div>
                 <div>
                   <label className="label">
-                    <h1 className="modal-label-name">
-                      Status
-                    </h1>
+                    <h1 className="modal-label-name">Status</h1>
                   </label>
                   <select
-                        className="modal-input-field ml-1 w-full"
-                        {...register("status")}
-                        defaultValue={1}
-                      >
-                      { insuranceStatusData?.statuses?.map((p) => {
-                          return (
-                            <option value={p.id} key={p.id}>{p.title}</option>
-                          )
-                      }) }
-                      </select>
+                    className="modal-input-field ml-1 w-full"
+                    {...register("status")}
+                    defaultValue={1}
+                  >
+                    {insuranceStatusData?.statuses?.map((p) => {
+                      return (
+                        <option value={p.id} key={p.id}>
+                          {p.title}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
                 <div>
                   <label className="label">
-                    <h1 className="modal-label-name">
-                      Insurance
-                    </h1>
+                    <h1 className="modal-label-name">Insurance</h1>
                   </label>
                   <select
-                        className="modal-input-field ml-1 w-full"
-                        {...register("insurance")}
-                      >
-                      <option value=""></option>
-                      { insuranceStatusData?.all_payor?.map((p) => {
-                          return (
-                            <option value={p.payor_id} key={p.payor_id}>{p.payor_name}</option>
-                          )
-                      }) }
-                      </select>
+                    className="modal-input-field ml-1 w-full"
+                    {...register("insurance")}
+                  >
+                    <option value=""></option>
+                    {insuranceStatusData?.all_payor?.map((p) => {
+                      return (
+                        <option value={p.payor_id} key={p.payor_id}>
+                          {p.payor_name}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
               </div>
             </div>
             {addtionalInfoOpen && (
-            <div>
-              <label className="label">
-                <h1 className="modal-label-name">
-                Additional Information
-                </h1>
-              </label>
-              <textarea
-                className="input-border input-font py-[1px] w-full focus:outline-none"
-                {...register("additionalInfo")}
-                rows={4}
-                cols={40}
-              />
-            </div>
+              <div>
+                <label className="label">
+                  <h1 className="modal-label-name">Additional Information</h1>
+                </label>
+                <textarea
+                  className="input-border input-font py-[1px] w-full focus:outline-none"
+                  {...register("additionalInfo")}
+                  rows={4}
+                  cols={40}
+                />
+              </div>
             )}
             <div className=" flex justify-end mt-2" size={40}>
-            {addtionalInfoOpen ? (<FaMinus onClick={()=>setAddtionalInfoOpen(false)} className="text-red-500"/>) : (<FaPlus onClick={()=>setAddtionalInfoOpen(true)}/>) }
+              {addtionalInfoOpen ? (
+                <FaMinus
+                  onClick={() => setAddtionalInfoOpen(false)}
+                  className="text-red-500"
+                />
+              ) : (
+                <FaPlus onClick={() => setAddtionalInfoOpen(true)} />
+              )}
             </div>
 
             <div className="bg-gray-200 py-[1px] mt-3"></div>
@@ -473,8 +481,8 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
                 Close
               </button>
             </div>
-        </div>
-          </form>
+          </div>
+        </form>
       </Modal>
       <hr />
     </div>

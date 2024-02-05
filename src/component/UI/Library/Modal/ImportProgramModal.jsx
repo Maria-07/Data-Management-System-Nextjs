@@ -11,12 +11,12 @@ const ImportProgramModal = ({ handleClose, clicked }) => {
     },
     onChange(info) {
       if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
+        // console.log(info.file, info.fileList);
       }
       if (info.file.status === "done") {
-        console.log(`${info.file.name} file uploaded successfully`);
+        // console.log(`${info.file.name} file uploaded successfully`);
       } else if (info.file.status === "error") {
-        console.error(`${info.file.name} file upload failed.`);
+        // console.error(`${info.file.name} file upload failed.`);
       }
     },
   };

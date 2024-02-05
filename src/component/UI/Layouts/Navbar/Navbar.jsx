@@ -38,7 +38,7 @@ const Navbar = ({ handle, handleSidebar }) => {
   const router = useRouter();
 
   const handleLogOut = () => {
-    console.log("logout");
+    // console.log("logout");
     Cookies.remove("accessToken");
     // setUserInfo(null);
     router.push("/");
@@ -55,29 +55,29 @@ const Navbar = ({ handle, handleSidebar }) => {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        "Authorization": token || null,
-      }
+        Authorization: token || null,
+      },
     });
     const data = res?.data;
     setPunch(data?.punch_status);
-  }
-  
+  };
+
   useEffect(() => {
     getPunchStatus();
   }, []);
-  const  openChatUrl = async () => {
+  const openChatUrl = async () => {
     let res = await axios({
       method: "GET",
       url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/chat-token`,
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        "Authorization": token || null,
-      }
+        Authorization: token || null,
+      },
     });
     const chatUrl = res?.data?.messenger_url;
-    if(chatUrl != '' && typeof chatUrl !== "undefined") {
-      window.open(chatUrl,'_blank');
+    if (chatUrl != "" && typeof chatUrl !== "undefined") {
+      window.open(chatUrl, "_blank");
     } else {
       toast.error("Error in Chat Communication", {
         position: "top-center",
@@ -86,7 +86,7 @@ const Navbar = ({ handle, handleSidebar }) => {
         style: { fontSize: "12px" },
       });
     }
-  }
+  };
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -130,15 +130,15 @@ const Navbar = ({ handle, handleSidebar }) => {
           </div>
           <div className="flex items-center gap-6 text-[25px] text-dark">
             <div className="h-11">
-            {!punch ? (
-            <span className="text-xs px-2 py-1 bg-orange-400 text-white rounded-xl">
-              OUT
-            </span>
-            ) : (
-              <span className="text-xs px-2 py-1 bg-green-400 text-white rounded-xl">
-              IN
-              </span>
-            ) }
+              {!punch ? (
+                <span className="text-xs px-2 py-1 bg-orange-400 text-white rounded-xl">
+                  OUT
+                </span>
+              ) : (
+                <span className="text-xs px-2 py-1 bg-green-400 text-white rounded-xl">
+                  IN
+                </span>
+              )}
             </div>
             <div>
               {!handle.active ? (
@@ -240,7 +240,7 @@ const Navbar = ({ handle, handleSidebar }) => {
                           width={"auto"}
                           height={"auto"}
                           alt="Picture of the author"
-                          className="rounded-full" 
+                          className="rounded-full"
                         />
                       </div>
                       <div>

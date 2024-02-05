@@ -58,7 +58,7 @@ const DayView = ({ token, id }) => {
   };
 
   const weekDayHandle = (e, day) => {
-    console.log(day);
+    // console.log(day);
     if (day === "Monday") {
       setMonday(!Monday);
     } else if (day === "Tuesday") {

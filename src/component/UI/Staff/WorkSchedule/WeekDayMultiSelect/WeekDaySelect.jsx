@@ -46,7 +46,7 @@ const WeekDaySelect = ({ setServiceId }) => {
     getServicesId();
   }, [selected, setServiceId]);
 
-  console.log(selected);
+  // console.log(selected);
   return (
     <div>
       <MultiSelect

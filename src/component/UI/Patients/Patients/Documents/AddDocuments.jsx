@@ -7,41 +7,52 @@ import { Switch } from "antd/lib";
 import { useState } from "react";
 import { useCreatePatientDocMutation } from "@/Redux/features/patient/patient-documents/patientDocumentApi";
 
-const AddDocuments = ({ handleClose, open, token, patientId, documentId, documentName }) => {
-
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const [imageData,setImageData] = useState(null);
-  const [filenameData,setFilenameData] = useState(null);
+const AddDocuments = ({
+  handleClose,
+  open,
+  token,
+  patientId,
+  documentId,
+  documentName,
+}) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const [imageData, setImageData] = useState(null);
+  const [filenameData, setFilenameData] = useState(null);
   const [isStatus, setStatus] = useState(false);
- 
+
   const switchHandler = () => {
     setStatus((status) => !status);
   };
 
-    // Add Document Api
+  // Add Document Api
   const [
     addDocuemnts,
     { isSuccess: addDocumentSuccess, isError: addDocumentError },
   ] = useCreatePatientDocMutation();
-  const convertBase64 =  (file) => {
+  const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
-      fileReader.readAsDataURL(file)
+      fileReader.readAsDataURL(file);
       fileReader.onload = () => {
         resolve(fileReader.result);
-      }
+      };
       fileReader.onerror = (error) => {
         reject(error);
-      }
-    })
-  }
+      };
+    });
+  };
 
-const handleFileRead = async (event) => {
-  const file = event.target.files[0];
-  setFilenameData(file.name);
-  const base64 =  await convertBase64(file);
-  setImageData(base64);
-}
+  const handleFileRead = async (event) => {
+    const file = event.target.files[0];
+    setFilenameData(file.name);
+    const base64 = await convertBase64(file);
+    setImageData(base64);
+  };
 
   // console.log("data updated", data);
   const onSubmit = (data) => {
@@ -55,15 +66,15 @@ const handleFileRead = async (event) => {
     // };
     // addDocuemnts({ token, payload });
     const payload = {
-      patient_id:patientId,
-      document_type:documentId,
+      patient_id: patientId,
+      document_type: documentId,
       description: data.description,
-      document_expiration_date:data.expiry_Date,
+      document_expiration_date: data.expiry_Date,
       notify: isStatus,
-      file_name:filenameData,
+      file_name: filenameData,
       file: imageData,
-    }
-    console.log(payload);
+    };
+    // console.log(payload);
     if (payload) {
       addDocuemnts({
         token,
@@ -119,7 +130,8 @@ const handleFileRead = async (event) => {
             <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 my-3 mr-2 gap-x-2 gap-y-1">
               <div>
                 <label className="label">
-                  <span className="modal-label-name">Description</span><span className="text-red-500">*</span>
+                  <span className="modal-label-name">Description</span>
+                  <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -129,7 +141,7 @@ const handleFileRead = async (event) => {
                     required: {
                       value: true,
                       message: "Please enter the description",
-                    }
+                    },
                   })}
                 />
                 <span className="label-text-alt">
@@ -144,7 +156,8 @@ const handleFileRead = async (event) => {
               <div>
                 {" "}
                 <label className="label">
-                  <span className="modal-label-name">Expiry Date</span><span class="text-red-500">*</span>
+                  <span className="modal-label-name">Expiry Date</span>
+                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   type="date"
@@ -154,7 +167,7 @@ const handleFileRead = async (event) => {
                     required: {
                       value: true,
                       message: "Please select the expiry date",
-                    }
+                    },
                   })}
                 />
                 <span className="label-text-alt">
@@ -167,7 +180,8 @@ const handleFileRead = async (event) => {
               </div>
               <div>
                 <label className="label">
-                  <span className="modal-label-name">Upload File</span><span class="text-red-500">*</span>
+                  <span className="modal-label-name">Upload File</span>
+                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   type="file"
@@ -176,8 +190,8 @@ const handleFileRead = async (event) => {
                     required: {
                       value: true,
                       message: "Please upload the document",
-                    }
-                  })}                  
+                    },
+                  })}
                   onChange={handleFileRead}
                 />
                 <span className="label-text-alt">
@@ -192,7 +206,8 @@ const handleFileRead = async (event) => {
                 <Switch
                   size="small"
                   name="notify"
-                  onChange={switchHandler} checked={isStatus}
+                  onChange={switchHandler}
+                  checked={isStatus}
                 />
                 <span className="text-[14px] ml-2 font-medium text-gray-500">
                   Placeholder
@@ -200,16 +215,13 @@ const handleFileRead = async (event) => {
               </div>
             </div>
             <div className="bg-gray-200 py-[1px] mt-3"></div>
-              <div className="flex gap-3 items-end justify-end mb-2 mt-4">
-                <button type="submit" className="dcm-modal-submit-button">
-                  Save
-                </button>
-                <button
-                  onClick={handleClose}
-                  className="dcm-modal-close-button"
-                >
-                  Cancel
-                </button>
+            <div className="flex gap-3 items-end justify-end mb-2 mt-4">
+              <button type="submit" className="dcm-modal-submit-button">
+                Save
+              </button>
+              <button onClick={handleClose} className="dcm-modal-close-button">
+                Cancel
+              </button>
             </div>
           </form>
         </div>

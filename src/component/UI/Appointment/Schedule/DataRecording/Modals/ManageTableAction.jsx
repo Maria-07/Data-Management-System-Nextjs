@@ -14,7 +14,7 @@ import { FaFileSignature } from "react-icons/fa";
 import ViewSignature from "./ViewSignature";
 
 const ManageTableAction = ({ row, appointmentId, isLocked }) => {
-  console.log("for edit purpose", isLocked);
+  // console.log("for edit purpose", isLocked);
   // const { ref, visible, setVisible } = useOutsideAlerter(false);
   const [openAddNote, setOpenAddNote] = useState(false);
   const [openViewNote, setOpenViewNote] = useState(false);

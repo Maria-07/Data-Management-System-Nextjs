@@ -15,7 +15,7 @@ const DepartmentSupervisor = () => {
   const router = useRouter();
   const { query } = router;
   const id = query.departmentSupervisor;
-  console.log(id);
+  // console.log(id);
   const token = getAccessToken();
 
   const [sortBy, setSortBy] = useState(null);
@@ -61,7 +61,7 @@ const DepartmentSupervisor = () => {
   }, [reset, superVisors?.exist_dep?.supervisor_id]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     const payload = {
       employee_id: id,
       is_supervisor: Number(sortBy),
@@ -73,9 +73,9 @@ const DepartmentSupervisor = () => {
         payload,
       });
     }
-    console.log("payload", payload);
+    // console.log("payload", payload);
   };
-  console.log("sort by value", sortBy);
+  // console.log("sort by value", sortBy);
 
   useEffect(() => {
     if (updateSuccess) {

@@ -52,7 +52,7 @@ const targetPage = () => {
   const [value, setValue] = useState("waiting");
 
   const onChange = (value) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
     setValue(value);
   };
 

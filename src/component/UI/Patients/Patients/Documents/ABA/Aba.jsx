@@ -149,7 +149,7 @@ const Aba = ({token, patientId, documentId, documentName}) => {
   ];
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };

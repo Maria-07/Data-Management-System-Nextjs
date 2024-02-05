@@ -20,16 +20,21 @@ import { useSelector } from "react-redux";
 import Loading from "@/component/UI/Layouts/Loading";
 import Image from "next/image";
 import { toast } from "react-toastify";
-import { useGetPatientInfoQuery, useDeleteSignatureMutation, useUpdateSignatureMutation, useUpdatePatientMutation } from "@/Redux/features/patient/patient-info/patientInfoApi";
+import {
+  useGetPatientInfoQuery,
+  useDeleteSignatureMutation,
+  useUpdateSignatureMutation,
+  useUpdatePatientMutation,
+} from "@/Redux/features/patient/patient-info/patientInfoApi";
 
 const { TextArea } = Input;
 
 const PatientInfo = () => {
-    //! Id get
+  //! Id get
   const router = useRouter();
   const { query } = router;
   const id = query.patientInfo;
-  console.log(id);
+  // console.log(id);
   const [active, setActive] = useState(false);
   const [Guarantor, setGuarantor] = useState(false);
   const [checkLocation, setLocation] = useState(false);
@@ -37,9 +42,9 @@ const PatientInfo = () => {
   const [signatureUpload, setSignatureUpload] = useState("");
   const token = getAccessToken();
   const [hook, setHook] = useState("");
-  const [imageData,setImageData] = useState(null);
-  const [filenameData,setFilenameData] = useState(null);
-  const [uploadButton,setUploadButton] = useState(false);
+  const [imageData, setImageData] = useState(null);
+  const [filenameData, setFilenameData] = useState(null);
+  const [uploadButton, setUploadButton] = useState(false);
 
   //File Upload
   const [selectedFile, setSelectedFile] = useState(null);
@@ -60,43 +65,46 @@ const PatientInfo = () => {
     }
   };
 
-// update patient info
-const [
-  updatePatientInfo,
-   { isSuccess: patientUpdateSuccess, isError: patientUpdateError },
- ] = useUpdatePatientMutation();
+  // update patient info
+  const [
+    updatePatientInfo,
+    { isSuccess: patientUpdateSuccess, isError: patientUpdateError },
+  ] = useUpdatePatientMutation();
 
-useEffect(() => {
-  if (patientUpdateSuccess) {
-    toast.success("Patient info updated successfully", {
-      position: "top-center",
-      autoClose: 5000,
-      theme: "dark",
-      style: { fontSize: "12px" },
-    });
-  } else if (patientUpdateError) {
-    toast.error("Some Error Occured", {
-      position: "top-center",
-      autoClose: 5000,
-      theme: "dark",
-      style: { fontSize: "12px" },
-    });
-  }
-}, [patientUpdateSuccess, patientUpdateError]);
+  useEffect(() => {
+    if (patientUpdateSuccess) {
+      toast.success("Patient info updated successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    } else if (patientUpdateError) {
+      toast.error("Some Error Occured", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+        style: { fontSize: "12px" },
+      });
+    }
+  }, [patientUpdateSuccess, patientUpdateError]);
 
-// update signature
+  // update signature
   const [
     updateSignature,
-     { isSuccess: signUpdateSuccess, isError: signUpdateError },
-   ] = useUpdateSignatureMutation();
+    { isSuccess: signUpdateSuccess, isError: signUpdateError },
+  ] = useUpdateSignatureMutation();
   const uploadSignature = () => {
-    const signData = imageData.split(',');
+    const signData = imageData.split(",");
     updateSignature({
       token,
-      payload:{patient_id:id,signature_file_name:filenameData,signature_file:signData[1]},
+      payload: {
+        patient_id: id,
+        signature_file_name: filenameData,
+        signature_file: signData[1],
+      },
     });
-    
-  }
+  };
 
   useEffect(() => {
     if (signUpdateSuccess) {
@@ -119,15 +127,15 @@ useEffect(() => {
   // delete signature
   const [
     deleteSignature,
-     { isSuccess: signDeleteSuccess, isError: signDeleteError },
-   ] = useDeleteSignatureMutation();
+    { isSuccess: signDeleteSuccess, isError: signDeleteError },
+  ] = useDeleteSignatureMutation();
   const deletePreview = () => {
     setPreviewUrl(null);
     setSelectedFile(null);
     setUploadButton(false);
     deleteSignature({
       token,
-      payload:{patient_id:id},
+      payload: { patient_id: id },
     });
   };
   useEffect(() => {
@@ -147,49 +155,50 @@ useEffect(() => {
       });
     }
   }, [signDeleteSuccess, signDeleteError]);
-  const convertBase64 =  (file) => {
+  const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
-      fileReader.readAsDataURL(file)
+      fileReader.readAsDataURL(file);
       fileReader.onload = () => {
         resolve(fileReader.result);
-      }
+      };
       fileReader.onerror = (error) => {
         reject(error);
-      }
-    })
-  }
+      };
+    });
+  };
 
-const handleFileRead = async (event) => {
-  const file = event.target.files[0];
-  setFilenameData(file.name);
-  const base64 =  await convertBase64(file);
-  setImageData(base64);
-  setUploadButton(true);
-}
+  const handleFileRead = async (event) => {
+    const file = event.target.files[0];
+    setFilenameData(file.name);
+    const base64 = await convertBase64(file);
+    setImageData(base64);
+    setUploadButton(true);
+  };
 
   const { data: PatienInfoData, isLoading: patientinfoloading } =
-  useGetPatientInfoQuery({
-    token,
-    id
-  });
+    useGetPatientInfoQuery({
+      token,
+      id,
+    });
 
+  const data =
+    id > 0 && PatienInfoData?.patient_info?.length > 0
+      ? PatienInfoData?.patient_info[0]
+      : [];
 
-const data = id > 0 && PatienInfoData?.patient_info?.length>0 ? PatienInfoData?.patient_info[0] : [];
-
-
-console.log('data -- ',data);
+  // console.log("data -- ", data);
   const patient_details = data?.patientDetails?.data?.client_info;
   const patientOtherDetails = data?.patientDetails?.data?.client_other_info;
   const loading = data?.loading;
   const primaryPhone = data?.patient_phone_number;
   const primaryEmail = data?.patient_email;
 
-  console.log("patient details", patient_details);
-  console.log("patient other details", patientOtherDetails);
+  // console.log("patient details", patient_details);
+  // console.log("patient other details", patientOtherDetails);
 
   const [dob, setDob] = useState();
-  console.log("dob", dob);
+  // console.log("dob", dob);
   //for showing default date in real time
   useEffect(() => {
     setDob(data?.patient_dob);
@@ -197,7 +206,7 @@ console.log('data -- ',data);
 
   useEffect(() => {
     setTimeout(() => {
-      console.log("hello world ");
+      // console.log("hello world ");
     }, 1000);
   }, [patient_details]);
 
@@ -233,7 +242,7 @@ console.log('data -- ',data);
   const { fields, append, remove } = useFieldArray({
     control,
     name: "address",
-    keyName: "addressId"
+    keyName: "addressId",
   });
 
   const {
@@ -243,7 +252,7 @@ console.log('data -- ',data);
   } = useFieldArray({
     control,
     name: "number",
-    keyName: "phoneId"
+    keyName: "phoneId",
   });
 
   const {
@@ -253,7 +262,7 @@ console.log('data -- ',data);
   } = useFieldArray({
     control,
     name: "Email",
-    keyName: "emailId"
+    keyName: "emailId",
   });
 
   useEffect(() => {
@@ -261,7 +270,9 @@ console.log('data -- ',data);
     setTimeout(() => {
       reset({
         first_name: data?.patient_first_name,
-        middle_name: data?.patient_middle_name ? patient_details?.patient_middle_name : null,
+        middle_name: data?.patient_middle_name
+          ? patient_details?.patient_middle_name
+          : null,
         last_name: data?.patient_last_name,
         login_email: data?.patient_email,
         zone: data?.zone,
@@ -271,9 +282,9 @@ console.log('data -- ',data);
         first_date: data?.patient_date_first_seen,
         assignment: data?.asignment,
         group2: data?.patient_email_type,
-        email_ok:data?.patient_email_reminder==1 ? true : false,
+        email_ok: data?.patient_email_reminder == 1 ? true : false,
         patient_parent_first_name: data?.patient_parent_first_name,
-        patient_parent_last_name:data?.patient_parent_last_name,
+        patient_parent_last_name: data?.patient_parent_last_name,
         //checkedActive: patient_details?.is_active_client,
         // address
         client_street: data?.patient_main_address?.street,
@@ -281,23 +292,23 @@ console.log('data -- ',data);
         client_state: data?.patient_main_address?.state,
         client_zip: data?.patient_main_address?.zip,
         // all gurantor
-        guarantor_first_name: data?.patient_guarantor_info?.guarantor_first_name,
-        guarantor_last_name:data?.patient_guarantor_info?.guarantor_last_name,
+        guarantor_first_name:
+          data?.patient_guarantor_info?.guarantor_first_name,
+        guarantor_last_name: data?.patient_guarantor_info?.guarantor_last_name,
         guarantor_check_Date: data?.patient_guarantor_info?.guarantor_dob,
         GuaratorStreet: data?.patient_guarantor_info?.guarantor_street,
         GuaratorCity: data?.patient_guarantor_info?.guarantor_city,
         GuratorCountry: data?.patient_guarantor_info?.guarantor_state,
         GuratorZip: data?.patient_guarantor_info?.guarantor_zip,
-        notes:data?.patient_notes,
-        background_color:data?.background_color,
+        notes: data?.patient_notes,
+        background_color: data?.background_color,
         //relationship: data?.patient_relationship,
       });
       setPreviewUrl(null);
-      if(data?.patient_signature !='')
-      {
-        setPreviewUrl('data:image/png;base64,'+data?.patient_signature);
+      if (data?.patient_signature != "") {
+        setPreviewUrl("data:image/png;base64," + data?.patient_signature);
       }
-   
+
       if (data?.patient_relationship !== "Self") {
         setGuarantor(true);
         setRelation(data?.patient_relationship);
@@ -308,60 +319,60 @@ console.log('data -- ',data);
     }, 0);
   }, [data?.patient_relationship, data, reset]);
   const onSubmit = (data) => {
-    console.log('Full Data', data);
+    // console.log("Full Data", data);
     const payload = {
-      "patient_id": id,
-      "patient_first_name": data.first_name,
-      "patient_middle_name": data.middle_name,
-      "patient_last_name": data.last_name,
-      "patient_dob": data.guarantor_check_Date,
-      "patient_gender": data.gender,
-      "patient_relationship": data.relationship,
-      "patient_parent_first_name": data.patient_parent_first_name,
-      "patient_parent_last_name": data.patient_parent_last_name,
-      "patient_main_address": {
-        "street": data.client_street,
-        "city": data.client_city,
-        "state": data.client_state,
-        "zip": data.client_zip,
+      patient_id: id,
+      patient_first_name: data.first_name,
+      patient_middle_name: data.middle_name,
+      patient_last_name: data.last_name,
+      patient_dob: data.guarantor_check_Date,
+      patient_gender: data.gender,
+      patient_relationship: data.relationship,
+      patient_parent_first_name: data.patient_parent_first_name,
+      patient_parent_last_name: data.patient_parent_last_name,
+      patient_main_address: {
+        street: data.client_street,
+        city: data.client_city,
+        state: data.client_state,
+        zip: data.client_zip,
       },
-      "patient_other_addresses": data.address,
-      "patient_email":  data.login_email,
-      "patient_email_type":  data.group2,
-      "patient_email_reminder":  data.send_mail,
-      "patient_other_email": data.Email,
-      "patient_phone_number":  data.phone_number,
-      "patient_phone_is_send_sms":  data.phonecheck,
-      "patient_other_phone_number": data.number,
-      "pos": data.pos,
-      "zone": data.zone,
-      "race_ethnicity": data.race_details,
-      "preferred_language": data.language,
-      "patient_date_first_seen": data.first_date,
-      "asignment": data.phonecheck,
-      "patient_guarantor_info": {
-        "guarantor_first_name": data.guarantor_first_name,
-        "guarantor_last_name": data.guarantor_last_name,
-        "guarantor_dob": data.guarantor_check_Date,
-        "guarantor_street": data.GuaratorStreet,
-        "guarantor_city": data.GuaratorCity,
-        "guarantor_state": data.GuratorCountry,
-        "guarantor_zip": data.GuratorZip,
+      patient_other_addresses: data.address,
+      patient_email: data.login_email,
+      patient_email_type: data.group2,
+      patient_email_reminder: data.send_mail,
+      patient_other_email: data.Email,
+      patient_phone_number: data.phone_number,
+      patient_phone_is_send_sms: data.phonecheck,
+      patient_other_phone_number: data.number,
+      pos: data.pos,
+      zone: data.zone,
+      race_ethnicity: data.race_details,
+      preferred_language: data.language,
+      patient_date_first_seen: data.first_date,
+      asignment: data.phonecheck,
+      patient_guarantor_info: {
+        guarantor_first_name: data.guarantor_first_name,
+        guarantor_last_name: data.guarantor_last_name,
+        guarantor_dob: data.guarantor_check_Date,
+        guarantor_street: data.GuaratorStreet,
+        guarantor_city: data.GuaratorCity,
+        guarantor_state: data.GuratorCountry,
+        guarantor_zip: data.GuratorZip,
       },
-      "patient_notes": data.notes,
-      "background_color": data.background_color,
-    }
-    console.log('payload - ', payload);
+      patient_notes: data.notes,
+      background_color: data.background_color,
+    };
+    // console.log("payload - ", payload);
     updatePatientInfo({
       token,
-      payload
+      payload,
     });
   };
 
   ///relation value handle
-  const [relation, setRelation] = useState(data?.patient_relationship );
+  const [relation, setRelation] = useState(data?.patient_relationship);
   const settingRelation = (e) => {
-    console.log("e value", e.target.value);
+    // console.log("e value", e.target.value);
     if (e.target.value === "Self") {
       setGuarantor(false);
       document.getElementById("checkbox").checked = false;
@@ -421,15 +432,15 @@ console.log('data -- ',data);
     setValue("GuaratorCity", getValues("client_city"));
     setValue("GuratorCountry", getValues("client_state"));
     setValue("GuratorZip", getValues("client_zip"));
-    console.log("getvalue street", getValues("Street"));
-    console.log("getvalue city", getValues("City"));
-    console.log("getvalue country", getValues("country"));
-    console.log("getvalue zip", getValues("zip"));
+    // console.log("getvalue street", getValues("Street"));
+    // console.log("getvalue city", getValues("City"));
+    // console.log("getvalue country", getValues("country"));
+    // console.log("getvalue zip", getValues("zip"));
   };
 
-  console.log("patientAdd");
+  // console.log("patientAdd");
 
-  console.log("fields", phoneFields);
+  // console.log("fields", phoneFields);
   return (
     <div className={data?.patient_details?.data?.address?.length < 1 ? "" : ""}>
       <div>
@@ -563,7 +574,12 @@ console.log('data -- ',data);
             </div>
           </div>
 
-          <AboutPatient register={register} patientData={data} setValue={setValue} getValues={getValues}></AboutPatient>
+          <AboutPatient
+            register={register}
+            patientData={data}
+            setValue={setValue}
+            getValues={getValues}
+          ></AboutPatient>
           <Divider></Divider>
           <div className="flex ml-1 mt-1 items-center">
             <input
@@ -664,8 +680,12 @@ console.log('data -- ',data);
                       <span class="font-semibold">Select your Signature</span>
                     </p>
                   </div>
-                  <input id="dropzone-file" type="file" class="hidden"               
-                  onChange={handleFileRead}/>
+                  <input
+                    id="dropzone-file"
+                    type="file"
+                    class="hidden"
+                    onChange={handleFileRead}
+                  />
                 </label>
               </div>
             </div>
@@ -675,7 +695,7 @@ console.log('data -- ',data);
                   <span className="label-font">Preview</span>
                 </div>
                 <div className="h-[100px] border border-gray-600 rounded p-2 flex">
-                  <img src={previewUrl} alt="Preview" className="w-[95%]" /> 
+                  <img src={previewUrl} alt="Preview" className="w-[95%]" />
                   <button
                     id="delete-btn"
                     onClick={deletePreview}
@@ -685,7 +705,11 @@ console.log('data -- ',data);
                   </button>
                 </div>
                 <div class="text-center">
-                  {uploadButton && (<span  className="dtm-button" onClick={uploadSignature}>Upload Signature</span>) }
+                  {uploadButton && (
+                    <span className="dtm-button" onClick={uploadSignature}>
+                      Upload Signature
+                    </span>
+                  )}
                 </div>
               </div>
             )}

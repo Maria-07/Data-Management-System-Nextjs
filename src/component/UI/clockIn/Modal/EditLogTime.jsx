@@ -10,34 +10,40 @@ import { useEffect } from "react";
 const { TextArea } = Input;
 
 const EditLogTime = ({ handleClose, open, selectedRecord, getRecords }) => {
-  console.log('selectedRecord --', selectedRecord);
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  // console.log('selectedRecord --', selectedRecord);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
   const token = getAccessToken();
 
-  const convertTime12to24 = (time12h) => {  
-    if(typeof time12h !== 'undefined') {
-      let [times, modifier] = time12h.split(' ');  
-      let [hours, minutes] = times.split(':'); 
-        if (hours === '12') {
-          hours = '00';
-        }  
-        if (modifier === 'PM') {
-          hours = parseInt(hours, 10) + 12;
-        }  
-        return `${hours}:${minutes}:00`;    }
+  const convertTime12to24 = (time12h) => {
+    if (typeof time12h !== "undefined") {
+      let [times, modifier] = time12h.split(" ");
+      let [hours, minutes] = times.split(":");
+      if (hours === "12") {
+        hours = "00";
+      }
+      if (modifier === "PM") {
+        hours = parseInt(hours, 10) + 12;
+      }
+      return `${hours}:${minutes}:00`;
+    }
     return null;
-  }
+  };
 
-  useEffect(()=>{
-    reset({ 
-      punch_id : selectedRecord.id,
+  useEffect(() => {
+    reset({
+      punch_id: selectedRecord.id,
       punch_date: selectedRecord.punch_date,
       time_in: convertTime12to24(selectedRecord.time_in),
       time_out: convertTime12to24(selectedRecord.time_out),
       note: selectedRecord.note,
     });
-  },[])
- 
+  }, []);
+
   const [
     updatePunchData,
     { isSuccess: updatePunchSuccess, isError: updatePunchError },
@@ -62,18 +68,18 @@ const EditLogTime = ({ handleClose, open, selectedRecord, getRecords }) => {
     //handleClose dependency tey na dileo choley cuz aita change hoy na
   }, [updatePunchSuccess, updatePunchError, handleClose]);
 
-  const onSubmit = (data) => {    
+  const onSubmit = (data) => {
     const payload = {
-      punch_id:data?.punch_id,
-      punch_date:data?.punch_date,
-      time_in:data?.time_in.substring(0,5),
-      time_out:data?.time_out.substring(0,5),
-      note:data?.note,
-    }
+      punch_id: data?.punch_id,
+      punch_date: data?.punch_date,
+      time_in: data?.time_in.substring(0, 5),
+      time_out: data?.time_out.substring(0, 5),
+      note: data?.note,
+    };
     updatePunchData({
       token,
-      payload
-    })
+      payload,
+    });
   };
 
   return (
@@ -107,7 +113,7 @@ const EditLogTime = ({ handleClose, open, selectedRecord, getRecords }) => {
                 <label className="label">
                   <div className="modal-label-name">Date</div>
                 </label>
-                <input type="hidden" {...register("punch_id")}/>
+                <input type="hidden" {...register("punch_id")} />
                 <input
                   type="date"
                   name="clear_type"
@@ -127,7 +133,7 @@ const EditLogTime = ({ handleClose, open, selectedRecord, getRecords }) => {
                     required: {
                       value: true,
                       message: "Please select the clock in",
-                    }
+                    },
                   })}
                 />
                 <span className="label-text-alt">
@@ -150,7 +156,7 @@ const EditLogTime = ({ handleClose, open, selectedRecord, getRecords }) => {
                     required: {
                       value: true,
                       message: "Please select the clock out",
-                    }
+                    },
                   })}
                 />
                 <span className="label-text-alt">
@@ -171,7 +177,7 @@ const EditLogTime = ({ handleClose, open, selectedRecord, getRecords }) => {
                     required: {
                       value: true,
                       message: "Please enter the note",
-                    }
+                    },
                   })}
                   rows={4}
                   cols={40}

@@ -16,7 +16,7 @@ const Timesheet = () => {
   const [sortedInfo, setSortedInfo] = useState({});
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     setTableOpen(true);
     reset();
   };
@@ -40,18 +40,18 @@ const Timesheet = () => {
         SetTimeSheetDate(response?.data);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   }, []);
-  console.log(TimeSheetData);
+  // console.log(TimeSheetData);
 
   const inputHandle = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
   };
 
   // ---------------------------------Table Data-------------------------
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -578,17 +578,17 @@ const Timesheet = () => {
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
-      );
+      // console.log(
+      //   `selectedRowKeys: ${selectedRowKeys}`,
+      //   "selectedRows: ",
+      //   selectedRows
+      // );
     },
     onSelect: (record, selected, selectedRows) => {
-      console.log(record, selected, selectedRows);
+      // console.log(record, selected, selectedRows);
     },
     onSelectAll: (selected, selectedRows, changeRows) => {
-      console.log(selected, selectedRows, changeRows);
+      // console.log(selected, selectedRows, changeRows);
     },
   };
   return (

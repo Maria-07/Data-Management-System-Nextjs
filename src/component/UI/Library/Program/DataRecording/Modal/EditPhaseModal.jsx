@@ -7,7 +7,7 @@ const EditPhaseModal = ({ handleClose, clicked }) => {
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
   };
   return (
     <div>

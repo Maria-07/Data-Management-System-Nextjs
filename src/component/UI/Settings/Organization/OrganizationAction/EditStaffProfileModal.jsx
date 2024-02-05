@@ -14,7 +14,7 @@ const EditStaffProfileModal = ({ handleClose, clicked }) => {
   };
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -22,7 +22,7 @@ const EditStaffProfileModal = ({ handleClose, clicked }) => {
   //get rows to be deleted
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log(selectedRows);
+      // console.log(selectedRows);
     },
     getCheckboxProps: (record) => {
       //console.log("record", record);
@@ -255,7 +255,7 @@ const EditStaffProfileModal = ({ handleClose, clicked }) => {
     },
   ];
 
-  console.log(filteredInfo);
+  // console.log(filteredInfo);
   return (
     <div>
       <Modal

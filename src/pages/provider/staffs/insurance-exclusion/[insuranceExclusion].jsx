@@ -102,7 +102,7 @@ const InsuranceExclusion = () => {
   ]);
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setSortedInfo(sorter);
   };
 
@@ -111,7 +111,7 @@ const InsuranceExclusion = () => {
       e.target.selectedOptions,
       (option) => option.value * 1
     );
-    console.log("data is vlaue", value);
+    // console.log("data is vlaue", value);
     setTargatedData(value);
   };
 

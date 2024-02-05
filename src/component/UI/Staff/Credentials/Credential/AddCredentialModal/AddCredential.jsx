@@ -6,41 +6,46 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 const AddCredential = ({ handleClose, open, token, id }) => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const [imageData,setImageData] = useState(null);
-  const [filenameData,setFilenameData] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const [imageData, setImageData] = useState(null);
+  const [filenameData, setFilenameData] = useState(null);
 
   // Add credential Api
   const [
     addCredential,
     { isSuccess: addCredentialSuccess, isError: addCredentialError },
   ] = useAddCredentialMutation();
-  const convertBase64 =  (file) => {
+  const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
-      fileReader.readAsDataURL(file)
+      fileReader.readAsDataURL(file);
       fileReader.onload = () => {
         resolve(fileReader.result);
-      }
+      };
       fileReader.onerror = (error) => {
         reject(error);
-      }
-    })
-  }
+      };
+    });
+  };
 
-const handleFileRead = async (event) => {
-  const file = event.target.files[0];
-  setFilenameData(file.name);
-  const base64 =  await convertBase64(file);
-  setImageData(base64);
-}
+  const handleFileRead = async (event) => {
+    const file = event.target.files[0];
+    setFilenameData(file.name);
+    const base64 = await convertBase64(file);
+    setImageData(base64);
+  };
 
   const onSubmit = (data) => {
     const payload = {
       credential_name: data?.cred_type,
       credential_date_issue: data?.date_issue,
       credential_date_expired: data?.expiry_Date,
-      file_name:filenameData,
+      file_name: filenameData,
       credential_applicable: data?.cred_apply,
       file: imageData,
     };
@@ -50,8 +55,8 @@ const handleFileRead = async (event) => {
         payload,
       });
     }
-    console.log(payload);
-    console.log("normal data", data);
+    // console.log(payload);
+    // console.log("normal data", data);
   };
 
   useEffect(() => {
@@ -85,7 +90,9 @@ const handleFileRead = async (event) => {
       >
         <div className="px-2 py-2">
           <div className="flex items-center justify-between">
-            <h1 className="text-lg text-left text-orange-400 ">Add Credential</h1>
+            <h1 className="text-lg text-left text-orange-400 ">
+              Add Credential
+            </h1>
             <IoCloseCircleOutline
               onClick={handleClose}
               className="text-gray-600 text-2xl hover:text-primary"
@@ -98,12 +105,12 @@ const handleFileRead = async (event) => {
               <div>
                 <label className="label">
                   <span className="modal-label-name">
-                   Credential <span className="text-red-500">*</span>
+                    Credential <span className="text-red-500">*</span>
                   </span>
                 </label>
                 <input
                   type="text"
-                  name="cred_type" 
+                  name="cred_type"
                   className="modal-input-field ml-1 w-full"
                   {...register("cred_type", {
                     required: {
@@ -111,17 +118,19 @@ const handleFileRead = async (event) => {
                       message: "Please enter the credential",
                     },
                   })}
-                />                
+                />
                 {errors.cred_type?.type === "required" && (
-                      <p className=" pl-1 text-red-500">
-                        {errors.cred_type.message}
-                      </p>
-                    )}
+                  <p className=" pl-1 text-red-500">
+                    {errors.cred_type.message}
+                  </p>
+                )}
               </div>
 
               <div>
                 <label className="label">
-                  <span className="modal-label-name">Date Issued <span className="text-red-500">*</span></span>
+                  <span className="modal-label-name">
+                    Date Issued <span className="text-red-500">*</span>
+                  </span>
                 </label>
                 <input
                   type="date"
@@ -132,17 +141,19 @@ const handleFileRead = async (event) => {
                       message: "Please enter the date of issued",
                     },
                   })}
-                />             
+                />
                 {errors.date_issue?.type === "required" && (
-                    <p className=" pl-1 text-red-500">
-                      {errors.date_issue.message}
-                    </p>
-                  )}
+                  <p className=" pl-1 text-red-500">
+                    {errors.date_issue.message}
+                  </p>
+                )}
               </div>
               <div>
                 {" "}
                 <label className="label">
-                  <span className="modal-label-name">Expiry Date <span className="text-red-500">*</span></span>
+                  <span className="modal-label-name">
+                    Expiry Date <span className="text-red-500">*</span>
+                  </span>
                 </label>
                 <input
                   type="date"
@@ -153,7 +164,7 @@ const handleFileRead = async (event) => {
                       message: "Please enter the expiry date",
                     },
                   })}
-                />                             
+                />
                 {errors.expiry_Date?.type === "required" && (
                   <p className=" pl-1 text-red-500">
                     {errors.expiry_Date.message}
@@ -162,7 +173,9 @@ const handleFileRead = async (event) => {
               </div>
               <div>
                 <label className="label">
-                  <span className="modal-label-name">Upload File <span className="text-red-500">*</span></span>
+                  <span className="modal-label-name">
+                    Upload File <span className="text-red-500">*</span>
+                  </span>
                 </label>
                 <input
                   type="file"
@@ -174,7 +187,7 @@ const handleFileRead = async (event) => {
                     },
                   })}
                   onChange={handleFileRead}
-                />        
+                />
                 {errors.fileName?.type === "required" && (
                   <p className=" pl-1 text-red-500">
                     {errors.fileName.message}

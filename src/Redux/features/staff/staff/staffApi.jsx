@@ -8,16 +8,16 @@ export const staffApi = api.injectEndpoints({
     getInfo: builder.query({
       query: ({ token, id }) => ({
         //url: `inadmin/provider/biographic/${id}`,
-        url:`personal-info`,
+        url: `personal-info`,
         method: "GET",
         headers: {
           "content-type": "Application/json",
           //"x-auth-token": token,
-          "Authorization": token || null,
+          Authorization: token || null,
         },
       }),
       providesTags: (result, error, arg) => {
-        console.log(result);
+        // console.log(result);
         return [
           { type: "Staff", id: arg.id }, //dynamic tag //each single video ar jnno different different single tag provided
         ];
@@ -45,7 +45,7 @@ export const staffApi = api.injectEndpoints({
         headers: {
           "content-type": "Application/json",
           //"x-auth-token": token,
-          "Authorization": token || null,
+          Authorization: token || null,
         },
         body: JSON.stringify(payload),
       }),

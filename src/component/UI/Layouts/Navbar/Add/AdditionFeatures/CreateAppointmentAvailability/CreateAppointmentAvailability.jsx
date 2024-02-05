@@ -4,7 +4,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 
 const CreateAppointmentAvailability = ({ handleClose, open }) => {
   const [time, setTime] = useState("");
-  console.log(time);
+  // console.log(time);
   const morning = [
     {
       time: "10:15 AM",

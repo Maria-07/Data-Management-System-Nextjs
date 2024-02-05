@@ -26,13 +26,13 @@ const CreateAppointment = ({ handleClose, clicked }) => {
   const [noAuth, setNoAuth] = useState(false);
 
   const onChange = (e) => {
-    console.log("radio checked", e.target.value);
+    // console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
 
   // For Non-billable appointment create=>provider select
   const [seletedProvider, setSelectedProvider] = useState([]);
-  console.log("Billable", billable);
+  // console.log("Billable", billable);
 
   // Appointment Availability
   const [availability, setAvailability] = useState(false);
@@ -45,15 +45,15 @@ const CreateAppointment = ({ handleClose, clicked }) => {
   };
 
   const from_Time = (time, timeString) => {
-    console.log("From-Time", timeString);
+    // console.log("From-Time", timeString);
     setFromTime(timeString);
   };
 
   const to_Time = (time, timeString) => {
-    console.log("To-Time", timeString);
+    // console.log("To-Time", timeString);
     setToTime(timeString);
   };
-  console.log("after selecting time", fromtime, toTime);
+  // console.log("after selecting time", fromtime, toTime);
 
   const days = [
     "Sunday",
@@ -104,7 +104,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
     //       payload,
     //     });
     //   }
-    //   console.log("for billable payload", payload);
+    // console.log("for billable payload", payload);
     // } else {
     //   const payload = {
     //     billable: BoolConverter(billable),
@@ -121,7 +121,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
     //       payload,
     //     });
     //   }
-    //   console.log("for Non-billable payload", payload);
+    // console.log("for Non-billable payload", payload);
     // }
     // // reset();
   };

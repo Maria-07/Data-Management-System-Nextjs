@@ -8,7 +8,7 @@ const Instruction = () => {
   const [content, setContent] = useState(""); // State to hold the content
   const handleEditorChange = (content, editor) => {
     setContent(content); // Update the state with the new content
-    console.log(content); // Log the content to the console
+    // console.log(content); // Log the content to the console
   };
 
   //! selection tags
@@ -20,7 +20,7 @@ const Instruction = () => {
     });
   }
   const handleChange = (value) => {
-    console.log(`Selected: ${value}`);
+    // console.log(`Selected: ${value}`);
   };
 
   return (

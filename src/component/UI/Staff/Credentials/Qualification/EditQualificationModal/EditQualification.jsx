@@ -1,4 +1,7 @@
-import { useGetQualificationInfoQuery, useUpdateQualificationMutation } from "@/Redux/features/staff/credentials/qualificationApi";
+import {
+  useGetQualificationInfoQuery,
+  useUpdateQualificationMutation,
+} from "@/Redux/features/staff/credentials/qualificationApi";
 import { Modal } from "antd";
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -12,9 +15,14 @@ const EditQualification = ({
   token,
   id,
 }) => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const [imageData,setImageData] = useState(null);
-  const [filenameData,setFilenameData] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const [imageData, setImageData] = useState(null);
+  const [filenameData, setFilenameData] = useState(null);
 
   //Getting qualification info data api
 
@@ -22,14 +30,17 @@ const EditQualification = ({
     token,
     id: qualificationInfo,
   });
-  console.log(qualificationData);*/
-console.log('qualificationInfo',qualificationInfo);
-  const qdata= {
+  // console.log(qualificationData);*/
+  // console.log("qualificationInfo", qualificationInfo);
+  const qdata = {
     qualification_name: qualificationInfo.qualification_name,
     qualification_date_issue: qualificationInfo.qualification_date_issue,
     qualification_date_exp: qualificationInfo.qualification_date_expired,
-    qualification_applicable: qualificationInfo.qualification_applicable!='No' ? qualificationInfo.qualification_applicable : '',
-  }
+    qualification_applicable:
+      qualificationInfo.qualification_applicable != "No"
+        ? qualificationInfo.qualification_applicable
+        : "",
+  };
 
   const {
     qualification_name,
@@ -61,37 +72,37 @@ console.log('qualificationInfo',qualificationInfo);
     updateQualification,
     { isSuccess: updateSuccess, isError: updateError },
   ] = useUpdateQualificationMutation();
-  const convertBase64 =  (file) => {
+  const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
-      fileReader.readAsDataURL(file)
+      fileReader.readAsDataURL(file);
       fileReader.onload = () => {
         resolve(fileReader.result);
-      }
+      };
       fileReader.onerror = (error) => {
         reject(error);
-      }
-    })
-  }
+      };
+    });
+  };
 
-const handleFileRead = async (event) => {
-  const file = event.target.files[0];
-  setFilenameData(file.name);
-  const base64 =  await convertBase64(file);
-  setImageData(base64);
-}
+  const handleFileRead = async (event) => {
+    const file = event.target.files[0];
+    setFilenameData(file.name);
+    const base64 = await convertBase64(file);
+    setImageData(base64);
+  };
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     const payload = {
       qualification_id: qualificationInfo.qualification_id,
       qualification_name: data?.clear_type,
       qualification_date_issue: data?.date_issue,
       qualification_date_expired: data?.date_expire,
-      file_name:filenameData,
+      file_name: filenameData,
       qualification_applicable: data?.clear_apply,
       file: imageData,
     };
-    console.log("qualification paylod", payload);
+    // console.log("qualification paylod", payload);
     if (payload) {
       updateQualification({
         token,
@@ -131,7 +142,9 @@ const handleFileRead = async (event) => {
       >
         <div className="px-2 py-2">
           <div className="flex items-center justify-between">
-            <h1 className="text-lg text-left text-orange-400 ">Edit Qualification</h1>
+            <h1 className="text-lg text-left text-orange-400 ">
+              Edit Qualification
+            </h1>
             <IoCloseCircleOutline
               onClick={handleClose}
               className="text-gray-600 text-2xl hover:text-primary"
@@ -157,17 +170,19 @@ const handleFileRead = async (event) => {
                       message: "Please enter the qualification",
                     },
                   })}
-                />                
+                />
                 {errors.clear_type?.type === "required" && (
-                      <p className=" pl-1 text-red-500">
-                        {errors.clear_type.message}
-                      </p>
-                    )}
+                  <p className=" pl-1 text-red-500">
+                    {errors.clear_type.message}
+                  </p>
+                )}
               </div>
 
               <div>
                 <label className="label">
-                  <span className="modal-label-name">Date Issued<span className="text-red-500">*</span></span>
+                  <span className="modal-label-name">
+                    Date Issued<span className="text-red-500">*</span>
+                  </span>
                 </label>
                 <input
                   type="date"
@@ -178,17 +193,19 @@ const handleFileRead = async (event) => {
                       message: "Please enter the date of issued",
                     },
                   })}
-                />             
+                />
                 {errors.date_issue?.type === "required" && (
-                    <p className=" pl-1 text-red-500">
-                      {errors.date_issue.message}
-                    </p>
-                  )}
+                  <p className=" pl-1 text-red-500">
+                    {errors.date_issue.message}
+                  </p>
+                )}
               </div>
               <div>
                 {" "}
                 <label className="label">
-                  <span className="modal-label-name">Expiry Date<span className="text-red-500">*</span></span>
+                  <span className="modal-label-name">
+                    Expiry Date<span className="text-red-500">*</span>
+                  </span>
                 </label>
                 <input
                   type="date"
@@ -199,7 +216,7 @@ const handleFileRead = async (event) => {
                       message: "Please enter the expiry date",
                     },
                   })}
-                />                             
+                />
                 {errors.date_expire?.type === "required" && (
                   <p className=" pl-1 text-red-500">
                     {errors.date_expire.message}

@@ -251,7 +251,7 @@ const listViewPage = () => {
       page: page,
       report_range: { start_date: from_date, end_date: to_date },
     };
-    console.log("payload -- ", payload);
+    // console.log("payload -- ", payload);
     const res = await axios({
       method: "POST",
       url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointments/list`,
@@ -291,7 +291,7 @@ const listViewPage = () => {
     setPage(1);
     setFromData({});
     setHasMore(true);
-    console.log("form-data", data);
+    // console.log("form-data", data);
     //const from_date = convert(data?.start_date);
     //const to_date = convert(data?.end_date);
     const from_date = convert(startDate);

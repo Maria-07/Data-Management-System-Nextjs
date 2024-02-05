@@ -6,7 +6,7 @@ import EditStaffProfileModal from "./EditStaffProfileModal";
 const InfoOrganization = ({ handleClose }) => {
   const [value, setValue] = useState("");
   const onChange = (value) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
     setValue(value);
   };
 

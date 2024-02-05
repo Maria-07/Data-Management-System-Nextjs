@@ -13,13 +13,13 @@ const ContactInfo = () => {
   const router = useRouter();
   const { query } = router;
   const id = query.contactInfo;
-  console.log(id);
+  // console.log(id);
   const token = getAccessToken();
   const [emergency, setEmergency] = useState(false);
 
   const { data: contactData, isSuccess: contactDetailsSucess } =
     useStaffContactInfoQuery({ token, id });
-  console.log("contactData", contactData);
+  // console.log("contactData", contactData);
 
   const items = [
     {

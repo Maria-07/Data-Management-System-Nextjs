@@ -18,7 +18,7 @@ const LibraryLayout = ({ children }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [value, setValue] = useState("");
   const onChange = (value) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
     setValue(value);
   };
 

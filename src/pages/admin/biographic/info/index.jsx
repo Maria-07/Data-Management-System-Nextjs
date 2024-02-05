@@ -34,7 +34,7 @@ const biographyInfo = () => {
     token,
     // id: id,
   });
-  console.log("staff data", staffData, staffDataLoading);
+  // console.log("staff data", staffData, staffDataLoading);
 
   //! update staff api
   const [updateStaff, { isSuccess: updateSuccess, isError: updateError }] =
@@ -43,12 +43,12 @@ const biographyInfo = () => {
   //! selected treatments data get api
   const { data: selectedTreatmentData, isLoading: selectedTreatmentLoading } =
     useGetAllSelectedTreatmentsQuery({ token: token });
-  console.log("Selected Treatment", selectedTreatmentData?.data);
+  // console.log("Selected Treatment", selectedTreatmentData?.data);
 
   //! selected employee type data get api
   const { data: credentialType, isLoading: typeLoading } =
     useGetSelectedStaffQuery({ token: token });
-  console.log("Selected Treatments", credentialType?.data);
+  // console.log("Selected Treatments", credentialType?.data);
 
   //! select treatment boiler plate
   let treatmentSelect = null;
@@ -123,7 +123,7 @@ const biographyInfo = () => {
   useEffect(() => {
     setStaffBirthday(converted_date);
   }, [converted_date]);
-  console.log("staff birthday", staffBirthday);
+  // console.log("staff birthday", staffBirthday);
 
   const [createSession, setCreateSession] = useState(
     BoolConverter(session_check)
@@ -194,7 +194,7 @@ const biographyInfo = () => {
     notes,
   ]);
 
-  console.log(
+  // console.log(
     "after calling boolConverter",
     BoolConverter(emailReminder),
     BoolConverter(createSession)
@@ -217,7 +217,7 @@ const biographyInfo = () => {
         payload,
       });
     }
-    console.log("data", payload);
+    // console.log("data", payload);
   };
 
   useEffect(() => {

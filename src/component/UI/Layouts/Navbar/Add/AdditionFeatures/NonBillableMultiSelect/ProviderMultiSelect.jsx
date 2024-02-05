@@ -7,7 +7,7 @@ const ProviderMultiSelect = ({
   seletedProvider,
   setSelectedProvider,
 }) => {
-  console.log("all the providers", providers);
+  // console.log("all the providers", providers);
   const [selected, setSelected] = useState([]);
 
   //Making Multiselect Options for Selection
@@ -34,7 +34,7 @@ const ProviderMultiSelect = ({
   const handleNewField = (hasSelectAll, value) => {
     setSelected(options);
   };
-  console.log("Appoinment Multi select data", selected);
+  // console.log("Appoinment Multi select data", selected);
 
   useEffect(() => {
     if (selected?.length > 0) {

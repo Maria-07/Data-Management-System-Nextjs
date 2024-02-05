@@ -106,8 +106,8 @@ const SelectContactRate = ({ handleClose, open }) => {
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
 
-  console.log(tableData);
-  console.log("table");
+  // console.log(tableData);
+  // console.log("table");
 
   const columns = [
     {
@@ -278,22 +278,22 @@ const SelectContactRate = ({ handleClose, open }) => {
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
-      );
+      // console.log(
+      //   `selectedRowKeys: ${selectedRowKeys}`,
+      //   "selectedRows: ",
+      //   selectedRows
+      // );
     },
     onSelect: (record, selected, selectedRows) => {
-      console.log(record, selected, selectedRows);
+      // console.log(record, selected, selectedRows);
     },
     onSelectAll: (selected, selectedRows, changeRows) => {
-      console.log(selected, selectedRows, changeRows);
+      // console.log(selected, selectedRows, changeRows);
     },
   };
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };

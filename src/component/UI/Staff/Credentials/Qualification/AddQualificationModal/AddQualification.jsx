@@ -6,52 +6,57 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 const AddQualification = ({ handleClose, open, token, id }) => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const [imageData,setImageData] = useState(null);
-  const [filenameData,setFilenameData] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const [imageData, setImageData] = useState(null);
+  const [filenameData, setFilenameData] = useState(null);
 
   // Add credential Api
   const [
     addQualification,
     { isSuccess: addQualificationSuccess, isError: addQualificationError },
   ] = useAddQualificationMutation();
-  const convertBase64 =  (file) => {
+  const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
-      fileReader.readAsDataURL(file)
+      fileReader.readAsDataURL(file);
       fileReader.onload = () => {
         resolve(fileReader.result);
-      }
+      };
       fileReader.onerror = (error) => {
         reject(error);
-      }
-    })
-  }
+      };
+    });
+  };
 
-const handleFileRead = async (event) => {
-  const file = event.target.files[0];
-  setFilenameData(file.name);
-  const base64 =  await convertBase64(file);
-  setImageData(base64);
-}
+  const handleFileRead = async (event) => {
+    const file = event.target.files[0];
+    setFilenameData(file.name);
+    const base64 = await convertBase64(file);
+    setImageData(base64);
+  };
   const onSubmit = (data) => {
     const payload = {
       qualification_name: data?.cred_type,
       qualification_date_issue: data?.date_issue,
       qualification_date_expired: data?.expiry_Date,
-      file_name:filenameData,
+      file_name: filenameData,
       qualification_applicable: data?.cred_apply,
       file: imageData,
     };
-    console.log("post data", payload);
+    // console.log("post data", payload);
     if (payload) {
       addQualification({
         token,
         payload,
       });
     }
-    console.log(payload);
-    console.log("normal data", data);
+    // console.log(payload);
+    // console.log("normal data", data);
   };
 
   useEffect(() => {
@@ -113,17 +118,19 @@ const handleFileRead = async (event) => {
                       message: "Please enter the qualification",
                     },
                   })}
-                />                
+                />
                 {errors.cred_type?.type === "required" && (
-                      <p className=" pl-1 text-red-500">
-                        {errors.cred_type.message}
-                      </p>
-                    )}
+                  <p className=" pl-1 text-red-500">
+                    {errors.cred_type.message}
+                  </p>
+                )}
               </div>
 
               <div>
                 <label className="label">
-                  <span className="modal-label-name">Date Issued<span className="text-red-500">*</span></span>
+                  <span className="modal-label-name">
+                    Date Issued<span className="text-red-500">*</span>
+                  </span>
                 </label>
                 <input
                   type="date"
@@ -134,17 +141,19 @@ const handleFileRead = async (event) => {
                       message: "Please enter the date of issued",
                     },
                   })}
-                />             
+                />
                 {errors.date_issue?.type === "required" && (
-                    <p className=" pl-1 text-red-500">
-                      {errors.date_issue.message}
-                    </p>
-                  )}
+                  <p className=" pl-1 text-red-500">
+                    {errors.date_issue.message}
+                  </p>
+                )}
               </div>
               <div>
                 {" "}
                 <label className="label">
-                  <span className="modal-label-name">Expiry Date<span className="text-red-500">*</span></span>
+                  <span className="modal-label-name">
+                    Expiry Date<span className="text-red-500">*</span>
+                  </span>
                 </label>
                 <input
                   type="date"
@@ -155,7 +164,7 @@ const handleFileRead = async (event) => {
                       message: "Please enter the expiry date",
                     },
                   })}
-                />                             
+                />
                 {errors.expiry_Date?.type === "required" && (
                   <p className=" pl-1 text-red-500">
                     {errors.expiry_Date.message}
@@ -164,7 +173,9 @@ const handleFileRead = async (event) => {
               </div>
               <div>
                 <label className="label">
-                  <span className="modal-label-name">Upload File<span className="text-red-500">*</span></span>
+                  <span className="modal-label-name">
+                    Upload File<span className="text-red-500">*</span>
+                  </span>
                 </label>
                 <input
                   type="file"
@@ -176,7 +187,7 @@ const handleFileRead = async (event) => {
                     },
                   })}
                   onChange={handleFileRead}
-                />        
+                />
                 {errors.fileName?.type === "required" && (
                   <p className=" pl-1 text-red-500">
                     {errors.fileName.message}
@@ -190,7 +201,7 @@ const handleFileRead = async (event) => {
                   {...register("cred_apply")}
                 />
                 <span className="modal-label-name">
-                Credential Not Applicable
+                  Credential Not Applicable
                 </span>
               </div>
             </div>

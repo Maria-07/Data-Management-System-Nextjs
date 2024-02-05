@@ -12,8 +12,8 @@ const AddBlockOffTime = ({ handleClose, open, staff_id, token }) => {
 
   //For Selecting Week Days
   const [selectedId, setServiceId] = useState();
-  console.log("seleted data", selectedId);
-  console.log(selectType);
+  // console.log("seleted data", selectedId);
+  // console.log(selectType);
 
   const [createBlockOfftime, { isSuccess: createdSuccess }] =
     useCreateBlockOfftimeMutation();
@@ -32,13 +32,13 @@ const AddBlockOffTime = ({ handleClose, open, staff_id, token }) => {
         selectedId?.length > 0 && selectType === "2" ? selectedId : null,
       date: selectType === "3" ? data?.specific_date : null,
     };
-    console.log(payload);
+    // console.log(payload);
     if (payload) {
       const res = createBlockOfftime({
         token,
         payload,
       });
-      console.log("res", res);
+      // console.log("res", res);
     }
   };
 

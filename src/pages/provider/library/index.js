@@ -89,7 +89,7 @@ const libraryPage = () => {
   //get rows to be deleted
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log(selectedRows);
+      // console.log(selectedRows);
     },
     getCheckboxProps: (record) => {
       //console.log("record", record);
@@ -107,7 +107,7 @@ const libraryPage = () => {
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
-  console.log(filteredInfo);
+  // console.log(filteredInfo);
 
   const demoData = [
     {

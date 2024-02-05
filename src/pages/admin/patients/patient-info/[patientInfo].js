@@ -34,27 +34,27 @@ const PatientInfo = () => {
   const router = useRouter();
   const { query } = router;
   const id = query.patientInfo;
-  console.log(id);
+  // console.log(id);
 
   //! fetch Patient's info
   // const data = useSelector(
   //   (state) => state?.patientInfo?.patientDetails?.data?.client_info || {}
   // );
-  // console.log("data", data);
+  console.log("data", data);
   const data = useSelector((state) => state.patientInfo);
 
-  console.log("Initial Data Coming from database", data);
+  // console.log("Initial Data Coming from database", data);
   const patient_details = data?.patientDetails?.data?.client_info;
   const patientOtherDetails = data?.patientDetails?.data?.client_other_info;
   const loading = data?.loading;
   const primaryPhone = patient_details?.phone_number;
   const primaryEmail = patient_details?.email;
 
-  console.log("patient details", patient_details);
-  console.log("patient other details", patientOtherDetails);
+  // console.log("patient details", patient_details);
+  // console.log("patient other details", patientOtherDetails);
 
   const [dob, setDob] = useState();
-  console.log("dob", dob);
+  // console.log("dob", dob);
   //for showing default date in real time
   useEffect(() => {
     setDob(patient_details?.client_dob);
@@ -62,14 +62,14 @@ const PatientInfo = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      console.log("hello world ");
+      // console.log("hello world ");
     }, 1000);
   }, [patient_details]);
 
-  console.log(
-    "data?.patientDetails?.data?.address-",
-    data?.patientDetails?.data?.address
-  );
+  // console.log(
+  //   "data?.patientDetails?.data?.address-",
+  //   data?.patientDetails?.data?.address
+  // );
 
   const { register, control, handleSubmit, reset, setValue, getValues } =
     useForm({
@@ -138,7 +138,7 @@ const PatientInfo = () => {
           ? patient_details?.client_middle
           : null,
         last_name: patient_details?.client_last_name,
-        login_email: patient_details?.login_email,
+        // // login_email: patient_details?.login_email,
         zone: patient_details?.zone,
         gender: patient_details?.client_gender,
         fruit: patient_details?.client_gender,
@@ -175,19 +175,19 @@ const PatientInfo = () => {
   }, [patientOtherDetails?.relationship, patient_details, reset]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     const is_client_active = data?.checkedActive ? 1 : 0;
     const formData = {
       is_client_active,
     };
-    console.log(formData);
-    //console.log(file);
+    // console.log(formData);
+    // console.log(file);
   };
 
   ///relation value handle
   const [relation, setRelation] = useState(patientOtherDetails?.relationship);
   const settingRelation = (e) => {
-    console.log("e value", e.target.value);
+    // console.log("e value", e.target.value);
     if (e.target.value === "Self") {
       setGuarantor(false);
       document.getElementById("checkbox").checked = false;
@@ -219,12 +219,12 @@ const PatientInfo = () => {
 
   // Guarentor handler code
   // const handleChange = (event) => {
-  //   console.log("check event", event.target);
+  // console.log("check event", event.target);
   //   if (event.target.checked) {
-  //     //console.log("✅ Checkbox is checked");
+  //console.log("✅ Checkbox is checked");
   //     setGuarantor(true);
   //   } else {
-  //     //console.log("⛔️ Checkbox is NOT checked");
+  //console.log("⛔️ Checkbox is NOT checked");
   //     setGuarantor(false);
   //   }
   // };
@@ -247,15 +247,15 @@ const PatientInfo = () => {
     setValue("GuaratorCity", getValues("client_city"));
     setValue("GuratorCountry", getValues("client_state"));
     setValue("GuratorZip", getValues("client_zip"));
-    console.log("getvalue street", getValues("Street"));
-    console.log("getvalue city", getValues("City"));
-    console.log("getvalue country", getValues("country"));
-    console.log("getvalue zip", getValues("zip"));
+    // console.log("getvalue street", getValues("Street"));
+    // console.log("getvalue city", getValues("City"));
+    // console.log("getvalue country", getValues("country"));
+    // console.log("getvalue zip", getValues("zip"));
   };
 
-  console.log("patientAdd");
+  // console.log("patientAdd");
 
-  console.log("fields", phoneFields);
+  // console.log("fields", phoneFields);
   return (
     <div className={data?.patient_details?.data?.address?.length < 1 ? "" : ""}>
       <div>

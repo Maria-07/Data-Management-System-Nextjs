@@ -34,7 +34,7 @@ const UpdatePassword = () => {
         new_password: data?.new_password,
         confirm_new_password: data?.confirm_password,
       };
-      console.log(payload);
+      // console.log(payload);
       if (payload) {
         updateUserPassword({
           token,

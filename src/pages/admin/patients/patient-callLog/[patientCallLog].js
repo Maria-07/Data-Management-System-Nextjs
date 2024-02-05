@@ -90,7 +90,7 @@ const PatientCallLog = () => {
     setOpenEditModal(true);
   };
 
-  console.log(allData);
+  // console.log(allData);
 
   const column = [
     {
@@ -147,7 +147,7 @@ const PatientCallLog = () => {
   ];
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };

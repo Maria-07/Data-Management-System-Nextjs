@@ -61,7 +61,7 @@ const dashboardPage = () => {
     useGetDashboardCountQuery({
       token,
     });
-  console.log("dataCount : ", dataCount);
+  // console.log("dataCount : ", dataCount);
   let clientCount = 0;
   let sessionRendered = 0;
   let sessionUnrendered = 0;
@@ -108,7 +108,7 @@ const dashboardPage = () => {
     useGetPatientInfoQuery({
       token,
     });
-  console.log("patientCount : ", patientCount);
+  // console.log("patientCount : ", patientCount);
   let expired_auths = 0;
   let expiring_auths = 0;
   let expiring_docs = 0;
@@ -160,7 +160,7 @@ const dashboardPage = () => {
     useGetSchedularInfoQuery({
       token,
     });
-  console.log("patientCount : ", patientCount);
+  // console.log("patientCount : ", patientCount);
   let scheduled_not_rendered = 0;
   let sessions_not_attended_last = 0;
   let missing_signature = 0;

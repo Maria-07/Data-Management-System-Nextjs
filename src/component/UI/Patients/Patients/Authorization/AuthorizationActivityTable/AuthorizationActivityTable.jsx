@@ -29,13 +29,13 @@ const AuthorizationActivityTable = ({ id, activity_details }) => {
   const allAuthorizationActivity = allActivityData?.patientActivities || [];*/
 
   const allAuthorizationActivity = activity_details;
- 
+
   const handleClose = () => {
     setOpenEditModal(false);
   };
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setSortedInfo(sorter);
   };
 
@@ -141,7 +141,7 @@ const AuthorizationActivityTable = ({ id, activity_details }) => {
       },
       sortOrder: sortedInfo.columnKey === "remaining" ? sortedInfo.order : null,
       ellipsis: true,*/
-    }
+    },
   ];
 
   return (

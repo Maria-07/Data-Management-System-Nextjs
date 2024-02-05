@@ -54,7 +54,7 @@ const PatientPage = () => {
 
   const fetchData = async () => {
     const patientsFromServer = await fetchPatients();
-    console.log("patients - data", patientsFromServer);
+    // console.log("patients - data", patientsFromServer);
 
     if (patientsFromServer.length > 0) {
       setPatients([...patients, ...patientsFromServer]);
@@ -85,7 +85,7 @@ const PatientPage = () => {
   const [sortedInfo, setSortedInfo] = useState({});
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -95,7 +95,7 @@ const PatientPage = () => {
   };
 
   const PIdHandler = (id) => {
-    console.log(id, "iddddddddddd");
+    // console.log(id, "iddddddddddd");
     if (id) {
       localStorage.setItem("PId", id);
       router.push(`/provider/patients/patient-info/${id}`);

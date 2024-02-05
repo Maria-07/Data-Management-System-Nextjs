@@ -21,22 +21,23 @@ const ClockIn = () => {
   const [clockData, setClockData] = useState();
   const [addLogTime, setAddLogTime] = useState(false);
   const [editLogTime, setEditLogTime] = useState(false);
-  const [punchInTime, setPunchInTime] = useState('NA');
+  const [punchInTime, setPunchInTime] = useState("NA");
   const [TimeSheetData, SetTimeSheetDate] = useState([]);
-  const [payPeriodId,setPayPeriodId] = useState('');
-  const [selectedRecord,setSelectedRecord] = useState([]);
+  const [payPeriodId, setPayPeriodId] = useState("");
+  const [selectedRecord, setSelectedRecord] = useState([]);
   const token = getAccessToken();
 
   useEffect(() => {
-    axios(`${process.env.NEXT_PUBLIC_ADMIN_URL}/pay-period`,{
-        headers: {
-          "Authorization": token || null,
-        },
-      }).then((response) => {
+    axios(`${process.env.NEXT_PUBLIC_ADMIN_URL}/pay-period`, {
+      headers: {
+        Authorization: token || null,
+      },
+    })
+      .then((response) => {
         SetTimeSheetDate(response?.data);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   }, []);
 
@@ -57,7 +58,7 @@ const ClockIn = () => {
 
   // ---------------------------------Table Data-------------------------
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -73,43 +74,43 @@ const ClockIn = () => {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        "Authorization": token || null,
-      }
+        Authorization: token || null,
+      },
     });
     const data = res?.data;
     setPunch(data?.punch_status);
-    setPunchInTime('NA')
-    if(data?.punch_status)
-    {
+    setPunchInTime("NA");
+    if (data?.punch_status) {
       setPunchInTime(data?.punch_time);
     }
-  }
-  
+  };
+
   useEffect(() => {
     getPunchStatus();
   }, []);
 
-
   const [
     updatePunchTime,
-     { isSuccess: punchUpdateSuccess, isError: punchUpdateError },
-   ] = useUpdatePunchMutation();
+    { isSuccess: punchUpdateSuccess, isError: punchUpdateError },
+  ] = useUpdatePunchMutation();
   const updatePunch = (punchType) => {
     var date = new Date();
-    var iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/)
-    let punchTime = iso[1] + ' ' + iso[2];
-    console.log('punchTime',punchTime);
+    var iso = date
+      .toISOString()
+      .match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+    let punchTime = iso[1] + " " + iso[2];
+    // console.log("punchTime", punchTime);
     updatePunchTime({
       token,
-      payload:{punch_time:punchTime}
-    })
-  }
+      payload: { punch_time: punchTime },
+    });
+  };
   const updatePunchIn = () => {
-    updatePunch(1)
-  }
+    updatePunch(1);
+  };
   const updatePunchOut = () => {
-    updatePunch(2)
-  }
+    updatePunch(2);
+  };
   useEffect(() => {
     if (punchUpdateSuccess) {
       toast.success("Punch updated successfully", {
@@ -120,8 +121,8 @@ const ClockIn = () => {
       });
       //getPunchStatus();
       setTimeout(() => {
-          window.location.reload();
-        }, 3000);
+        window.location.reload();
+      }, 3000);
     } else if (punchUpdateError) {
       toast.error("Some Error Occured", {
         position: "top-center",
@@ -132,36 +133,36 @@ const ClockIn = () => {
     }
   }, [punchUpdateSuccess, punchUpdateError]);
   //console.log("data : ", clockData);
-  function formatDate(inputDate){  // expects Y-m-d
-    var splitDate = inputDate.split('-');
-    if(splitDate.count == 0){
-        return null;
+  function formatDate(inputDate) {
+    // expects Y-m-d
+    var splitDate = inputDate.split("-");
+    if (splitDate.count == 0) {
+      return null;
     }
 
     var year = splitDate[0];
     var month = splitDate[1];
-    var day = splitDate[2]; 
+    var day = splitDate[2];
 
-    return month + '/' + day + '/' + year;
-}
-const getClockinData = async (payload) => {
-  let res = await axios({
-    method: "post",
-    url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/punch/list`,
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      "Authorization": token || null,
-    },
-    data: payload,
-  });
-  const data = res?.data?.punch_list;
-  setClockData(data);
-  setTableOpen(true);
-};
-  const getRecords  = () => {
-    if(payPeriodId == '')
-    {
+    return month + "/" + day + "/" + year;
+  }
+  const getClockinData = async (payload) => {
+    let res = await axios({
+      method: "post",
+      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/punch/list`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: token || null,
+      },
+      data: payload,
+    });
+    const data = res?.data?.punch_list;
+    setClockData(data);
+    setTableOpen(true);
+  };
+  const getRecords = () => {
+    if (payPeriodId == "") {
       toast.error("Please select payroll period", {
         position: "top-center",
         autoClose: 5000,
@@ -169,24 +170,24 @@ const getClockinData = async (payload) => {
         style: { fontSize: "12px" },
       });
     } else {
-      const payload = { pay_period_id:payPeriodId}
-      getClockinData(payload)
+      const payload = { pay_period_id: payPeriodId };
+      getClockinData(payload);
     }
-  }
+  };
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
-      );
+      // console.log(
+      //   `selectedRowKeys: ${selectedRowKeys}`,
+      //   "selectedRows: ",
+      //   selectedRows
+      // );
     },
     onSelect: (record, selected, selectedRows) => {
-      console.log(record, selected, selectedRows);
+      // console.log(record, selected, selectedRows);
     },
     onSelectAll: (selected, selectedRows, changeRows) => {
-      console.log(selected, selectedRows, changeRows);
+      // console.log(selected, selectedRows, changeRows);
     },
   };
 
@@ -215,7 +216,7 @@ const getClockinData = async (payload) => {
         //console.log("tags : ", client_first_name, id, key);
         return (
           <div>
-            <h1 className="text-center">{time_in != null ? time_in : 'N/A'}</h1>
+            <h1 className="text-center">{time_in != null ? time_in : "N/A"}</h1>
           </div>
         );
       },
@@ -229,7 +230,9 @@ const getClockinData = async (payload) => {
         //console.log("tags : ", client_first_name, id, key);
         return (
           <div>
-            <h1 className="text-center">{time_out != null ? time_out : 'N/A'}</h1>
+            <h1 className="text-center">
+              {time_out != null ? time_out : "N/A"}
+            </h1>
           </div>
         );
       },
@@ -244,7 +247,9 @@ const getClockinData = async (payload) => {
         //console.log("tags : ", client_first_name, id, key);
         return (
           <div>
-            <h1 className="text-center">{total_time && total_time != null ? total_time : 'N/A'}</h1>
+            <h1 className="text-center">
+              {total_time && total_time != null ? total_time : "N/A"}
+            </h1>
           </div>
         );
       },
@@ -260,7 +265,7 @@ const getClockinData = async (payload) => {
         return (
           <div className="flex justify-center">
             <button className="bg-rose-500 text-[10px] rounded-lg px-2 py-[2px] text-white">
-            {id && id > 0 ? 'Acceptance Pending' : 'N/A'}
+              {id && id > 0 ? "Acceptance Pending" : "N/A"}
             </button>
           </div>
         );
@@ -277,13 +282,14 @@ const getClockinData = async (payload) => {
         //console.log("tags : ", client_first_name, id, key);
         return (
           <div className="flex items-center justify-center gap-2">
-            {record.id && record.id > 0 ? (<MdEdit onClick={() => handleEditClickOpen(record)} />) : 
-            (
+            {record.id && record.id > 0 ? (
+              <MdEdit onClick={() => handleEditClickOpen(record)} />
+            ) : (
               <IoIosAddCircleOutline
                 onClick={() => handleClickOpen(record)}
                 className="text-green-600 font-bold"
               />
-            )}            
+            )}
           </div>
         );
       },
@@ -293,7 +299,7 @@ const getClockinData = async (payload) => {
 
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
   };
   return (
     <div>
@@ -305,14 +311,14 @@ const getClockinData = async (payload) => {
           <h2 className="text-lg font-normal text-gray-400 text-center">
             Current Status{" "}
             {!punch ? (
-            <span className="text-xs px-2 py-1 bg-orange-400 text-white rounded-xl">
-              OUT
-            </span>
+              <span className="text-xs px-2 py-1 bg-orange-400 text-white rounded-xl">
+                OUT
+              </span>
             ) : (
               <span className="text-xs px-2 py-1 bg-green-400 text-white rounded-xl">
-              IN
+                IN
               </span>
-            ) }
+            )}
           </h2>
         </div>
       </div>
@@ -369,23 +375,23 @@ const getClockinData = async (payload) => {
                 name="type"
                 className="input-border-bottom input-font  focus:outline-none py-[1px]"
                 {...register("payroll")}
-                onChange={(e) => { setPayPeriodId(e.target.value)}}
+                onChange={(e) => {
+                  setPayPeriodId(e.target.value);
+                }}
               >
                 <option value=""> Select Payroll Period(s) </option>
-                  {TimeSheetData?.pay_period?.map((timeSheet) => {
-                    return (
-                      <option key={timeSheet?.id} value={timeSheet?.id}>
-                        {formatDate(timeSheet?.start_date)} - {formatDate(timeSheet?.end_date)}
-                      </option>
-                    );
-                  })}
+                {TimeSheetData?.pay_period?.map((timeSheet) => {
+                  return (
+                    <option key={timeSheet?.id} value={timeSheet?.id}>
+                      {formatDate(timeSheet?.start_date)} -{" "}
+                      {formatDate(timeSheet?.end_date)}
+                    </option>
+                  );
+                })}
               </select>
             </div>
 
-            <button
-              onClick={getRecords}
-              className="dtm-button  mt-5"
-            >
+            <button onClick={getRecords} className="dtm-button  mt-5">
               Go
             </button>
           </div>
@@ -411,13 +417,18 @@ const getClockinData = async (payload) => {
       )}
 
       {addLogTime && (
-        <AddLogTime handleClose={handleClose} open={addLogTime} selectedRecord={selectedRecord} getRecords={getRecords}></AddLogTime>
+        <AddLogTime
+          handleClose={handleClose}
+          open={addLogTime}
+          selectedRecord={selectedRecord}
+          getRecords={getRecords}
+        ></AddLogTime>
       )}
       {editLogTime && (
         <EditLogTime
           handleClose={handleEditClose}
           open={editLogTime}
-          selectedRecord={selectedRecord} 
+          selectedRecord={selectedRecord}
           getRecords={getRecords}
         ></EditLogTime>
       )}

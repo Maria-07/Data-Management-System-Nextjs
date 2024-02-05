@@ -24,11 +24,11 @@ const PromptLevelModal = ({ handleClose, clicked }) => {
   };
 
   const onChange = (key) => {
-    console.log(key);
+    // console.log(key);
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
   };
 
   const options = [
@@ -53,7 +53,7 @@ const PromptLevelModal = ({ handleClose, clicked }) => {
   ];
 
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
   };
 
   const OPTIONS = [
@@ -69,7 +69,7 @@ const PromptLevelModal = ({ handleClose, clicked }) => {
   const [selectedItems, setSelectedItems] = useState(["Daily"]);
   const filteredOptions = OPTIONS.filter((o) => !selectedItems.includes(o));
 
-  console.log(selectedItems);
+  // console.log(selectedItems);
 
   return (
     <div>

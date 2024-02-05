@@ -21,7 +21,7 @@ const PatientLedgerAction = ({ row }) => {
     setOpenARFollowup(false);
   };
 
-  console.log("row=", row);
+  // console.log("row=", row);
   return (
     <div>
       <div className="flex justify-center gap-2">

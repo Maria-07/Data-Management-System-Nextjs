@@ -61,7 +61,7 @@ const ServiceSubTypeExclusion = () => {
 
   const subActivityData = allSubActivity?.allSubtype || [];
   const assignedSubactivityData = assignedActivity?.allAssignedSubtype || [];
-  console.log(assignedSubactivityData);
+  // console.log(assignedSubactivityData);
 
   //Handle selected ids
   const handleAdding = (e) => {
@@ -72,7 +72,7 @@ const ServiceSubTypeExclusion = () => {
     // console.log( value);
     setTargettedData(value);
   };
-  console.log("selected values", targettedData);
+  // console.log("selected values", targettedData);
 
   // handle add service subtype
   const handleExcluded = () => {
@@ -137,7 +137,7 @@ const ServiceSubTypeExclusion = () => {
   }, [deleteError, deleteSuccess]);
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setSortedInfo(sorter);
   };
 

@@ -33,7 +33,7 @@ const biographyInfo = () => {
     token,
     // id: id,
   });
-  
+
   //console.log("staff data", staffData, staffDataLoading);
 
   //! update staff api
@@ -43,15 +43,16 @@ const biographyInfo = () => {
   //! selected treatments data get api
   /*const { data: selectedTreatmentData, isLoading: selectedTreatmentLoading } =
     useGetAllSelectedTreatmentsQuery({ token: token });
-  console.log("Selected Treatment", selectedTreatmentData?.data);*/
+  // console.log("Selected Treatment", selectedTreatmentData?.data);*/
 
-  const selectedTreatmentData = staffData?.personal_info[0].employee_treatment_type;
+  const selectedTreatmentData =
+    staffData?.personal_info[0].employee_treatment_type;
   //console.log('treatment--',selectedTreatmentData);
 
   //! selected employee type data get api
   /*const { data: credentialType, isLoading: typeLoading } =
     useGetSelectedStaffQuery({ token: token });
-  console.log("Selected Treatments", credentialType?.data);*/
+  // console.log("Selected Treatments", credentialType?.data);*/
   const credentialType = staffData?.personal_info[0].employee_credential_type;
   //console.log('employee_credential_type--',selectedTreatmentData);
 
@@ -73,7 +74,6 @@ const biographyInfo = () => {
     );
   }
 
-
   //! select Credential type boiler plate
   let credentialSelect = null;
   if (credentialType?.length === 0) {
@@ -93,9 +93,9 @@ const biographyInfo = () => {
       </>
     );
   }
-  
+
   const pdata = {
-    caqh_id : staffData?.personal_info[0].employee_caqh_id,
+    caqh_id: staffData?.personal_info[0].employee_caqh_id,
     first_name: staffData?.personal_info[0].employee_first_name,
     middle_name: staffData?.personal_info[0].employee_middle_name,
     last_name: staffData?.personal_info[0].employee_last_name,
@@ -117,9 +117,9 @@ const biographyInfo = () => {
     title: staffData?.personal_info[0].employee_title,
     language: staffData?.personal_info[0].employee_language,
     gender: staffData?.personal_info[0].employee_gender,
-    back_color: '',
-    email_remainder: '',
-    session_check: '',
+    back_color: "",
+    email_remainder: "",
+    session_check: "",
     service_area_zip: staffData?.personal_info[0].employee_service_area_zip,
     notes: staffData?.personal_info[0].employee_notes,
   };
@@ -159,7 +159,7 @@ const biographyInfo = () => {
   useEffect(() => {
     setStaffBirthday(converted_date);
   }, [converted_date]);
-  console.log("staff birthday", staffBirthday);
+  // console.log("staff birthday", staffBirthday);
 
   const [createSession, setCreateSession] = useState(
     BoolConverter(session_check)
@@ -230,46 +230,46 @@ const biographyInfo = () => {
     notes,
   ]);
 
-  console.log(
-    "after calling boolConverter",
-    BoolConverter(emailReminder),
-    BoolConverter(createSession)
-  );
+  // console.log(
+  //   "after calling boolConverter",
+  //   BoolConverter(emailReminder),
+  //   BoolConverter(createSession)
+  // );
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     const payload = {
       // employee_id: id,
       //...data,
-      "employee_active_status": data.is_active,
-      "employee_first_name": data.first_name,
-      "employee_middle_name": data.middle_name,
-      "employee_last_name": data.last_name,
-      "employee_nickname": data.nickname,
-      "employee_dob": staffBirthday,
-      "employee_gender": data.gender,
-      "employee_email": data.office_email,
-      "employee_ssn": data.ssn,
-      "employee_office_phone": data.office_phone,
-      "employee_office_fax": data.office_fax,
-      "employee_driver_license": data.driver_license,
-      "employee_license_exp_date": data.license_exp_date,
-      "employee_title": data.title,
-      "employee_treatment_type_ids": [data.treatment_type],
-      "employee_hire_date_compnay": data.hir_date_compnay,
-      "employee_credential_type_id": data.credential_type,
-      "employee_individual_npi": data.individual_npi,
-      "employee_caqh_id": data.caqh_id,
-      "employee_service_area_zip": data.service_area_zip,
-      "employee_terminated_date": data.terminated_date,
-      "employee_language": data.language,
-      "employee_taxonomy_code": data.taxonomy_code,
-      "employee_notes": data.notes,
+      employee_active_status: data.is_active,
+      employee_first_name: data.first_name,
+      employee_middle_name: data.middle_name,
+      employee_last_name: data.last_name,
+      employee_nickname: data.nickname,
+      employee_dob: staffBirthday,
+      employee_gender: data.gender,
+      employee_email: data.office_email,
+      employee_ssn: data.ssn,
+      employee_office_phone: data.office_phone,
+      employee_office_fax: data.office_fax,
+      employee_driver_license: data.driver_license,
+      employee_license_exp_date: data.license_exp_date,
+      employee_title: data.title,
+      employee_treatment_type_ids: [data.treatment_type],
+      employee_hire_date_compnay: data.hir_date_compnay,
+      employee_credential_type_id: data.credential_type,
+      employee_individual_npi: data.individual_npi,
+      employee_caqh_id: data.caqh_id,
+      employee_service_area_zip: data.service_area_zip,
+      employee_terminated_date: data.terminated_date,
+      employee_language: data.language,
+      employee_taxonomy_code: data.taxonomy_code,
+      employee_notes: data.notes,
       /*staff_birthday: staffBirthday,
       session_check: BoolConverter(createSession),
       email_remainder: BoolConverter(emailReminder),*/
     };
-  
+
     //update staff api call
     if (payload) {
       updateStaff({
@@ -277,7 +277,7 @@ const biographyInfo = () => {
         payload,
       });
     }
-    console.log("data", payload);
+    // console.log("data", payload);
   };
 
   useEffect(() => {
@@ -571,7 +571,11 @@ const biographyInfo = () => {
                 </label>
                 <div className="flex items-center">
                   <div className="flex ml-1 mt-1 items-center">
-                    <input type="radio" value="Female" {...register("gender")} />
+                    <input
+                      type="radio"
+                      value="Female"
+                      {...register("gender")}
+                    />
                     <span className="text-sm ml-1 text-gray-600 font-medium">
                       female
                     </span>

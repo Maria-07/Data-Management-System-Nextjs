@@ -24,7 +24,7 @@ const PayrollSetup = () => {
   const router = useRouter();
   const { query } = router;
   const id = query.payrollSetup;
-  console.log(id);
+  // console.log(id);
   const token = getAccessToken();
 
   const [select, setSelect] = useState(null);
@@ -65,12 +65,12 @@ const PayrollSetup = () => {
     useBulkUpdatePayrollMutation();
 
   const { services } = payrollData || [];
-  console.log("All services", services);
+  // console.log("All services", services);
   const totalPage = payrollData?.payrolls?.lastPage;
 
   //handle pagination function
   const handlePageClick = ({ selected: selectedPage }) => {
-    console.log("selected page", selectedPage);
+    // console.log("selected page", selectedPage);
     setPage(selectedPage + 1);
   };
 
@@ -90,7 +90,7 @@ const PayrollSetup = () => {
 
   //delete payroll handler(id wise)
   const deletePayrollHandler = (record) => {
-    console.log("delete record to be ", record);
+    // console.log("delete record to be ", record);
     if (record?.id) {
       deletePayroll({
         token,
@@ -126,11 +126,11 @@ const PayrollSetup = () => {
       milageRate !== null &&
       selectedRowKeys.length > 0
     ) {
-      console.log(
-        "from bulk delete hourlyRate, milageRate",
-        hourlyRate,
-        milageRate
-      );
+      // console.log(
+      //   "from bulk delete hourlyRate, milageRate",
+      //   hourlyRate,
+      //   milageRate
+      // );
       const payload = {
         hourly_rate: hourlyRate,
         milage_rate: milageRate,
@@ -146,7 +146,7 @@ const PayrollSetup = () => {
       hourlyRate !== null &&
       selectedRowKeys.length > 0
     ) {
-      console.log("from bulk delete hourlyRate", hourlyRate);
+      // console.log("from bulk delete hourlyRate", hourlyRate);
       const payload = {
         hourly_rate: hourlyRate,
         edit_ids: selectedRowKeys,
@@ -161,7 +161,7 @@ const PayrollSetup = () => {
       milageRate !== null &&
       selectedRowKeys.length > 0
     ) {
-      console.log("from bulk delete milageRate", milageRate);
+      // console.log("from bulk delete milageRate", milageRate);
       const payload = {
         milage_rate: milageRate,
         edit_ids: selectedRowKeys,
@@ -276,17 +276,17 @@ const PayrollSetup = () => {
 
   //get rows id to do some action on them
   const onSelectChange = (newSelectedRowKeys) => {
-    console.log("selected row-keys: ", newSelectedRowKeys);
+    // console.log("selected row-keys: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
   };
-  console.log(selectedRowKeys);
+  // console.log(selectedRowKeys);
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };

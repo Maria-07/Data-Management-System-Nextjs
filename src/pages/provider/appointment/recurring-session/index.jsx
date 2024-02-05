@@ -25,10 +25,9 @@ const RecurringSession = () => {
   const [fetchQuery, setFetchQuery] = useState(false);
   const [patientId, setPatientId] = useState([]);
   const [providerId, setProviderId] = useState([]);
-  const [allProvider, setAllProvider] = useState([]);  
+  const [allProvider, setAllProvider] = useState([]);
   const [searchLoading, setSearchLoading] = useState(false);
 
-  
   const [patientList, setPatientList] = useState([]);
   const [providerList, setProviderList] = useState([]);
   const [page, setPage] = useState(1);
@@ -43,7 +42,7 @@ const RecurringSession = () => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          "Authorization": token || null,
+          Authorization: token || null,
         },
       });
       const data = res?.data?.patient_data;
@@ -60,14 +59,13 @@ const RecurringSession = () => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          "Authorization": token || null,
+          Authorization: token || null,
         },
       });
       const data = res?.data?.provider_data;
       let pdata = [];
-      for(let x of data)
-      {
-        pdata.push(x?.id)
+      for (let x of data) {
+        pdata.push(x?.id);
       }
       setProviderList(data);
       setAllProvider(pdata);
@@ -76,29 +74,28 @@ const RecurringSession = () => {
     getProviderData();
   }, [token]);
 
- 
-const getRecurringSessionData = async () => {
-  let res = await axios({
-    method: "post",
-    url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointment/recurring/list`,
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      "Authorization": token || null,
-    },
-    data: {
-      sort_by: select === "Patients" ? 2 : select === "Provider" ? 3 : 3,
-      patient_ids: patientId,
-      provider_ids: providerId,
-    },
-  });
-  setSearchLoading(false)
-  const data = res?.data?.recurring_sessions;
-  console.log('data --',res?.data);
-  setSessionData(data);
-};
-//console.log('sessionData',sessionData);
- /* const fetchData = async (payload) => {
+  const getRecurringSessionData = async () => {
+    let res = await axios({
+      method: "post",
+      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointment/recurring/list`,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: token || null,
+      },
+      data: {
+        sort_by: select === "Patients" ? 2 : select === "Provider" ? 3 : 3,
+        patient_ids: patientId,
+        provider_ids: providerId,
+      },
+    });
+    setSearchLoading(false);
+    const data = res?.data?.recurring_sessions;
+    // console.log('data --',res?.data);
+    setSessionData(data);
+  };
+  //console.log('sessionData',sessionData);
+  /* const fetchData = async (payload) => {
     const response = await axios({
       method: "POST",
       url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/appointment/recurring/list`,
@@ -110,13 +107,13 @@ const getRecurringSessionData = async () => {
       body: payload,
     });
     
-    console.log(response);
+    // console.log(response);
   };*/
 
   //Patient Data get api
   /*const [recurringGetAllInfos, { data: allData, isLoading: dataLoading }] =
     useRecurringGetAllInfosMutation();
-console.log(recurringGetAllInfos);*/
+// console.log(recurringGetAllInfos);*/
   /*useEffect(() => {
       //console.log('allProvider',allProvider);
       recurringGetAllInfos({
@@ -127,7 +124,7 @@ console.log(recurringGetAllInfos);*/
 
   //Get Recurring Session Data
   //get data from API + data fetch from api while scrolling[Important]
- /*useEffect(() => {
+  /*useEffect(() => {
     const getRecurringSessionData = async () => {
       let res = await axios({
         method: "post",
@@ -185,15 +182,14 @@ console.log(recurringGetAllInfos);*/
   // console.log("final total staffs", staffData);
 
   const handleOptionChange = (val) => {
-   
     setSelect(val);
     setFetchQuery(false);
     setPatientId([]);
-    val == 'all' ? setProviderId(allProvider): setProviderId([]);
+    val == "all" ? setProviderId(allProvider) : setProviderId([]);
   };
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -393,7 +389,9 @@ console.log(recurringGetAllInfos);*/
       width: 60,
       render: (_, { session_id }) => (
         <div className="flex justify-center">
-          <Link href={`/provider/appointment/recurring-session/edit/${session_id}`}>
+          <Link
+            href={`/provider/appointment/recurring-session/edit/${session_id}`}
+          >
             <BiEdit className="text-[#34A6B7] text-lg" />
           </Link>
         </div>
@@ -411,8 +409,8 @@ console.log(recurringGetAllInfos);*/
     },
   });
   const onSubmit = (data) => {
-    setSearchLoading(true)
-    console.log('submittedData',data);
+    setSearchLoading(true);
+    // console.log("submittedData", data);
     setFetchQuery(true);
     setTable(true);
     getRecurringSessionData();
@@ -429,7 +427,7 @@ console.log(recurringGetAllInfos);*/
   };
 
   // console.log(selectedFlatRows);
-  
+
   return (
     <div className={!table ? "h-[100vh]" : ""}>
       <div className="cursor-pointer">
@@ -535,8 +533,8 @@ console.log(recurringGetAllInfos);*/
               </form>
             </div>
           )}
-        </div>              
-        {searchLoading && (<Loading></Loading>)}
+        </div>
+        {searchLoading && <Loading></Loading>}
       </div>
 
       {/* table  */}
@@ -546,7 +544,7 @@ console.log(recurringGetAllInfos);*/
             <h1 className="text-lg text-orange-500 text-left font-semibold ">
               Recurring Session
             </h1>
-          </div>    
+          </div>
           <div className="overflow-scroll">
             <Table
               rowKey="id"

@@ -8,7 +8,7 @@ const DeleteOrganization = ({ handleClose, clicked, name }) => {
   const [error, setError] = useState("");
 
   const onSubmit = (data) => {
-    console.log(data.name, name);
+    // console.log(data.name, name);
     if (data.name !== name) {
       setError("Entered name doesn't match user name");
     } else {

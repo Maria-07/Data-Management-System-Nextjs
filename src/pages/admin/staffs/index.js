@@ -38,7 +38,7 @@ const staffPage = () => {
         }
       );
       const data = response?.data?.providerData?.data;
-      console.log("data data", response?.data?.providerData?.data);
+      // console.log("data data", response?.data?.providerData?.data);
       return data;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -59,7 +59,7 @@ const staffPage = () => {
 
   const fetchData = async () => {
     const providersFromServer = await fetchProviders();
-    console.log(providersFromServer);
+    // console.log(providersFromServer);
 
     if (providersFromServer.length > 0) {
       setProviders([...providers, ...providersFromServer]);
@@ -76,7 +76,7 @@ const staffPage = () => {
 
   //! Auth click event handler
   const handleAuthClick = (id) => {
-    console.log(id);
+    // console.log(id);
     setModalOpen(true);
     setPatientId(id);
   };
@@ -92,7 +92,7 @@ const staffPage = () => {
   const [sortedInfo, setSortedInfo] = useState({});
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -102,7 +102,7 @@ const staffPage = () => {
   };
 
   const SIdHandler = (id) => {
-    console.log(id, "iddddddddddd");
+    // console.log(id, "iddddddddddd");
     if (id) {
       localStorage.setItem("SId", id);
       router.push(`/admin/staffs/staff-bio/${id}`);

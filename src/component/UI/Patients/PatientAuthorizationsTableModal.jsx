@@ -19,15 +19,15 @@ const PatientAuthorizationsTableModal = ({
   const { data: authorizationData, isLoading: authorizationloading } =
     useGetPatientAuthorizationQuery({
       token,
-      id:patient_id
+      id: patient_id,
     });
 
   const clientAuthorizationData = authorizationData?.all_authorizations || [];
 
-  console.log("clientAuthorizationData", authorizationData?.all_authorizations);
+  // console.log("clientAuthorizationData", authorizationData?.all_authorizations);
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };

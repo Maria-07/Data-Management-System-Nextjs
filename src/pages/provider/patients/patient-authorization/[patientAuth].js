@@ -22,27 +22,30 @@ const PatientAuth = () => {
   const router = useRouter();
   const { query } = router;
   const id = query.patientAuth;
-  console.log('id',id);
+  // console.log('id',id);
   const token = getAccessToken();
 
-  console.log('patient_id',id);
+  // console.log("patient_id", id);
 
   //! get patient authorization api
   const { data: authorizationData, isLoading: authorizationloading } =
     useGetPatientAuthorizationQuery({
       token,
-      id      
+      id,
     });
   //console.log('authorizationData',authorizationData?.patient_authorization[0]?.authorization_list);
-  
-  const clientAuthorizationData = authorizationData?.patient_authorization[0]?.authorization_list || [];
+
+  const clientAuthorizationData =
+    authorizationData?.patient_authorization[0]?.authorization_list || [];
 
   //console.log("Patient Auth = ", clientAuthorizationData);
   //console.log("Patient clientSelectedPayors = ", clientSelectedPayors);
 
   const editAuth = (record) => {
     //console.log("editdata edit", record);
-    router.push(`/admin/patients/authorization-edit/${record?.authorization_id}`);
+    router.push(
+      `/admin/patients/authorization-edit/${record?.authorization_id}`
+    );
     // navigate();
   };
 
@@ -52,7 +55,7 @@ const PatientAuth = () => {
   ] = usePatientAuthorizationDeleteMutation();
 
   const handleDelete = (record) => {
-    console.log("delete record", record?.id);
+    // console.log("delete record", record?.id);
     if (record?.id) {
       const res = patientAuthorizationDelete({
         token,
@@ -61,7 +64,7 @@ const PatientAuth = () => {
         },
       });
 
-      console.log("res delete", res);
+      // console.log("res delete", res);
     }
   };
 
@@ -75,7 +78,7 @@ const PatientAuth = () => {
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -89,7 +92,10 @@ const PatientAuth = () => {
     // console.log("record", record);
     return (
       <div className="ml-[-40px] my-2">
-        <AuthorizationActivityTable id={record?.authorization_id} activity_details={record.activity_details}/>
+        <AuthorizationActivityTable
+          id={record?.authorization_id}
+          activity_details={record.activity_details}
+        />
       </div>
     );
   };
@@ -107,18 +113,19 @@ const PatientAuth = () => {
     setOpenEditModal(false);
     setSelectContact(false);
   };
-  function formatDate(inputDate){  // expects Y-m-d
-    var splitDate = inputDate.split('-');
-    if(splitDate.count == 0){
-        return null;
+  function formatDate(inputDate) {
+    // expects Y-m-d
+    var splitDate = inputDate.split("-");
+    if (splitDate.count == 0) {
+      return null;
     }
 
     var year = splitDate[0];
     var month = splitDate[1];
-    var day = splitDate[2]; 
+    var day = splitDate[2];
 
-    return month + '/' + day + '/' + year;
-}
+    return month + "/" + day + "/" + year;
+  }
   const columns = [
     {
       title: "Description",
@@ -136,7 +143,7 @@ const PatientAuth = () => {
       title: "Onset Date",
       dataIndex: "onset_date",
       key: "onset_date",
-      width: 130,    
+      width: 130,
       render: (_, record) => {
         return (
           <div className="flex justify-center">
@@ -156,7 +163,7 @@ const PatientAuth = () => {
       title: "End Date",
       dataIndex: "end_date",
       key: "end_date",
-      width: 100,    
+      width: 100,
       render: (_, record) => {
         return (
           <div className="flex justify-center">
@@ -290,7 +297,7 @@ const PatientAuth = () => {
           </div>
         );
       },
-    }
+    },
   ];
   return (
     <div>

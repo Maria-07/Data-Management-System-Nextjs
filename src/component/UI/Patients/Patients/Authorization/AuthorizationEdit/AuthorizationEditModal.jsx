@@ -28,7 +28,7 @@ const AuthorizationEditModal = ({
   const [billed, setBilled] = useState("");
   const token = getAccessToken();
 
-  console.log("billed", billed);
+  // console.log("bil/led", billed);
 
   //Patient authorization activity create/save api
   const [
@@ -51,11 +51,11 @@ const AuthorizationEditModal = ({
     });
   }, [getSettingService, token, treatment_name]);
 
-  console.log(
-    "getSettingService 🚩🚩🚩🚩🚩🚩",
+  // console.log(
+  //   "getSettingService 🚩🚩🚩🚩🚩🚩",
 
-    getSettingService
-  );
+  //   getSettingService
+  // );
 
   const { data: activitySubtypes, isLoading: activitySubtypesLoading } =
     useGetActivitySubtypesQuery({
@@ -119,7 +119,7 @@ const AuthorizationEditModal = ({
         payload,
       });
     }
-    console.log(payload);
+    // console.log(payload);
   };
 
   useEffect(() => {

@@ -171,7 +171,7 @@ const ManualSessionEntryModal = ({ handleClose, clicked, title }) => {
                     style={{ width: "100%" }}
                     placeholder="Start Date"
                     onChange={(date, dateString) => {
-                      console.log(date, dateString);
+                      // console.log(date, dateString);
                     }}
                   />
                 </div>
@@ -182,7 +182,7 @@ const ManualSessionEntryModal = ({ handleClose, clicked, title }) => {
                     style={{ width: "100%" }}
                     placeholder="Start Time"
                     onChange={(time, timeString) => {
-                      console.log(time, timeString);
+                      // console.log(time, timeString);
                     }}
                   />
                 </div>
@@ -193,7 +193,7 @@ const ManualSessionEntryModal = ({ handleClose, clicked, title }) => {
                     style={{ width: "100%" }}
                     placeholder="End Time"
                     onChange={(time, timeString) => {
-                      console.log(time, timeString);
+                      // console.log(time, timeString);
                     }}
                   />
                 </div>

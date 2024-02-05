@@ -7,7 +7,7 @@ const CallLogView = ({ handleClose, open, logdata }) => {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
   };
   return (
     <div>

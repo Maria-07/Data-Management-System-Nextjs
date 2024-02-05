@@ -14,7 +14,7 @@ const Billable = ({ register, setClientId, billable }) => {
     });
   }
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
   };
   return (
     <div>

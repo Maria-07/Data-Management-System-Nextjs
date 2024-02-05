@@ -5,7 +5,7 @@ const ScheduleExport = () => {
   // const navigate = useNavigate();
   const handleDownload = () => {
     // navigate("/admin/report-export-view");
-    console.log("use");
+    // console.log("use");
   };
 
   return (

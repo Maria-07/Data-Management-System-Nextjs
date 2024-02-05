@@ -9,9 +9,8 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 const EditClearence = ({ handleClose, open, clearenceInfo, token, id }) => {
-  
-  const [imageData,setImageData] = useState(null);
-  const [filenameData,setFilenameData] = useState(null);
+  const [imageData, setImageData] = useState(null);
+  const [filenameData, setFilenameData] = useState(null);
   //Getting clearence info data api
   /*const {
     data: clearenceData,
@@ -24,12 +23,15 @@ const EditClearence = ({ handleClose, open, clearenceInfo, token, id }) => {
     useUpdateClearenceMutation();
 
   const cname = {
-    clearance_name:clearenceInfo.clearance_name,
-    clearance_date_issue:clearenceInfo.clearance_date_issue,
-    clearance_date_exp:clearenceInfo.clearance_date_expired,
-    clearance_applicable:clearenceInfo.clearance_applicable!='No' ? clearenceInfo.clearance_applicable : '',
-  }
-  console.log(cname);
+    clearance_name: clearenceInfo.clearance_name,
+    clearance_date_issue: clearenceInfo.clearance_date_issue,
+    clearance_date_exp: clearenceInfo.clearance_date_expired,
+    clearance_applicable:
+      clearenceInfo.clearance_applicable != "No"
+        ? clearenceInfo.clearance_applicable
+        : "",
+  };
+  // console.log(cname);
   const {
     clearance_name,
     clearance_date_issue,
@@ -37,18 +39,23 @@ const EditClearence = ({ handleClose, open, clearenceInfo, token, id }) => {
     clearance_applicable,
   } = cname || {}; //api tey bhul
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
   const onSubmit = (data) => {
     const payload = {
       clearance_id: clearenceInfo.clearance_id,
       clearance_name: data?.clear_type,
       clearance_date_issue: data?.date_issue,
       clearance_date_expired: data?.date_expire,
-      file_name:filenameData,
+      file_name: filenameData,
       clearance_applicable: data?.clear_apply,
       file: imageData,
     };
-    console.log("clearance", payload);
+    // console.log("clearance", payload);
     if (payload) {
       updateClearence({
         token,
@@ -74,25 +81,25 @@ const EditClearence = ({ handleClose, open, clearenceInfo, token, id }) => {
     clearance_date_exp,
     clearance_date_issue,
   ]);
-  const convertBase64 =  (file) => {
+  const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
-      fileReader.readAsDataURL(file)
+      fileReader.readAsDataURL(file);
       fileReader.onload = () => {
         resolve(fileReader.result);
-      }
+      };
       fileReader.onerror = (error) => {
         reject(error);
-      }
-    })
-  }
+      };
+    });
+  };
 
-const handleFileRead = async (event) => {
-  const file = event.target.files[0];
-  setFilenameData(file.name);
-  const base64 =  await convertBase64(file);
-  setImageData(base64);
-}
+  const handleFileRead = async (event) => {
+    const file = event.target.files[0];
+    setFilenameData(file.name);
+    const base64 = await convertBase64(file);
+    setImageData(base64);
+  };
   //To show Toast
   useEffect(() => {
     if (updateSuccess) {
@@ -124,7 +131,9 @@ const handleFileRead = async (event) => {
       >
         <div className="px-2 py-2">
           <div className="flex items-center justify-between">
-            <h1 className="text-lg text-left text-orange-400 ">Edit Clearence</h1>
+            <h1 className="text-lg text-left text-orange-400 ">
+              Edit Clearence
+            </h1>
             <IoCloseCircleOutline
               onClick={handleClose}
               className="text-gray-600 text-2xl hover:text-primary"
@@ -150,17 +159,19 @@ const handleFileRead = async (event) => {
                       message: "Please enter the clearence",
                     },
                   })}
-                />                
+                />
                 {errors.clear_type?.type === "required" && (
-                      <p className=" pl-1 text-red-500">
-                        {errors.clear_type.message}
-                      </p>
-                    )}
+                  <p className=" pl-1 text-red-500">
+                    {errors.clear_type.message}
+                  </p>
+                )}
               </div>
 
               <div>
                 <label className="label">
-                  <span className="modal-label-name">Date Issued<span className="text-red-500">*</span></span>
+                  <span className="modal-label-name">
+                    Date Issued<span className="text-red-500">*</span>
+                  </span>
                 </label>
                 <input
                   type="date"
@@ -171,17 +182,19 @@ const handleFileRead = async (event) => {
                       message: "Please enter the date of issued",
                     },
                   })}
-                />             
+                />
                 {errors.date_issue?.type === "required" && (
-                    <p className=" pl-1 text-red-500">
-                      {errors.date_issue.message}
-                    </p>
-                  )}
+                  <p className=" pl-1 text-red-500">
+                    {errors.date_issue.message}
+                  </p>
+                )}
               </div>
               <div>
                 {" "}
                 <label className="label">
-                  <span className="modal-label-name">Expiry Date<span className="text-red-500">*</span></span>
+                  <span className="modal-label-name">
+                    Expiry Date<span className="text-red-500">*</span>
+                  </span>
                 </label>
                 <input
                   type="date"
@@ -192,7 +205,7 @@ const handleFileRead = async (event) => {
                       message: "Please enter the date expired",
                     },
                   })}
-                />                             
+                />
                 {errors.date_expire?.type === "required" && (
                   <p className=" pl-1 text-red-500">
                     {errors.date_expire.message}

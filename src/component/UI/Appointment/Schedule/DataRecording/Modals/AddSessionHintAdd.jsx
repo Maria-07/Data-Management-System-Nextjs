@@ -6,7 +6,7 @@ const AddSessionHintAdd = ({ handleClose, open }) => {
   const [note, setNote] = useState(false);
 
   const handleSubmit = () => {
-    console.log(note);
+    // console.log(note);
   };
 
   return (

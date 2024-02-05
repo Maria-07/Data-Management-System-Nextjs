@@ -1,8 +1,8 @@
 import React from "react";
 
 const GuarantorInfo = ({ register, checkLocation, SameasPatientBtn, hook }) => {
-  console.log(checkLocation);
-  console.log("hook city", hook);
+  // console.log(checkLocation);
+  // console.log("hook city", hook);
   return (
     <div className="my-2">
       <h1 className="text-sm font-semibold my-1 ">Guarantor Info</h1>

@@ -18,7 +18,7 @@ const StripeInformation = () => {
   const formRef = React.useRef(null);
 
   const onFinish = (values) => {
-    console.log(values);
+    // console.log(values);
   };
   return (
     <div>

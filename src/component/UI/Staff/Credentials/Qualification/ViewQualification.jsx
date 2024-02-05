@@ -5,7 +5,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import axios from "axios";
 
 const ViewQualification = ({ handleClose, open, token, qualificationlId }) => {
-  console.log("qualificationlId", qualificationlId);
+  // console.log("qualificationlId", qualificationlId);
   const [imageData, setImageData] = useState([]);
   useEffect(() => {
     const getImageData = async () => {
@@ -30,7 +30,7 @@ const ViewQualification = ({ handleClose, open, token, qualificationlId }) => {
     imgData = imageData?.file;
   }
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
   };
   return (
     <div>

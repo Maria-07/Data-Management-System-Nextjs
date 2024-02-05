@@ -88,7 +88,7 @@ const BehaviorTechnician = () => {
   const [sortedInfo, setSortedInfo] = useState({});
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };

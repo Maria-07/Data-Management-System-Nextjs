@@ -165,7 +165,7 @@ const Therapy = () => {
       key: "created_at",
       dataIndex: "created_at",
       render: (_, { created_at }) => {
-        console.log("render data", created_at);
+        // console.log("render data", created_at);
         return (
           <div>{/* <p>{DatTherapyseDateConverter(created_at)}</p> */}</div>
         );
@@ -226,7 +226,7 @@ const Therapy = () => {
   ];
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };

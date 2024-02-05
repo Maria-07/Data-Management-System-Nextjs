@@ -6,7 +6,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 const SessionViewNote = ({ handleClose, open, editableRow }) => {
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     reset();
   };
   //   console.log(editableRow);

@@ -22,7 +22,7 @@ const treatmentPage = () => {
     "Python",
   ]);
 
-  console.log("New treatment", treatment);
+  // console.log("New treatment", treatment);
 
   const items2 = ["JavaScript", "Python", "Java", "C++"];
 
@@ -33,7 +33,7 @@ const treatmentPage = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
   };
 
   //! Theme system

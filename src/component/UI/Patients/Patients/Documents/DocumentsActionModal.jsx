@@ -6,67 +6,75 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { useUpdateDocumentMutation } from "@/Redux/features/patient/patient-documents/patientDocumentApi";
 
-const DocumentsActionModal = ({ handleClose, open, documentData,  token, patientId, documentTypeId }) => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const [imageData,setImageData] = useState(null);
-  const [filenameData,setFilenameData] = useState(null);
-  
-  const cname = {
-    description:documentData.description,
-    expiry_Date:documentData.document_expiration_date,
-    fileName:documentData.file_name,
-  }
+const DocumentsActionModal = ({
+  handleClose,
+  open,
+  documentData,
+  token,
+  patientId,
+  documentTypeId,
+}) => {
   const {
-    description,
-    expiry_Date,
-    fileName,
-  } = cname || {};
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const [imageData, setImageData] = useState(null);
+  const [filenameData, setFilenameData] = useState(null);
 
-      // update document Api
+  const cname = {
+    description: documentData.description,
+    expiry_Date: documentData.document_expiration_date,
+    fileName: documentData.file_name,
+  };
+  const { description, expiry_Date, fileName } = cname || {};
+
+  // update document Api
   const [
-        updateDocuemnts,
-        { isSuccess: updateDocumentSuccess, isError: updateDocumentError },
-      ] = useUpdateDocumentMutation();
+    updateDocuemnts,
+    { isSuccess: updateDocumentSuccess, isError: updateDocumentError },
+  ] = useUpdateDocumentMutation();
 
-    const convertBase64 =  (file) => {
-        return new Promise((resolve, reject) => {
-          const fileReader = new FileReader();
-          fileReader.readAsDataURL(file)
-          fileReader.onload = () => {
-            resolve(fileReader.result);
-          }
-          fileReader.onerror = (error) => {
-            reject(error);
-          }
-        })
-      }
-    
-    const handleFileRead = async (event) => {
-      const file = event.target.files[0];
-      setFilenameData(file.name);
-      const base64 =  await convertBase64(file);
-      setImageData(base64);
-    }
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+  const handleFileRead = async (event) => {
+    const file = event.target.files[0];
+    setFilenameData(file.name);
+    const base64 = await convertBase64(file);
+    setImageData(base64);
+  };
 
   const onSubmit = (data) => {
-    console.log(data)
+    // console.log(data)
     const payload = {
-      patient_id:patientId,
-      document_type:documentTypeId,
+      patient_id: patientId,
+      document_type: documentTypeId,
       document_id: documentData.id,
       description: data.description,
-      document_expiration_date:data.expiry_Date,
-      file_name:filenameData,
+      document_expiration_date: data.expiry_Date,
+      file_name: filenameData,
       file: imageData,
-    }
-    console.log(payload);
+    };
+    // console.log(payload);
     if (payload) {
       updateDocuemnts({
         token,
         payload,
       });
     }
-  }
+  };
   useEffect(() => {
     setTimeout(() => {
       reset({
@@ -75,12 +83,7 @@ const DocumentsActionModal = ({ handleClose, open, documentData,  token, patient
         fileName: fileName,
       });
     }, 500);
-  }, [
-    reset,
-    description,
-    expiry_Date,
-    fileName,
-  ]);
+  }, [reset, description, expiry_Date, fileName]);
   useEffect(() => {
     if (updateDocumentSuccess) {
       handleClose();
@@ -89,7 +92,7 @@ const DocumentsActionModal = ({ handleClose, open, documentData,  token, patient
         autoClose: 5000,
         theme: "dark",
       });
-      window.location.reload(); 
+      window.location.reload();
     } else if (updateDocumentError) {
       toast.error("Some Error Occured", {
         position: "top-center",
@@ -137,7 +140,7 @@ const DocumentsActionModal = ({ handleClose, open, documentData,  token, patient
                     required: {
                       value: true,
                       message: "Please enter the description",
-                    }
+                    },
                   })}
                 />
                 <span className="label-text-alt">
@@ -161,7 +164,7 @@ const DocumentsActionModal = ({ handleClose, open, documentData,  token, patient
                     required: {
                       value: true,
                       message: "Please select the expiry date",
-                    }
+                    },
                   })}
                 />
                 <span className="label-text-alt">
@@ -179,22 +182,19 @@ const DocumentsActionModal = ({ handleClose, open, documentData,  token, patient
                 <input
                   type="file"
                   className=" py-[5px] mx-1 text-xs w-full"
-                  {...register("fileName")}            
+                  {...register("fileName")}
                   onChange={handleFileRead}
                 />
               </div>
             </div>
             <div className="bg-gray-200 py-[1px] mt-3"></div>
-              <div className="flex gap-3 items-end justify-end mb-2 mt-4">
-                <button type="submit" className="dcm-modal-submit-button">
-                  Save
-                </button>
-                <button
-                  onClick={handleClose}
-                  className="dcm-modal-close-button"
-                >
-                  Close
-                </button>
+            <div className="flex gap-3 items-end justify-end mb-2 mt-4">
+              <button type="submit" className="dcm-modal-submit-button">
+                Save
+              </button>
+              <button onClick={handleClose} className="dcm-modal-close-button">
+                Close
+              </button>
             </div>
           </form>
         </div>

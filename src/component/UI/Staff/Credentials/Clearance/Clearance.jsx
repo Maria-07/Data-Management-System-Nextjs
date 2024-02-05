@@ -10,7 +10,7 @@ import ViewClearence from "./ViewClearence";
 import { toast } from "react-toastify";
 
 const Clearance = ({ clearences, token, id }) => {
-  console.log("clearences data", clearences);
+  // console.log("clearences data", clearences);
   const [display, setDisplay] = useState(true);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
@@ -48,7 +48,7 @@ const Clearance = ({ clearences, token, id }) => {
     setFileView(false);
   };
   const handleViewOpen = (record) => {
-    setClearanceId(record?.clearance_id)
+    setClearanceId(record?.clearance_id);
     setFileView(true);
   };
 
@@ -64,17 +64,17 @@ const Clearance = ({ clearences, token, id }) => {
       }
     }
   }, [deleteSuccess]);
-  function formatDate(inputDate){  
-      var splitDate = inputDate.split('-');
-      if(splitDate.count == 0){
-          return null;
-      }
+  function formatDate(inputDate) {
+    var splitDate = inputDate.split("-");
+    if (splitDate.count == 0) {
+      return null;
+    }
 
-      var year = splitDate[0];
-      var month = splitDate[1];
-      var day = splitDate[2]; 
+    var year = splitDate[0];
+    var month = splitDate[1];
+    var day = splitDate[2];
 
-      return month + '/' + day + '/' + year;
+    return month + "/" + day + "/" + year;
   }
   const column = [
     {
@@ -103,7 +103,7 @@ const Clearance = ({ clearences, token, id }) => {
       title: "Date issue",
       key: "clearance_date_issue",
       dataIndex: "clearance_date_issue",
-      width: 100,     
+      width: 100,
       render: (_, record) => {
         return (
           <div className="flex justify-center">
@@ -128,7 +128,7 @@ const Clearance = ({ clearences, token, id }) => {
       title: "Expired Date",
       key: "clearance_date_expired",
       dataIndex: "clearance_date_expired",
-      width: 100,     
+      width: 100,
       render: (_, record) => {
         return (
           <div className="flex justify-center">
@@ -153,16 +153,15 @@ const Clearance = ({ clearences, token, id }) => {
       key: "operation",
       width: 150,
       render: (_, record) => (
-        
         <div className="flex justify-center gap-1 text-primary">
-          { record.clearance_file ?
-          (<AiOutlineEye
-            onClick={() => handleViewOpen(record)}
-            className="text-xs mx-2  text-lime-700"
-            title="Edit"
-          />
-          ) : null }
-          { record.clearance_file ? (<span>|</span>) : null}
+          {record.clearance_file ? (
+            <AiOutlineEye
+              onClick={() => handleViewOpen(record)}
+              className="text-xs mx-2  text-lime-700"
+              title="Edit"
+            />
+          ) : null}
+          {record.clearance_file ? <span>|</span> : null}
           <FiEdit
             onClick={() => handleClearenceEdit(record)}
             className="text-xs mx-2  text-lime-700"
@@ -182,7 +181,7 @@ const Clearance = ({ clearences, token, id }) => {
   ];
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -236,8 +235,6 @@ const Clearance = ({ clearences, token, id }) => {
             <button className="dcm-button mr-2 mt-2" onClick={handleClickOpen}>
               Add Clearance
             </button>
-
-            
           </div>
         </motion.div>
       </div>

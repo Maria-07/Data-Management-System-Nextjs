@@ -4,29 +4,28 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useGetSessionListQuery } from "@/Redux/features/Appointment/RecurringSession/RecurringSessionApi";
 
-const SingleViewPopup = ({token, id, setRecordSelected}) => {
+const SingleViewPopup = ({ token, id, setRecordSelected }) => {
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
   const [TimeSheetData, SetTimeSheetDate] = useState([]);
   const [selectedSession, setSelectedRecord] = useState([]);
 
-
   const { data: singleViewData, isLoading: singleViewLoading } =
-  useGetSessionListQuery({
+    useGetSessionListQuery({
       token,
-      id
+      id,
     });
-  function formatDate(inputDate){  
-      var splitDate = inputDate.split('-');
-      if(splitDate.count == 0){
-          return null;
-      }
-  
-      var year = splitDate[0];
-      var month = splitDate[1];
-      var day = splitDate[2]; 
-  
-      return month + '/' + day + '/' + year;
+  function formatDate(inputDate) {
+    var splitDate = inputDate.split("-");
+    if (splitDate.count == 0) {
+      return null;
+    }
+
+    var year = splitDate[0];
+    var month = splitDate[1];
+    var day = splitDate[2];
+
+    return month + "/" + day + "/" + year;
   }
   const column = [
     {
@@ -59,10 +58,8 @@ const SingleViewPopup = ({token, id, setRecordSelected}) => {
       key: "scheduled_date",
       width: 120,
       render: (_, { scheduled_date }) => {
-        return (
-          <div>{formatDate(scheduled_date)}</div>
-        )
-      }
+        return <div>{formatDate(scheduled_date)}</div>;
+      },
     },
 
     {
@@ -93,12 +90,11 @@ const SingleViewPopup = ({token, id, setRecordSelected}) => {
           </div>
         );
       },
-    }
+    },
   ];
 
-
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -109,18 +105,18 @@ const SingleViewPopup = ({token, id, setRecordSelected}) => {
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
-      );
-      setSelectedRecord(selectedRowKeys)
+      // console.log(
+      //   `selectedRowKeys: ${selectedRowKeys}`,
+      //   "selectedRows: ",
+      //   selectedRows
+      // );
+      setSelectedRecord(selectedRowKeys);
     },
     onSelect: (record, selected, selectedRows) => {
-      console.log(record, selected, selectedRows);
+      // console.log(record, selected, selectedRows);
     },
     onSelectAll: (selected, selectedRows, changeRows) => {
-      console.log(selected, selectedRows, changeRows);
+      // console.log(selected, selectedRows, changeRows);
     },
   };
   useEffect(() => {
@@ -134,8 +130,8 @@ const SingleViewPopup = ({token, id, setRecordSelected}) => {
     <div>
       {" "}
       <div className="overflow-scroll mt-5">
-      <Table
-          rowKey={(record) => record.session_id} 
+        <Table
+          rowKey={(record) => record.session_id}
           pagination={false} //pagination dekhatey chailey just 'true' korey dilei hobey
           size="small"
           className="table-striped-rows text-xs font-normal"

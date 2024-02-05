@@ -15,9 +15,9 @@ import { useGetAppointmentPOSQuery } from "@/Redux/features/Appointment/appointm
 import axios from "axios";
 const PatientSessionNote = () => {
   const patientId = localStorage.getItem("PId");
-  
+
   const token = getAccessToken();
-  const [allData,setAllData] = useState([]);
+  const [allData, setAllData] = useState([]);
   const [stuffs, setStuffs] = useState();
   const [stuffsId, setStuffsId] = useState([]);
   const [location, setLocation] = useState("");
@@ -27,8 +27,8 @@ const PatientSessionNote = () => {
     },
   });
   const { data: posData, isLoading: posDataLoading } =
-  useGetAppointmentPOSQuery(token);
-//console.log("pos data", posData?.point_of_service);
+    useGetAppointmentPOSQuery(token);
+  //// // console.log("pos data", posData?.point_of_service);
   const getPatientsData = async (payload) => {
     const res = await axios({
       method: "POST",
@@ -36,9 +36,9 @@ const PatientSessionNote = () => {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        "Authorization": token || null,
+        Authorization: token || null,
       },
-      data : payload
+      data: payload,
     });
     const data = res?.data?.session_note?.data;
     setAllData(data);
@@ -48,14 +48,14 @@ const PatientSessionNote = () => {
     var current_date = new Date();
     var prev_date = new Date();
     prev_date.setDate(prev_date.getDate() - 1);
-   const filterData = {
-    patient_id:patientId,    
-    /*"report_range": {
+    const filterData = {
+      patient_id: patientId,
+      /*"report_range": {
       "start_date": convert(prev_date),
       "end_date": convert(current_date)
     }*/
-  }
-   console.log('filterData',filterData);
+    };
+    // console.log("filterData", filterData);
     getPatientsData(filterData);
   }, [token]);
   //Provider multi select data from server(Provider=>Staff)
@@ -73,7 +73,7 @@ const PatientSessionNote = () => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          "Authorization": token || null,
+          Authorization: token || null,
         },
       });
       const data = res?.data?.provider_data;
@@ -82,23 +82,22 @@ const PatientSessionNote = () => {
     getProviderData();
   }, [token]);
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
     const from_date = convert(startDate);
     const to_date = convert(endDate);
     const payLoad = {
       patient_id: patientId,
       provider_ids: stuffsId?.length > 0 ? stuffsId : [],
-      status: data?.status!='' ? [data?.status] : [],
+      status: data?.status != "" ? [data?.status] : [],
       pos: location,
-      report_range:{start_date:from_date,end_date:to_date}
+      report_range: { start_date: from_date, end_date: to_date },
     };
-    console.log("payload", payLoad);    
+    // console.log("payload", payLoad);
     getPatientsData(payLoad);
   };
 
-    //console.log('calllogData',calllogData);
+  //console.log('calllogData',calllogData);
   const [table, setTable] = useState(true);
-
 
   //!-------------------Date Range Picker
   const refClose = useRef(null);
@@ -150,7 +149,7 @@ const PatientSessionNote = () => {
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -161,30 +160,31 @@ const PatientSessionNote = () => {
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
+      // console.log(
         `selectedRowKeys: ${selectedRowKeys}`,
         "selectedRows: ",
         selectedRows
       );
     },
     onSelect: (record, selected, selectedRows) => {
-      console.log(record, selected, selectedRows);
+      // console.log(record, selected, selectedRows);
     },
     onSelectAll: (selected, selectedRows, changeRows) => {
-      console.log(selected, selectedRows, changeRows);
+      // console.log(selected, selectedRows, changeRows);
     },
   };
-  function formatDate(inputDate){  // expects Y-m-d
-    var splitDate = inputDate.split('-');
-    if(splitDate.count == 0){
-        return null;
+  function formatDate(inputDate) {
+    // expects Y-m-d
+    var splitDate = inputDate.split("-");
+    if (splitDate.count == 0) {
+      return null;
     }
 
     var year = splitDate[0];
     var month = splitDate[1];
-    var day = splitDate[2]; 
+    var day = splitDate[2];
 
-    return month + '/' + day + '/' + year;
+    return month + "/" + day + "/" + year;
   }
   const column = [
     {
@@ -253,7 +253,7 @@ const PatientSessionNote = () => {
       title: "Scheduled Date",
       key: "scheduled_date",
       dataIndex: "scheduled_date",
-      width: 120,   
+      width: 120,
       render: (_, record) => {
         return (
           <div className="flex justify-center">
@@ -337,25 +337,25 @@ const PatientSessionNote = () => {
             </label>
             <div className="py-[2px]  mt-2">
               <select
-                    className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
-                    {...register("pos")}
-                    onChange={(e) => setLocation(e.target.value)}
-                  >
-                    <option value="" className="text-black">
-                      Select
+                className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1 mt-1  w-full focus:outline-none"
+                {...register("pos")}
+                onChange={(e) => setLocation(e.target.value)}
+              >
+                <option value="" className="text-black">
+                  Select
+                </option>
+                {posData?.point_of_service?.map((p) => {
+                  return (
+                    <option
+                      className="text-black"
+                      key={p?.id}
+                      value={p?.pos_code}
+                    >
+                      {p?.pos_name}
                     </option>
-                    {posData?.point_of_service?.map((p) => {
-                      return (
-                        <option
-                          className="text-black"
-                          key={p?.id}
-                          value={p?.pos_code}
-                        >
-                          {p?.pos_name}
-                        </option>
-                      );
-                    })}
-                  </select>
+                  );
+                })}
+              </select>
             </div>
           </div>
           <div className="sm:w-[240px] w-[200px]">
@@ -450,9 +450,7 @@ const PatientSessionNote = () => {
           </div>
           <div>
             <label className="label">
-              <h1 className="label-font mb-1">
-                Locked
-              </h1>
+              <h1 className="label-font mb-1">Locked</h1>
             </label>
             <select
               className="input-border-bottom text-gray-600 rounded-sm  text-[14px] font-medium ml-1  w-full focus:outline-none"

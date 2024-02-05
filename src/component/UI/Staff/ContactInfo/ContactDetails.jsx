@@ -4,52 +4,70 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useStateInfoQuery } from "@/Redux/features/staff/contactInfo/contactInfoApi";
 
-const ContactDetails = ({ token, contactApiData}) => {
+const ContactDetails = ({ token, contactApiData }) => {
   const { register, handleSubmit, reset } = useForm();
   const [addContactInfo, { isSuccess, isLoading, isError }] =
     useAddContactInfoMutation();
-    const cdata = {
-      address_one: contactApiData?.employee_address_one,
-      address_two: contactApiData?.employee_address_two,
-      city: contactApiData?.employee_city,
-      state: contactApiData?.employee_state,
-      zip: contactApiData?.employee_zip,
-      mobile: contactApiData?.employee_mobile,
-      fax: contactApiData?.employee_fax,
-      main_phone: contactApiData?.employee_main_phone,
-      address_note: contactApiData?.employee_address_note
-  }
+  const cdata = {
+    address_one: contactApiData?.employee_address_one,
+    address_two: contactApiData?.employee_address_two,
+    city: contactApiData?.employee_city,
+    state: contactApiData?.employee_state,
+    zip: contactApiData?.employee_zip,
+    mobile: contactApiData?.employee_mobile,
+    fax: contactApiData?.employee_fax,
+    main_phone: contactApiData?.employee_main_phone,
+    address_note: contactApiData?.employee_address_note,
+  };
 
-  const { data: stateData, isSuccess: stateDetailsSucess } =
-  useStateInfoQuery({ token });
-  const stateList = {...stateData?.states};
+  const { data: stateData, isSuccess: stateDetailsSucess } = useStateInfoQuery({
+    token,
+  });
+  const stateList = { ...stateData?.states };
 
+  const {
+    address_one,
+    address_two,
+    city,
+    state,
+    zip,
+    mobile,
+    fax,
+    main_phone,
+    address_note,
+  } = cdata || {};
+  useEffect(() => {
+    // you can do async server request and fill up form
+    setTimeout(() => {
+      reset({
+        address_one: address_one,
+        address_two: address_two,
+        city: city,
+        state: state,
+        zip: zip,
+        mobile: mobile,
+        fax: fax,
+        main_phone: main_phone,
+        address_note: address_note,
+      });
+    }, 0);
+  }, [
+    reset,
+    address_one,
+    address_two,
+    city,
+    state,
+    zip,
+    mobile,
+    fax,
+    main_phone,
+    address_note,
+  ]);
 
-const { address_one, address_two, city, state, zip, mobile, fax, main_phone, address_note } = cdata || {};
-useEffect(() => {
-  // you can do async server request and fill up form
-  setTimeout(() => {
-    reset({
-      address_one:address_one, 
-      address_two:address_two, 
-      city:city, 
-      state:state, 
-      zip:zip, 
-      mobile:mobile,
-      fax:fax, 
-      main_phone:main_phone, 
-      address_note:address_note
-    });
-  }, 0);
-}, [
-  reset,
-  address_one, address_two, city, state, zip, mobile, fax, main_phone, address_note
-]);
-
-// console.log("contactApiData", contactApiData);
+  // console.log("contactApiData", contactApiData);
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     const payloadData = {
       //employee_contact_edit: contactApiData?.employee_id,
       employee_address_one: data?.address_one,
@@ -62,10 +80,10 @@ useEffect(() => {
       employee_main_phone: data?.main_phone,
       employee_address_note: data?.address_note,
     };
-    const payload = {contact_details:payloadData}
-    console.log("payload", payload);
+    const payload = { contact_details: payloadData };
+    // console.log("payload", payload);
     const res = addContactInfo({ token, payload });
-    console.log("res", res);
+    // console.log("res", res);
   };
 
   useEffect(() => {
@@ -137,17 +155,13 @@ useEffect(() => {
               className="input-border-bottom mt-1 input-font w-full focus:outline-none"
               {...register("state")}
             >
-              {Object.entries(stateList).map((v,k) => {
+              {Object.entries(stateList).map((v, k) => {
                 return (
-                  <option
-                    className="text-black"
-                    key={v[0]}
-                    value={v[0]}
-                  >
+                  <option className="text-black" key={v[0]} value={v[0]}>
                     {v[1]}
                   </option>
                 );
-              } )}
+              })}
             </select>
           </div>
 

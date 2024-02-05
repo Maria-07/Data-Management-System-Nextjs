@@ -6,7 +6,7 @@ const ProgramCards = () => {
   const [selectedPrograms, setSelectedPrograms] = useState([]);
 
   const handleSelectProgram = (e) => {
-    console.log("E", e);
+    // console.log("E", e);
     setSelectProgram(!selectProgram);
   };
 

@@ -61,7 +61,7 @@ const ClientOrganization = ({ handleClose }) => {
 
   //! item
   const onChange = (checkedValues) => {
-    console.log("checked = ", checkedValues);
+    // console.log("checked = ", checkedValues);
   };
 
   return (

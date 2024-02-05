@@ -24,11 +24,10 @@ const ForgetPasswordCodeCheck = () => {
   );
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
     // try {
     //   const response = await forgetPasswordCode(data);
     //   console.log("response", response);
-
     //   if (response?.data?.status === "success") {
     //     toast.success(response?.data?.message);
     //     // router.push(`/forgot-password-change/${}`);

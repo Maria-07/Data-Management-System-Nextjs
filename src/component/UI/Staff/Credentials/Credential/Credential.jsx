@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { useDeleteCredentialMutation } from "@/Redux/features/staff/credentials/credentialsApi";
 
 const Credential = ({ credentials, token, id }) => {
-  console.log('credentials',credentials);
+  // console.log('credentials',credentials);
   const [display, setDisplay] = useState(true);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
@@ -64,20 +64,20 @@ const Credential = ({ credentials, token, id }) => {
     setFileView(false);
   };
   const handleViewOpen = (record) => {
-    setCredentialId(record?.credential_id)
+    setCredentialId(record?.credential_id);
     setFileView(true);
   };
-  function formatDate(inputDate){  
-      var splitDate = inputDate.split('-');
-      if(splitDate.count == 0){
-          return null;
-      }
+  function formatDate(inputDate) {
+    var splitDate = inputDate.split("-");
+    if (splitDate.count == 0) {
+      return null;
+    }
 
-      var year = splitDate[0];
-      var month = splitDate[1];
-      var day = splitDate[2]; 
+    var year = splitDate[0];
+    var month = splitDate[1];
+    var day = splitDate[2];
 
-      return month + '/' + day + '/' + year;
+    return month + "/" + day + "/" + year;
   }
 
   const column = [
@@ -104,7 +104,7 @@ const Credential = ({ credentials, token, id }) => {
       title: "Date issue",
       key: "credential_date_expired",
       dataIndex: "credential_date_expired",
-      width: 100,     
+      width: 100,
       render: (_, record) => {
         return (
           <div className="flex justify-center">
@@ -130,7 +130,7 @@ const Credential = ({ credentials, token, id }) => {
       title: "Expired Date",
       key: "credential_date_issue",
       dataIndex: "credential_date_issue",
-      width: 100,     
+      width: 100,
       render: (_, record) => {
         return (
           <div className="flex justify-center">
@@ -158,14 +158,14 @@ const Credential = ({ credentials, token, id }) => {
       width: 150,
       render: (_, record) => (
         <div className="flex justify-center gap-1 text-primary cursor-pointer">
-        { record.credential_file ?
-        (<AiOutlineEye
-          onClick={() => handleViewOpen(record)}
-          className="text-xs mx-2  text-lime-700"
-          title="Edit"
-        />
-        ) : null }
-        { record.credential_file ? (<span>|</span>) : null}
+          {record.credential_file ? (
+            <AiOutlineEye
+              onClick={() => handleViewOpen(record)}
+              className="text-xs mx-2  text-lime-700"
+              title="Edit"
+            />
+          ) : null}
+          {record.credential_file ? <span>|</span> : null}
           <FiEdit
             onClick={() => handleEditModal(record)}
             className="text-xs mx-2  text-lime-700"
@@ -185,7 +185,7 @@ const Credential = ({ credentials, token, id }) => {
   ];
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -239,7 +239,6 @@ const Credential = ({ credentials, token, id }) => {
             <button className="dcm-button mr-2 mt-2" onClick={handleClickOpen}>
               Add Credential
             </button>
-
           </div>
         </motion.div>
       </div>

@@ -6,14 +6,14 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 const BulkInviteStaff = ({ handleClose, clicked }) => {
   const [value, setValue] = useState("");
   const onChange = (value) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
     setValue(value);
   };
 
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
   };
   const items = ["Restricted to specific people", "Anyone with a link"];
   return (

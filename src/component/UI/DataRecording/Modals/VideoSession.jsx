@@ -13,7 +13,7 @@ const VideoSession = ({ handleClose, clicked }) => {
     });
   }
   const handleChange = (value) => {
-    console.log(`Selected: ${value}`);
+    // console.log(`Selected: ${value}`);
   };
   return (
     <div>

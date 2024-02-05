@@ -16,7 +16,7 @@ const CredentialPage = () => {
   const router = useRouter();
   const { query } = router;
   const id = query.credential;
-  console.log(id);
+  // console.log(id);
   const token = getAccessToken();
 
   //! get all credential data api
@@ -43,7 +43,7 @@ const CredentialPage = () => {
       id: id,
     });
 
-  console.log("data -> 👉", credentials?.credentialsList);
+  // console.log("data -> 👉", credentials?.credentialsList);
 
   if (credentialsLoading || clearenceLoading || qualificationLoading) {
     return <Loading></Loading>;

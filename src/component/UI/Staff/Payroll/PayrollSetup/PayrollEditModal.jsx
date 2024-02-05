@@ -13,7 +13,7 @@ const PayrollEditModal = ({
   id,
   token,
 }) => {
-  console.log("from edit modal", open, payroll, services);
+  // console.log("from edit modal", open, payroll, services);
   const [active, setActive] = useState(false);
   const { register, handleSubmit, reset } = useForm();
   const [value, setValue] = useState(false);
@@ -23,7 +23,7 @@ const PayrollEditModal = ({
   const existingService = services?.find(
     (each) => parseInt(each?.id) === payroll?.service_id
   );
-  console.log("Clicked existing service", existingService);
+  // console.log("Clicked existing service", existingService);
 
   //Individual payroll data id wise
   //   const { data: payrollInfo, isLoading } = useGetpayrollinfoQuery({

@@ -12,34 +12,34 @@ const AddCallLog = ({ handleClose, open, patientId }) => {
   const { register, handleSubmit } = useForm();
   const [textNotes, setTextNotes] = useState();
   const [createCalllog, { isSuccess: updateSuccess, isError: updateError }] =
-  useCreateCalllogMutation();
-      //To show Toast
-      useEffect(() => {
-        if (updateSuccess) {
-          handleClose();
-          toast.success("Successfully Added", {
-            position: "top-center",
-            autoClose: 2000,
-            theme: "dark",
-          });
-          setTimeout(()=>{
-            window.location.reload();
-          },3000)         
-        } else if (updateError) {
-          toast.error("Some Error Occured", {
-            position: "top-center",
-            autoClose: 2000,
-            theme: "dark",
-          });
-        }
-      }, [updateSuccess, updateError, handleClose]);
+    useCreateCalllogMutation();
+  //To show Toast
+  useEffect(() => {
+    if (updateSuccess) {
+      handleClose();
+      toast.success("Successfully Added", {
+        position: "top-center",
+        autoClose: 2000,
+        theme: "dark",
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } else if (updateError) {
+      toast.error("Some Error Occured", {
+        position: "top-center",
+        autoClose: 2000,
+        theme: "dark",
+      });
+    }
+  }, [updateSuccess, updateError, handleClose]);
   const onSubmit = (data) => {
     const payload = {
       patient_id: patientId,
       log_date: data?.expiry_Date,
-      call_log: textNotes
+      call_log: textNotes,
     };
-    console.log(payload);
+    // console.log(payload);
     if (payload) {
       createCalllog({
         token,

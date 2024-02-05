@@ -8,7 +8,7 @@ import { PiNotepadBold } from "react-icons/pi";
 function ClinicalSessionCards() {
   const [expandIconPosition, setExpandIconPosition] = useState("start");
   const onChange = (key) => {
-    console.log(key);
+    // console.log(key);
   };
   const genExtra = () => (
     <div className="flex items-center gap-2 text-lg mt-3">

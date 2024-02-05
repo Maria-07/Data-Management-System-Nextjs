@@ -19,7 +19,7 @@ const ContactInfo = () => {
 
   const { data: contactData, isSuccess: contactDetailsSucess } =
     useStaffContactInfoQuery({ token });
-  console.log("contactData", contactData);
+  // console.log("contactData", contactData);
 
   const items = [
     {

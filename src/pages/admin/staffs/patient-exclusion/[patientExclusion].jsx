@@ -45,7 +45,7 @@ const PatientExclusion = () => {
   //add staff service sub-type api
   const [addPatientExclusion, { data: patientExclusion, isError: addError }] =
     useAddPatientExclusionMutation();
-  console.log("addPatientExclusion", patientExclusion);
+  // console.log("addPatientExclusion", patientExclusion);
 
   //delete satff service sub-type api
   const [
@@ -66,7 +66,7 @@ const PatientExclusion = () => {
     // console.log( value);
     setTargettedData(value);
   };
-  console.log("selected values", targettedData);
+  // console.log("selected values", targettedData);
 
   // handle staff patient exclusion save
   const handleExcluded = () => {
@@ -142,7 +142,7 @@ const PatientExclusion = () => {
   }
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setSortedInfo(sorter);
   };
   const column = [

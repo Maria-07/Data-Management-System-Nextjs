@@ -10,7 +10,6 @@ import { useDeleteQualificationMutation } from "@/Redux/features/staff/credentia
 import ViewQualification from "./ViewQualification";
 
 const Qualification = ({ qualification, token, id }) => {
- 
   const [display, setDisplay] = useState(true);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
@@ -24,7 +23,7 @@ const Qualification = ({ qualification, token, id }) => {
     deleteQualification,
     { isSuccess: qualificationDelete, isError: deleteError },
   ] = useDeleteQualificationMutation();
-  console.log("qualification data", qualification);
+  // console.log("qualification data", qualification);
   //Handle qualification Edit Modal
   const handleQualificationEdit = (record) => {
     setQualificationRecord(record);
@@ -32,7 +31,7 @@ const Qualification = ({ qualification, token, id }) => {
   };
 
   const handleDelete = (id) => {
-    console.log("delete id", id);
+    // console.log("delete id", id);
     const payload = {
       qualification_id: id,
     };
@@ -64,22 +63,22 @@ const Qualification = ({ qualification, token, id }) => {
     setFileView(false);
   };
   const handleViewOpen = (record) => {
-    setQualificationId(record?.qualification_id)
+    setQualificationId(record?.qualification_id);
     setFileView(true);
   };
 
-  function formatDate(inputDate){  
-    var splitDate = inputDate.split('-');
-    if(splitDate.count == 0){
-        return null;
+  function formatDate(inputDate) {
+    var splitDate = inputDate.split("-");
+    if (splitDate.count == 0) {
+      return null;
     }
 
     var year = splitDate[0];
     var month = splitDate[1];
-    var day = splitDate[2]; 
+    var day = splitDate[2];
 
-    return month + '/' + day + '/' + year;
- }
+    return month + "/" + day + "/" + year;
+  }
 
   const column = [
     // Display Name Data(Exceptional)=>Static
@@ -142,7 +141,7 @@ const Qualification = ({ qualification, token, id }) => {
       title: "Date issue",
       key: "qualification_date_issue",
       dataIndex: "qualification_date_issue",
-      width: 100,     
+      width: 100,
       render: (_, record) => {
         return (
           <div className="flex justify-center">
@@ -168,7 +167,7 @@ const Qualification = ({ qualification, token, id }) => {
       title: "Date Expire",
       key: "qualification_date_expired",
       dataIndex: "qualification_date_expired",
-      width: 100,     
+      width: 100,
       render: (_, record) => {
         return (
           <div className="flex justify-center">
@@ -196,15 +195,15 @@ const Qualification = ({ qualification, token, id }) => {
       key: "operation",
       width: 150,
       render: (_, record) => (
-        <div className="flex justify-center gap-1 text-primary">          
-        { record.qualification_file ?
-        (<AiOutlineEye
-          onClick={() => handleViewOpen(record)}
-          className="text-xs mx-2  text-lime-700"
-          title="Edit"
-        />
-        ) : null }
-        { record.qualification_file ? (<span>|</span>) : null}
+        <div className="flex justify-center gap-1 text-primary">
+          {record.qualification_file ? (
+            <AiOutlineEye
+              onClick={() => handleViewOpen(record)}
+              className="text-xs mx-2  text-lime-700"
+              title="Edit"
+            />
+          ) : null}
+          {record.qualification_file ? <span>|</span> : null}
           <FiEdit
             onClick={() => handleQualificationEdit(record)}
             className="text-xs mx-2  text-lime-700"
@@ -229,7 +228,7 @@ const Qualification = ({ qualification, token, id }) => {
   };
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -286,7 +285,6 @@ const Qualification = ({ qualification, token, id }) => {
             <button className="dcm-button mr-2 mt-2" onClick={handleClickOpen}>
               Add Qualification
             </button>
-
           </div>
         </motion.div>
       </div>

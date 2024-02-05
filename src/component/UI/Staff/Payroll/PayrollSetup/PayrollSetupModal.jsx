@@ -12,8 +12,8 @@ const PayrollSetupModal = ({ handleClose, open, services, token, id }) => {
   const [value, setValue] = useState(false);
   const [serviceId, setServiceId] = useState([]);
 
-  console.log("seleted service ID", serviceId);
-  console.log("services data ", services);
+  // console.log("seleted service ID", serviceId);
+  // console.log("services data ", services);
   //add payroll api
   const [addPayroll, { isSuccess: addSuccess, isError: addError }] =
     useAddPayrollMutation();

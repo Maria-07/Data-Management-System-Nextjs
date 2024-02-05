@@ -9,8 +9,8 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 const EditCredential = ({ handleClose, open, credentialInfo, token, id }) => {
-  const [imageData,setImageData] = useState(null);
-  const [filenameData,setFilenameData] = useState(null);
+  const [imageData, setImageData] = useState(null);
+  const [filenameData, setFilenameData] = useState(null);
   //Getting credential info data api
   /*const {
     data: credentialData,
@@ -23,11 +23,14 @@ const EditCredential = ({ handleClose, open, credentialInfo, token, id }) => {
     useUpdateCredentialMutation();
 
   const cname = {
-    credential_name:credentialInfo.credential_name,
-    credential_applicable:credentialInfo.credential_applicable !='No' ? credentialInfo.credential_applicable : '',
-    credential_date_expired:credentialInfo.credential_date_expired,
-    credential_date_issue:credentialInfo.credential_date_issue,
-  }
+    credential_name: credentialInfo.credential_name,
+    credential_applicable:
+      credentialInfo.credential_applicable != "No"
+        ? credentialInfo.credential_applicable
+        : "",
+    credential_date_expired: credentialInfo.credential_date_expired,
+    credential_date_issue: credentialInfo.credential_date_issue,
+  };
   const {
     credential_name,
     credential_applicable,
@@ -35,38 +38,43 @@ const EditCredential = ({ handleClose, open, credentialInfo, token, id }) => {
     credential_date_issue,
   } = cname || {};
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const convertBase64 =  (file) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
-      fileReader.readAsDataURL(file)
+      fileReader.readAsDataURL(file);
       fileReader.onload = () => {
         resolve(fileReader.result);
-      }
+      };
       fileReader.onerror = (error) => {
         reject(error);
-      }
-    })
-  }
+      };
+    });
+  };
 
-const handleFileRead = async (event) => {
-  const file = event.target.files[0];
-  setFilenameData(file.name);
-  const base64 =  await convertBase64(file);
-  setImageData(base64);
-}
+  const handleFileRead = async (event) => {
+    const file = event.target.files[0];
+    setFilenameData(file.name);
+    const base64 = await convertBase64(file);
+    setImageData(base64);
+  };
   const onSubmit = (data) => {
-    console.log(data)
+    // console.log(data);
     const payload = {
       credential_id: credentialInfo.credential_id,
       credential_name: data?.cred_type,
       credential_date_issue: data?.date_issue,
       credential_date_expired: data?.expiry_Date,
-      file_name:filenameData,
+      file_name: filenameData,
       credential_applicable: data?.cred_apply,
       file: imageData,
     };
-    console.log(payload);
+    // console.log(payload);
     if (payload) {
       updateCredential({
         token,
@@ -124,7 +132,9 @@ const handleFileRead = async (event) => {
       >
         <div className="px-2 py-2">
           <div className="flex items-center justify-between">
-            <h1 className="text-lg text-left text-orange-400 ">Edit Credential</h1>
+            <h1 className="text-lg text-left text-orange-400 ">
+              Edit Credential
+            </h1>
             <IoCloseCircleOutline
               onClick={handleClose}
               className="text-gray-600 text-2xl hover:text-primary"
@@ -151,17 +161,19 @@ const handleFileRead = async (event) => {
                       message: "Please enter the credential",
                     },
                   })}
-                />                
+                />
                 {errors.cred_type?.type === "required" && (
-                      <p className=" pl-1 text-red-500">
-                        {errors.cred_type.message}
-                      </p>
-                    )}
+                  <p className=" pl-1 text-red-500">
+                    {errors.cred_type.message}
+                  </p>
+                )}
               </div>
 
               <div>
                 <label className="label">
-                  <span className="modal-label-name">Date Issued <span className="text-red-500">*</span></span>
+                  <span className="modal-label-name">
+                    Date Issued <span className="text-red-500">*</span>
+                  </span>
                 </label>
                 <input
                   type="date"
@@ -172,17 +184,19 @@ const handleFileRead = async (event) => {
                       message: "Please enter the date of issued",
                     },
                   })}
-                />             
+                />
                 {errors.date_issue?.type === "required" && (
-                    <p className=" pl-1 text-red-500">
-                      {errors.date_issue.message}
-                    </p>
-                  )}
+                  <p className=" pl-1 text-red-500">
+                    {errors.date_issue.message}
+                  </p>
+                )}
               </div>
               <div>
                 {" "}
                 <label className="label">
-                  <span className="modal-label-name">Expiry Date <span className="text-red-500">*</span></span>
+                  <span className="modal-label-name">
+                    Expiry Date <span className="text-red-500">*</span>
+                  </span>
                 </label>
                 <input
                   type="date"
@@ -193,7 +207,7 @@ const handleFileRead = async (event) => {
                       message: "Please enter the expiry date",
                     },
                   })}
-                />                             
+                />
                 {errors.date_expire?.type === "required" && (
                   <p className=" pl-1 text-red-500">
                     {errors.date_expire.message}

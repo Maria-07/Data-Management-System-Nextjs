@@ -73,7 +73,7 @@ const AuthorizationActivityAddModal = ({
       },
     });
   }, [token, treatment_name, getActivityCptcode]);
-  console.log(activityServices, activitySubtypes, activityCptCode);
+  // console.log(activityServices, activitySubtypes, activityCptCode);
 
   useEffect(() => {
     setTimeout(() => {
@@ -115,7 +115,7 @@ const AuthorizationActivityAddModal = ({
         payload,
       });
     }
-    console.log(payload);
+    // console.log(payload);
   };
 
   useEffect(() => {

@@ -10,16 +10,16 @@ const PatientPortal = () => {
   const router = useRouter();
   const { query } = router;
   const id = query.PatientPortal;
-  console.log(id);
+  // console.log(id);
 
   const [active, setActive] = useState(false);
-  console.log("patient Portal", id);
+  // console.log("patient Portal", id);
   const [secure, setSecure] = useState(false);
   const [billing, setBilling] = useState(false);
   const [pay, setPay] = useState(false);
   const [email, setEmail] = useState("");
   const [display, setDisplay] = useState(true);
-  console.log(email);
+  // console.log(email);
   const [share, setShare] = useState("");
 
   const handleDate = (e) => {

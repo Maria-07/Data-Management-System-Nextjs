@@ -22,7 +22,7 @@ const PatientVob = () => {
       });
   }, []);
 
-  console.log(allData);
+  // console.log(allData);
 
   const column = [
     {
@@ -170,7 +170,7 @@ const PatientVob = () => {
   ];
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };

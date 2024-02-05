@@ -23,7 +23,7 @@ const timeConvertForInput = (receivedTime) => {
   if (isNaN(receivedDate)) {
     // Handle invalid date
     return null;
-  };
+  }
   const timeString = receivedDate.toLocaleTimeString();
   const [time, period] = timeString.split(" ");
   let [hours, minutes, seconds] = time.split(":").map(Number);
@@ -42,50 +42,46 @@ const timeConvertForInput = (receivedTime) => {
 };
 
 const convertTime12to24 = (time12h) => {
-  
-  if(typeof time12h !== 'undefined') {
-        let [hours, minutes, modifier] = time12h.split(':');
+  if (typeof time12h !== "undefined") {
+    let [hours, minutes, modifier] = time12h.split(":");
 
-      if (hours === '12') {
-        hours = '00';
-      }
+    if (hours === "12") {
+      hours = "00";
+    }
 
-      if (modifier === 'PM') {
-        hours = parseInt(hours, 10) + 12;
-      }
+    if (modifier === "PM") {
+      hours = parseInt(hours, 10) + 12;
+    }
 
-      return `${hours}:${minutes}:00`;
+    return `${hours}:${minutes}:00`;
   }
   return null;
-}
+};
 
-function tConvert (time) {   
-    var time_part_array = time.split(":");
-    var ampm = 'AM';
+function tConvert(time) {
+  var time_part_array = time.split(":");
+  var ampm = "AM";
 
-    if (time_part_array[0] >= 12) {
-        ampm = 'PM';
+  if (time_part_array[0] >= 12) {
+    ampm = "PM";
+  }
+
+  if (time_part_array[0] > 12) {
+    time_part_array[0] = time_part_array[0] - 12;
+    if (time_part_array[0] < 10) {
+      time_part_array[0] = "0" + time_part_array[0];
     }
+  }
 
-    if (time_part_array[0] > 12) {
-        time_part_array[0] = time_part_array[0] - 12;
-        if(time_part_array[0]<10)
-        {
-          time_part_array[0] = '0' + time_part_array[0];
-        }
-    }
+  if (time == "00:00:00" || time == "00:00") {
+    time_part_array[0] = "12";
+  }
 
-    if(time=='00:00:00' || time=='00:00')
-    {
-      time_part_array[0] = '12';
-    } 
+  let formatted_time =
+    time_part_array[0] + ":" + time_part_array[1] + ":" + ampm;
 
-    let formatted_time = time_part_array[0]  + ':' + time_part_array[1] +  ':' + ampm;
-    
-
-    return formatted_time;
+  return formatted_time;
 }
-
 
 const workSchedule = () => {
   //! Id get
@@ -115,22 +111,22 @@ const workSchedule = () => {
     updateWorkingSchedule,
     { isSuccess: createSuccess, isError: createError },
   ] = useUpdateWorkingScheduleMutation();
-  const workData =  {
-    mon_start : workingSchedule?.work_schedule?.monday?.start,
-    mon_end : workingSchedule?.work_schedule?.monday?.end,
-    tue_start : workingSchedule?.work_schedule?.tuesday?.start,
-    tue_end : workingSchedule?.work_schedule?.tuesday?.end,
-    wed_start : workingSchedule?.work_schedule?.wednesday?.start,
-    wed_end : workingSchedule?.work_schedule?.wednesday?.end,
-    thu_start : workingSchedule?.work_schedule?.thursday?.start,
-    thu_end : workingSchedule?.work_schedule?.thursday?.end,
-    sun_start : workingSchedule?.work_schedule?.sunday?.start,
-    sun_end : workingSchedule?.work_schedule?.sunday?.end,
-    sat_start : workingSchedule?.work_schedule?.saturday?.start,
-    sat_end : workingSchedule?.work_schedule?.saturday?.end,
-    fri_start : workingSchedule?.work_schedule?.friday?.start,
-    fri_end : workingSchedule?.work_schedule?.friday?.end,
-  }
+  const workData = {
+    mon_start: workingSchedule?.work_schedule?.monday?.start,
+    mon_end: workingSchedule?.work_schedule?.monday?.end,
+    tue_start: workingSchedule?.work_schedule?.tuesday?.start,
+    tue_end: workingSchedule?.work_schedule?.tuesday?.end,
+    wed_start: workingSchedule?.work_schedule?.wednesday?.start,
+    wed_end: workingSchedule?.work_schedule?.wednesday?.end,
+    thu_start: workingSchedule?.work_schedule?.thursday?.start,
+    thu_end: workingSchedule?.work_schedule?.thursday?.end,
+    sun_start: workingSchedule?.work_schedule?.sunday?.start,
+    sun_end: workingSchedule?.work_schedule?.sunday?.end,
+    sat_start: workingSchedule?.work_schedule?.saturday?.start,
+    sat_end: workingSchedule?.work_schedule?.saturday?.end,
+    fri_start: workingSchedule?.work_schedule?.friday?.start,
+    fri_end: workingSchedule?.work_schedule?.friday?.end,
+  };
 
   const {
     mon_start,
@@ -189,37 +185,37 @@ const workSchedule = () => {
 
   const onSubmit = (data) => {
     const payload = {
-          "monday": {
-            "start": tConvert(data.mon_start),
-            "end": tConvert(data.mon_end)
-          },
-          "tuesday": {
-              "start": tConvert(data.tue_start),
-              "end": tConvert(data.tue_end),
-          },
-          "wednesday": {
-              "start": tConvert(data.wed_start),
-              "end": tConvert(data.wed_end),
-          },
-          "thursday": {
-              "start": tConvert(data.thu_start),
-              "end": tConvert(data.thu_end),
-          },
-          "friday": {
-              "start": tConvert(data.fri_start),
-              "end": tConvert(data.fri_end),
-          },
-          "saturday": {
-              "start": tConvert(data.sat_start),
-              "end": tConvert(data.sat_end),
-          },
-          "sunday": {
-              "start": tConvert(data.sun_start),
-              "end": tConvert(data.sun_end),
-          }
-    }
-    console.log(data);
-    console.log(payload);
+      monday: {
+        start: tConvert(data.mon_start),
+        end: tConvert(data.mon_end),
+      },
+      tuesday: {
+        start: tConvert(data.tue_start),
+        end: tConvert(data.tue_end),
+      },
+      wednesday: {
+        start: tConvert(data.wed_start),
+        end: tConvert(data.wed_end),
+      },
+      thursday: {
+        start: tConvert(data.thu_start),
+        end: tConvert(data.thu_end),
+      },
+      friday: {
+        start: tConvert(data.fri_start),
+        end: tConvert(data.fri_end),
+      },
+      saturday: {
+        start: tConvert(data.sat_start),
+        end: tConvert(data.sat_end),
+      },
+      sunday: {
+        start: tConvert(data.sun_start),
+        end: tConvert(data.sun_end),
+      },
+    };
+    // console.log(data);
+    // console.log(payload);
     if (payload) {
       updateWorkingSchedule({
         token: token,
@@ -454,7 +450,7 @@ const workSchedule = () => {
             </div>
           </div>
         </form>
-       { /* <BlockOffTime token={token}></BlockOffTime> */ }
+        {/* <BlockOffTime token={token}></BlockOffTime> */}
       </div>
     </div>
   );

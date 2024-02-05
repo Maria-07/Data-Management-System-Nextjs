@@ -34,7 +34,7 @@ const LogInForm = () => {
     // console.log(data);
     try {
       const response = await login(data);
-      console.log("response", response);
+      // console.log("response", response);
 
       if (response?.data?.status === "success") {
         toast.success(response?.data?.message);
@@ -49,7 +49,7 @@ const LogInForm = () => {
       const loginuserFullname = response?.data?.user?.full_name;
       const loginuserEmail = response?.data?.user?.login_email;
 
-      console.log("accessToken ", accessToken);
+      // console.log("accessToken ", accessToken);
 
       if (accessToken) {
         Cookies.set("accessToken", accessToken); // Store the access token in a cookie
@@ -57,7 +57,7 @@ const LogInForm = () => {
         Cookies.set("loginuserEmail", loginuserEmail);
       }
     } catch (error) {
-      console.log("error", error);
+      // console.log("error", error);
     }
   };
 

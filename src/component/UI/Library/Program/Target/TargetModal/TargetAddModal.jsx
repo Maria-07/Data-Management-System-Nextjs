@@ -6,7 +6,7 @@ const TargetAddModal = ({ handleClose, clicked }) => {
   const [value, setValue] = useState("");
 
   const onChange = (value) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
     setValue(value);
   };
   const items = [

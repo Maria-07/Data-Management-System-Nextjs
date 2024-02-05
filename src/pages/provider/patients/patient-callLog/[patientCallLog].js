@@ -10,23 +10,20 @@ import { useRouter } from "next/router";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 
 const PatientCallLog = () => {
-  
   const router = useRouter();
   const { query } = router;
   const id = query.patientCallLog;
-  console.log(id);
+  // console.log(id);
   const token = getAccessToken();
 
-  const { data: calllogData, isLoading: calllogloading } =
-    useGetCalllogQuery({
-      token,
-      id
-    });
+  const { data: calllogData, isLoading: calllogloading } = useGetCalllogQuery({
+    token,
+    id,
+  });
 
-    //console.log('calllogData',calllogData);
+  //console.log('calllogData',calllogData);
 
   const allData = calllogData?.call_log?.data || [];
-
 
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
@@ -39,31 +36,28 @@ const PatientCallLog = () => {
     setOpenEditModal(true);
   };
 
-function formatDate(inputDate){  // expects Y-m-d
-    var splitDate = inputDate.split('-');
-    if(splitDate.count == 0){
-        return null;
+  function formatDate(inputDate) {
+    // expects Y-m-d
+    var splitDate = inputDate.split("-");
+    if (splitDate.count == 0) {
+      return null;
     }
 
     var year = splitDate[0];
     var month = splitDate[1];
-    var day = splitDate[2]; 
+    var day = splitDate[2];
 
-    return month + '/' + day + '/' + year;
-}
+    return month + "/" + day + "/" + year;
+  }
 
   const column = [
     {
       title: "Date",
       dataIndex: "log_date",
       key: "log_date",
-      width: 120,     
+      width: 120,
       render: (_, record) => {
-        return (
-          <div>
-            {formatDate(record.log_date)}
-          </div>
-        );
+        return <div>{formatDate(record.log_date)}</div>;
       },
       /*filters: [{}],
       filteredValue: filteredInfo.Document || null,
@@ -111,7 +105,7 @@ function formatDate(inputDate){  // expects Y-m-d
   ];
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
+    // console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };

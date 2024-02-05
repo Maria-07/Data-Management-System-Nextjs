@@ -8,7 +8,7 @@ const AddSessionNotes = ({ sessionopen, setSessionOpen }) => {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
   };
 
   return (
@@ -39,12 +39,12 @@ const AddSessionNotes = ({ sessionopen, setSessionOpen }) => {
           <div className="bg-gray-200 py-[1px] mt-3"></div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div >
-            <label className="label">
-            <span className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
-            Select form
-            </span>
-          </label>
+            <div>
+              <label className="label">
+                <span className="label-text font-medium flex items-center text-[12px] text-gray-600 text-left">
+                  Select form
+                </span>
+              </label>
               <select
                 className="border border-gray-300  col-span-2 rounded-sm px-2 py-1 mx-1 text-[12px] text-start w-full  mb-5"
                 {...register("patient")}

@@ -7,7 +7,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 const ViewNotes = ({ view, setView }) => {
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
   };
   return (
     <Modal

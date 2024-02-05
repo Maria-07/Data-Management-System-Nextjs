@@ -4,11 +4,11 @@ import { useForm, useEffect } from "react-hook-form";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 const DocumentView = ({ handleClose, open, imageData }) => {
-  console.log("imageData", imageData);
+  // console.log("imageData", imageData);
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
   };
   return (
     <div>

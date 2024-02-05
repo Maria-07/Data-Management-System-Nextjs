@@ -25,7 +25,7 @@ const staffBio = () => {
   const router = useRouter();
   const { query } = router;
   const id = query.staffBio;
-  console.log(id);
+  // console.log(id);
   const token = getAccessToken();
 
   //! get staff info api
@@ -33,7 +33,7 @@ const staffBio = () => {
     token,
     id: id,
   });
-  console.log("staff data", staffData, staffDataLoading);
+  // console.log("staff data", staffData, staffDataLoading);
 
   //! update staff api
   const [updateStaff, { isSuccess: updateSuccess, isError: updateError }] =
@@ -42,12 +42,12 @@ const staffBio = () => {
   //! selected treatments data get api
   const { data: selectedTreatmentData, isLoading: selectedTreatmentLoading } =
     useGetAllSelectedTreatmentsQuery({ token: token });
-  console.log("Selected Treatment", selectedTreatmentData?.data);
+  // console.log("Selected Treatment", selectedTreatmentData?.data);
 
   //! selected employee type data get api
   const { data: credentialType, isLoading: typeLoading } =
     useGetSelectedStaffQuery({ token: token });
-  console.log("Selected Treatments", credentialType?.data);
+  // console.log("Selected Treatments", credentialType?.data);
 
   //! select treatment boiler plate
   let treatmentSelect = null;
@@ -122,7 +122,7 @@ const staffBio = () => {
   useEffect(() => {
     setStaffBirthday(converted_date);
   }, [converted_date]);
-  console.log("staff birthday", staffBirthday);
+  // console.log("staff birthday", staffBirthday);
 
   const [createSession, setCreateSession] = useState(
     BoolConverter(session_check)
@@ -193,11 +193,11 @@ const staffBio = () => {
     notes,
   ]);
 
-  console.log(
-    "after calling boolConverter",
-    BoolConverter(emailReminder),
-    BoolConverter(createSession)
-  );
+  // console.log(
+  //   "after calling boolConverter",
+  //   BoolConverter(emailReminder),
+  //   BoolConverter(createSession)
+  // );
 
   const onSubmit = (data) => {
     // console.log(note);
@@ -216,7 +216,7 @@ const staffBio = () => {
         payload,
       });
     }
-    console.log("data", payload);
+    // console.log("data", payload);
   };
 
   useEffect(() => {

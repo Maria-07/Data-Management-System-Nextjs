@@ -9,8 +9,8 @@ const PrimaryPhone = ({ adData }) => {
   const { phoneAppend, register, primaryPhone } = adData;
   const [value, setValue] = useState(primaryPhone);
 
-  const setCountry = () => {}
-  console.log("primaryPhone", value);
+  const setCountry = () => {};
+  // console.log("primaryPhone", value);
   return (
     <>
       <label className="label">
@@ -48,7 +48,7 @@ const PrimaryPhone = ({ adData }) => {
             <option value="Home">Home</option>
           </select>
         </div>
-        <FaPlusSquare onClick={() => phoneAppend()} size={30}/>
+        <FaPlusSquare onClick={() => phoneAppend()} size={30} />
         {/*<button
           onClick={() => phoneAppend()}
           className="bg-secondary text-white p-[4px]"

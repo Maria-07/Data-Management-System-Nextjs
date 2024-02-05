@@ -25,7 +25,7 @@ const CustomModal = ({
   refetch,
   eventId,
 }) => {
-  console.log("modal ----dynamicID", eventId);
+  // console.log("modal ----dynamicID", eventId);
   const token = getAccessToken();
   const [eventDetails, setEventDetails] = useState({});
   const { register, handleSubmit, reset } = useForm();
@@ -33,15 +33,15 @@ const CustomModal = ({
   const [toTime, setToTime] = useState(null);
 
   const from_Time = (time, timeString) => {
-    console.log("From-Time", timeString);
+    // console.log("From-Time", timeString);
     setFromTime(timeString);
   };
 
   const to_Time = (time, timeString) => {
-    console.log("To-Time", timeString);
+    // console.log("To-Time", timeString);
     setToTime(timeString);
   };
-  console.log("after selecting time", fromtime, toTime);
+  // console.log("after selecting time", fromtime, toTime);
 
   const days = [
     "Sunday",
@@ -74,7 +74,7 @@ const CustomModal = ({
   const [value, setValue] = useState(1);
 
   const onChange = (e) => {
-    console.log("radio checked", e.target.value);
+    // console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
 
@@ -93,7 +93,7 @@ const CustomModal = ({
     },
   });
 
-  console.log("come single data fromt api--", singleData);
+  // console.log("come single data fromt api--", singleData);
 
   const handleClearDate = () => {
     setOpen(false);

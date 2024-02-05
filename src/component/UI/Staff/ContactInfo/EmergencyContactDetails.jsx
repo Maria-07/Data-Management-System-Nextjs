@@ -11,46 +11,66 @@ const EmergencyContactDetails = ({ token, emergencyApiData }) => {
   const { register, handleSubmit, reset } = useForm();
   const [addEmergencyContactInfo, { data: emResData, isLoading, isError }] =
     useAddEmergencyContactInfoMutation();
-    const cdata = {
-      address_one: emergencyApiData?.employee_emergency_address_one,
-      address_two: emergencyApiData?.employee_emergency_address_two,
-      city: emergencyApiData?.employee_emergency_contact_city,
-      state: emergencyApiData?.employee_emergency_contact_state,
-      zip: emergencyApiData?.employee_emergency_contact_zip,
-      mobile: emergencyApiData?.employee_emergency_contact_mobile,
-      fax: emergencyApiData?.employee_emergency_contact_fax,
-      main_phone: emergencyApiData?.employee_emergency_contact_main_phone,
-      address_note: emergencyApiData?.employee_emergency_contact_note,
-      contact_name: emergencyApiData?.employee_emergency_contact_name,
-  }
+  const cdata = {
+    address_one: emergencyApiData?.employee_emergency_address_one,
+    address_two: emergencyApiData?.employee_emergency_address_two,
+    city: emergencyApiData?.employee_emergency_contact_city,
+    state: emergencyApiData?.employee_emergency_contact_state,
+    zip: emergencyApiData?.employee_emergency_contact_zip,
+    mobile: emergencyApiData?.employee_emergency_contact_mobile,
+    fax: emergencyApiData?.employee_emergency_contact_fax,
+    main_phone: emergencyApiData?.employee_emergency_contact_main_phone,
+    address_note: emergencyApiData?.employee_emergency_contact_note,
+    contact_name: emergencyApiData?.employee_emergency_contact_name,
+  };
 
-const { address_one, address_two, city, state, zip, mobile, fax, main_phone, address_note, contact_name } = cdata || {};
-useEffect(() => {
-  // you can do async server request and fill up form
-  setTimeout(() => {
-    reset({
-      address_one:address_one, 
-      address_two:address_two, 
-      city:city, 
-      state:state, 
-      zip:zip, 
-      mobile:mobile,
-      fax:fax, 
-      main_phone:main_phone, 
-      address_note:address_note,
-      contact_name:contact_name
-    });
-  }, 0);
-}, [
-  reset,
-  address_one, address_two, city, state, zip, mobile, fax, main_phone, address_note
-]);
-  console.log("emergencyApiData em", emergencyApiData);
-  const { data: stateData, isSuccess: stateDetailsSucess } =
-  useStateInfoQuery({ token });
-  const stateList = {...stateData?.states};
+  const {
+    address_one,
+    address_two,
+    city,
+    state,
+    zip,
+    mobile,
+    fax,
+    main_phone,
+    address_note,
+    contact_name,
+  } = cdata || {};
+  useEffect(() => {
+    // you can do async server request and fill up form
+    setTimeout(() => {
+      reset({
+        address_one: address_one,
+        address_two: address_two,
+        city: city,
+        state: state,
+        zip: zip,
+        mobile: mobile,
+        fax: fax,
+        main_phone: main_phone,
+        address_note: address_note,
+        contact_name: contact_name,
+      });
+    }, 0);
+  }, [
+    reset,
+    address_one,
+    address_two,
+    city,
+    state,
+    zip,
+    mobile,
+    fax,
+    main_phone,
+    address_note,
+  ]);
+  // console.log("emergencyApiData em", emergencyApiData);
+  const { data: stateData, isSuccess: stateDetailsSucess } = useStateInfoQuery({
+    token,
+  });
+  const stateList = { ...stateData?.states };
   const onSubmit = (data) => {
-    console.log(emergencyApiData);
+    // console.log(emergencyApiData);
     const payloadData = {
       //employee_contact_edit: emergencyApiData?.employee_id,
       employee_emergency_address_one: data?.address_one,
@@ -64,11 +84,11 @@ useEffect(() => {
       employee_emergency_contact_main_phone: data?.main_phone,
       employee_emergency_contact_note: data?.address_note,
     };
-    const payload = {emergency_contact_details:payloadData}
-    console.log("payload", payload);
+    const payload = { emergency_contact_details: payloadData };
+    // console.log("payload", payload);
     const res = addEmergencyContactInfo({ token, payload });
-    console.log("res -------------->", res);
-    console.log("emResData -------------->", emResData);
+    // console.log("res -------------->", res);
+    // console.log("emResData -------------->", emResData);
   };
 
   // validation
@@ -154,17 +174,13 @@ useEffect(() => {
               className="input-border-bottom mt-1 input-font w-full focus:outline-none"
               {...register("state")}
             >
-            {Object.entries(stateList).map((v,k) => {
-              return (
-                <option
-                  className="text-black"
-                  key={v[0]}
-                  value={v[0]}
-                >
-                  {v[1]}
-                </option>
-              );
-            } )}
+              {Object.entries(stateList).map((v, k) => {
+                return (
+                  <option className="text-black" key={v[0]} value={v[0]}>
+                    {v[1]}
+                  </option>
+                );
+              })}
             </select>
           </div>
 

@@ -6,7 +6,12 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import { useAddLeaveTrackingMutation } from "@/Redux/features/staff/leaveTracking/leaveTrackingApi";
 
 const LeaveTrackingAdd = ({ handleClose, open, id, token }) => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
   // Add new leave api
   const [
@@ -24,7 +29,7 @@ const LeaveTrackingAdd = ({ handleClose, open, id, token }) => {
       leave_date: data.date,
       description: data.desc,
     };
-    console.log(addTrackPaylod);
+    // console.log(addTrackPaylod);
     addLeaveTracking({
       token,
       payload: addTrackPaylod,
@@ -33,7 +38,7 @@ const LeaveTrackingAdd = ({ handleClose, open, id, token }) => {
   //Success/Error message show
   useEffect(() => {
     if (addleaveTrackSuccess) {
-      toast.success('Added Successfully', {
+      toast.success("Added Successfully", {
         position: "top-center",
         autoClose: 5000,
         theme: "dark",
@@ -95,12 +100,10 @@ const LeaveTrackingAdd = ({ handleClose, open, id, token }) => {
                       message: "Please select the date",
                     },
                   })}
-                />                
+                />
                 {errors.date?.type === "required" && (
-                      <p className=" pl-1 text-red-500">
-                        {errors.date.message}
-                      </p>
-                    )}
+                  <p className=" pl-1 text-red-500">{errors.date.message}</p>
+                )}
               </div>
               <div>
                 <label className="label">
@@ -118,12 +121,10 @@ const LeaveTrackingAdd = ({ handleClose, open, id, token }) => {
                       message: "Please select the description",
                     },
                   })}
-                />                
+                />
                 {errors.desc?.type === "required" && (
-                      <p className=" pl-1 text-red-500">
-                        {errors.desc.message}
-                      </p>
-                    )}
+                  <p className=" pl-1 text-red-500">{errors.desc.message}</p>
+                )}
               </div>
               <div className="bg-gray-200 py-[1px] mt-3"></div>
               <div className=" flex item-center justify-end gap-4 flex-wrap">

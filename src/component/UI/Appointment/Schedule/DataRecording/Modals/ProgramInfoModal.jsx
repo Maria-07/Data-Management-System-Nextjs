@@ -123,9 +123,7 @@ const ProgramInfoModal = ({ handleClose, clicked, title }) => {
         >
           <div className="">
             <div className="flex items-center justify-between">
-              <h1 className="text-xl  font-semibold tracking-tight">
-                Compliance
-              </h1>
+              <h1 className="text-xl  font-semibold tracking-tight">{title}</h1>
 
               <IoMdCloseCircleOutline
                 onClick={handleClose}

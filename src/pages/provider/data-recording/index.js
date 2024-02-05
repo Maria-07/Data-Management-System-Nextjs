@@ -12,6 +12,7 @@ import SessionNoteModal from "@/component/UI/DataRecording/Modals/SessionNoteMod
 import { Input, Upload } from "antd";
 import VideoSession from "@/component/UI/DataRecording/Modals/VideoSession";
 import FinishingAddNote from "@/component/UI/DataRecording/Modals/FinishingAddNote";
+import Link from "next/link";
 
 const DataRecording = () => {
   const status = ["Go", "Cracker", "Block", "Help", "Drink", "Book"];
@@ -65,12 +66,15 @@ const DataRecording = () => {
                   <h1 className="text-xs text-gray-200">8:00 PM to 11:00 PM</h1>
                 </div>
                 <div>
-                  <button
-                    onClick={handleAddNoteToFinishSession}
-                    className="dcm-close-button"
-                  >
-                    Finished Session
-                  </button>
+                  <Link href={"/provider/recorded-session/123"}>
+                    {" "}
+                    <button
+                      // onClick={handleAddNoteToFinishSession}
+                      className="dcm-close-button"
+                    >
+                      Finished Session
+                    </button>
+                  </Link>
                 </div>
               </div>
 

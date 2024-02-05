@@ -1,7 +1,5 @@
-import { SettingOutlined } from "@ant-design/icons";
 import { Badge, Collapse } from "antd";
 import React, { useState } from "react";
-import { AiFillEdit } from "react-icons/ai";
 import { BiFullscreen } from "react-icons/bi";
 import { FaRegClipboard, FaShare } from "react-icons/fa";
 import { FaClockRotateLeft } from "react-icons/fa6";

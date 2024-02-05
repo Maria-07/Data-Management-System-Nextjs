@@ -11,43 +11,43 @@ const AboutPatient = ({ register, patientData, setValue, getValues }) => {
   const token = getAccessToken();
   useEffect(() => {
     const getRaceEthnicity = async () => {
-    const res = await axios({
-      method: "GET",
-      url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/patient/race-ethnicity`,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Authorization": token || null,
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/patient/race-ethnicity`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: token || null,
+        },
+      });
+      const data = res?.data?.race_ethnicity;
+      //setRaceEthnicity(data);
+      let newObj = [];
+
+      for (let [k, v] of Object.entries(data)) {
+        newObj[k] = v;
       }
-    });
-    const data = res?.data?.race_ethnicity;
-    //setRaceEthnicity(data);
-    let newObj = []
+      setRaceEthnicity(newObj);
+    };
+    getRaceEthnicity();
+  }, []);
 
-    for (let [k, v] of Object.entries(data)) {
-      newObj[k] = v;
-    }
-    setRaceEthnicity(newObj);
-  }
-  getRaceEthnicity();
-}, []);
-
-useEffect(() => {
-  const getPreLanguage = async () => {
-  const res = await axios({
-    method: "GET",
-    url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/patient/preferred-language`,
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      "Authorization": token || null,
-    }
-  });
-  const data = res?.data?.preferred_languages;
-  setPreLanguage(data);
-}
-getPreLanguage();
-}, []);
+  useEffect(() => {
+    const getPreLanguage = async () => {
+      const res = await axios({
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_ADMIN_URL}/patient/preferred-language`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: token || null,
+        },
+      });
+      const data = res?.data?.preferred_languages;
+      setPreLanguage(data);
+    };
+    getPreLanguage();
+  }, []);
 
   const colorOptions = [
     "#E0EBF5",
@@ -95,10 +95,12 @@ getPreLanguage();
               {...register("race_details")}
             >
               <option value=""></option>
-              {raceEthnicity.map((p,k)=>{
+              {raceEthnicity.map((p, k) => {
                 return (
-                  <option value={k}>{p}</option>
-                )
+                  <option value={k} key={k}>
+                    {p}
+                  </option>
+                );
               })}
             </select>
           </div>
@@ -110,11 +112,13 @@ getPreLanguage();
               className="input-border-bottom input-font py-[1px] w-full focus:outline-none"
               {...register("language")}
             >
-            {
-              Object.keys(preLanguage).map(function(key) {
-                return (<option value={key} key={key}>{preLanguage[key]}</option>);
-             })
-            }
+              {Object.keys(preLanguage).map(function (key) {
+                return (
+                  <option value={key} key={key}>
+                    {preLanguage[key]}
+                  </option>
+                );
+              })}
             </select>
           </div>
           <div>

@@ -1,20 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import LibraryLayout from "@/component/Layouts/LibraryLayout";
 import RootLayout from "@/component/Layouts/RootLayout";
-import ProgramStatus from "@/component/UI/Library/Program/Treatment/ProgramStatus";
 import CustomSelectAntd from "@/shared/CustomSelectAntd";
-import { AlignCenterOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 import { useTheme } from "next-themes";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  BiCut,
-  BiRun,
-  BiSolidHand,
-  BiSolidWatch,
-  BiWindowClose,
-} from "react-icons/bi";
 
 const { TextArea } = Input;
 

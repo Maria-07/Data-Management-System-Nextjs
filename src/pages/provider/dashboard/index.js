@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   FaUser,
   FaUserFriends,
@@ -47,22 +48,25 @@ import LineChart from "@/component/UI/Dashboard/LineChart";
 import Tables from "@/component/UI/Dashboard/Tables";
 import TreatmentBarChart from "@/component/UI/Dashboard/TreatmentBarChart";
 import { motion } from "framer-motion";
-import { useGetDashboardCountQuery, useGetPatientInfoQuery, useGetSchedularInfoQuery } from "@/Redux/features/dashboard/dashboardApi";
+import {
+  useGetDashboardCountQuery,
+  useGetPatientInfoQuery,
+  useGetSchedularInfoQuery,
+} from "@/Redux/features/dashboard/dashboardApi";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 
 const dashboardPage = () => {
   const token = getAccessToken();
   const { data: dataCount, isLoading: dataCountLoading } =
-  useGetDashboardCountQuery({
+    useGetDashboardCountQuery({
       token,
     });
-  console.log('dataCount : ',dataCount);
+  console.log("dataCount : ", dataCount);
   let clientCount = 0;
   let sessionRendered = 0;
   let sessionUnrendered = 0;
   let unbilledSessions = 0;
-  if(dataCount !== undefined)
-  {
+  if (dataCount !== undefined) {
     clientCount = dataCount?.clients;
     sessionRendered = dataCount?.sessions_rendered;
     sessionUnrendered = dataCount?.sessoins_unrendered;
@@ -101,18 +105,17 @@ const dashboardPage = () => {
   ];
 
   const { data: patientCount, isLoading: patientCountLoading } =
-  useGetPatientInfoQuery({
+    useGetPatientInfoQuery({
       token,
     });
-  console.log('patientCount : ',patientCount);
+  console.log("patientCount : ", patientCount);
   let expired_auths = 0;
   let expiring_auths = 0;
   let expiring_docs = 0;
   let guarantor_paid = 0;
   let missing_auths = 0;
   let placeholders = 0;
-  if(dataCount !== undefined)
-  {
+  if (dataCount !== undefined) {
     expired_auths = patientCount?.expired_auths;
     expiring_auths = patientCount?.expiring_auths;
     expiring_docs = patientCount?.expiring_docs;
@@ -154,22 +157,22 @@ const dashboardPage = () => {
   ];
 
   const { data: schedularCount, isLoading: schedularCountLoading } =
-  useGetSchedularInfoQuery({
+    useGetSchedularInfoQuery({
       token,
     });
-  console.log('patientCount : ',patientCount);
+  console.log("patientCount : ", patientCount);
   let scheduled_not_rendered = 0;
   let sessions_not_attended_last = 0;
   let missing_signature = 0;
   let note_missing = 0;
-  if(schedularCount !== undefined)
-  {
+  if (schedularCount !== undefined) {
     scheduled_not_rendered = schedularCount?.scheduled_not_rendered;
-    sessions_not_attended_last = schedularCount?.sessions_not_attended_last_week;
+    sessions_not_attended_last =
+      schedularCount?.sessions_not_attended_last_week;
     missing_signature = schedularCount?.missing_signature;
     note_missing = schedularCount?.note_missing;
   }
- const scheduler = [
+  const scheduler = [
     {
       report: "Scheduled Not Rendered",
       count: scheduled_not_rendered,
@@ -214,7 +217,7 @@ const dashboardPage = () => {
       >
         <TreatmentBarChart token={token}></TreatmentBarChart>
         <LineChart token={token}></LineChart>
-        <BarChart  token={token}></BarChart>
+        <BarChart token={token}></BarChart>
       </motion.div>
       <motion.div
         initial={{ opacity: 0, x: -20 }}

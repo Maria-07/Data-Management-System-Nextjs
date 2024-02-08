@@ -161,10 +161,10 @@ const PatientSessionNote = () => {
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       // console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
-      );
+      //   `selectedRowKeys: ${selectedRowKeys}`,
+      //   "selectedRows: ",
+      //   selectedRows
+      // );
     },
     onSelect: (record, selected, selectedRows) => {
       // console.log(record, selected, selectedRows);

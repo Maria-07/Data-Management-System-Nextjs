@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
 
-const Providers = ({ stuffs, setStuffsId, setFetchQuery }) => {
+const Providers = ({ stuffs, setStuffsId, setFetchQuery, theme }) => {
   const [selected, setSelected] = useState([]);
 
   const stuffDataProcess = () => {
@@ -47,14 +47,27 @@ const Providers = ({ stuffs, setStuffsId, setFetchQuery }) => {
   }, [selected, setStuffsId]);
 
   return (
-    <MultiSelect
-      className="listview"
-      options={dataOptionsStuff}
-      value={selected}
-      onChange={setSelected}
-      labelledBy="Select"
-      valueRenderer={customValueRenderer}
-    />
+    <>
+      {theme ? (
+        <MultiSelect
+          className="listview"
+          options={dataOptionsStuff}
+          value={selected}
+          onChange={setSelected}
+          labelledBy="Select"
+          valueRenderer={customValueRenderer}
+        />
+      ) : (
+        <MultiSelect
+          className="Global"
+          options={dataOptionsStuff}
+          value={selected}
+          onChange={setSelected}
+          labelledBy="Select"
+          valueRenderer={customValueRenderer}
+        />
+      )}
+    </>
   );
 };
 

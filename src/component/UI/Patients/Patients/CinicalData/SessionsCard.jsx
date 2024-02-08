@@ -87,18 +87,23 @@ const SessionCard = ({ appointment }) => {
     <div className="my-5">
       <div className="border shadow-md  z-0 card rounded-t-lg bg-white rounded-b-lg ">
         {/* patient details  */}
-
         <div>
           <div>
             <div>
               <div className="  my-auto">
                 {/* <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 "> */}
                 <div> </div>
-                <div className=" grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 ">
-                  <div className="col-span-3 ">
+                <div className=" grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 ">
+                  <div className="col-span-7 ">
                     <div>
                       {" "}
                       <h1 className="bg-secondary flex gap-3 text-sm w-full py-1 px-5  rounded-tl-lg text-white font-medium">
+                        {appointment.service_name}
+                      </h1>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-1 px-5 pt-5">
+                      <div className="flex gap-7">
                         <div className="flex items-center gap-2">
                           {/* Checkbox Select Code */}
                           <input
@@ -116,13 +121,6 @@ const SessionCard = ({ appointment }) => {
                             )}
                           </label>
                         </div>
-                        {appointment.service_name}
-                      </h1>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3 px-5 pt-5">
-                      <div className="flex gap-3">
-                        {" "}
                         <div>
                           <div className="font-semibold flex items-center gap-2">
                             {appointment.patient_name}
@@ -148,7 +146,7 @@ const SessionCard = ({ appointment }) => {
                         </p>
                       </div>
                     </div> */}
-                      <div className="">
+                      <div className=" flex  gap-3 flex-wrap justify-around">
                         <div>
                           <h1 className="text-xs font-medium text-gray-500 mb-[3px]">
                             Provider
@@ -162,19 +160,19 @@ const SessionCard = ({ appointment }) => {
                             />
                           </p>
                         </div>
-                      </div>
-
-                      <div className="">
-                        <div>
-                          <h1 className="text-xs font-medium text-gray-500 mb-[3px]">
-                            Scheduled Date
-                          </h1>
-                          <p className="text-sm font-semibold text-gray-900">
-                            01/19/2024
-                          </p>
+                        <div className="">
+                          <div>
+                            <h1 className="text-xs font-medium text-gray-500 mb-[3px]">
+                              Scheduled Date
+                            </h1>
+                            <p className="text-sm font-semibold text-gray-900">
+                              01/19/2024
+                            </p>
+                          </div>
                         </div>
                       </div>
-                      <div className="">
+
+                      <div className=" flex  gap-3 flex-wrap justify-around">
                         <div>
                           <h1 className="text-xs font-medium text-gray-500 mb-[3px]">
                             Status
@@ -212,27 +210,28 @@ const SessionCard = ({ appointment }) => {
                             )}
                           </div>
                         </div>
-                      </div>
-                      <div className="">
-                        <div>
-                          <h1 className="text-xs font-medium text-gray-500 mb-[3px]">
-                            POS
-                          </h1>
-                          <p className="text-sm font-semibold text-gray-900">
-                            Office
-                          </p>
+                        <div className="">
+                          <div>
+                            <h1 className="text-xs font-medium text-gray-500 mb-[3px]">
+                              POS
+                            </h1>
+                            <p className="text-sm font-semibold text-gray-900">
+                              Office
+                            </p>
+                          </div>
                         </div>
                       </div>
-                      <div className=" md:col-span-2">
-                        <div>
-                          <h1 className="text-xs font-medium text-gray-500 mb-[3px]">
-                            Service & Hrs.
-                          </h1>
-                          <p className="text-sm font-semibold text-gray-900">
-                            Behavioral therapy 19001 (97153) (0.50Hr)
-                          </p>
-                        </div>
-                      </div>
+
+                      {/* <div className="md:col-span-2">
+                          <div>
+                            <h1 className="text-xs font-medium text-gray-500 mb-[3px]">
+                              Service & Hrs.
+                            </h1>
+                            <p className="text-sm font-semibold text-gray-900">
+                              Behavioral therapy 19001 (97153) (0.50Hr)
+                            </p>
+                          </div>
+                        </div> */}
                     </div>
                     <div className="flex items-center justify-between px-5 py-2">
                       {" "}
@@ -484,12 +483,12 @@ const SessionCard = ({ appointment }) => {
 
                   {/* right section  */}
                   <div
-                    className={`bg-secondary pt-7 w-full rounded-tr-lg  ${
+                    className={`bg-secondary  w-full rounded-tr-lg  ${
                       cardExpend ? "rounded-br-none" : "rounded-br-lg"
                     }`}
                   >
-                    <div className="flex justify-center items-center">
-                      <div className="text-white mb-5">
+                    <div className="flex justify-center items-center mt-5">
+                      <div className="text-white mb-4">
                         <div className="text-lg font-semibold text-center">
                           {day}
                         </div>
@@ -541,7 +540,6 @@ const SessionCard = ({ appointment }) => {
           )}
         </div>
       </div>
-
       {patientSignature && (
         <SignatureModal
           handleSignatureClose={handleSignatureClose}

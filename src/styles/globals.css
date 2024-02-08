@@ -134,6 +134,6 @@ body {
 }
 
 .Global .dropdown-heading {
-  width: 200px !important;
+  /* width: 200px !important; */
   height: 22.5px !important;
 }

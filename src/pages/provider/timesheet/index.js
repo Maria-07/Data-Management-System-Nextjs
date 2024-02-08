@@ -376,10 +376,10 @@ const Timesheet = () => {
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       // console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
-      );
+      //   `selectedRowKeys: ${selectedRowKeys}`,
+      //   "selectedRows: ",
+      //   selectedRows
+      // );
       setRecordSelected(selectedRowKeys);
     },
     onSelect: (record, selected, selectedRows) => {

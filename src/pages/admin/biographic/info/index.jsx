@@ -195,10 +195,10 @@ const biographyInfo = () => {
   ]);
 
   // console.log(
-    "after calling boolConverter",
-    BoolConverter(emailReminder),
-    BoolConverter(createSession)
-  );
+  //   "after calling boolConverter",
+  //   BoolConverter(emailReminder),
+  //   BoolConverter(createSession)
+  // );
 
   const onSubmit = (data) => {
     // console.log(note);

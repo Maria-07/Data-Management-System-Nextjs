@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
 
-const Clients = ({ patients, setPatientId, setFetchQuery }) => {
+const Clients = ({ patients, setPatientId, setFetchQuery, theme }) => {
+  console.log(theme);
   const [selected, setSelected] = useState([]);
   const patientDataProcess = () => {
     let processedData = [];
@@ -58,16 +59,31 @@ const Clients = ({ patients, setPatientId, setFetchQuery }) => {
   // }, [selected, receivedData]);
 
   return (
-    <MultiSelect
-      // ClearSelectedIcon={<FaTimes />}
-      // ArrowRenderer={() => <BiChevronDown />}
-      className="listview"
-      options={dataoptions}
-      value={selected}
-      onChange={setSelected}
-      labelledBy="Select"
-      valueRenderer={customValueRenderer}
-    />
+    <>
+      {theme ? (
+        <MultiSelect
+          // ClearSelectedIcon={<FaTimes />}
+          // ArrowRenderer={() => <BiChevronDown />}
+          className="listview"
+          options={dataoptions}
+          value={selected}
+          onChange={setSelected}
+          labelledBy="Select"
+          valueRenderer={customValueRenderer}
+        />
+      ) : (
+        <MultiSelect
+          // ClearSelectedIcon={<FaTimes />}
+          // ArrowRenderer={() => <BiChevronDown />}
+          className="Global"
+          options={dataoptions}
+          value={selected}
+          onChange={setSelected}
+          labelledBy="Select"
+          valueRenderer={customValueRenderer}
+        />
+      )}
+    </>
   );
 };
 

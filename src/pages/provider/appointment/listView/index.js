@@ -27,6 +27,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { DownOutlined } from "@ant-design/icons";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaArrowsAltH, FaFilter } from "react-icons/fa";
+import ListViewTable from "@/component/UI/Appointment/Schedule/ListView/Tables/ListViewTable";
 
 const listViewPage = () => {
   const token = getAccessToken();
@@ -683,6 +684,8 @@ const listViewPage = () => {
           </InfiniteScroll>
         </div>
       </div> */}
+
+      {/* Card view in large device  */}
       <div className="mt-3 lg:visible hidden lg:block ">
         <div className="w-full border py-[2px] rounded-t-md px-2">
           <div className="flex items-center justify-between">
@@ -744,28 +747,36 @@ const listViewPage = () => {
         <div
           className={
             filter
-              ? `col-span-4 bg-gray-100 border overflow-y-scroll  h-[100vh]`
-              : `col-span-5  mx-auto w-[100%] lg:w-[80%]`
+              ? `col-span-4 bg-gray-100 border overflow-y-scroll my-5 h-[100vh]`
+              : `col-span-5  mx-auto my-5 ${
+                  type === "Card View" ? `w-[100%] lg:w-[80%]` : `w-[100%] `
+                }`
           }
         >
-          <div className=" p-2  ">
-            <div className="overflow-y-scroll">
-              <InfiniteScroll
-                dataLength={appointmentData.length} //items is basically all data here
-                next={appointmentData.length > 0 && getAppointmentData} //This condition is mendatory for perfectly working with infinite scrolling
-                hasMore={hasMore}
-                loader={<CardShimmer></CardShimmer>}
-              >
-                {appointmentData.map((p, i) => {
-                  return (
-                    <SessionCard key={i} appointment={p}>
-                      {" "}
-                    </SessionCard>
-                  );
-                })}
-              </InfiniteScroll>
+          {type === "Card View" ? (
+            <div className=" p-2  ">
+              <div className="overflow-y-scroll">
+                <InfiniteScroll
+                  dataLength={appointmentData.length} //items is basically all data here
+                  next={appointmentData.length > 0 && getAppointmentData} //This condition is mendatory for perfectly working with infinite scrolling
+                  hasMore={hasMore}
+                  loader={<CardShimmer></CardShimmer>}
+                >
+                  {appointmentData.map((p, i) => {
+                    return (
+                      <SessionCard key={i} appointment={p}>
+                        {" "}
+                      </SessionCard>
+                    );
+                  })}
+                </InfiniteScroll>
+              </div>
             </div>
-          </div>
+          ) : (
+            <>
+              <ListViewTable></ListViewTable>
+            </>
+          )}
         </div>
         {filter && (
           <div className="border p-3 bg-gray-50 ">

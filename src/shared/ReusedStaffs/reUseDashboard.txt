@@ -1,0 +1,12 @@
+import RootLayout from "@/component/Layouts/RootLayout";
+import React from "react";
+
+const DocToExpire = () => {
+  return <div></div>;
+};
+
+export default DocToExpire;
+
+DocToExpire.getLayout = function getLayout(page) {
+  return <RootLayout>{page}</RootLayout>;
+};

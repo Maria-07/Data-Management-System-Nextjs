@@ -127,32 +127,32 @@ const dashboardPage = () => {
     {
       report: "Expiring Documents in 30 Days",
       count: expiring_docs,
-      link: "javascript:void(0)",
+      link: "/provider/dashboard/patient/doc-to-expire",
     },
     {
       report: "Authorization Missing",
       count: missing_auths,
-      link: "javascript:void(0)",
+      link: "/provider/dashboard/patient/no-authorization",
     },
     {
       report: "Expired Authorizations",
       count: expired_auths,
-      link: "javascript:void(0)",
+      link: "/provider/dashboard/patient/auth-expired",
     },
     {
       report: "Expiring Authorization in 60 Days",
       count: expiring_auths,
-      link: "javascript:void(0)",
+      link: "/provider/dashboard/patient/auth-to-expire",
     },
     {
       report: "Authorization Place Holders",
       count: placeholders,
-      link: "javascript:void(0)",
+      link: "/provider/dashboard/patient/auth-place-holder",
     },
     {
       report: "Patient/Guarantor pay Clients",
       count: guarantor_paid,
-      link: "javascript:void(0)",
+      link: "/provider/dashboard/patient/non-payor-tag",
     },
   ];
 
@@ -176,22 +176,22 @@ const dashboardPage = () => {
     {
       report: "Scheduled Not Rendered",
       count: scheduled_not_rendered,
-      link: "javascript:void(0)",
+      link: "/provider/dashboard/scheduler/scheduled-not-rendered",
     },
     {
       report: "Sessions Not Attended Last Week",
       count: sessions_not_attended_last,
-      link: "javascript:void(0)",
+      link: "/provider/dashboard/scheduler/scheduled-not-attended-last-week",
     },
     {
       report: "Provider Signature Missing In Session",
       count: missing_signature,
-      link: "javascript:void(0)",
+      link: "/provider/dashboard/scheduler/signature-not-update",
     },
     {
       report: "Session Note Missing",
       count: note_missing,
-      link: "javascript:void(0)",
+      link: "/provider/dashboard/scheduler/session-note-missing",
     },
   ];
   return (

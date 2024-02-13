@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import { AiFillInfoCircle } from "react-icons/ai";
 import ProgramInfoModal from "../Appointment/Schedule/DataRecording/Modals/ProgramInfoModal";
+import SessionGraphModal from "./Modal/SessionGraphModal";
 
 const Records = ({ editSessionData, setEditSessionData }) => {
   const [sessionProgram, setSessionProgram] = useState(false);
   const handleSessionProgram = () => {
     setSessionProgram(!sessionProgram);
+  };
+
+  const [sessionGraph, setSessionGraph] = useState(false);
+  const handleSessionGraph = () => {
+    setSessionGraph(!sessionGraph);
   };
   return (
     <div className="my-10">
@@ -22,9 +28,12 @@ const Records = ({ editSessionData, setEditSessionData }) => {
       </div>
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h1 className="text-sm font-semibold text-gray-600">
+          <button
+            onClick={handleSessionGraph}
+            className="text-sm font-semibold text-gray-600"
+          >
             Aggression Rate
-          </h1>
+          </button>
           <div className="border font-semibold border-green-500 text-white bg-green-500 text-xs px-2 py-[2px] rounded-md">
             0 / day
           </div>
@@ -50,6 +59,13 @@ const Records = ({ editSessionData, setEditSessionData }) => {
           handleClose={handleSessionProgram}
           clicked={sessionProgram}
         ></ProgramInfoModal>
+      )}
+      {sessionGraph && (
+        <SessionGraphModal
+          // title={"Aggression Rate"}
+          handleClose={handleSessionGraph}
+          open={sessionGraph}
+        ></SessionGraphModal>
       )}
     </div>
   );

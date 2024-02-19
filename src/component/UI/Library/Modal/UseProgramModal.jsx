@@ -1,6 +1,7 @@
 import { Modal, Select } from "antd";
 import { useState } from "react";
 import { IoMdCloseCircleOutline } from "react-icons/io";
+import { MdDeleteOutline, MdDone } from "react-icons/md";
 
 const UseProgramModal = ({ handleClose, clicked }) => {
   const [value, setValue] = useState("");
@@ -100,12 +101,21 @@ const UseProgramModal = ({ handleClose, clicked }) => {
             </div>
             <div className="bg-gray-200 py-[1px] my-3"></div>
 
-            <div className="flex gap-3 items-end justify-end mb-2 mt-4">
-              <button type="submit" className="dcm-modal-submit-button">
-                Ok
+            <div className="flex items-end justify-end gap-2 mt-2">
+              <button className=" border-secondary flex items-center border rounded-sm">
+                <MdDone className=" text-white bg-secondary  px-1 py-[2px] text-[28px]" />
+                <span className="px-2 py-[6px] bg-primary transition-all hover:bg-secondary text-white text-xs">
+                  Save
+                </span>
               </button>
-              <button onClick={handleClose} className="dcm-modal-close-button">
-                Cancel
+              <button
+                className=" border-rose-600 flex items-center border rounded-sm"
+                onClick={handleClose}
+              >
+                <MdDeleteOutline className=" text-white bg-rose-700  px-1 py-[2px] text-[28px]" />
+                <span className="px-2 py-[6px] bg-rose-500 transition-all hover:bg-rose-600 text-white text-xs">
+                  Cancel
+                </span>
               </button>
             </div>
           </form>

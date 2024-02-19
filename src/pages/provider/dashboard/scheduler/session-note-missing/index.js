@@ -9,6 +9,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowsAltH } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
+import { IoMdDoneAll } from "react-icons/io";
 import { TbArrowBack } from "react-icons/tb";
 
 const SessionNotMissing = () => {
@@ -316,8 +317,11 @@ const SessionNotMissing = () => {
                 <Clients stuffs={[]} setStuffsId={1}></Clients>
               </div>
 
-              <button className="dtm-button mt-5" type="submit">
-                Go
+              <button className=" border-secondary flex items-center border rounded-sm mt-5">
+                <IoMdDoneAll className=" text-white bg-secondary  px-1 py-[2px] text-[28px]" />
+                <span className="px-2 py-[6px] bg-primary transition-all hover:bg-secondary text-white text-xs">
+                  Go
+                </span>
               </button>
             </div>
           </form>

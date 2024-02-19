@@ -18,6 +18,7 @@ const CreatePatient = ({ handleClose, patientClicked }) => {
   const [active, setActive] = useState(false);
   const [phone, setPhone] = useState();
   const [addtionalInfoOpen, setAddtionalInfoOpen] = useState(false);
+  const [first, setfirst] = useState(second);
 
   const { data: insuranceStatusData, isLoading: insuranceStatusLoading } =
     useGetInsuranceDataQuery({ token });

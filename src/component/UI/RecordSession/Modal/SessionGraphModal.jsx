@@ -9,6 +9,8 @@ import { TfiCup } from "react-icons/tfi";
 import { IoMdCloseCircle } from "react-icons/io";
 import {
   MdCancelPresentation,
+  MdDeleteOutline,
+  MdDone,
   MdOutlineBarChart,
   MdOutlineEventNote,
 } from "react-icons/md";
@@ -349,10 +351,27 @@ const SessionGraphModal = ({ handleClose, open }) => {
           />
         </div>
 
-        <div className="flex items-end justify-end mt-2">
-          <button className="dcm-button mr-2">DELETE</button>
+        {/* <div className="flex items-end justify-end mt-2">
+          <button className="dcm-button mr-2">Save</button>
           <button className="dcm-close-button" onClick={handleClose}>
-            CLOSE
+            <MdDeleteOutline /> Cancel
+          </button>
+        </div> */}
+        <div className="flex items-end justify-end gap-2 mt-2">
+          <button className=" border-secondary flex items-center border rounded-sm">
+            <MdDone className=" text-white bg-secondary  px-1 py-[2px] text-[28px]" />
+            <span className="px-2 py-[6px] bg-primary transition-all hover:bg-secondary text-white text-xs">
+              Save
+            </span>
+          </button>
+          <button
+            className=" border-rose-600 flex items-center border rounded-sm"
+            onClick={handleClose}
+          >
+            <MdDeleteOutline className=" text-white bg-rose-700  px-1 py-[2px] text-[28px]" />
+            <span className="px-2 py-[6px] bg-rose-500 transition-all hover:bg-rose-600 text-white text-xs">
+              Cancel
+            </span>
           </button>
         </div>
       </div>

@@ -8,8 +8,8 @@ export const getAccessToken = () => {
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_ADMIN_URL,
-    // baseUrl: process.env.NEXT_PUBLIC_PROVIDER_URL,
+    // baseUrl: process.env.NEXT_PUBLIC_ADMIN_URL,
+    baseUrl: process.env.NEXT_PUBLIC_PROVIDER_URL,
     prepareHeaders: (headers, {}) => {
       const token = getAccessToken();
       if (token) {

@@ -24,6 +24,7 @@ const CreateAppointment = ({ handleClose, clicked }) => {
   const [option, setOption] = useState(false);
   const [value, setValue] = useState(1);
   const [noAuth, setNoAuth] = useState(false);
+  const [blockOfTime, setBlockOfTime] = useState(false);
 
   const onChange = (e) => {
     // console.log("radio checked", e.target.value);
@@ -159,9 +160,18 @@ const CreateAppointment = ({ handleClose, clicked }) => {
       >
         <div className=" py-2">
           <div className="flex items-center justify-between">
-            <h1 className="text-lg text-left text-orange-400 ">
-              Add Appointment
-            </h1>
+            {blockOfTime ? (
+              <h1 className="text-lg text-left text-orange-400 ">
+                Add Block Off Time
+              </h1>
+            ) : (
+              <>
+                <h1 className="text-lg text-left text-orange-400 ">
+                  Add Appointment
+                </h1>
+              </>
+            )}
+
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1">
                 <Switch

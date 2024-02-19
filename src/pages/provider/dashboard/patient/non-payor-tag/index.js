@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiDownload } from "react-icons/fi";
 import { TbArrowBack } from "react-icons/tb";
+import { IoMdDoneAll } from "react-icons/io";
 
 const NonPayorTag = () => {
   const [tableOpen, setTableOpen] = useState(true);

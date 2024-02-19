@@ -25,6 +25,7 @@ import {
   restrictToWindowEdges,
 } from "@dnd-kit/modifiers";
 import { useTheme } from "next-themes";
+import { MdDeleteOutline, MdDone } from "react-icons/md";
 
 const targetPage = () => {
   const [type, setType] = useState(false);
@@ -293,15 +294,18 @@ const targetPage = () => {
         </div>
 
         <div className="">
-          <div className="flex gap-3 items-end justify-start mb-2 mt-2">
-            <button
-              type="submit"
-              className="shadow-md font-semibold text-base bg-primary  text-white hover:bg-secondary transition-all px-2 py-1 border border-primary rounded-md"
-            >
-              Save
+          <div className="flex items-end justify-end gap-2 mt-2">
+            <button className=" border-secondary flex items-center border rounded-sm">
+              <MdDone className=" text-white bg-secondary  px-1 py-[2px] text-[28px]" />
+              <span className="px-2 py-[6px] bg-primary transition-all hover:bg-secondary text-white text-xs">
+                Save
+              </span>
             </button>
-            <button className="shadow-md font-semibold text-base bg-gray-100  text-black hover:bg-gray-200 transition-all px-2 py-1 border border-gray-300 rounded-md">
-              Cancel
+            <button className=" border-rose-600 flex items-center border rounded-sm">
+              <MdDeleteOutline className=" text-white bg-rose-700  px-1 py-[2px] text-[28px]" />
+              <span className="px-2 py-[6px] bg-rose-500 transition-all hover:bg-rose-600 text-white text-xs">
+                Cancel
+              </span>
             </button>
           </div>
         </div>

@@ -9,13 +9,17 @@ import { toast } from "react-toastify";
 
 const { TextArea } = Input;
 
-const AddLogTime = ({ handleClose, open, selectedRecord,getRecords }) => {
-  
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+const AddLogTime = ({ handleClose, open, selectedRecord, getRecords }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
   const token = getAccessToken();
-  useEffect(()=>{
-    reset({ punch_date: selectedRecord.punch_date});
-  },[])
+  useEffect(() => {
+    reset({ punch_date: selectedRecord.punch_date });
+  }, []);
 
   const [
     manualPunch,
@@ -41,17 +45,17 @@ const AddLogTime = ({ handleClose, open, selectedRecord,getRecords }) => {
     //handleClose dependency tey na dileo choley cuz aita change hoy na
   }, [manualPunchSuccess, manualPunchError, handleClose]);
 
-  const onSubmit = (data) => {    
+  const onSubmit = (data) => {
     const payload = {
-      punch_date:data?.punch_date,
-      time_in:data?.time_in,
-      time_out:data?.time_out,
-      note:data?.note,
-    }
+      punch_date: data?.punch_date,
+      time_in: data?.time_in,
+      time_out: data?.time_out,
+      note: data?.note,
+    };
     manualPunch({
       token,
-      payload
-    })
+      payload,
+    });
   };
   return (
     <div>
@@ -104,7 +108,7 @@ const AddLogTime = ({ handleClose, open, selectedRecord,getRecords }) => {
                     required: {
                       value: true,
                       message: "Please select the clock in",
-                    }
+                    },
                   })}
                 />
                 <span className="label-text-alt">
@@ -127,7 +131,7 @@ const AddLogTime = ({ handleClose, open, selectedRecord,getRecords }) => {
                     required: {
                       value: true,
                       message: "Please select the clock out",
-                    }
+                    },
                   })}
                 />
                 <span className="label-text-alt">
@@ -143,12 +147,12 @@ const AddLogTime = ({ handleClose, open, selectedRecord,getRecords }) => {
                   <div className="modal-label-name">Write Note Here:</div>
                 </label>
                 <textarea
-                  className="input-border input-font py-[1px] w-full focus:outline-none"
+                  className="rder input-font py-[1px] w-full focus:outline-none"
                   {...register("note", {
                     required: {
                       value: true,
                       message: "Please enter the note",
-                    }
+                    },
                   })}
                   rows={4}
                   cols={40}

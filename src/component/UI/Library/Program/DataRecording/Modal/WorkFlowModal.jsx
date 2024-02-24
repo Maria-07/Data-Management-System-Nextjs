@@ -473,7 +473,7 @@ const WorkFlowModal = ({ handleClose, clicked }) => {
                               <input
                                 type="number"
                                 name="first_name"
-                                className="input-border-bottom input-font text-end py-[1px] w-full focus:outline-none"
+                                className="rder-bottom input-font text-end py-[1px] w-full focus:outline-none"
                                 {...register("first_name")}
                               />
                               <span className="px-2 py-1 flex">Days</span>

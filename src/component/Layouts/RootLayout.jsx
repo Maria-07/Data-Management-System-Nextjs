@@ -26,6 +26,7 @@ import { useTheme } from "next-themes";
 import { FaCalendarAlt, FaListAlt } from "react-icons/fa";
 import { LuCalendarClock } from "react-icons/lu";
 import { AiOutlineAudit } from "react-icons/ai";
+import { IoIosHelpCircle } from "react-icons/io";
 
 const menuItem = [
   {
@@ -94,6 +95,11 @@ const menuItem = [
     path: "/settings/program-data",
     name: "Settings",
     icon: <SettingOutlined />,
+  },
+  {
+    path: "https://therapypms.freshdesk.com/support/solutions/82000458039",
+    name: "Help",
+    icon: <IoIosHelpCircle />,
   },
 ];
 

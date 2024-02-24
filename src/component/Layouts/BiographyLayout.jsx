@@ -30,6 +30,7 @@ import {
   BsPersonCircle,
   BsReceiptCutoff,
 } from "react-icons/bs";
+import { IoMdNotificationsOutline } from "react-icons/io";
 
 const BiographyLayout = ({ children }) => {
   //! Theme system
@@ -94,13 +95,16 @@ const BiographyLayout = ({ children }) => {
     //   link_name: "Staff Portal",
     //   link: `/provider/staffs/staff-portal/${staffId}`,
     // },
-
     {
       icon: <BsReceiptCutoff />,
       link_name: "Work Schedule",
       link: `/provider/biographic/work-schedule`,
     },
-
+    {
+      icon: <IoMdNotificationsOutline />,
+      link_name: "Notification Settings",
+      link: `/provider/biographic/notification-setting`,
+    },
     // {
     //   icon: <BiSolidUserDetail />,
     //   link_name: "Assigned Patient",

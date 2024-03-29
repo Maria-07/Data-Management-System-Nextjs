@@ -280,6 +280,8 @@ const biographyInfo = () => {
     // console.log("data", payload);
   };
 
+  console.log(updateSuccess);
+
   useEffect(() => {
     if (updateSuccess) {
       toast.success("Successfully updated", {

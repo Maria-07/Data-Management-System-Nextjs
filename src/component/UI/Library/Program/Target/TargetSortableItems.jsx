@@ -46,6 +46,7 @@ const TargetSortableItems = ({ id, item, setSD }) => {
     "Disconnected",
   ];
 
+  const [targetSetting, setTargetSetting] = useState(false);
   const [value, setValue] = useState("waiting");
   const [addSD, setAddSD] = useState("");
   const [addSDArray, setAddSDArray] = useState([

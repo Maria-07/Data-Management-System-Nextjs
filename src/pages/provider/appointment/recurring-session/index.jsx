@@ -505,6 +505,7 @@ const RecurringSession = () => {
                         </div>
                       </label>
                       <Clients
+                        theme={true}
                         patients={patientList}
                         setPatientId={setPatientId}
                         setFetchQuery={setFetchQuery}
@@ -518,6 +519,7 @@ const RecurringSession = () => {
                         </div>
                       </label>
                       <Providers
+                        theme={true}
                         stuffs={providerList}
                         setStuffsId={setProviderId}
                         setFetchQuery={setFetchQuery}

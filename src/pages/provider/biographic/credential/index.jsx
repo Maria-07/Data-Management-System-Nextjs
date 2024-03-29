@@ -53,7 +53,7 @@ const CredentialPage = () => {
     {
       key: "1",
       label: (
-        <h1 className="bg-primary ml-1 px-2 py-[5px] text-white rounded-t-sm">
+        <h1 className="bg-secondary ml-1 px-2 py-[5px] text-white rounded-t-sm">
           Clearance
         </h1>
       ),
@@ -67,7 +67,7 @@ const CredentialPage = () => {
     {
       key: "2",
       label: (
-        <h1 className="bg-primary ml-1 px-2 py-[5px] text-white rounded-t-sm">
+        <h1 className="bg-secondary ml-1 px-2 py-[5px] text-white rounded-t-sm">
           Credentials
         </h1>
       ),
@@ -81,7 +81,7 @@ const CredentialPage = () => {
     {
       key: "3",
       label: (
-        <h1 className="bg-primary ml-1 px-2 py-[5px] text-white rounded-t-sm">
+        <h1 className="bg-secondary ml-1 px-2 py-[5px] text-white rounded-t-sm">
           Qualification
         </h1>
       ),

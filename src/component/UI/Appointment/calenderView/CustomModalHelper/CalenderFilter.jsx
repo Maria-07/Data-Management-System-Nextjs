@@ -178,7 +178,7 @@ const CalenderFilter = () => {
                 </span>
               </h1>
 
-              <Clients patients={[]} setPatientId={123}></Clients>
+              <Clients patients={[]} theme={true} setPatientId={123}></Clients>
             </div>
             <div className="">
               <h1 className="pb-1">
@@ -187,7 +187,7 @@ const CalenderFilter = () => {
                 </span>
               </h1>
 
-              <Providers stuffs={[]} setStuffsId={123}></Providers>
+              <Providers stuffs={[]} theme={true} setStuffsId={123}></Providers>
             </div>
             <div className="sm:w-[240px] w-[200px]">
               <label className="label">
@@ -225,7 +225,7 @@ const CalenderFilter = () => {
                 </span>
               </h1>
 
-              <Clients patients={[]} setPatientId={123}></Clients>
+              <Clients theme={true} patients={[]} setPatientId={123}></Clients>
             </div>
             <div>
               <h1 className="label pb-1">
@@ -234,7 +234,7 @@ const CalenderFilter = () => {
                 </span>
               </h1>
 
-              <Clients patients={[]} setPatientId={123}></Clients>
+              <Clients theme={true} patients={[]} setPatientId={123}></Clients>
             </div>
             <div className="mt-[26px] flex items-center sm:col-span-2">
               <div>

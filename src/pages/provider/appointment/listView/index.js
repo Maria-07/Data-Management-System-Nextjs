@@ -448,7 +448,7 @@ const listViewPage = () => {
                           </h1>
 
                           <Clients
-                            theme={cssType}
+                            theme={true}
                             patients={patients}
                             setPatientId={setPatientId}
                           ></Clients>
@@ -461,7 +461,7 @@ const listViewPage = () => {
                           </h1>
 
                           <Providers
-                            theme={cssType}
+                            theme={true}
                             stuffs={stuffs}
                             setStuffsId={setStuffsId}
                           ></Providers>

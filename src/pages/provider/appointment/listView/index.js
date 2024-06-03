@@ -356,11 +356,11 @@ const listViewPage = () => {
           <div className="bg-gradient-to-r from-secondary to-primary rounded-lg px-4 py-2">
             <div
               onClick={clickHandler}
-              className="flex items-center justify-between "
+              className="flex items-center justify-between"
             >
               {!clicked && (
                 <>
-                  <div className="text-[14px]  text-white font-semibold ">
+                  <div className="text-[14px]  text-white font-semibold">
                     Manage Sessions
                   </div>
                   <lord-icon
@@ -378,7 +378,7 @@ const listViewPage = () => {
             {clicked && (
               <div>
                 <div className="flex justify-between items-center flex-wrap">
-                  <h1 className="text-[16px] text-white font-semibold ">
+                  <h1 className="text-[16px] text-white font-semibold">
                     Manage Sessions
                   </h1>
                   <div>
@@ -410,7 +410,7 @@ const listViewPage = () => {
 
                   <div
                     className={
-                      listView ? "flex justify-end " : "flex justify-end "
+                      listView ? "flex justify-end" : "flex justify-end"
                     }
                   >
                     {/* <div>
@@ -437,12 +437,11 @@ const listViewPage = () => {
                 <form onSubmit={handleSubmit(onSubmit)} className="relative">
                   <div className=" flex item-center  flex-wrap gap-3 ">
                     {/* <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-7 2xl:grid-cols-8 gap-2 mb-2"> */}
-
                     {billable ? (
                       <>
                         <div>
                           <h1 className="label pb-1">
-                            <span className="label-text  text-[14px] text-gray-100 text-left">
+                            <span className="label-text text-[14px] text-gray-100 text-left">
                               Clients
                             </span>
                           </h1>

@@ -1,7 +1,7 @@
 /* Staff, patient, settings -> sidebar design  */
 
 .setting-nav-child {
-  border-left-width: 2px; 
+  border-left-width: 2px;
   border-right-width: 2px;
   transition: all 0.3s;
 }
@@ -54,7 +54,7 @@
   background-color: #f9f9f9;
 }
 
-.active-tab {
+.active- {
   border-top: 4px solid #09a2b3;
   border-right: 2px solid #adadad;
   border-left: 2px solid #adadad;

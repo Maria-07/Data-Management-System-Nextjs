@@ -39,6 +39,7 @@ const RecurringSessionEdit = () => {
   const [serviceOptions, setServiceOptions] = useState([]);
   const [selected, setSelected] = useState([]);
   const [appointmentIds, setAppointmentIds] = useState([]);
+
   const { data: providerData, isLoading: providerDataLoading } =
     useGetProvidersListQuery({ token });
 
@@ -49,6 +50,7 @@ const RecurringSessionEdit = () => {
     setAppointmentIds([]);
     setOpenEditModal(true);
   };
+
   const handleClose = () => {
     setOpenEditModal(false);
   };

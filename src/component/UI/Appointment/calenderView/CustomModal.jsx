@@ -10,7 +10,6 @@ import {
   IoCopyOutline,
   IoEyeOutline,
 } from "react-icons/io5";
-import axios from "axios";
 import { getAccessToken } from "@/Redux/api/apiSlice";
 import AddSessionNotes from "./CustomModalHelper/AddSessionNotes";
 import CopyNotes from "./CustomModalHelper/CopyNotes";
@@ -55,6 +54,7 @@ const CustomModal = ({
 
   //useSingleAppointmentApiQuery
 
+  const [Auth, setAuth] = useState(true);
   const [open, setOpen] = useState(false);
   const [sessionopen, setSessionOpen] = useState(false);
   const [copy, setCopy] = useState(false);
@@ -215,12 +215,17 @@ const CustomModal = ({
         <div className="px-0 py-2 font-[poppins,sans-serif]">
           <div className="flex items-center justify-between">
             <h1 className="text-lg text-left text-orange-400 ">
-              Add Appointment
+              Edit Appointment
             </h1>
 
             <div className="flex items-center gap-2">
               <div>
-                <Switch defaultChecked size="small" onClick={() => {}} />
+                <Switch
+                  size="small"
+                  onClick={() => {
+                    setAuth(!Auth);
+                  }}
+                />
                 <label
                   className="form-check-label inline-block font-medium ml-2 text-[12px] text-gray-600"
                   htmlFor="flesmwitchCheckDefault"
@@ -247,6 +252,7 @@ const CustomModal = ({
                 </label>
                 <div className="col-span-2 ml-1 mb-1">
                   <Switch
+                    disabled={Auth}
                     defaultChecked
                     size="small"
                     onClick={() => {
@@ -261,6 +267,7 @@ const CustomModal = ({
                     {billable ? "Billable" : "Non-Billable"}
                   </label>
                   <Switch
+                    disabled={Auth}
                     className="ml-5"
                     defaultChecked
                     size="small"
@@ -288,23 +295,44 @@ const CustomModal = ({
                   <option value="Duck duck">Duck duck</option>
                   <option value="Ashni Soni">Ashni Soni</option>
                 </select>
-                {
+                {!Auth && (
                   <label className="label">
-                    <span className="modal-label-name">Auth</span>
+                    <span className="modal-label-name">Active Auth</span>
                   </label>
-                }
-                <select
-                  className="modal-input-field col-span-2"
-                  {...register("auth")}
-                >
-                  <option value="">Select</option>
-                  <option value="Cigna Authorization">
-                    Cigna Authorization
-                  </option>
-                  <option value="Baffa Authorization">
-                    Baffa Authorization
-                  </option>
-                </select>
+                )}
+                {!Auth && (
+                  <select
+                    className="modal-input-field col-span-2"
+                    {...register("auth")}
+                  >
+                    <option value="">Select</option>
+                    <option value="Cigna Authorization">
+                      Cigna Authorization
+                    </option>
+                    <option value="Baffa Authorization">
+                      Baffa Authorization
+                    </option>
+                  </select>
+                )}
+                {Auth && (
+                  <label className="label">
+                    <span className="modal-label-name">Treatment</span>
+                  </label>
+                )}
+                {Auth && (
+                  <select
+                    className="modal-input-field col-span-2"
+                    {...register("treatment")}
+                  >
+                    <option value="">Select</option>
+                    <option value="Cigna Authorization">
+                      Cigna Authorization
+                    </option>
+                    <option value="Baffa Authorization">
+                      Baffa Authorization
+                    </option>
+                  </select>
+                )}
                 <label className="label">
                   <span className="modal-label-name">Service</span>
                 </label>
@@ -343,79 +371,14 @@ const CustomModal = ({
              /> */}
                 <input
                   name="from_time"
-                  readOnly
-                  onClick={() => setOpencalender(!opencalender)}
-                  value={date ? date.toLocaleDateString() : "Select a Date"}
+                  // readOnly
+                  // onClick={() => setOpencalender(!opencalender)}
+                  // value={date ? date.toLocaleDateString() : "Select a Date"}
                   className="col-span-2 modal-input-field ml-1 w-full px-2"
+                  defaultValue={selectedDate}
                   {...register("from_time")}
                 />
-                {opencalender && (
-                  <Modal
-                    open={opencalender}
-                    centered
-                    footer={null}
-                    closable={false}
-                    bodyStyle={{
-                      padding: "0px",
-                    }}
-                  >
-                    <div className="grid grid-cols-3">
-                      {date ? (
-                        <div className="bg-[#0AA7B8] bold text-white col-span-1 rounded-l-[5px]">
-                          <div className="w-full h-16 flex justify-center items-center bg-[#0AA7B8] backdrop-blur-xl rounded drop-shadow-lg">
-                            <span className="text-xl">
-                              {days[date.getDay()]}
-                            </span>
-                          </div>
-                          <div className="flex flex-col justify-center items-center">
-                            <h1 className="text-8xl font-medium">
-                              {currentDate}
-                            </h1>
-                            <h1 className="text-xl font-medium">{month}</h1>
-                          </div>
-                          <div className="flex justify-center items-end">
-                            <h1 className="text-4xl font-medium mt-4">
-                              {year}
-                            </h1>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="bg-[#0AA7B8] text-white font-bold rounded-l-[5px]">
-                          <div className="w-full h-16 bg-[#0AA7B8] backdrop-blur-xl rounded drop-shadow-lg"></div>
-                          <div className="text-center m-1 pt-8">
-                            <h1 className="text-3xl">Please Select a Date</h1>
-                          </div>
-                        </div>
-                      )}
-                      {/* single calendar */}
-                      <div className="col-span-2 w-[95%] my-0 mx-auto">
-                        <Calendar onChange={setDate} value={date} />
-                        <div className="flex justify-between rounded-b-[5px] bg-white py-1 rounded-br-[5px]">
-                          <button
-                            onClick={() => handleClearDate()}
-                            className="text-[12px] text-red-400 hover:bg-black hover:text-white p-2 rounded"
-                          >
-                            CLEAR
-                          </button>
-                          <div>
-                            <button
-                              onClick={() => handleCancelDate()}
-                              className="text-[12px] text-[#0AA7B8] hover:bg-black hover:text-white p-2 rounded"
-                            >
-                              CANCEL
-                            </button>
-                            <button
-                              onClick={() => setOpencalender(false)}
-                              className="text-[12px] ml-2 text-[#0AA7B8] hover:bg-teal-500 hover:text-white p-2 rounded"
-                            >
-                              OK
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Modal>
-                )}
+
                 {/* Custom Calender End */}
 
                 <label className="label">
@@ -493,6 +456,7 @@ const CustomModal = ({
                     onClick={() => setMessege(!messege)}
                   />
                 </button>
+
                 {messege && (
                   <MessegeShow
                     messege={messege}
@@ -515,7 +479,6 @@ const CustomModal = ({
                     Recurrence Pattern?
                   </label>
                 </div>
-
                 {recurrence && (
                   <>
                     <div>
@@ -635,7 +598,7 @@ const CustomModal = ({
                         {...register("provider")}
                       >
                         <option value="">Select</option>
-                        <option value="ashni soni">ashni soni</option>
+                        <option value="ashni soni">as  hni soni</option>
                         <option value="Max Auto">Max Auto</option>
                         <option value="Gomex twin">Gomex twin</option>
                       </select>

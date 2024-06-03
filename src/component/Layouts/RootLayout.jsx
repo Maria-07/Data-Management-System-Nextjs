@@ -55,6 +55,11 @@ const menuItem = [
         icon: <FaCalendarAlt />,
       },
       {
+        path: "/provider/appointment/new-calender-view",
+        name: "New CalenderView ",
+        icon: <FaCalendarAlt />,
+      },
+      {
         path: "/provider/appointment/recurring-session",
         name: "Recurring Session",
         icon: <FaCalendarAlt />,

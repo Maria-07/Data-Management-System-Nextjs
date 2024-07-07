@@ -61,7 +61,7 @@ const CalendarView = () => {
     setOpen(false);
   };
 
-  const resources = [
+  const resourcesDemo = [
     { id: "a", title: "Room A" },
     { id: "b", title: "Room B" },
     { id: "c", title: "Room C" },
@@ -259,35 +259,39 @@ const CalendarView = () => {
           </div>
 
           {!resourceStatus ? (
-            <FullCalendar
-              ref={calendarRef}
-              plugins={[
-                dayGridPlugin,
-                timeGridPlugin,
-                interactionPlugin,
-                googleCalendarPlugin,
-              ]}
-              initialView="timeGridDay"
-              weekends={true}
-              googleCalendarApiKey={
-                process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY
-              }
-              events={demoEvents}
-              eventContent={renderEventContent}
-              headerToolbar={{
-                start: "prevYear,prev,next,nextYear today",
-                center: "title",
-                right: "timeGridDay,timeGridWeek,dayGridMonth",
-              }}
-              droppable={true}
-              selectable={true}
-              select={handleSelect}
-              drop={(info) => {
-                if (checkboxRef.current && checkboxRef.current.checked) {
-                  info.draggedEl.parentNode.removeChild(info.draggedEl);
+            <div className="flex-grow">
+              <FullCalendar
+                ref={calendarRef}
+                plugins={[
+                  dayGridPlugin,
+                  timeGridPlugin,
+                  interactionPlugin,
+                  googleCalendarPlugin,
+                ]}
+                initialView="timeGridDay"
+                weekends={true}
+                googleCalendarApiKey={
+                  process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY
                 }
-              }}
-            />
+                events="https://fullcalendar.io/api/demo-feeds/events.json?overload-day"
+                eventContent={renderEventContent}
+                headerToolbar={{
+                  start: "prevYear,prev,next,nextYear today",
+                  center: "title",
+                  right: "timeGridDay,timeGridWeek,dayGridMonth",
+                }}
+                editable={true}
+                droppable={true}
+                selectable={true}
+                select={handleSelect}
+                drop={(info) => {
+                  if (checkboxRef.current && checkboxRef.current.checked) {
+                    info.draggedEl.parentNode.removeChild(info.draggedEl);
+                  }
+                }}
+                dayMaxEvents={true}
+              />
+            </div>
           ) : (
             <>
               <FullCalendar
@@ -311,7 +315,7 @@ const CalendarView = () => {
                   right:
                     "resourceTimelineDay,resourceTimelineWeek,resourceTimelineMonth",
                 }}
-                resources={resources}
+                resources={resourcesDemo}
                 droppable={true}
                 selectable={true}
                 select={handleSelect}

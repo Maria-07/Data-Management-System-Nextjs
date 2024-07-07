@@ -206,7 +206,7 @@ const CustomModal = ({
         centered
         footer={null}
         bodyStyle={{ padding: "0" }}
-        width={500}
+        width={600}
         closable={false}
         className="box rounded-xl"
         // onClose={handleClose}
@@ -243,9 +243,9 @@ const CustomModal = ({
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="h-[500px]  px-3 py-2"
+            className="min-h-[500px] overflow-y-scroll px-1 py-2"
           >
-            <div className="overflow-y-scroll h-[450px] overflow-x-hidden">
+            <div className=" ">
               <div className=" grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 mb-5 mr-2 gap-2 md:gap-2">
                 <label className="label">
                   <span className="modal-label-name">Add Type</span>
@@ -479,8 +479,9 @@ const CustomModal = ({
                     Recurrence Pattern?
                   </label>
                 </div>
+
                 {recurrence && (
-                  <>
+                  <div className="">
                     <div>
                       <Radio.Group onChange={onChange} value={value}>
                         <Space direction="vertical">
@@ -516,30 +517,71 @@ const CustomModal = ({
                         </Space>
                       </Radio.Group>
                     </div>
-                  </>
-                )}
-                <div className="">
-                  <Switch
-                    size="small"
-                    onClick={() => {
-                      setOption(!option);
-                    }}
-                  />
-                  <label
-                    className="modal-label-name ml-2"
-                    htmlFor="flesmwitchCheckDefault"
-                  >
-                    Options
-                  </label>
-                </div>
-                {option && (
-                  <>
-                    <div>
-                      <p>Repeat Every</p>
-                    </div>
-                  </>
+                  </div>
                 )}
               </div>
+              <div className="">
+                <Switch
+                  size="small"
+                  onClick={() => {
+                    setOption(!option);
+                  }}
+                />
+                <label
+                  className="modal-label-name ml-2"
+                  htmlFor="flesmwitchCheckDefault"
+                >
+                  Options
+                </label>
+              </div>
+              {option && (
+                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 my-5 mr-2 gap-3">
+                  <div>
+                    <p className=" font-semibold">Repeat Every</p>
+                  </div>
+
+                  <input
+                    className="modal-input-field "
+                    type="number"
+                    {...register("to_time")}
+                  />
+
+                  <select
+                    className=" modal-input-field ml-1 w-full"
+                    {...register("provider_id")}
+                  >
+                    <option value="0">Day</option>
+                    <option value="1">Week</option>
+                    <option value="2">Month</option>
+                  </select>
+                  <div>
+                    <p className=" font-semibold">Repeat On</p>
+                  </div>
+                  <div className="col-span-2 flex gap-2">
+                    <button className="py-2 px-[15px] font-medium text-sm hover:text-white hover:bg-secondary border-primary transition-all rounded-full border">
+                      S
+                    </button>
+                    <button className="py-2 px-[12px] font-medium text-sm hover:text-white hover:bg-secondary border-primary transition-all rounded-full border">
+                      M
+                    </button>
+                    <button className="py-2 px-[15px] font-medium text-sm hover:text-white hover:bg-secondary border-primary transition-all rounded-full border">
+                      T
+                    </button>
+                    <button className="py-2 px-[12px] font-medium text-sm hover:text-white hover:bg-secondary border-primary transition-all rounded-full border">
+                      W
+                    </button>
+                    <button className="py-2 px-[15px] font-medium text-sm hover:text-white hover:bg-secondary border-primary transition-all rounded-full border">
+                      T
+                    </button>
+                    <button className="py-2 px-[15px] font-medium text-sm hover:text-white hover:bg-secondary border-primary transition-all rounded-full border">
+                      F
+                    </button>
+                    <button className="py-2 px-[15px] font-medium text-sm hover:text-white hover:bg-secondary border-primary transition-all rounded-full border">
+                      S
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* 
